@@ -1,8 +1,54 @@
+$primary: #d30855;
+
 @import "~bootstrap/scss/bootstrap";
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,800");
 
 body {
     font-family: 'Open Sans', sans-serif !important;
+}
+
+.bg-custom-dark {
     background: #1a1a1a;
     color: white;
+}
+
+.vh-fill {
+    min-height: calc(100vh - 121px);
+}
+
+.vh-fill-50 {
+    min-height: calc(50vh - 121px);
+}
+
+.vh-fill-75 {
+    min-height: calc(75vh - 121px);
+}
+
+.vh-fill-90 {
+    min-height: calc(90vh - 121px);
+}
+
+.text-grey {
+    color: grey;
+}
+
+.border-corners {
+    padding: 0;
+    outline: 0;
+    outline-offset: 0;
+    transition: all 100ms ease-in-out;
+
+    &:hover {
+        --s: 10px; /* the size on the corner */
+        --t: 2px;  /* the thickness of the border */
+        --g: 30px; /* the gap between the border and image */
+
+        padding: calc(var(--g) + var(--t));
+        outline: var(--t) solid $primary; /* the color here */
+        outline-offset: calc(-1*var(--t));
+        mask:
+            conic-gradient(at var(--s) var(--s),#0000 75%,#000 0)
+            0 0/calc(100% - var(--s)) calc(100% - var(--s)),
+            linear-gradient(#000 0 0) content-box;
+    }
 }
