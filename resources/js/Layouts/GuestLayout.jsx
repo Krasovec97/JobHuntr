@@ -1,16 +1,22 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Link } from '@inertiajs/react';
+import Header from "@/Pages/Parts/Header.jsx";
 
 export default function Guest({ children }) {
     return (
-        <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <Link href="/">
-                    <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
-                </Link>
+        <div className="container">
+            <div className="row py-2 mb-2 border-bottom border-white border-opacity-50">
+                <div className="col-4">
+                    <Link href="/">
+                        <ApplicationLogo />
+                    </Link>
+                </div>
+                <div className="col-8 my-auto">
+                    <Header />
+                </div>
             </div>
 
-            <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <div className="row">
                 {children}
             </div>
         </div>

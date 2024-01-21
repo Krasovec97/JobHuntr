@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;

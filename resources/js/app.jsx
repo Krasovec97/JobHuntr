@@ -1,11 +1,11 @@
 import './bootstrap';
-import '../css/app.css';
+import '../scss/app.scss';
 
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Remoter';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
