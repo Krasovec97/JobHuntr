@@ -8,7 +8,7 @@ export default function Guest({ children }) {
         <div className="container-fluid">
             <div className="row bg-dark sticky-top">
                 <div className="col-9 mx-auto">
-                    <div className="row py-2 border-bottom border-white border-opacity-50">
+                    <div className="row py-2">
                         <div className="col-4">
                             <Link href="/">
                                 <ApplicationLogo/>
