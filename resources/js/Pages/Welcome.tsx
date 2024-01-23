@@ -1,10 +1,10 @@
 import {Head} from '@inertiajs/react';
-import GuestLayout from '@/Layouts/GuestLayout.jsx';
-import PageSection from "@/Pages/Parts/PageSection.jsx";
+import GuestLayout from '../Layouts/GuestLayout.tsx';
+import PageSection from "./Parts/PageSection.tsx";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import FancyTitle from "@/Components/FancyTitle.jsx";
-import IconCard from "@/Components/IconCard.jsx";
-import ContactForm from "@/Pages/Parts/ContactForm.jsx";
+import FancyTitle from "../Components/FancyTitle.tsx";
+import IconCard from "../Components/IconCard.tsx";
+import ContactForm from "./Parts/ContactForm.tsx";
 
 export default function Welcome({auth, laravelVersion, phpVersion}) {
     const {t} = useLaravelReactI18n();

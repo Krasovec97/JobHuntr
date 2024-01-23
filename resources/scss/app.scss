@@ -1,4 +1,5 @@
 $primary: #d30855;
+$dark: #1a1a1a;
 
 @import "~bootstrap/scss/bootstrap";
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,800");
@@ -7,8 +8,7 @@ body {
     font-family: 'Open Sans', sans-serif !important;
 }
 
-.bg-custom-dark {
-    background: #1a1a1a;
+.bg-dark {
     color: white;
 }
 

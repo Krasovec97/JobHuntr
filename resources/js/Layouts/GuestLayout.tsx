@@ -1,11 +1,12 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
+import ApplicationLogo from '../Components/ApplicationLogo.js';
 import { Link } from '@inertiajs/react';
-import Header from "@/Pages/Parts/Header.jsx";
+import Header from "../Pages/Parts/Header.tsx";
+import Footer from "../Pages/Parts/Footer";
 
 export default function Guest({ children }) {
     return (
         <div className="container-fluid">
-            <div className="row bg-custom-dark">
+            <div className="row bg-dark">
                 <div className="col-9 mx-auto">
                     <div className="row py-2 mb-2 border-bottom border-white border-opacity-50">
                         <div className="col-4">
@@ -14,7 +15,7 @@ export default function Guest({ children }) {
                             </Link>
                         </div>
                         <div className="col-8 my-auto">
-                            <Header/>
+                            <Header darkBg={true}/>
                         </div>
                     </div>
                 </div>
@@ -22,6 +23,10 @@ export default function Guest({ children }) {
 
             <div className="row">
                 {children}
+            </div>
+
+            <div className="row">
+                <Footer />
             </div>
         </div>
     );
