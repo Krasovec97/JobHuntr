@@ -6,26 +6,26 @@ export default function () {
     return (
         <>
             <form>
-                <div className="row">
-                    <div className="mb-3 col-6">
+                <div className="row justify-content-center">
+                    <div className="mb-5 col-5 mx-auto">
                         <input required={true} type="text" className="form-control border-0 border-bottom" placeholder={"* " + t("Your Name")} id="nameInput" />
                     </div>
-                    <div className="mb-3 col-6">
+                    <div className="mb-5 col-5 mx-auto">
                         <input required={true} type="text" className="form-control border-0 border-bottom" placeholder={"* " + t("Your E-Mail")} id="emailInput" />
                     </div>
                 </div>
 
-                <div className="row">
-                    <div className="mb-3 col-6">
+                <div className="row justify-content-center">
+                    <div className="mb-5 col-5 mx-auto">
                         <input type="text" className="form-control border-0 border-bottom" placeholder={t("Your Phone")} id="phoneInput" />
                     </div>
-                    <div className="mb-3 col-6">
+                    <div className="mb-5 col-5 mx-auto">
                         <input required={true} type="text" className="form-control border-0 border-bottom" placeholder={"* " + t("Subject")} id="subjectInput"/>
                     </div>
                 </div>
 
-                <div className="mb-3 col-12">
-                    <textarea required={true} id="messageInput" className="form-control border-0 border-bottom" placeholder={"* " + t("Your Message")}></textarea>
+                <div className="mb-5 col-11 mx-auto">
+                    <textarea required={true} id="messageInput"  className="form-control border-0 border-bottom" placeholder={"* " + t("Your Message")}></textarea>
                 </div>
 
                 <div className="text-center mt-4">

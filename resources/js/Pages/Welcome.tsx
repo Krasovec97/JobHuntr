@@ -145,7 +145,7 @@ export default function Welcome({auth, laravelVersion, phpVersion}) {
             <PageSection background={"bg-white"}>
                 <FancyTitle darkBg={false} heading={t("Contact us")} subtitle={t("Need to know more?")} />
 
-                <div className="col-9 mt-5 mx-auto">
+                <div className="col-9 my-5 mx-auto" id="contact-form">
                     <ContactForm />
                 </div>
             </PageSection>
