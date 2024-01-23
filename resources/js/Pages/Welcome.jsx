@@ -1,9 +1,10 @@
 import {Head} from '@inertiajs/react';
-import GuestLayout from '../Layouts/GuestLayout.jsx';
-import PageSection from "@/Pages/Parts/HomePage/PageSection.jsx";
+import GuestLayout from '@/Layouts/GuestLayout.jsx';
+import PageSection from "@/Pages/Parts/PageSection.jsx";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "@/Components/FancyTitle.jsx";
 import IconCard from "@/Components/IconCard.jsx";
+import ContactForm from "@/Pages/Parts/ContactForm.jsx";
 
 export default function Welcome({auth, laravelVersion, phpVersion}) {
     const {t} = useLaravelReactI18n();
@@ -138,6 +139,14 @@ export default function Welcome({auth, laravelVersion, phpVersion}) {
                             <p>{t("With more control over your work environment, you can create a workspace that is comfortable and conducive to your health. You can set up an ergonomic workstation, control lighting, and reduce exposure to germs in a shared office space.")}</p>
                         </IconCard>
                     </div>
+                </div>
+            </PageSection>
+
+            <PageSection whiteSection={true}>
+                <FancyTitle darkBg={false} heading={t("Contact us")} subtitle={t("Need to know more?")} />
+
+                <div className="col-9 mt-5 mx-auto">
+                    <ContactForm />
                 </div>
             </PageSection>
         </GuestLayout>

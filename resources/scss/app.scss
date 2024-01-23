@@ -52,3 +52,7 @@ body {
             linear-gradient(#000 0 0) content-box;
     }
 }
+
+textarea {
+    resize: none;
+}
