@@ -56,3 +56,9 @@ body {
 textarea {
     resize: none;
 }
+
+.bg-image-main {
+    background-image: url("/public/img/banner_front_01.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}

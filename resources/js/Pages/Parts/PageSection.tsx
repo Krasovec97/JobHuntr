@@ -1,14 +1,11 @@
 interface PageSectionInterface {
-    whiteSection ?: boolean,
+    background ?: string,
     children ?: any
 }
 
-export default function ({ whiteSection, children }: PageSectionInterface) {
-    let background = "";
-    whiteSection ? background = "bg-white" : background = "bg-dark";
-
+export default function ({ background = "bg-dark", children }: PageSectionInterface) {
     return (
-        <div className={background + " " + "p-2 py-4"}>
+        <div className={background + " " + "p-2 py-4 "}>
             <div className="col-9 mx-auto">
                 { children }
             </div>
