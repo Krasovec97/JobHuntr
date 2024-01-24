@@ -1,11 +1,11 @@
 interface PageSectionInterface {
-    background ?: string,
+    className ?: string,
     children ?: any
 }
 
-export default function ({ background = "bg-dark", children }: PageSectionInterface) {
+export default function ({ className = "bg-dark", children }: PageSectionInterface) {
     return (
-        <div className={background + " " + "p-2 py-4 "}>
+        <div className={className + " " + "p-2 py-4 "}>
             <div className="col-9 mx-auto">
                 { children }
             </div>

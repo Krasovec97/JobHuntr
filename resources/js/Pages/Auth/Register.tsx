@@ -1,117 +1,81 @@
-import { useEffect } from 'react';
-import GuestLayout from '@/Layouts/GuestLayout.js';
-import InputError from '@/Components/InputError.js';
-import InputLabel from '@/Components/InputLabel.js';
-import PrimaryButton from '@/Components/PrimaryButton.js';
-import TextInput from '@/Components/TextInput.js';
+import GuestLayout from '../../Layouts/GuestLayout.js';
 import { Head, Link, useForm } from '@inertiajs/react';
+import PageSection from "../Parts/PageSection";
+import {useMultistepForm} from "../../Hooks/useMultistepForm";
+import {useLaravelReactI18n} from "laravel-react-i18n";
+import {UserForm} from "../Parts/FormParts/UserForm";
+import {AccountForm} from "../Parts/FormParts/AccountForm";
+import {AddressForm} from "../Parts/FormParts/AddressForm";
+import {FormEvent, useState} from "react";
 
+type FormDataType = {
+    firstName: string,
+    lastName: string,
+    age: string,
+    street: string,
+    city: string,
+    state: string,
+    zip: string,
+    email: string,
+    password: string
+}
+
+const INITIAL_DATA:FormDataType = {
+    firstName: "",
+    lastName: "",
+    age: "",
+    street: "",
+    city: "",
+    state: "",
+    zip: "",
+    email: "",
+    password: ""
+}
 export default function Register() {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        name: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
-    });
+    const [data, setData] = useState(INITIAL_DATA);
+    function updateFields(fields: Partial<FormDataType>) {
+        setData(prevState => {
+            return {...prevState, ...fields};
+        })
+    }
 
-    useEffect(() => {
-        return () => {
-            reset('password', 'password_confirmation');
-        };
-    }, []);
+    const {t} = useLaravelReactI18n();
+    const { steps, currentStepIndex, step, isFirstStep, back, next, isLastStep } = useMultistepForm([
+        <UserForm {...data} updateFields={updateFields} />,
+        <AddressForm {...data} updateFields={updateFields} />,
+        <AccountForm {...data} updateFields={updateFields} />
+    ]);
 
-    const submit = (e) => {
+    function onSubmit(e: FormEvent) {
         e.preventDefault();
-
-        post(route('register'));
-    };
+        if (!isLastStep) return next();
+        alert("Success!");
+    }
 
     return (
         <GuestLayout>
             <Head title="Register" />
 
-            <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="name" value="Name" />
+            <PageSection className={"bg-white full-h"}>
+                <div className="border border-dark p-3 rounded">
+                    <form onSubmit={onSubmit}>
+                        <div className="col-12 text-center">
+                            {currentStepIndex + 1} / {steps.length}
+                        </div>
 
-                    <TextInput
-                        id="name"
-                        name="name"
-                        value={data.name}
-                        className="mt-1 block w-full"
-                        autoComplete="name"
-                        isFocused={true}
-                        onChange={(e) => setData('name', e.target.value)}
-                        required
-                    />
+                        {step}
 
-                    <InputError message={errors.name} className="mt-2" />
+                        <div>
+                            {!isFirstStep &&
+                                <button onClick={back} type="button" className="btn btn-sm btn-outline-primary">{t("Back")}</button>}
+
+                            <button type="submit" className="btn btn-sm btn-primary">
+                                {isLastStep ? t("Submit") : t("Next")}
+                            </button>
+                        </div>
+                    </form>
                 </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        onChange={(e) => setData('email', e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.email} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) => setData('password', e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
-
-                    <TextInput
-                        id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        value={data.password_confirmation}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) => setData('password_confirmation', e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.password_confirmation} className="mt-2" />
-                </div>
-
-                <div className="flex items-center justify-end mt-4">
-                    <Link
-                        href={route('login')}
-                        className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Already registered?
-                    </Link>
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Register
-                    </PrimaryButton>
-                </div>
-            </form>
+            </PageSection>
         </GuestLayout>
     );
 }

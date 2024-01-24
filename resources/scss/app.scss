@@ -62,3 +62,7 @@ textarea {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+.full-h {
+    height: calc(100vh - (96px + 152px));
+}

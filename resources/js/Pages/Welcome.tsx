@@ -13,7 +13,7 @@ export default function Welcome({auth, laravelVersion, phpVersion}) {
         <GuestLayout>
             <Head title="Home"/>
 
-            <PageSection background={"bg-image-main"}>
+            <PageSection className={"bg-image-main"}>
                 <div className="row text-white vh-fill-90 flex-column justify-content-center">
                     <div>
                         <h4>{t("Do what you love to do").toUpperCase()}</h4>
@@ -33,7 +33,7 @@ export default function Welcome({auth, laravelVersion, phpVersion}) {
                 </div>
             </PageSection>
 
-            <PageSection background={"bg-white"}>
+            <PageSection className={"bg-white"}>
                 <FancyTitle heading={t("Remoter services").toUpperCase()} subtitle={t("What do we offer?")}/>
 
                 <div className="row">
@@ -142,7 +142,7 @@ export default function Welcome({auth, laravelVersion, phpVersion}) {
                 </div>
             </PageSection>
 
-            <PageSection background={"bg-white"}>
+            <PageSection className={"bg-white"}>
                 <FancyTitle darkBg={false} heading={t("Contact us")} subtitle={t("Need to know more?")} />
 
                 <div className="col-9 my-5 mx-auto" id="contact-form">
