@@ -1,15 +1,17 @@
 import {ReactNode} from "react";
+import FancyTitle from "../../../Components/FancyTitle";
 
 interface FormWrapperProps {
     title: string,
+    subtitle: string,
     children: ReactNode
 }
 
-export function FormWrapper({ title, children }: FormWrapperProps)
+export function FormWrapper({ title, subtitle, children }: FormWrapperProps)
 {
     return (
         <>
-            <h2 className={"text-center"}>{title}</h2>
+            <FancyTitle subtitle={subtitle} heading={title} />
             <div className={"row col-7 mx-auto"}>
                 {children}
             </div>

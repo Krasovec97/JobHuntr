@@ -64,5 +64,10 @@ textarea {
 }
 
 .full-h {
-    height: calc(100vh - (96px + 152px));
+    height: auto;
+    min-height: calc(100vh - (96px + 152px));
+}
+
+.item {
+
 }
