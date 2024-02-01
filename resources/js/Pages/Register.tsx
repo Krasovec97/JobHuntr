@@ -1,5 +1,5 @@
 import GuestLayout from '../Layouts/GuestLayout.js';
-import {Head, router} from '@inertiajs/react';
+import {Head, router, useForm} from '@inertiajs/react';
 import PageSection from "./Parts/PageSection";
 import {useMultistepForm} from "../Hooks/useMultistepForm";
 import {useLaravelReactI18n} from "laravel-react-i18n";
@@ -56,7 +56,7 @@ let INITIAL_DATA:FormDataType = {
 }
 
 export default function Register() {
-    const [data, setData] = useState(INITIAL_DATA);
+    const {data, setData,post, processing} = useForm(INITIAL_DATA);
     const [showSuccesModal, setShowSuccesModal] = useState(false);
     const [postUrl, setPostUrl] = useState('');
 
@@ -76,14 +76,14 @@ export default function Register() {
     const {t} = useLaravelReactI18n();
 
     const businessSteps = [
-        <AccountTypeSelection {...data} updateFields={updateFields}  />,
+        <AccountTypeSelection {...data} updateFields={updateFields} setPostUrl={setPostUrl} />,
         <CompanyForm {...data} updateFields={updateFields} />,
         <AddressForm {...data} updateFields={updateFields} />,
         <AccountForm {...data} updateFields={updateFields} />
     ];
 
     const personalSteps = [
-        <AccountTypeSelection {...data} updateFields={updateFields}  />,
+        <AccountTypeSelection {...data} updateFields={updateFields} setPostUrl={setPostUrl} />,
         <PersonalForm {...data} updateFields={updateFields} />,
         <AddressForm {...data} updateFields={updateFields} />,
         <AccountForm {...data} updateFields={updateFields} />,
@@ -98,18 +98,9 @@ export default function Register() {
         e.preventDefault();
         if (!isLastStep) return next();
 
-        if (data.is_business_account) {
-            setPostUrl('register/company');
-        } else {
-            setPostUrl('register/personal');
-        }
-
-        router.post(postUrl, data, {
+        post(postUrl, {
             headers: {
                 'X-CSRF-TOKEN': csrfToken
-            },
-            onStart: () => {
-
             },
             onError: (errors) => {
                 alert(errors);
@@ -165,7 +156,7 @@ export default function Register() {
 
                             {!isFirstStep &&
                                 <button type="submit"
-                                        className="ms-3 btn btn-primary">{isLastStep ? t("Submit") : t("Next")}</button>}
+                                        className="ms-3 btn btn-primary" disabled={processing}>{isLastStep ? t("Submit") : t("Next")}</button>}
                         </div>
                     </form>
                 </div>
