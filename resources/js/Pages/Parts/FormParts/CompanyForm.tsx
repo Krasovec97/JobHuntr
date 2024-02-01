@@ -29,7 +29,8 @@ export function CompanyForm({ company_full_name, company_short_name, registratio
     return (
         <FormWrapper title={t("Company Details")} subtitle={t("Let's dive in")}>
             <div className="mb-3">
-                <label className={"form-label ps-0"}>{t("Company Full Name")} <span className={"text-danger"}>*</span></label>
+                <label className={"form-label ps-0"}>{t("Company Full Name")} <span
+                    className={"text-danger"}>*</span></label>
                 <input
                     autoFocus
                     required={true}
@@ -89,7 +90,6 @@ export function CompanyForm({ company_full_name, company_short_name, registratio
             <div className="mb-3 d-flex align-middle">
                 <input
                     id={"is_vat_obligated_check"}
-                    required={true}
                     className={"form-check-inline"}
                     type="checkbox"
                     checked={isVatObligated}
@@ -118,7 +118,13 @@ export function CompanyForm({ company_full_name, company_short_name, registratio
                     className={"form-control"}
                     type="text"
                     value={contact_phone}
+                    placeholder={"+441172345678"}
+                    aria-describedby="phoneHelp"
+                    pattern={"^\\+\\d.*"}
                     onChange={e => updateFields({contact_phone: e.target.value})}/>
+                <small id="phoneHelp" className="form-text text-muted">
+                    {t("Please include country code for your telephone number (Start with +). Your telephone number also shouldn't contain any spaces.")}
+                </small>
             </div>
         </FormWrapper>
     )

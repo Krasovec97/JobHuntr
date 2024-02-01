@@ -41,13 +41,20 @@ export function PersonalForm({ first_name, last_name, contact_phone, updateField
             </div>
 
             <div className="mb-3">
-                <label className={"form-label ps-0"}>{t("Contact Phone")} <span className={"text-danger"}>*</span></label>
+                <label className={"form-label ps-0"}>{t("Contact Phone")} <span
+                    className={"text-danger"}>*</span></label>
                 <input
                     required={true}
                     className={"form-control"}
                     type="text"
                     value={contact_phone}
+                    placeholder={"+441172345678"}
+                    aria-describedby="phoneHelp"
+                    pattern={"^\\+\\d.*"}
                     onChange={e => updateFields({contact_phone: e.target.value})}/>
+                <small id="phoneHelp" className="form-text text-muted">
+                    {t("Please include country code for your telephone number (Start with +). Your telephone number also shouldn't contain any spaces.")}
+                </small>
             </div>
         </FormWrapper>
     )

@@ -14,20 +14,24 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('contact_person');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('short_name');
             $table->string('full_name');
             $table->string('country');
             $table->string('street');
             $table->string('city');
             $table->string('zip');
-            $table->string('registration_number');
+            $table->string('registration_number')->unique();
             $table->string('registration_house');
-            $table->string('vat_id');
+            $table->string('vat_id')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('email_verification_token')->nullable();
             $table->boolean('is_vat_obligated');
             $table->string('contact_phone');
             $table->string('password');
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 

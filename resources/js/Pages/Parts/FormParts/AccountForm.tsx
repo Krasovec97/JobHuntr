@@ -55,7 +55,12 @@ export function AccountForm({ email, password, updateFields }: AccountFormProps)
                     className={"form-control"}
                     type="password"
                     value={passwordInput}
+                    aria-describedby={"passwordHelp"}
+                    pattern={"^(?=.*[!@#$%^&*])(?=.*[a-zA-Z0-9]).{8,}$"}
                     onChange={e => setPasswordInput(e.target.value)}/>
+                <small id="passwordHelp" className="form-text text-muted">
+                    {t("To make your account secure, your password must have a minimum of 8 characters and it must include a symbol.")}
+                </small>
             </div>
 
             <div className="mb-3">
