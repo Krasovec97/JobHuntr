@@ -1,4 +1,4 @@
-import GuestLayout from '@/Layouts/GuestLayout.js';
+import MainLayout from '@/Layouts/MainLayout.js';
 import PrimaryButton from '@/Components/PrimaryButton.js';
 import { Head, Link, useForm } from '@inertiajs/react';
 
@@ -12,7 +12,7 @@ export default function VerifyEmail({ status }) {
     };
 
     return (
-        <GuestLayout>
+        <MainLayout>
             <Head title="Email Verification" />
 
             <div className="mb-4 text-sm text-gray-600">
@@ -40,6 +40,6 @@ export default function VerifyEmail({ status }) {
                     </Link>
                 </div>
             </form>
-        </GuestLayout>
+        </MainLayout>
     );
 }

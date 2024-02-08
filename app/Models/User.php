@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -46,4 +47,8 @@ class User extends Authenticatable
         'remember_token',
         'email_verification_token'
     ];
+
+    public static function getAuthenticatedUser():?self{
+        return Auth::guard('web')->user();
+    }
 }

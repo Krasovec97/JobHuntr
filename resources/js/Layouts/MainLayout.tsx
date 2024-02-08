@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/react';
 import Header from "../Pages/Parts/Header.tsx";
 import Footer from "../Pages/Parts/Footer";
 
-export default function Guest({ children }) {
+export default function ({ children }) {
     return (
         <div className="container-fluid">
             <div className="row bg-dark sticky-top">
@@ -11,7 +11,7 @@ export default function Guest({ children }) {
                     <div className="row py-2">
                         <div className="col-4">
                             <Link href="/">
-                                <ApplicationLogo/>
+                                <ApplicationLogo />
                             </Link>
                         </div>
                         <div className="col-8 my-auto">

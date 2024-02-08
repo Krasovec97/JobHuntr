@@ -1,21 +1,28 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.js';
 import { Head } from '@inertiajs/react';
+import MainLayout from "../Layouts/MainLayout";
+import PageSection from "./Parts/PageSection";
+import {useLaravelReactI18n} from "laravel-react-i18n";
+import {Alert} from "react-bootstrap";
 
-export default function Dashboard({ auth }) {
+
+export default function Dashboard({ user, hasVerifiedEmail }) {
+    const {t} = useLaravelReactI18n();
+
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
-        >
-            <Head title="Dashboard" />
+            <MainLayout>
+                <Head title="Dashboard" />
 
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">You're logged in!</div>
+                <PageSection className={'bg-white'}>
+                    { !hasVerifiedEmail && <Alert variant="primary">
+                        <Alert.Heading>{t("Email not verified")}</Alert.Heading>
+                        <p>{t("In order to gain access to all Remoter services and to apply to jobs with one click, please verify your email!")}</p>
+                        </Alert> }
+
+                    <div className="col-12">
+                        {user.name}
                     </div>
-                </div>
-            </div>
-        </AuthenticatedLayout>
+                </PageSection>
+
+            </MainLayout>
     );
 }

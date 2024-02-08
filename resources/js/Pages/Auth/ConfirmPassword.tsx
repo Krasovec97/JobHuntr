@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import GuestLayout from '@/Layouts/GuestLayout.js';
+import MainLayout from '@/Layouts/MainLayout.js';
 import InputError from '@/Components/InputError.js';
 import InputLabel from '@/Components/InputLabel.js';
 import PrimaryButton from '@/Components/PrimaryButton.js';
@@ -24,7 +24,7 @@ export default function ConfirmPassword() {
     };
 
     return (
-        <GuestLayout>
+        <MainLayout>
             <Head title="Confirm Password" />
 
             <div className="mb-4 text-sm text-gray-600">
@@ -54,6 +54,6 @@ export default function ConfirmPassword() {
                     </PrimaryButton>
                 </div>
             </form>
-        </GuestLayout>
+        </MainLayout>
     );
 }

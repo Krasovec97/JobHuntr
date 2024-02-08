@@ -1,5 +1,5 @@
 import {Head} from '@inertiajs/react';
-import GuestLayout from '../Layouts/GuestLayout.tsx';
+import MainLayout from '../Layouts/MainLayout.tsx';
 import PageSection from "./Parts/PageSection.tsx";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../Components/FancyTitle.tsx";
@@ -10,7 +10,7 @@ export default function Welcome({auth, laravelVersion, phpVersion}) {
     const {t} = useLaravelReactI18n();
 
     return (
-        <GuestLayout>
+        <MainLayout>
             <Head title="Home"/>
 
             <PageSection className={"bg-image-main"}>
@@ -149,7 +149,7 @@ export default function Welcome({auth, laravelVersion, phpVersion}) {
                     <ContactForm />
                 </div>
             </PageSection>
-        </GuestLayout>
+        </MainLayout>
     );
 }
 

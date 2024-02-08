@@ -1,4 +1,4 @@
-import GuestLayout from '../Layouts/GuestLayout.js';
+import MainLayout from '../Layouts/MainLayout.js';
 import {Head, router, useForm} from '@inertiajs/react';
 import PageSection from "./Parts/PageSection";
 import {useMultistepForm} from "../Hooks/useMultistepForm";
@@ -112,11 +112,11 @@ export default function Register() {
     }
 
     return (
-        <GuestLayout>
+        <MainLayout>
             <Head title="Register" />
             <PageSection className={"bg-white full-h"}>
                 <div className="row">
-                    <form className={"col-9 mx-auto mt-5"} onSubmit={onSubmit}>
+                    <form className={"col-9 mx-auto mt-5 border p-4 shadow"} onSubmit={onSubmit}>
                         <div className="col-12 text-center">
                             {
                                 !isFirstStep &&  (
@@ -178,6 +178,6 @@ export default function Register() {
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </GuestLayout>
+        </MainLayout>
     );
 }
