@@ -13,7 +13,7 @@ use Inertia\Inertia;
 
 class CompanyController extends Controller
 {
-    public function createUpdate(Request $request)
+    public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'unique:users,email', 'unique:companies,email'],

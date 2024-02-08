@@ -51,4 +51,9 @@ class User extends Authenticatable
     public static function getAuthenticatedUser():?self{
         return Auth::guard('web')->user();
     }
+
+    public static function getById($id): ?self
+    {
+        return self::query()->find($id);
+    }
 }

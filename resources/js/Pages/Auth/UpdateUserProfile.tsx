@@ -1,0 +1,198 @@
+import {useForm} from "@inertiajs/react";
+import Select from "react-select";
+import {useLaravelReactI18n} from "laravel-react-i18n";
+import {useEffect, useState} from "react";
+import FancyTitle from "../../Components/FancyTitle";
+import useGlobalContext from "../../Hooks/useGlobalContext";
+
+interface UserData {
+    id: number,
+    contact_phone: string,
+    country: string,
+    street: string,
+    city: string,
+    zip: string,
+    date_of_birth: string,
+    education: string
+}
+
+export default function (user: UserData) {
+    const {t} = useLaravelReactI18n();
+
+    const typesOfEducation = [
+        { value: 'primary', label: t("Primary school or equivalent") },
+        { value: 'high_school', label: t("High school or equivalent") },
+        { value: 'bachelor', label: t("Bachelor's degree") },
+        { value: 'master', label: t("Master's degree") },
+        { value: 'doctorate', label: t("Doctorate or higher") },
+    ]
+
+    const [countries, setCountries] = useState([]);
+    const [selectedCountry, setSelectedCountry] = useState({});
+    const [selectedEducation, setSelectedEducation] = useState(typesOfEducation.find((item) => item.value === user.education));
+    const globalContext = useGlobalContext();
+
+    const {data, setData, post, processing} = useForm({
+        user_id: user.id,
+        date_of_birth: user.date_of_birth ?? '',
+        education: user.education ?? '',
+        street: user.street,
+        city: user.city,
+        country: user.country,
+        zip: user.zip,
+        contact_phone: user.contact_phone
+    })
+
+
+    useEffect(() => {
+        fetch(
+            "https://valid.layercode.workers.dev/list/countries?format=select&flags=false&value=code"
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                setCountries(data.countries);
+                setSelectedCountry(data.countries.find((country) => country.label === user.country));
+            });
+    }, []);
+
+    function handleChange(e) {
+        let key = e.target.id;
+        const value = e.target.value
+        setData(values => ({
+            ...values,
+            [key]: value,
+        }))
+    }
+
+    function handleCountryChange(e) {
+        setSelectedCountry(e)
+        setData(values => ({
+            ...values,
+            country: e.label
+        }));
+    }
+
+    function handleEducationChange(e) {
+        setSelectedEducation(e)
+        setData(values => ({
+            ...values,
+            education: e.value
+        }));
+    }
+
+    function subtractYears(date, years) {
+        date.setFullYear(date.getFullYear() - years);
+        return date;
+    }
+
+    const date = new Date();
+
+    const newDate = new Date(subtractYears(date, 15)).toISOString().split("T")[0];
+
+    let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        post('user/update', {
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },
+            onError: (errors: string) => {
+                globalContext.FlashNotification.setText(errors);
+                globalContext.FlashNotification.setIsOpen(true);
+                globalContext.FlashNotification.setStyle("success");
+            },
+            onSuccess: () => {
+                globalContext.FlashNotification.setText(t("Account updated!"));
+                globalContext.FlashNotification.setIsOpen(true);
+                globalContext.FlashNotification.setStyle("success");
+            }
+        });
+    }
+
+
+    return (
+        <div className={"shadow p-5 my-5 col-8 mx-auto"}>
+            <FancyTitle heading={t("Update your profile")} subtitle={t("Spruce Up Your Profile, :name!", {name: user.name})} />
+            <form onSubmit={handleSubmit} className={"col-8 mx-auto"}>
+                <div className="mb-3">
+                    <label className={"form-label ps-0"}>{t("Contact Phone")} <span
+                        className={"text-danger"}>*</span></label>
+                    <input
+                        id="contact_phone"
+                        required={true}
+                        className={"form-control"}
+                        type="text"
+                        value={data.contact_phone}
+                        pattern={"^\\+\\d.*"}
+                        onChange={handleChange}/>
+                </div>
+
+                <div className="mb-3">
+                    <label className={"form-label ps-0"}>{t("Street")} <span className={"text-danger"}>*</span></label>
+                    <input
+                        id="street"
+                        required={true}
+                        className={"form-control"}
+                        type="text"
+                        value={data.street}
+                        onChange={handleChange}/>
+                </div>
+
+                <div className="mb-3">
+                    <label className={"form-label ps-0"}>{t("Zip")} <span className={"text-danger"}>*</span></label>
+                    <input
+                        id="zip"
+                        required={true}
+                        className={"form-control"}
+                        type="text"
+                        value={data.zip}
+                        onChange={handleChange}/>
+                </div>
+
+                <div className="mb-3">
+                    <label className={"form-label ps-0"}>{t("City")} <span className={"text-danger"}>*</span></label>
+                    <input
+                        id="city"
+                        required={true}
+                        className={"form-control"}
+                        type="text"
+                        value={data.city}
+                        onChange={handleChange}/>
+                </div>
+
+                <div className="mb-3">
+                    <label className={"form-label ps-0"}>{t("Country")} <span className={"text-danger"}>*</span></label>
+                    <Select options={countries}
+                            id="country"
+                            value={selectedCountry}
+                            onChange={handleCountryChange}/>
+                </div>
+
+                <div className="mb-3">
+                    <label className={"form-label ps-0"}>{t("Education")}</label>
+                    <Select options={typesOfEducation}
+                            id="education"
+                            value={selectedEducation}
+                            onChange={handleEducationChange}/>
+                </div>
+
+                <div className="mb-3">
+                    <label className={"form-label ps-0"}>{t("Date of birth")}</label>
+                    <input
+                        id="date_of_birth"
+                        className={"form-control"}
+                        max={newDate}
+                        type="date"
+                        value={data.date_of_birth}
+                        onChange={handleChange}/>
+                </div>
+
+                <div className="col-12 text-center">
+                    <button disabled={processing} className={"btn btn-primary px-5"}>{t("Update")}</button>
+                </div>
+            </form>
+        </div>
+    )
+
+}

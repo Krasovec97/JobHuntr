@@ -19,9 +19,9 @@ Route::middleware('guest')->group(function () {
                 ->name('register');
 
 
-    Route::post('register/personal', [UserController::class, 'createUpdate']);
+    Route::post('register/personal', [UserController::class, 'create']);
 
-    Route::post('register/company', [CompanyController::class, 'createUpdate']);
+    Route::post('register/company', [CompanyController::class, 'create']);
 
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
@@ -65,4 +65,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
+
+    Route::post('user/update', [UserController::class, 'update']);
+
+    Route::post('register/company', [CompanyController::class, 'create']);
 });

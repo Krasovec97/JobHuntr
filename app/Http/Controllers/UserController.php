@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -23,7 +24,7 @@ class UserController extends Controller
         return Inertia::render('Register');
     }
 
-    public function createUpdate(Request $request)
+    public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'unique:users,email'],
@@ -66,5 +67,36 @@ class UserController extends Controller
             'errors' => __("An unexpected error occured. Please contact us if the problem persists!")
         ]);
 
+    }
+
+    public function update(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'user_id' => ['required'],
+            'street' => ['required'],
+            'city' => ['required'],
+            'country' => ['required'],
+            'zip' => ['required'],
+            'education' => ['nullable'],
+            'date_of_birth' => ['nullable'],
+            'contact_phone' => ['required']
+        ]);
+
+        if ($validator->fails()) {
+            return Inertia::render('Dashboard', [
+                'errors' => $validator->errors()->all()
+            ]);
+        }
+
+        $user = User::getById($request->get('user_id'));
+        $user->contact_phone = $request->get('contact_phone');
+        $user->street = $request->get('street');
+        $user->city = $request->get('city');
+        $user->zip = $request->get('zip');
+        $user->country = $request->get('country');
+        $user->date_of_birth = $request->get('date_of_birth');
+        $user->education = $request->get('education');
+        $user->save();
+
+        return Redirect::to('/dashboard');
     }
 }
