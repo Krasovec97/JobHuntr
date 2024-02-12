@@ -18,7 +18,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create(): Response
+    public function renderPersonalLoginView(): Response
     {
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
@@ -30,9 +30,9 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      * @throws ValidationException
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function loginUser(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $request->authenticatePersonal();
 
         $request->session()->regenerate();
 
@@ -42,9 +42,41 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function logoutPersonal(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
+
+    public function renderBusinessLoginView(): Response
+    {
+        return Inertia::render('Business/Login');
+    }
+
+    /**
+     * Handle an incoming authentication request.
+     * @throws ValidationException
+     */
+    public function loginCompany(LoginRequest $request): RedirectResponse
+    {
+        $request->authenticateBusiness();
+
+        $request->session()->regenerate();
+
+        return redirect()->intended(RouteServiceProvider::HOME);
+    }
+
+    /**
+     * Destroy an authenticated session.
+     */
+    public function logoutCompany(Request $request): RedirectResponse
+    {
+        Auth::guard('web_business')->logout();
 
         $request->session()->invalidate();
 

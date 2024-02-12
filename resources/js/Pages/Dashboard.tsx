@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/react';
+import {Head, usePage} from '@inertiajs/react';
 import MainLayout from "../Layouts/MainLayout";
 import PageSection from "./Parts/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
@@ -6,8 +6,9 @@ import {Alert} from "react-bootstrap";
 import UpdateUserProfile from "./Auth/UpdateUserProfile";
 
 
-export default function Dashboard({ user, hasVerifiedEmail }) {
+export default function Dashboard({ hasVerifiedEmail }) {
     const {t} = useLaravelReactI18n();
+    const user = usePage().props.auth.user;
 
     return (
             <MainLayout>

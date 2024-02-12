@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,7 +17,7 @@ use Illuminate\Notifications\Notifiable;
  * @property string $contact_person
  * @property string $country
  * @property string $street
- * @property string $city
+ * @property string $cityA
  * @property string $zip
  * @property string $vat_id
  * @property string $password
@@ -29,11 +30,17 @@ use Illuminate\Notifications\Notifiable;
  * @property string $updated_at
  * @property string $deleted_at
  */
-class Company extends Model
+class Company extends Authenticatable
 {
     use HasFactory, SoftDeletes, Notifiable;
 
     protected $casts = [
         'is_vat_obligated' => 'boolean'
+    ];
+
+    protected $hidden = [
+        'password',
+        'email_verification_token',
+        'email_verified_at',
     ];
 }

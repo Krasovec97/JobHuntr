@@ -13,7 +13,6 @@ class DashboardController extends Controller
         $user = User::getAuthenticatedUser();
 
         return Inertia::render('Dashboard', [
-            'user' => $user,
             'hasVerifiedEmail' => $user->email_verified_at !== null
         ]);
     }
