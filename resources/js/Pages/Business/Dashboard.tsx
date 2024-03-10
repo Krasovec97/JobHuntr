@@ -4,6 +4,8 @@ import {Head, usePage} from "@inertiajs/react";
 import PageSection from "../Parts/PageSection";
 import BusinessLayout from "../../Layouts/BusinessLayout";
 import {CompanyData} from "../../Interfaces/GlobalTypes";
+import OverviewCard from "../Parts/OverviewCard";
+import CompanyQuickView from "../Parts/CompanyQuickView";
 
 
 export default function Dashboard() {
@@ -12,10 +14,35 @@ export default function Dashboard() {
 
     return (
         <BusinessLayout>
-            <Head title="[Business] Dashboard" />
+            <Head title={t("[Business] Dashboard")} />
 
             <PageSection className={'bg-white full-h'}>
-                <div>{company.full_name}</div>
+                <CompanyQuickView company={company} tokensRemaining={1775}/>
+                <div className={"row mt-4"}>
+                    <h3 className={"fw-bold"}>
+                        {t("A quick overview").toUpperCase()}:
+                    </h3>
+                </div>
+
+                <div className="row">
+                    <div className="col-12 col-md-6">
+                        <OverviewCard headerText={"Jobs"} count={20} desc={"Posted in the last 30 days"}/>
+                    </div>
+
+                    <div className="col-12 col-md-6">
+                        <OverviewCard headerText={"Applicants"} count={117} desc={"Applied in the last 30 days"}/>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-12 col-md-6">
+                        <OverviewCard headerText={"Tokens"} count={1.775} desc={"Remaining"}/>
+                    </div>
+
+                    <div className="col-12 col-md-6">
+                        <OverviewCard headerText={"Views"} count={12.275} desc={"Of your jobs"}/>
+                    </div>
+                </div>
             </PageSection>
 
         </BusinessLayout>

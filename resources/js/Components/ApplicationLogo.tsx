@@ -1,5 +1,17 @@
+import styled from "styled-components";
+
 export default function ApplicationLogo(props) {
     return (
-        <img src="/img/logo-main.svg" alt="Remoter logo" height="80" className="p-2"/>
+        <Image />
     );
 }
+
+const Image = styled.div`
+    min-height: 80px;
+    background-image: url("/img/logo-main.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-clip: border-box;
+    background-size: contain;
+    margin: 7px;
+`
