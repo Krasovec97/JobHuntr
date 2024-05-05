@@ -17,7 +17,7 @@ export default function Dashboard() {
             <Head title={t("[Business] Dashboard")} />
 
             <PageSection className={'bg-white full-h'}>
-                <CompanyQuickView company={company} tokensRemaining={1775}/>
+                <CompanyQuickView company={company}/>
                 <div className={"row mt-4"}>
                     <h3 className={"fw-bold"}>
                         {t("A quick overview").toUpperCase()}:

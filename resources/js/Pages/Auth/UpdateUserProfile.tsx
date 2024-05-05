@@ -99,14 +99,15 @@ export default function (user: UserData) {
             },
             onError: (errors: string) => {
                 globalContext.FlashNotification.setText(errors);
-                globalContext.FlashNotification.setIsOpen(true);
+                globalContext.FlashNotification.setIsOpen('true');
                 globalContext.FlashNotification.setStyle("success");
             },
             onSuccess: () => {
                 globalContext.FlashNotification.setText(t("Account updated!"));
-                globalContext.FlashNotification.setIsOpen(true);
+                globalContext.FlashNotification.setIsOpen('true');
                 globalContext.FlashNotification.setStyle("success");
-            }
+            },
+            preserveScroll: true
         });
     }
 

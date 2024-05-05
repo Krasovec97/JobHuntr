@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BusinessProfileController;
+use App\Http\Controllers\JobsController;
+use App\Http\Controllers\WorkareaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,4 +24,11 @@ Route::post('/login', [AuthenticatedSessionController::class, 'loginCompany']);
 Route::middleware('auth_business')->group(function () {
     Route::get('/dashboard', [BusinessProfileController::class, 'displayDashboard']);
     Route::post('/logout', [AuthenticatedSessionController::class, 'logoutCompany']);
+
+    Route::get('/jobs', [JobsController::class, 'getJobsPage']);
+    Route::get('/jobs/new', [JobsController::class, 'getNewJobPage']);
+    Route::post('/jobs/new', [JobsController::class, 'postNewJob']);
+    Route::get('/job/{id}', [JobsController::class, 'getJobDetailsPage']);
+
+    Route::get('/work_area/{id}/fields', [WorkareaController::Class, 'getWorkFields']);
 });

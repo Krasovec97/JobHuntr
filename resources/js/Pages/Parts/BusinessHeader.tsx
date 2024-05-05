@@ -10,26 +10,20 @@ export default function () {
     }
 
     return (
-        <nav className="navbar navbar-expand-md">
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul className="navbar-nav flex-column text-center col-12">
-                    <div className="">
+        <nav className="navbar navbar-expand-md h-100">
+            <div className="collapse navbar-collapse h-100" id="navbarSupportedContent">
+                <ul className="navbar-nav flex-column text-center col-12 h-100">
+                    <div className="h-25">
                         <li className="nav-item">
-                            <a href="/" className="text-white nav-link">{t("Jobs").toUpperCase()}</a>
+                            <a href="/jobs" className="text-white nav-link">{t("Jobs").toUpperCase()}</a>
                         </li>
 
                         <li className="nav-item">
-                            <a href="/about-us"
-                               className="text-white nav-link">{t("Employment forms").toUpperCase()}</a>
-                        </li>
-
-                        <li className="nav-item">
-                            <a href="/about-us"
-                               className="text-white nav-link">{t("Tokens").toUpperCase()}</a>
+                            <a href="/projects" className="text-white nav-link">{t("Projects").toUpperCase()}</a>
                         </li>
                     </div>
-                    <hr />
-                    <div className="d-flex flex-column">
+                    <hr className="mt-auto text-white"/>
+                    <div className="h-auto">
                         <li className="nav-item">
                             <a href="/about-us"
                                className="text-white nav-link">{t("Account settings").toUpperCase()}</a>

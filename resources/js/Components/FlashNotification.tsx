@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import {useLaravelReactI18n} from "laravel-react-i18n";
+import parse from 'html-react-parser';
 
 interface NotificationData {
     style: 'primary'|'success'|'danger',
     text: string,
-    isOpen: boolean,
+    isOpen: string,
     onClose(): void
 }
 
@@ -26,7 +27,7 @@ export default function ({text, style, isOpen, onClose}: NotificationData) {
     }
 
     return (
-        <Wrapper styletype={style} isOpen={isOpen}>
+        <Wrapper styletype={style} isopen={isOpen}>
             <div className="row">
                 <div className="col-2 my-auto">
                     <i className={iconClass}></i>
@@ -34,7 +35,7 @@ export default function ({text, style, isOpen, onClose}: NotificationData) {
                 <div className="col-10 text-end">
                     <div className="d-flex justify-content-between">
                         <div className="col-8 text-start text-dark">
-                            {text}
+                            { parse(text) }
                         </div>
                         <div className="col-1 text-end">
                             <small className="text-decoration-underline pe-2"
@@ -48,8 +49,8 @@ export default function ({text, style, isOpen, onClose}: NotificationData) {
     )
 }
 
-const Wrapper = styled.div<{ styletype: string, isOpen: boolean }>`
-    min-width: 350px;
+const Wrapper = styled.div<{ styletype: string, isopen: string }>`
+    max-width: 350px;
     color: ${props => {
         switch (props.styletype) {
             case 'primary':
@@ -95,14 +96,14 @@ const Wrapper = styled.div<{ styletype: string, isOpen: boolean }>`
     border-radius: 10px;
     padding: 15px;
     transform: ${props => {
-        if (props.isOpen) {
+        if (props.isopen !== 'false') {
             return undefined;
         } else {
             return 'translateY(400px)';
         }
     }};
     opacity: ${props => {
-        if (props.isOpen) {
+        if (props.isopen !== 'false') {
             return 1;
         } else {
             return 0;
