@@ -6,43 +6,13 @@ import PageSection from "../Parts/PageSection";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import FancyTitle from "../../Components/FancyTitle";
 import styled from "styled-components";
+import {JobInterface} from "../../Interfaces/SharedInterfaces";
 
-interface CompanyJobsProps {
-    workAreas: Array<CompanyJobInterface>
+interface JobsProps {
+    companyJobs: Array<JobInterface>
 }
 
-interface CompanyJobInterface {
-    company_id: number,
-    created_at: string,
-    deleted_at?: string,
-    description: string,
-    employment_type: string,
-    expires_at?: string,
-    id: number,
-    open_positions_count: number,
-    posted_at?: string,
-    preferred_education: string,
-    preferred_gender: string,
-    salary: number,
-    salary_currency: string,
-    status: string,
-    title: string,
-    updated_at: string,
-    work_area_id: number,
-    work_field_id: number,
-    work_field: WorkFieldInterface,
-    work_location: string
-}
-
-interface WorkFieldInterface {
-    created_at?: string,
-    id?: number,
-    name: string,
-    updated_at?: string,
-    work_area_id: number
-}
-
-export default function Jobs({companyJobs}: CompanyJobsProps) {
+export default function Jobs({companyJobs}: JobsProps) {
     const {t} = useLaravelReactI18n();
     let company: CompanyData = usePage().props.auth.company;
 

@@ -4,11 +4,14 @@ import {Head, usePage} from "@inertiajs/react";
 import BusinessLayout from "../../Layouts/BusinessLayout";
 import PageSection from "../Parts/PageSection";
 import CompanyQuickView from "../Parts/CompanyQuickView";
-import OverviewCard from "../Parts/OverviewCard";
-import {FormWrapper} from "../Parts/FormParts/FormWrapper";
 import FancyTitle from "../../Components/FancyTitle";
+import {JobInterface} from "../../Interfaces/SharedInterfaces";
 
-export default function NewJob({ job }) {
+interface JobDetailsProps {
+    job: JobInterface
+}
+
+export default function NewJob({ job }: JobDetailsProps) {
     const {t} = useLaravelReactI18n();
     let company: CompanyData = usePage().props.auth.company;
 
@@ -19,7 +22,11 @@ export default function NewJob({ job }) {
             <PageSection className={'bg-white full-h'}>
                 <CompanyQuickView company={company}/>
 
-                <FancyTitle heading={"This is job with id: " + job.id} />
+                <FancyTitle heading={job.title} />
+
+                <div>
+                    TEST
+                </div>
             </PageSection>
 
         </BusinessLayout>

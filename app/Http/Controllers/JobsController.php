@@ -15,7 +15,7 @@ class JobsController extends Controller
 {
     public function getJobsPage(Request $request)
     {
-        $companyJobs = Company::getAuthenticatedCompany()->jobs()->get();
+        $companyJobs = Company::getAuthenticatedCompany()->jobs;
 
         foreach ($companyJobs as $job) {
             $job->work_field = WorkField::query()->find($job->work_field_id);

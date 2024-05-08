@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Auth;
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
+ * @property HasMany $jobs
  */
 class Company extends Authenticatable
 {

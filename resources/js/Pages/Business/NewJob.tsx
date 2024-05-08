@@ -3,26 +3,16 @@ import {CompanyData} from "../../Interfaces/GlobalTypes";
 import {Head, useForm, usePage} from "@inertiajs/react";
 import BusinessLayout from "../../Layouts/BusinessLayout";
 import PageSection from "../Parts/PageSection";
-import CompanyQuickView from "../Parts/CompanyQuickView";
-import OverviewCard from "../Parts/OverviewCard";
-import {FormWrapper} from "../Parts/FormParts/FormWrapper";
 import Select from "react-select";
 import {useState} from "react";
 import axios from "axios";
 import useGlobalContext from "../../Hooks/useGlobalContext";
-import {Simulate} from "react-dom/test-utils";
-import submit = Simulate.submit;
 import FancyTitle from "../../Components/FancyTitle";
+import {WorkAreaInterface} from "../../Interfaces/SharedInterfaces";
+import CompanyQuickView from "../Parts/CompanyQuickView";
 
 interface NewJobProps {
     workAreas: Array<WorkAreaInterface>
-}
-
-interface WorkAreaInterface {
-    id: number,
-    name: string,
-    created_at?: string,
-    updated_at?: string
 }
 
 export default function NewJob({workAreas}: NewJobProps) {
