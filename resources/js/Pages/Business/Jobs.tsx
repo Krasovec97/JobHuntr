@@ -5,6 +5,7 @@ import BusinessLayout from "../../Layouts/BusinessLayout";
 import PageSection from "../Parts/PageSection";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import FancyTitle from "../../Components/FancyTitle";
+import styled from "styled-components";
 
 interface CompanyJobsProps {
     workAreas: Array<CompanyJobInterface>
@@ -29,7 +30,16 @@ interface CompanyJobInterface {
     updated_at: string,
     work_area_id: number,
     work_field_id: number,
+    work_field: WorkFieldInterface,
     work_location: string
+}
+
+interface WorkFieldInterface {
+    created_at?: string,
+    id?: number,
+    name: string,
+    updated_at?: string,
+    work_area_id: number
 }
 
 export default function Jobs({companyJobs}: CompanyJobsProps) {
@@ -61,33 +71,37 @@ export default function Jobs({companyJobs}: CompanyJobsProps) {
                 </div>
 
                 <div className={"row bg-primary text-white py-3"}>
-                    <div className="col-2">{t("Job Title")}</div>
-                    <div className="col-2">{t("Job Description")}</div>
-                    <div className="col-2">{t("Work field")}</div>
-                    <div className="col-2">{t("Work location")}</div>
-                    <div className="col-2">{t("Estimated salary / year")}</div>
-                    <div className="col-2">{t("Job status")}</div>
+                    <div className="col-2 fw-bold">{t("Job Title")}</div>
+                    <div className="col-2 fw-bold">{t("Job Description")}</div>
+                    <div className="col-2 fw-bold">{t("Work field")}</div>
+                    <div className="col-2 fw-bold">{t("Work location")}</div>
+                    <div className="col-2 fw-bold">{t("Yearly salary")}</div>
+                    <div className="col-2 fw-bold">{t("Job status")}</div>
                 </div>
 
 
-                <div className={"row py-3 border-bottom border-dark border-opacity-25"}>
-                    {companyJobs.map((job) => {
-                        return (
-                            <>
-                                <div className="col-2"><a href={"/job/" + job.id}>{job.title}</a></div>
-                                <div className="col-2">{job.description.substring(0, 25)}</div>
-                                <div className="col-2">{job.work_area_id}</div>
-                                <div className="col-2">{job.employment_type}</div>
-                                <div className="col-2">{numberFormat.format(job.salary)}</div>
-                                <div className="col-2">{capitalizeFirstLetter(job.status)}</div>
-                            </>
-                        )
-                    })}
-
-                </div>
+                {companyJobs.map((job) => {
+                    return (
+                        <TableRow href={"/job/" + job.id} className={"row py-3 text-decoration-none text-dark border-bottom border-dark border-opacity-25"} key={job.id}>
+                            <div className="col-2">{job.title}</div>
+                            <div className="col-2">{job.description.substring(0, 25)}...</div>
+                            <div className="col-2">{job.work_field.name}</div>
+                            <div className="col-2">{capitalizeFirstLetter(job.work_location)}</div>
+                            <div className="col-2">{numberFormat.format(job.salary)}</div>
+                            <div className="col-2">{capitalizeFirstLetter(job.status)}</div>
+                        </TableRow>
+                    )
+                })}
 
             </PageSection>
 
         </BusinessLayout>
     );
 }
+
+const TableRow = styled.a`
+    transition: all ease-in-out 130ms;
+    &:hover {
+        color: #d30855 !important;
+    }
+`

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Models\Job;
 use App\Models\WorkArea;
+use App\Models\WorkField;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -15,6 +16,11 @@ class JobsController extends Controller
     public function getJobsPage(Request $request)
     {
         $companyJobs = Company::getAuthenticatedCompany()->jobs()->get();
+
+        foreach ($companyJobs as $job) {
+            $job->work_field = WorkField::query()->find($job->work_field_id);
+        }
+
         return Inertia::render('Business/Jobs', [
             'companyJobs' => $companyJobs
         ]);
