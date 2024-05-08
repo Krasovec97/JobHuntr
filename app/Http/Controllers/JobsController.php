@@ -100,6 +100,9 @@ class JobsController extends Controller
             abort(404);
         }
 
+        $job->work_area = WorkArea::query()->find($job->work_area_id);
+        $job->work_field = WorkField::query()->find($job->work_field_id);
+
         return Inertia::render('Business/JobDetails', [
             "job" => $job
         ]);

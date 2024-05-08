@@ -1,0 +1,12 @@
+export function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function numberFormat(number: number, currency: string) {
+    let numberFormat = new Intl.NumberFormat('sl-SI', {
+        style: 'currency',
+        currency: currency
+    });
+
+    return numberFormat.format(number);
+}

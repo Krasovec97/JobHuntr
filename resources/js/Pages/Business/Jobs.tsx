@@ -7,6 +7,7 @@ import CompanyQuickView from "../Parts/CompanyQuickView";
 import FancyTitle from "../../Components/FancyTitle";
 import styled from "styled-components";
 import {JobInterface} from "../../Interfaces/SharedInterfaces";
+import {capitalize, numberFormat} from "../../Helpers";
 
 interface JobsProps {
     companyJobs: Array<JobInterface>
@@ -15,15 +16,6 @@ interface JobsProps {
 export default function Jobs({companyJobs}: JobsProps) {
     const {t} = useLaravelReactI18n();
     let company: CompanyData = usePage().props.auth.company;
-
-    let numberFormat = new Intl.NumberFormat('sl-SI', {
-        style: 'currency',
-        currency: 'EUR'
-    });
-
-    function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
 
     return (
         <BusinessLayout>
@@ -56,9 +48,9 @@ export default function Jobs({companyJobs}: JobsProps) {
                             <div className="col-2">{job.title}</div>
                             <div className="col-2">{job.description.substring(0, 25)}...</div>
                             <div className="col-2">{job.work_field.name}</div>
-                            <div className="col-2">{capitalizeFirstLetter(job.work_location)}</div>
-                            <div className="col-2">{numberFormat.format(job.salary)}</div>
-                            <div className="col-2">{capitalizeFirstLetter(job.status)}</div>
+                            <div className="col-2">{capitalize(job.work_location)}</div>
+                            <div className="col-2">{numberFormat(job.salary, job.salary_currency)}</div>
+                            <div className="col-2">{capitalize(job.status)}</div>
                         </TableRow>
                     )
                 })}
