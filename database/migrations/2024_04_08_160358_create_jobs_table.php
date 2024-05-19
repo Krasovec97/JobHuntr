@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->mediumText('description');
             $table->string('employment_type');
-            $table->unsignedDouble('salary');
+            $table->double('salary');
             $table->string('salary_currency', 5);
             $table->unsignedBigInteger('work_area_id');
             $table->foreign('work_area_id')->references('id')->on('work_fields');

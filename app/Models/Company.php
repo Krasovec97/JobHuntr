@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
  * @property string $contact_person
  * @property string $country
  * @property string $street
- * @property string $cityA
+ * @property string $city
  * @property string $zip
  * @property string $vat_id
  * @property string $password
