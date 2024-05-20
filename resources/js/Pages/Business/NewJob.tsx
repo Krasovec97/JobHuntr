@@ -8,14 +8,15 @@ import {useState} from "react";
 import axios from "axios";
 import useGlobalContext from "../../Hooks/useGlobalContext";
 import FancyTitle from "../../Components/FancyTitle";
-import {WorkAreaInterface} from "../../Interfaces/SharedInterfaces";
+import {JobInterface, WorkAreaInterface} from "../../Interfaces/SharedInterfaces";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 
 interface NewJobProps {
     workAreas: Array<WorkAreaInterface>
+    job?: JobInterface
 }
 
-export default function NewJob({workAreas}: NewJobProps) {
+export default function NewJob({workAreas, job}: NewJobProps) {
     const {t} = useLaravelReactI18n();
     const [workAreasArray, setWorkAreasArray] = useState(workAreas.map((area) => {
         return {
@@ -24,7 +25,16 @@ export default function NewJob({workAreas}: NewJobProps) {
         }
     }));
     const [workFieldsArray, setWorkFieldsArray] = useState([]);
-    const [selectedWorkField, setSelectedWorkField] = useState(null);
+
+    function initializeSelectedWorkField() {
+        if (job === null) return null;
+
+        return {
+            value: job.work_field.id,
+            label: job.work_field.name
+        }
+    }
+    const [selectedWorkField, setSelectedWorkField] = useState(initializeSelectedWorkField);
 
     let noOptionsText = t("Please, select the work area before selecting work field.");
     let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
@@ -33,35 +43,42 @@ export default function NewJob({workAreas}: NewJobProps) {
     let company: CompanyData = usePage().props.auth.company;
 
     const {data, setData, post, processing} = useForm({
-        job_title: '',
-        employment_type: 'full_time',
-        job_description: '',
-        work_area_id: 0,
-        work_field_id: 0,
-        work_location: 'remote',
-        num_of_positions: 0,
-        yearly_salary: 0,
-        currency: 'eur',
-        gender: 'any',
-        education: 'none'
+        job_title: job !== null ? job.title : '',
+        employment_type: job !== null ? job.employment_type : 'full_time',
+        job_description: job !== null ? job.description : '',
+        work_area_id: job !== null ? job.work_area_id : 0,
+        work_field_id: job !== null ? job.work_field_id : 0,
+        work_location: job !== null ? job.work_location : 'remote',
+        num_of_positions: job !== null ? job.open_positions_count : 0,
+        yearly_salary: job !== null ? job.salary : 0,
+        currency: job !== null ? job.salary_currency : 'eur',
+        gender: job !== null ? job.preferred_gender : 'any',
+        education: job !== null ? job.preferred_education : 'none'
     })
 
     function showRelevantWorkFields(selectedArea) {
         setSelectedWorkField(null);
+
         setData(values => ({
             ...values,
             work_area_id: selectedArea.value,
             work_field_id: 0
         }));
 
+        getRelatedWorkFields(selectedArea)
+    }
+
+    function getRelatedWorkFields(selectedArea) {
         axios.get('/work_area/'+selectedArea.value+'/fields')
             .then(response => {
                 setWorkFieldsArray(response.data.map((workField) => ({
                     value: workField.id,
                     label: workField.name
                 })));
-        });
+            });
     }
+
+    if (job !== null) getRelatedWorkFields(job.work_area_id);
 
     function handleEmploymentTypeChange(e) {
         setData(values => ({
@@ -145,6 +162,7 @@ export default function NewJob({workAreas}: NewJobProps) {
                                 required={true}
                                 className={"form-control"}
                                 type="text"
+                                value={job ? job.title : ''}
                                 onChange={(e) => setData('job_title', e.target.value)}/>
                         </div>
                     </div>
@@ -152,7 +170,7 @@ export default function NewJob({workAreas}: NewJobProps) {
                     <div className="row mb-3">
                         <div className="col-12">
                             <label>{t("Employment type")}</label>
-                            <select required className={"form-select"} onChange={handleEmploymentTypeChange}>
+                            <select required className={"form-select"} onChange={handleEmploymentTypeChange} defaultValue={job && job.employment_type}>
                                 <option value="full_time">{t("Full-Time")}</option>
                                 <option value="part_time">{t("Part-Time")}</option>
                             </select>
@@ -168,6 +186,7 @@ export default function NewJob({workAreas}: NewJobProps) {
                                 required
                                 className={"form-control"}
                                 onChange={(e) => setData('job_description', e.target.value)}
+                                value={job ? job.description : ''}
                             ></textarea>
                         </div>
                     </div>
@@ -178,6 +197,10 @@ export default function NewJob({workAreas}: NewJobProps) {
                         <div className="col-12">
                             <label>{t("Work area")}</label>
                             <Select options={workAreasArray}
+                                    defaultValue={job && {
+                                        value: job.work_area.id,
+                                        label: job.work_area.name
+                                    }}
                                     onChange={(selectedArea) => showRelevantWorkFields(selectedArea)}
                                     required={true}/>
                         </div>
@@ -197,7 +220,7 @@ export default function NewJob({workAreas}: NewJobProps) {
                     <div className="row mb-3">
                         <div className="col-12">
                             <label>{t("Work location")}</label>
-                            <select required className={"form-select"} onChange={handleWorkLocationChange}>
+                            <select required className={"form-select"} onChange={handleWorkLocationChange} defaultValue={job && job.work_location}>
                                 <option value="remote">{t("Completely online / Remote")}</option>
                                 <option value="hybrid">{t("Partially online")}</option>
                                 <option value="on_location">{t("On location")}</option>
@@ -212,6 +235,7 @@ export default function NewJob({workAreas}: NewJobProps) {
                                 required
                                 placeholder={'3'}
                                 className={"form-control"}
+                                value={job !== null ? job.open_positions_count : ''}
                                 type="number"
                                 min={1}
                                 max={999}
@@ -230,6 +254,7 @@ export default function NewJob({workAreas}: NewJobProps) {
                                 required
                                 placeholder={'42000'}
                                 className={"form-control"}
+                                value={job !== null ? job.salary : ''}
                                 step={0.5}
                                 min={1}
                                 type="number"
@@ -238,7 +263,7 @@ export default function NewJob({workAreas}: NewJobProps) {
                         </div>
                         <div className="col-4">
                             <label>{t("Currency")}</label>
-                            <select required className={"form-select"} onChange={handleCurrencyChange}>
+                            <select required className={"form-select"} onChange={handleCurrencyChange} defaultValue={job && job.salary_currency}>
                                 <option value="eur">{t("EUR")}</option>
                                 <option value="usd">{t("USD")}</option>
                                 <option value="gbp">{t("GBP")}</option>
@@ -249,7 +274,7 @@ export default function NewJob({workAreas}: NewJobProps) {
                     <div className="row mb-3">
                         <div className="col-12">
                             <label>{t("Preferred gender")}</label>
-                            <select required className={"form-select"} onChange={handleGenderChange}>
+                            <select required className={"form-select"} onChange={handleGenderChange} defaultValue={job && job.preferred_gender}>
                                 <option value="any">{t("Any")}</option>
                                 <option value="male">{t("Male")}</option>
                                 <option value="female">{t("Female")}</option>
@@ -260,7 +285,7 @@ export default function NewJob({workAreas}: NewJobProps) {
                     <div className="row mb-3">
                         <div className="col-12">
                             <label>{t("Preferred education")}</label>
-                            <select required className={"form-select"} onChange={handleEducationChange}>
+                            <select required className={"form-select"} onChange={handleEducationChange} defaultValue={job && job.preferred_education}>
                                 <option value="none">{t("None")}</option>
                                 <option value="primary">{t("Primary school or equivalent")}</option>
                                 <option value="high_school">{t("High school or equivalent")}</option>

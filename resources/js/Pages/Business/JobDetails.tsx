@@ -16,6 +16,10 @@ export default function NewJob({ job }: JobDetailsProps) {
     const {t} = useLaravelReactI18n();
     let company: CompanyData = usePage().props.auth.company;
 
+    let formatText = (string) => (capitalize(string.replace('_', ' ')));
+
+    let editJobButton = () => (window.location.href = `/job/${job.id}/update`)
+
     return (
         <BusinessLayout>
             <Head title={t("[Business] Dashboard")} />
@@ -30,7 +34,7 @@ export default function NewJob({ job }: JobDetailsProps) {
                         <button className="btn btn-primary">
                             {t("Activate job listing")}
                         </button>
-                        <button className="btn btn-outline-primary ms-4">
+                        <button onClick={editJobButton} className="btn btn-outline-primary ms-4">
                             {t("Edit this job")}
                         </button>
                     </div>
@@ -40,7 +44,7 @@ export default function NewJob({ job }: JobDetailsProps) {
                     <div className="col-6">
                         <div className="row">
                             <div className="col-4 fw-semibold">{t("Employment type")}:</div>
-                            <div className="col-8">{job.employment_type}</div>
+                            <div className="col-8">{formatText(job.employment_type)}</div>
                         </div>
 
                         <div className="row">

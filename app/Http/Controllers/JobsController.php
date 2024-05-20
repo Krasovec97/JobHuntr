@@ -26,12 +26,19 @@ class JobsController extends Controller
         ]);
     }
 
-    public function getNewJobPage(Request $request)
+    public function getNewJobPage(Request $request, int $jobId = null)
     {
         $workAreas = WorkArea::query()->get();
+        $job = null;
+        if ($jobId !== null) {
+            $job = Job::query()->find($jobId);
+            $job->work_area = WorkArea::query()->find($job->work_area_id);
+            $job->work_field = WorkField::query()->find($job->work_field_id);
+        }
 
         return Inertia::render('Business/NewJob', [
-            'workAreas' => $workAreas
+            'workAreas' => $workAreas,
+            'job' => $job
         ]);
     }
 
