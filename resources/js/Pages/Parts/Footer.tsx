@@ -10,7 +10,7 @@ export default function () {
                     <ApplicationLogo />
                 </div>
                 <div className="mt-3">
-                    {t("© 2024 Remoter | All rights reserved | Terms of use")}
+                    {t("© 2024 JobHuntr | All rights reserved | Terms of use")}
                 </div>
             </footer>
         </>

@@ -57,7 +57,7 @@ class CompanyController extends Controller
         $saved = $company->save();
 
         if ($saved) {
-            $company->notify(new EmailVerificationNotification($company->email_verification_token));
+//            $company->notify(new EmailVerificationNotification($company->email_verification_token));
 
             Return Inertia::render('Register');
         }

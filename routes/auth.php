@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -67,6 +67,4 @@ Route::middleware('auth')->group(function () {
                 ->name('logout');
 
     Route::post('user/update', [UserController::class, 'update']);
-
-    Route::post('register/company', [CompanyController::class, 'create']);
 });
