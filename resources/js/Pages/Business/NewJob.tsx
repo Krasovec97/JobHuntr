@@ -4,7 +4,7 @@ import {Head, useForm, usePage} from "@inertiajs/react";
 import BusinessLayout from "../../Layouts/BusinessLayout";
 import PageSection from "../Parts/PageSection";
 import Select from "react-select";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import useGlobalContext from "../../Hooks/useGlobalContext";
 import FancyTitle from "../../Components/FancyTitle";
@@ -78,7 +78,9 @@ export default function NewJob({workAreas, job}: NewJobProps) {
             });
     }
 
-    if (job !== null) getRelatedWorkFields(job.work_area_id);
+    if (job !== null) {
+        useEffect(() => getRelatedWorkFields({value: job.work_area_id}), [])
+    }
 
     function handleEmploymentTypeChange(e) {
         setData(values => ({
@@ -126,7 +128,9 @@ export default function NewJob({workAreas, job}: NewJobProps) {
 
     function handleSubmit(e) {
         e.preventDefault()
-        post('/jobs/new', {
+        let postUrl = '/jobs/new';
+        if (job !== null) postUrl = `/job/${job.id}/update`
+        post(postUrl, {
             headers: {
                 'X-CSRF-TOKEN': csrfToken
             },
@@ -162,7 +166,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                                 required={true}
                                 className={"form-control"}
                                 type="text"
-                                value={job ? job.title : undefined}
+                                defaultValue={job ? job.title : undefined}
                                 onChange={(e) => setData('job_title', e.target.value)}/>
                         </div>
                     </div>
@@ -186,7 +190,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                                 required
                                 className={"form-control"}
                                 onChange={(e) => setData('job_description', e.target.value)}
-                                value={job ? job.description : undefined}
+                                defaultValue={job ? job.description : undefined}
                             ></textarea>
                         </div>
                     </div>
@@ -235,7 +239,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                                 required
                                 placeholder={'3'}
                                 className={"form-control"}
-                                value={job !== null ? job.open_positions_count : undefined}
+                                defaultValue={job !== null ? job.open_positions_count : undefined}
                                 type="number"
                                 min={1}
                                 max={999}
@@ -254,7 +258,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                                 required
                                 placeholder={'42000'}
                                 className={"form-control"}
-                                value={job !== null ? job.salary : undefined}
+                                defaultValue={job !== null ? job.salary : undefined}
                                 step={0.5}
                                 min={1}
                                 type="number"

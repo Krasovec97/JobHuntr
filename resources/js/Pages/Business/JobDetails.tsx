@@ -64,7 +64,7 @@ export default function NewJob({ job }: JobDetailsProps) {
 
                         <div className="row">
                             <div className="col-4 fw-semibold">{t("Work location")}:</div>
-                            <div className="col-8">{capitalize(job.work_location)}</div>
+                            <div className="col-8">{formatText(job.work_location)}</div>
                         </div>
 
                         <div className="row">

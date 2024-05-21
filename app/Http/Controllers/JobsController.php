@@ -42,7 +42,7 @@ class JobsController extends Controller
         ]);
     }
 
-    public function postNewJob(Request $request)
+    public function postNewJob(Request $request, int $jobId = null)
     {
         $validator = Validator::make($request->all(), [
             "job_title" => ["required"],
@@ -70,7 +70,8 @@ class JobsController extends Controller
 
         $company = Company::getAuthenticatedCompany();
 
-        $job = new Job();
+        $job = Job::query()->find($jobId);
+        if ($job === null)$job = new Job();
         $job->title = $request->input('job_title');
         $job->description = $request->input('job_description');
         $job->employment_type = $request->input('employment_type');
