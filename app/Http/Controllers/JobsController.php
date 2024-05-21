@@ -87,8 +87,11 @@ class JobsController extends Controller
         $jobSaved = $job->save();
 
         if ($jobSaved) {
+            $job->work_area = WorkArea::query()->find($job->work_area_id);
+            $job->work_field = WorkField::query()->find($job->work_field_id);
+
             return Inertia::render('Business/JobDetails', [
-                "job" => $job
+                "job" => $job,
             ]);
         } else {
             $workAreas = WorkArea::query()->get();

@@ -17,7 +17,7 @@ export interface JobInterface {
     updated_at: string,
     work_area_id: number,
     work_field_id: number,
-    work_field: WorkFieldInterface,
+    work_field?: WorkFieldInterface,
     work_area?: WorkAreaInterface,
     work_location: string
 }

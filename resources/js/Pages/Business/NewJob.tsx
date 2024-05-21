@@ -162,7 +162,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                                 required={true}
                                 className={"form-control"}
                                 type="text"
-                                value={job ? job.title : ''}
+                                value={job ? job.title : undefined}
                                 onChange={(e) => setData('job_title', e.target.value)}/>
                         </div>
                     </div>
@@ -186,7 +186,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                                 required
                                 className={"form-control"}
                                 onChange={(e) => setData('job_description', e.target.value)}
-                                value={job ? job.description : ''}
+                                value={job ? job.description : undefined}
                             ></textarea>
                         </div>
                     </div>
@@ -235,7 +235,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                                 required
                                 placeholder={'3'}
                                 className={"form-control"}
-                                value={job !== null ? job.open_positions_count : ''}
+                                value={job !== null ? job.open_positions_count : undefined}
                                 type="number"
                                 min={1}
                                 max={999}
@@ -254,7 +254,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                                 required
                                 placeholder={'42000'}
                                 className={"form-control"}
-                                value={job !== null ? job.salary : ''}
+                                value={job !== null ? job.salary : undefined}
                                 step={0.5}
                                 min={1}
                                 type="number"
