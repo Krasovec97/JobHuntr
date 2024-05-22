@@ -1,12 +1,12 @@
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import {CompanyData} from "../../Interfaces/GlobalTypes";
-import {Head, usePage} from "@inertiajs/react";
+import {Head, useForm, usePage} from "@inertiajs/react";
 import BusinessLayout from "../../Layouts/BusinessLayout";
 import PageSection from "../Parts/PageSection";
 import CompanyQuickView from "../Parts/CompanyQuickView";
-import FancyTitle from "../../Components/FancyTitle";
 import {JobInterface} from "../../Interfaces/SharedInterfaces";
-import {capitalize, numberFormat} from "../../Helpers";
+import {capitalize, formatText, numberFormat} from "../../Helpers";
+import {DateTime} from "luxon"
 
 interface JobDetailsProps {
     job: JobInterface
@@ -15,10 +15,10 @@ interface JobDetailsProps {
 export default function NewJob({ job }: JobDetailsProps) {
     const {t} = useLaravelReactI18n();
     let company: CompanyData = usePage().props.auth.company;
-
-    let formatText = (string) => (capitalize(string.replace('_', ' ')));
+    const {post} = useForm();
 
     let editJobButton = () => (window.location.href = `/job/${job.id}/update`)
+    let publishJobListingButton = () => (post(`/job/${job.id}/activate`))
 
     return (
         <BusinessLayout>
@@ -30,14 +30,15 @@ export default function NewJob({ job }: JobDetailsProps) {
                     <div className="col-6">
                         <h3 className={"text-dark"}>{job.title}</h3>
                     </div>
-                    <div className="col-6 text-end">
-                        <button className="btn btn-primary">
-                            {t("Activate job listing")}
-                        </button>
-                        <button onClick={editJobButton} className="btn btn-outline-primary ms-4">
-                            {t("Edit this job")}
-                        </button>
-                    </div>
+                    {job.status === 'draft' &&
+                        <div className="col-6 text-end">
+                            <button onClick={publishJobListingButton} className="btn btn-primary">
+                                {t("Activate job listing")}
+                            </button>
+                            <button onClick={editJobButton} className="btn btn-outline-primary ms-4">
+                                {t("Edit this job")}
+                            </button>
+                        </div>}
                 </div>
 
                 <div className="row">
@@ -74,7 +75,7 @@ export default function NewJob({ job }: JobDetailsProps) {
 
                         <div className="row">
                             <div className="col-4 fw-semibold">{t("Preferred education")}:</div>
-                            <div className="col-8">{capitalize(job.preferred_education)}</div>
+                            <div className="col-8">{formatText(job.preferred_education)}</div>
                         </div>
                     </div>
 
@@ -84,19 +85,22 @@ export default function NewJob({ job }: JobDetailsProps) {
                             <div className="col-7">{job.open_positions_count}</div>
                         </div>
 
-                        {job.expires_at !== null && <div className="row">
-                            <div className="col-5 fw-semibold">{t("Job posting expires at")}:</div>
-                            <div className="col-7">{job.expires_at}</div>
+                        {job.posted_at !== null && <div className="row">
+                            <div className="col-5 fw-semibold">{t("Job posted at")}:</div>
+                            <div className="col-7">{DateTime.fromSQL(job.posted_at).toFormat("dd.MM.yyyy")}</div>
                         </div>}
 
-                        {job.posted_at !== null && <div className="row">
-                            <div className="col-5 fw-semibold">{t("Job posting expires at")}:</div>
-                            <div className="col-7">{job.posted_at}</div>
+                        {job.expires_at !== null && <div className="row">
+                            <div className="col-5 fw-semibold">{t("Job post expires at")}:</div>
+                            <div className="col-7">{DateTime.fromSQL(job.expires_at).toFormat("dd.MM.yyyy")}</div>
+
                         </div>}
 
                         <div className="row mt-1">
                             <div className="col-12 fw-semibold">{t("Job description")}:</div>
-                            <div className="col-12">{job.description}</div>
+                            <div className="col-12">
+                                <textarea readOnly={true} cols={60} rows={8} value={job.description}></textarea>
+                            </div>
                         </div>
                     </div>
 

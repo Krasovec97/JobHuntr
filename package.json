@@ -8,6 +8,7 @@
     "devDependencies": {
         "@headlessui/react": "^1.4.2",
         "@inertiajs/react": "^1.0.0",
+        "@types/luxon": "^3.4.2",
         "@vitejs/plugin-react": "^4.2.0",
         "autoprefixer": "^10.4.12",
         "axios": "^1.6.4",

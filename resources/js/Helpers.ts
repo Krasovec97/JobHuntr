@@ -10,3 +10,6 @@ export function numberFormat(number: number, currency: string) {
 
     return numberFormat.format(number);
 }
+
+export let formatText = (string) => (capitalize(string.replace('_', ' ')));
+

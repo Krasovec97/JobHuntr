@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BusinessProfileController;
@@ -26,10 +26,13 @@ Route::middleware('auth_business')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'logoutCompany']);
 
     Route::get('/jobs', [JobsController::class, 'getJobsPage']);
+
     Route::get('/jobs/new', [JobsController::class, 'getNewJobPage']);
+    Route::post('/jobs/new', [JobsController::class, 'postNewJob']);
+
     Route::get('/job/{jobId}/update', [JobsController::class, 'getNewJobPage']);
     Route::post('/job/{jobId}/update', [JobsController::class, 'postNewJob']);
-    Route::post('/jobs/new', [JobsController::class, 'postNewJob']);
+    Route::post('/job/{jobId}/activate', [JobsController::class, 'activateJobListing']);
     Route::get('/job/{id}', [JobsController::class, 'getJobDetailsPage']);
 
     Route::get('/work_area/{id}/fields', [WorkareaController::Class, 'getWorkFields']);

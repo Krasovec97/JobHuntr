@@ -7,14 +7,14 @@ keys:
     - ~/.ssh/id_ed25519
 folders:
     -
-        map: ~/Projects/jobhuntr
+        map: ~/Projects/JobHuntr
         to: /home/vagrant/jobhuntr
 sites:
     -
         map: jobhuntr.test
         to: /home/vagrant/jobhuntr/public
 databases:
-    - remoter_dev
+    - jobhuntr_dev
 features:
     -
         mariadb: false

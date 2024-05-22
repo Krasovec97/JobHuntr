@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace App\Http\Controllers;
 
@@ -6,14 +6,22 @@ use App\Models\Company;
 use App\Models\Job;
 use App\Models\WorkArea;
 use App\Models\WorkField;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class JobsController extends Controller
 {
-    public function getJobsPage(Request $request)
+    /**
+     * Retrieve the jobs page for a company.
+     *
+     * @param Request $request The HTTP request object.
+     *
+     * @return Response The Inertia response object.
+     */
+    public function getJobsPage(Request $request): Response
     {
         $companyJobs = Company::getAuthenticatedCompany()->jobs;
 
@@ -26,7 +34,14 @@ class JobsController extends Controller
         ]);
     }
 
-    public function getNewJobPage(Request $request, int $jobId = null)
+    /**
+     * Retrieve the new job page.
+     *
+     * @param Request $request The HTTP request.
+     * @param int|null $jobId The job ID, defaults to null.
+     * @return Response The Inertia response.
+     */
+    public function getNewJobPage(Request $request, int $jobId = null): Inertia
     {
         $workAreas = WorkArea::query()->get();
         $job = null;
@@ -42,7 +57,14 @@ class JobsController extends Controller
         ]);
     }
 
-    public function postNewJob(Request $request, int $jobId = null)
+    /**
+     * Create or update a job.
+     *
+     * @param Request $request The HTTP request.
+     * @param int|null $jobId The job ID, defaults to null.
+     * @return Response The Inertia response.
+     */
+    public function postNewJob(Request $request, int $jobId = null): Response
     {
         $validator = Validator::make($request->all(), [
             "job_title" => ["required"],
@@ -104,12 +126,48 @@ class JobsController extends Controller
         }
     }
 
-    public function getJobDetailsPage(Request $request, int $jobId) {
+    /**
+     * Retrieve the job details page.
+     *
+     * @param Request $request The HTTP request.
+     * @param int $jobId The job ID.
+     * @return Response The Inertia response.
+     */
+    public function getJobDetailsPage(Request $request, int $jobId): Response
+    {
         $job = Job::getById($jobId);
 
         if ($job === null) {
             abort(404);
         }
+
+        $job->work_area = WorkArea::query()->find($job->work_area_id);
+        $job->work_field = WorkField::query()->find($job->work_field_id);
+
+        return Inertia::render('Business/JobDetails', [
+            "job" => $job
+        ]);
+    }
+
+    /**
+     * Activate a job listing.
+     *
+     * @param Request $request The HTTP request.
+     * @param int $jobId The job ID.
+     * @return Response The Inertia response.
+     */
+    public function activateJobListing(Request $request, int $jobId): Response
+    {
+        $job = Job::getById($jobId);
+
+        if ($job === null) {
+            abort(404);
+        }
+
+        $job->status = 'active';
+        $job->posted_at = now();
+        $job->expires_at = Carbon::now()->addMonth();
+        $job->save();
 
         $job->work_area = WorkArea::query()->find($job->work_area_id);
         $job->work_field = WorkField::query()->find($job->work_field_id);
