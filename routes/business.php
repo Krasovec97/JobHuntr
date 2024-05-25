@@ -27,10 +27,10 @@ Route::middleware('auth_business')->group(function () {
 
     Route::get('/jobs', [JobsController::class, 'getJobsPage']);
 
-    Route::get('/jobs/new', [JobsController::class, 'getNewJobPage']);
+    Route::get('/jobs/new', [JobsController::class, 'getJobCreationPage']);
     Route::post('/jobs/new', [JobsController::class, 'postNewJob']);
 
-    Route::get('/job/{jobId}/update', [JobsController::class, 'getNewJobPage']);
+    Route::get('/job/{jobId}/update', [JobsController::class, 'getJobCreationPage']);
     Route::post('/job/{jobId}/update', [JobsController::class, 'postNewJob']);
     Route::post('/job/{jobId}/activate', [JobsController::class, 'activateJobListing']);
     Route::get('/job/{id}', [JobsController::class, 'getJobDetailsPage']);

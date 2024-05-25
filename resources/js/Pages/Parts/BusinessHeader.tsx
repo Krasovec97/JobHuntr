@@ -15,23 +15,22 @@ export default function () {
                 <ul className="navbar-nav flex-column text-center col-12 h-100">
                     <div className="h-25">
                         <li className="nav-item">
-                            <a href="/jobs" className="text-white nav-link">{t("Jobs").toUpperCase()}</a>
-                        </li>
-
-                        <li className="nav-item">
-                            <a href="/projects" className="text-white nav-link">{t("Projects").toUpperCase()}</a>
+                            <a href="/jobs" className="text-white nav-link">
+                                <i className="fa-regular fa-clipboard text-white pe-2"></i> {t("Jobs").toUpperCase()}</a>
                         </li>
                     </div>
                     <hr className="mt-auto text-white"/>
                     <div className="h-auto">
                         <li className="nav-item">
-                            <a href="/about-us"
-                               className="text-white nav-link">{t("Account settings").toUpperCase()}</a>
+                        <a href="/about-us" className="text-white nav-link">
+                            <i className="fa-solid fa-gear text-white pe-2"></i> {t("Settings").toUpperCase()}
+                        </a>
                         </li>
 
                         <li className="nav-item">
-                            <a href="#" onClick={logout}
-                               className="text-white nav-link">{t("Logout").toUpperCase()}</a>
+                            <a href="#" onClick={logout} className="text-white nav-link">
+                                <i className="fa-solid fa-arrow-right-from-bracket text-white pe-2"></i> {t("Logout").toUpperCase()}
+                            </a>
                         </li>
                     </div>
                 </ul>

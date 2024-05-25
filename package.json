@@ -26,6 +26,7 @@
         "bootstrap": "^5.3.2",
         "html-react-parser": "^5.1.10",
         "laravel-react-i18n": "^2.0.4",
+        "luxon": "^3.4.4",
         "react-bootstrap": "^2.10.0",
         "react-select": "^5.8.0",
         "styled-components": "^6.1.8",

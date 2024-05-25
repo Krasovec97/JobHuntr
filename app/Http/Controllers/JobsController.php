@@ -41,7 +41,7 @@ class JobsController extends Controller
      * @param int|null $jobId The job ID, defaults to null.
      * @return Response The Inertia response.
      */
-    public function getNewJobPage(Request $request, int $jobId = null): Inertia
+    public function getJobCreationPage(Request $request, int $jobId = null): Response
     {
         $workAreas = WorkArea::query()->get();
         $job = null;
