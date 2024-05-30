@@ -22,7 +22,7 @@ export default function () {
                     <hr className="mt-auto text-white"/>
                     <div className="h-auto">
                         <li className="nav-item">
-                        <a href="/about-us" className="text-white nav-link">
+                        <a href="/account" className="text-white nav-link">
                             <i className="fa-solid fa-gear text-white pe-2"></i> {t("Settings").toUpperCase()}
                         </a>
                         </li>
