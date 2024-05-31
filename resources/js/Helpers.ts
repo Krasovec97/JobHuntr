@@ -1,3 +1,5 @@
+import {DateTime} from "luxon";
+
 export function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -12,4 +14,6 @@ export function numberFormat(number: number, currency: string) {
 }
 
 export let formatText = (string) => (capitalize(string.replace('_', ' ')));
+
+export let formatDate = (string) => DateTime.fromSQL(string).toFormat("dd.MM.yyyy")
 

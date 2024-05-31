@@ -68,6 +68,15 @@ textarea {
     min-height: calc(100vh - (96px + 152px));
 }
 
-.item {
+.card-grow {
+    transition: transform ease-in-out 250ms;
 
+    &:hover {
+        cursor: pointer !important;
+        transform: scale(1.05) !important;
+    }
+}
+
+.blur {
+    filter: blur(10px) !important;
 }

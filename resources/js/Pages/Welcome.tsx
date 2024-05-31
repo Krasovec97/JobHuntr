@@ -5,145 +5,100 @@ import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../Components/FancyTitle.tsx";
 import IconCard from "../Components/IconCard.tsx";
 import ContactForm from "./Parts/ContactForm.tsx";
+import {JobInterface} from "../Interfaces/SharedInterfaces";
+import JobCard from "../Components/JobCard";
 
-export default function Welcome({auth, laravelVersion, phpVersion}) {
+interface PageProps {
+    newestJobs: Array<JobInterface>,
+    draftedJobs: Array<JobInterface>,
+}
+
+export default function Welcome({newestJobs, draftedJobs}: PageProps) {
     const {t} = useLaravelReactI18n();
 
     return (
         <MainLayout>
             <Head title="Home"/>
 
-            <PageSection className={"bg-image-main"}>
-                <div className="row text-white vh-fill-90 flex-column justify-content-center">
-                    <div>
-                        <h4>{t("Do what you love to do").toUpperCase()}</h4>
-                        <h1 className="my-3 fw-bold">{t("Find your dream remote job").toUpperCase()}</h1>
-                        <p>{t("Remoter helps thousands of people find their remote jobs.")}</p>
+            <PageSection className="bg-dark">
+                <div className="row text-white text-center flex-column justify-content-center">
+                    <div className="col-12 py-5">
+                        <div className="col-12">
+                            <img src="/img/job_seeker.webp" alt="noimg" height={250}/>
+                        </div>
+
+                        <h1 className="fw-bold">
+                            {t("Looking for a dream job?")}
+                        </h1>
+                        <p>
+                            {t("We're here to help!")}
+                        </p>
                     </div>
 
-                    <div className="mt-5">
-                        <button className="btn btn-primary rounded-4 px-4">
-                            {t("Start searching").toUpperCase()}
-                        </button>
-
-                        <button className="btn btn-outline-light rounded-4 ms-3 px-4">
-                            {t("Register now").toUpperCase()}
-                        </button>
+                    <div className="col-12 mb-5">
+                        <button className='btn btn-primary btn-lg me-4'>{t("Start searching")}</button>
+                        <button className='btn btn-outline-light btn-lg'>{t("Register")}</button>
                     </div>
                 </div>
             </PageSection>
 
             <PageSection className={"bg-white"}>
-                <FancyTitle heading={t("Remoter services").toUpperCase()} subtitle={t("What do we offer?")}/>
+                <FancyTitle heading={t("Recently added jobs").toUpperCase()} subtitle={t("Fresh out of the oven")}/>
 
-                <div className="row">
-                    <div className="col-4">
-                        <IconCard alignMiddle={true} icon={<i className=" fa-solid fa-globe fa-4x"></i>}
-                                  heading={t("Our Mission")}>
-                            <p>{t("Connecting companies that offer remote work, with digital nomads.")}</p>
-                        </IconCard>
-                    </div>
-
-                    <div className="col-4">
-                        <IconCard alignMiddle={true} icon={<i className="fa-brands fa-searchengin fa-4x"></i>}
-                                  heading={t("Simplification")}>
-                            <p>{t("Make it easier to find the perfect remote job for you, with Remoter Job-Search Technology (RJST®)")}</p>
-                        </IconCard>
-                    </div>
-
-                    <div className="col-4">
-                        <IconCard alignMiddle={true} icon={<i className="fa-solid fa-gauge-high fa-4x"></i>}
-                                  heading={t("Faster applications")}>
-                            <p>{t("When registered to Remoter, you can apply to jobs that you find interesting in one click!")}</p>
-                        </IconCard>
-                    </div>
+                <div className="row mb-5">
+                    {newestJobs.map((job, index) => JobCard({job, index}))}
                 </div>
             </PageSection>
 
-            <PageSection>
-                <FancyTitle darkBg={true} heading={t("Remote work?").toUpperCase()} subtitle={t("Why choose")}/>
+            <PageSection className={"bg-dark"}>
+                <FancyTitle darkBg={true} heading={t("Why choose JobHuntr?").toUpperCase()} subtitle={t("Let us help you")}/>
 
                 <div className="row">
                     <div className="col-4">
-                        <IconCard alignMiddle={false} darkBg={true}
-                                  icon={<i className="fa-solid fa-clock fa-2x"></i>}
-                                  heading={t("Flexibility")}>
-                            <p>{t("Flexibility in terms of work hours and location. You can often set your own schedule and work from anywhere with an internet connection.")}</p>
+                        <IconCard alignMiddle={true} darkBg={true} icon={<i className="fa-solid fa-clipboard-list fa-4x"></i>}
+                                  heading={t("Comprehensive Job Listings")}>
+                            <p>{t("Access a wide range of job opportunities across various industries and locations. JobHuntr ensures you have the latest and most relevant job postings.")}</p>
                         </IconCard>
                     </div>
 
                     <div className="col-4">
-                        <IconCard alignMiddle={false} darkBg={true}
-                                  icon={<i className="fa-solid fa-arrow-trend-up fa-2x"></i>}
-                                  heading={t("Increased Productivity")}>
-                            <p>{t("Some people find that they are more productive when working remotely. Fewer workplace distractions and a personalized work environment can lead to better concentration and efficiency.")}</p>
+                        <IconCard alignMiddle={true} darkBg={true} icon={<i className="fa-solid fa-user-group fa-4x"></i>}
+                                  heading={t("User-Friendly Experience")}>
+                            <p>{t("Enjoy an intuitive interface with advanced search filters and personalized job recommendations. Apply quickly and efficiently with our streamlined application process.")}</p>
                         </IconCard>
                     </div>
 
                     <div className="col-4">
-                        <IconCard alignMiddle={false} darkBg={true}
-                                  icon={<i className="fa-solid fa-shield-virus fa-2x"></i>}
-                                  heading={t("Crisis Resilience")}>
-                            <p>{t("Remote work proved essential during the COVID-19 pandemic. It allows businesses to maintain operations during crises, such as natural disasters or health emergencies.")}</p>
-                        </IconCard>
-                    </div>
-                </div>
-
-                <div className="row mt-3">
-                    <div className="col-4">
-                        <IconCard alignMiddle={false} darkBg={true}
-                                  icon={<i className="fa-brands fa-pagelines fa-2x"></i>}
-                                  heading={t("Reduced Environmental Impact")}>
-                            <p>{t("Working remotely can reduce the carbon footprint associated with commuting, as well as the energy usage of office buildings.")}</p>
-                        </IconCard>
-                    </div>
-
-                    <div className="col-4">
-                        <IconCard alignMiddle={false} darkBg={true}
-                                  icon={<i className="fa-solid fa-earth-europe fa-2x"></i>}
-                                  heading={t("Expanded Job Opportunities")}>
-                            <p>{t("Remote work allows people to access job opportunities that may not be available locally. This can be particularly beneficial for those in regions with limited job prospects in their field.")}</p>
-                        </IconCard>
-                    </div>
-
-                    <div className="col-4">
-                        <IconCard alignMiddle={false} darkBg={true}
-                                  icon={<i className="fa-solid fa-scale-balanced fa-2x"></i>}
-                                  heading={t("Improved Work-Life Balance")}>
-                            <p>{t("Remote work can help employees achieve a better work-life balance. It eliminates the need for long commutes, which can save both time and money. This can reduce stress and improve overall well-being.")}</p>
-                        </IconCard>
-                    </div>
-                </div>
-
-                <div className="row mt-3">
-                    <div className="col-4">
-                        <IconCard alignMiddle={false} darkBg={true}
-                                  icon={<i className="fa-solid fa-piggy-bank fa-2x"></i>}
-                                  heading={t("Cost Savings")}>
-                            <p>{t("Remote work can lead to significant cost savings. You can save money on commuting, work attire, and even daily meals since you have the convenience of your own kitchen.")}</p>
-                        </IconCard>
-                    </div>
-
-                    <div className="col-4">
-                        <IconCard alignMiddle={false} darkBg={true}
-                                  icon={<i className="fa-solid fa-computer fa-2x"></i>}
-                                  heading={t("Personalized Workspace")}>
-                            <p>{t("You have the freedom to create a workspace that suits your needs and preferences, making it more comfortable and motivating.")}</p>
-                        </IconCard>
-                    </div>
-
-                    <div className="col-4">
-                        <IconCard alignMiddle={false} darkBg={true}
-                                  icon={<i className="fa-solid fa-heart fa-2x"></i>}
-                                  heading={t("Better Health and Well-being")}>
-                            <p>{t("With more control over your work environment, you can create a workspace that is comfortable and conducive to your health. You can set up an ergonomic workstation, control lighting, and reduce exposure to germs in a shared office space.")}</p>
+                        <IconCard alignMiddle={true} darkBg={true} icon={<i className="fa-solid fa-handshake-angle fa-4x"></i>}
+                                  heading={t("Support and Resources")}>
+                            <p>{t("Benefit from resume building tools (coming soon), interview tips, and career advice. Our dedicated support team is always available to assist you throughout your job search.")}</p>
                         </IconCard>
                     </div>
                 </div>
             </PageSection>
 
             <PageSection className={"bg-white"}>
-                <FancyTitle darkBg={false} heading={t("Contact us")} subtitle={t("Need to know more?")} />
+                <FancyTitle heading={t("In the workshop").toUpperCase()} subtitle={t("These jobs might be coming soon")}/>
+
+                <div className="row">
+                    {draftedJobs.length > 0 ? draftedJobs.map((job, index) => {
+                        return JobCard({job, index}, true)
+                    })
+                    :
+                        <div className="col-12 my-auto text-center">
+                            <div className="col-4 mx-auto border rounded shadow p-4 my-4">
+                                <i className="fa-solid fa-circle-check fa-2x text-primary mb-3"></i>
+                                <h1 className="fw-bold">{t("Hurray!")}</h1>
+                                <p>{t("All jobs on JobHuntr are already posted!")}</p>
+                                <button className="btn btn-primary fw-bold mt-4">{t("See available jobs")}</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </PageSection>
+
+            <PageSection className={"bg-white"}>
+                <FancyTitle darkBg={false} heading={t("Contact us")} subtitle={t("Need help?")} />
 
                 <div className="col-9 my-5 mx-auto" id="contact-form">
                     <ContactForm />

@@ -24,7 +24,7 @@ export default function ({darkBg}) {
                     </li>
 
                     <li className="nav-item">
-                        <a href="/about-us" className={textColor + " nav-link"}>{t("About us").toUpperCase()}</a>
+                        <a href="/remote" className={textColor + " nav-link"}>{t("Online jobs").toUpperCase()}</a>
                     </li>
 
                     <li className="nav-item">

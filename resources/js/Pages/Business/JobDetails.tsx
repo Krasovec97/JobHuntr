@@ -5,8 +5,7 @@ import BusinessLayout from "../../Layouts/BusinessLayout";
 import PageSection from "../Parts/PageSection";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import {JobInterface} from "../../Interfaces/SharedInterfaces";
-import {capitalize, formatText, numberFormat} from "../../Helpers";
-import {DateTime} from "luxon"
+import {capitalize, formatDate, formatText, numberFormat} from "../../Helpers";
 
 interface JobDetailsProps {
     job: JobInterface
@@ -87,12 +86,12 @@ export default function NewJob({ job }: JobDetailsProps) {
 
                         {job.posted_at !== null && <div className="row">
                             <div className="col-5 fw-semibold">{t("Job posted at")}:</div>
-                            <div className="col-7">{DateTime.fromSQL(job.posted_at).toFormat("dd.MM.yyyy")}</div>
+                            <div className="col-7">{formatDate(job.posted_at)}</div>
                         </div>}
 
                         {job.expires_at !== null && <div className="row">
                             <div className="col-5 fw-semibold">{t("Job post expires at")}:</div>
-                            <div className="col-7">{DateTime.fromSQL(job.expires_at).toFormat("dd.MM.yyyy")}</div>
+                            <div className="col-7">{formatDate(job.expires_at)}</div>
 
                         </div>}
 

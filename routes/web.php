@@ -19,12 +19,30 @@ use \Illuminate\Support\Facades;
 */
 
 Route::get('/', function () {
+    $jobQuery = \App\Models\Job::query();
+
+    $newestJobs = $jobQuery
+        ->whereNotNull('posted_at')
+        ->orderBy('posted_at', 'desc')
+        ->limit(4)
+        ->get();
+
+    $draftedJobs = $jobQuery
+        ->where('status', 'draft')
+        ->orderBy('created_at', 'desc')
+        ->limit(6)
+        ->get(['title']);
+
+
     return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+        'newestJobs' => $newestJobs,
+        'draftedJobs' => $draftedJobs
     ]);
 });
+
+Route::get('/remote', function () {
+    return Inertia::render('RemoteJobs');
+});
+
 
 require __DIR__.'/auth.php';
