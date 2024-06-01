@@ -19,7 +19,7 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
 
     return (
         <MainLayout>
-            <Head title="Home"/>
+            <Head title="Welcome"/>
 
             <PageSection className="bg-dark">
                 <div className="row text-white text-center flex-column justify-content-center">

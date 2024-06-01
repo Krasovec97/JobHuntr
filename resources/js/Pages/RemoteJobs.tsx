@@ -12,7 +12,7 @@ export default function RemoteJobs() {
 
     return (
         <MainLayout>
-            <Head title="Home"/>
+            <Head title="Remote Jobs"/>
 
             <PageSection className={"bg-dark"}>
                 <div className="row text-white text-center flex-column justify-content-center">

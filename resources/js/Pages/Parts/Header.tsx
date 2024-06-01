@@ -17,7 +17,7 @@ export default function ({darkBg}) {
             <div className="row">
                 <div className="col-12 col-md-10 mx-auto">
                     <nav className="navbar navbar-expand-lg navbar-dark sticky">
-                        <a className="navbar-brand" href="#">
+                        <a className="navbar-brand" href="/">
                             <img src="/img/logo-main.svg" alt="Logo" height="80"
                                  className="d-inline-block align-text-top"/>
                         </a>
@@ -33,6 +33,11 @@ export default function ({darkBg}) {
                             <ul className="navbar-nav ms-auto text-center mb-2 mb-lg-0">
                                 <li className="nav-item my-auto">
                                     <a href="/" className={textColor + " nav-link"}>{t("Home").toUpperCase()}</a>
+                                </li>
+
+                                <li className="nav-item my-auto">
+                                    <a href="/jobs"
+                                       className={textColor + " nav-link"}>{t("Jobs").toUpperCase()}</a>
                                 </li>
 
                                 <li className="nav-item my-auto">

@@ -12,7 +12,7 @@ export default function Companies() {
 
     return (
         <MainLayout>
-            <Head title="Home"/>
+            <Head title="Companies"/>
 
             <PageSection className="bg-dark">
                 <div className="row text-white text-center flex-column justify-content-center">

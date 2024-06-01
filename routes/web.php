@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WebController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,35 +19,14 @@ use \Illuminate\Support\Facades;
 |
 */
 
-Route::get('/', function () {
-    $jobQuery = \App\Models\Job::query();
+Route::get('/', [WebController::class, 'getWelcomePage']);
 
-    $newestJobs = $jobQuery
-        ->whereNotNull('posted_at')
-        ->orderBy('posted_at', 'desc')
-        ->limit(4)
-        ->get();
+Route::get('/remote', [WebController::class, 'getRemoteJobsPage']);
 
-    $draftedJobs = $jobQuery
-        ->where('status', 'draft')
-        ->orderBy('created_at', 'desc')
-        ->limit(6)
-        ->get(['title']);
+Route::get('/companies', [WebController::class, 'getCompaniesPitchPage']);
 
-
-    return Inertia::render('Welcome', [
-        'newestJobs' => $newestJobs,
-        'draftedJobs' => $draftedJobs
-    ]);
-});
-
-Route::get('/remote', function () {
-    return Inertia::render('RemoteJobs');
-});
-
-Route::get('/companies', function () {
-    return Inertia::render('Companies');
-});
+Route::get('/jobs', [WebController::class, 'getJobsPage']);
+Route::get('/api/jobs', [WebController::class, 'getAvailableJobs']);
 
 
 require __DIR__.'/auth.php';
