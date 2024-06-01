@@ -1,5 +1,3 @@
-import ApplicationLogo from '../Components/ApplicationLogo.js';
-import { Link } from '@inertiajs/react';
 import Header from "../Pages/Parts/Header.tsx";
 import Footer from "../Pages/Parts/Footer";
 
@@ -7,18 +5,7 @@ export default function ({ children }) {
     return (
         <div className="container-fluid">
             <div className="row bg-dark sticky-top">
-                <div className="col-10 mx-auto">
-                    <div className="row py-2">
-                        <div className="col-4">
-                            <Link href="/">
-                                <ApplicationLogo />
-                            </Link>
-                        </div>
-                        <div className="col-8 my-auto">
-                            <Header darkBg={true}/>
-                        </div>
-                    </div>
-                </div>
+                <Header darkBg={true}/>
             </div>
 
             <div className="row">

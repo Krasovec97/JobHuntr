@@ -12,7 +12,7 @@ export function FormWrapper({ title, subtitle, children }: FormWrapperProps)
     return (
         <>
             <FancyTitle subtitle={subtitle} heading={title} />
-            <div className={"row col-7 mx-auto"}>
+            <div className={"row col-12 col-md-7 mx-auto"}>
                 {children}
             </div>
         </>

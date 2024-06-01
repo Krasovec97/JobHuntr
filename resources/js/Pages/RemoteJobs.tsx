@@ -40,21 +40,21 @@ export default function RemoteJobs() {
                 <FancyTitle heading={t("Work from anywhere").toUpperCase()} subtitle={t("Your remote job awaits")}/>
 
                 <div className="row">
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={true} icon={<i className=" fa-solid fa-globe fa-4x"></i>}
                                   heading={t("Worldwide Opportunities")}>
                             <p>{t("JobHuntr links companies offering remote positions with digital nomads, expanding your job search across borders.")}</p>
                         </IconCard>
                     </div>
 
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={true} icon={<i className="fa-brands fa-searchengin fa-4x"></i>}
                                   heading={t("Effortless Job Search")}>
                             <p>{t("We've simplified the process to help you quickly discover and land the perfect remote job.")}</p>
                         </IconCard>
                     </div>
 
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={true} icon={<i className="fa-solid fa-gauge-high fa-4x"></i>}
                                   heading={t("Swift Applications")}>
                             <p>{t("Our streamlined application process gets you closer to your dream remote job faster than ever.")}</p>
@@ -67,7 +67,7 @@ export default function RemoteJobs() {
                 <FancyTitle darkBg={true} heading={t("Remote work?").toUpperCase()} subtitle={t("Why choose")}/>
 
                 <div className="row">
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={false} darkBg={true}
                                   icon={<i className="fa-solid fa-clock fa-2x"></i>}
                                   heading={t("Flexibility")}>
@@ -75,7 +75,7 @@ export default function RemoteJobs() {
                         </IconCard>
                     </div>
 
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={false} darkBg={true}
                                   icon={<i className="fa-solid fa-arrow-trend-up fa-2x"></i>}
                                   heading={t("Increased Productivity")}>
@@ -83,7 +83,7 @@ export default function RemoteJobs() {
                         </IconCard>
                     </div>
 
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={false} darkBg={true}
                                   icon={<i className="fa-solid fa-shield-virus fa-2x"></i>}
                                   heading={t("Crisis Resilience")}>
@@ -93,7 +93,7 @@ export default function RemoteJobs() {
                 </div>
 
                 <div className="row mt-3">
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={false} darkBg={true}
                                   icon={<i className="fa-brands fa-pagelines fa-2x"></i>}
                                   heading={t("Reduced Environmental Impact")}>
@@ -101,7 +101,7 @@ export default function RemoteJobs() {
                         </IconCard>
                     </div>
 
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={false} darkBg={true}
                                   icon={<i className="fa-solid fa-earth-europe fa-2x"></i>}
                                   heading={t("Expanded Job Opportunities")}>
@@ -109,7 +109,7 @@ export default function RemoteJobs() {
                         </IconCard>
                     </div>
 
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={false} darkBg={true}
                                   icon={<i className="fa-solid fa-scale-balanced fa-2x"></i>}
                                   heading={t("Improved Work-Life Balance")}>
@@ -119,7 +119,7 @@ export default function RemoteJobs() {
                 </div>
 
                 <div className="row mt-3">
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={false} darkBg={true}
                                   icon={<i className="fa-solid fa-piggy-bank fa-2x"></i>}
                                   heading={t("Cost Savings")}>
@@ -127,7 +127,7 @@ export default function RemoteJobs() {
                         </IconCard>
                     </div>
 
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={false} darkBg={true}
                                   icon={<i className="fa-solid fa-computer fa-2x"></i>}
                                   heading={t("Personalized Workspace")}>
@@ -135,7 +135,7 @@ export default function RemoteJobs() {
                         </IconCard>
                     </div>
 
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={false} darkBg={true}
                                   icon={<i className="fa-solid fa-heart fa-2x"></i>}
                                   heading={t("Better Health and Well-being")}>
@@ -148,7 +148,7 @@ export default function RemoteJobs() {
             <PageSection className={"bg-white"}>
                 <FancyTitle darkBg={false} heading={t("Contact us")} subtitle={t("Need to know more?")} />
 
-                <div className="col-9 my-5 mx-auto" id="contact-form">
+                <div className="col-12 col-md-9 my-5 mx-auto" id="contact-form">
                     <ContactForm />
                 </div>
             </PageSection>

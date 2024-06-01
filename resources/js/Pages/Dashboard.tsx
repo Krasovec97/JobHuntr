@@ -15,7 +15,7 @@ export default function Dashboard({ hasVerifiedEmail }) {
                 <Head title="Dashboard" />
 
                 <PageSection className={'bg-white full-h'}>
-                    <div className="col-8 mx-auto">
+                    <div className="col-12 col-md-8 mx-auto">
                         { !hasVerifiedEmail && <Alert variant="primary">
                             <Alert.Heading>{t("Email not verified")}</Alert.Heading>
                             <p>{t("In order to gain access to all Remoter services and to apply to jobs with one click, please verify your email!")}</p>

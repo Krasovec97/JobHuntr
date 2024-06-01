@@ -33,24 +33,24 @@ export default function Jobs({companyJobs}: JobsProps) {
                 </div>
 
                 <div className={"row bg-primary text-white py-3"}>
-                    <div className="col-2 fw-bold">{t("Job Title")}</div>
-                    <div className="col-2 fw-bold">{t("Job Description")}</div>
-                    <div className="col-2 fw-bold">{t("Work field")}</div>
-                    <div className="col-2 fw-bold">{t("Work location")}</div>
-                    <div className="col-2 fw-bold">{t("Yearly salary")}</div>
-                    <div className="col-2 fw-bold">{t("Job status")}</div>
+                    <div className="col-6 col-md-2 fw-bold">{t("Job Title")}</div>
+                    <div className="col-2 fw-bold d-none d-md-block">{t("Job Description")}</div>
+                    <div className="col-2 fw-bold d-none d-md-block">{t("Work field")}</div>
+                    <div className="col-2 fw-bold d-none d-md-block">{t("Work location")}</div>
+                    <div className="col-2 d-none d-md-block">{t("Yearly salary")}</div>
+                    <div className="col-6 col-md-2 fw-bold">{t("Job status")}</div>
                 </div>
 
 
                 {companyJobs.map((job) => {
                     return (
                         <TableRow href={"/job/" + job.id} className={"row py-3 text-decoration-none text-dark border-bottom border-dark border-opacity-25"} key={job.id}>
-                            <div className="col-2">{job.title}</div>
-                            <div className="col-2">{job.description.substring(0, 25)}...</div>
-                            <div className="col-2">{job.work_field.name}</div>
-                            <div className="col-2">{formatText(job.work_location)}</div>
-                            <div className="col-2">{numberFormat(job.salary, job.salary_currency)}</div>
-                            <div className="col-2">{capitalize(job.status)}</div>
+                            <div className="col-6 col-md-2">{job.title}</div>
+                            <div className="col-2 d-none d-md-block">{job.description.substring(0, 25)}...</div>
+                            <div className="col-2 d-none d-md-block">{job.work_field.name}</div>
+                            <div className="col-2 d-none d-md-block">{formatText(job.work_location)}</div>
+                            <div className="col-2 d-none d-md-block">{numberFormat(job.salary, job.salary_currency)}</div>
+                            <div className="col-6 col-md-2">{capitalize(job.status)}</div>
                         </TableRow>
                     )
                 })}

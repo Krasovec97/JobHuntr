@@ -31,7 +31,7 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                         <h1 className="fw-bold">
                             {toTitleCase(t("Searching for your dream job?"))}
                         </h1>
-                        <p className="w-50 mx-auto">
+                        <p className="w-md-50 mx-auto">
                             {t("Let JobHuntr Guide You! Our platform is designed to connect you with the perfect opportunities tailored to your skills and aspirations. Join us today and take the first step towards your ideal career!")}
                         </p>
                     </div>
@@ -55,21 +55,21 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                 <FancyTitle darkBg={true} heading={t("Why choose JobHuntr?").toUpperCase()} subtitle={t("Let us help you")}/>
 
                 <div className="row">
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={true} darkBg={true} icon={<i className="fa-solid fa-clipboard-list fa-4x"></i>}
                                   heading={t("Comprehensive Job Listings")}>
                             <p>{t("Access a wide range of job opportunities across various industries and locations. JobHuntr ensures you have the latest and most relevant job postings.")}</p>
                         </IconCard>
                     </div>
 
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={true} darkBg={true} icon={<i className="fa-solid fa-user-group fa-4x"></i>}
                                   heading={t("User-Friendly Experience")}>
                             <p>{t("Enjoy an intuitive interface with advanced search filters and personalized job recommendations. Apply quickly and efficiently with our streamlined application process.")}</p>
                         </IconCard>
                     </div>
 
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={true} darkBg={true} icon={<i className="fa-solid fa-handshake-angle fa-4x"></i>}
                                   heading={t("Support and Resources")}>
                             <p>{t("Benefit from resume building tools (coming soon), interview tips, and career advice. Our dedicated support team is always available to assist you throughout your job search.")}</p>
@@ -87,7 +87,7 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                     })
                     :
                         <div className="col-12 my-auto text-center">
-                            <div className="col-4 mx-auto border rounded shadow p-4 my-4">
+                            <div className="col-12 col-md-4 mx-auto border rounded shadow p-4 my-4">
                                 <i className="fa-solid fa-circle-check fa-2x text-primary mb-3"></i>
                                 <h1 className="fw-bold">{t("Hurray!")}</h1>
                                 <p>{t("All jobs on JobHuntr are already posted!")}</p>
@@ -101,7 +101,7 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
             <PageSection className={"bg-white"}>
                 <FancyTitle darkBg={false} heading={t("Contact us")} subtitle={t("Need help?")} />
 
-                <div className="col-9 my-5 mx-auto" id="contact-form">
+                <div className="col-12 col-md-9 my-5 mx-auto" id="contact-form">
                     <ContactForm />
                 </div>
             </PageSection>

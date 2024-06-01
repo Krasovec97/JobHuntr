@@ -36,3 +36,14 @@ export interface WorkAreaInterface {
     created_at?: string,
     updated_at?: string
 }
+
+export interface UserData {
+    id: number,
+    contact_phone: string,
+    country: string,
+    street: string,
+    city: string,
+    zip: string,
+    date_of_birth: string,
+    education: string
+}

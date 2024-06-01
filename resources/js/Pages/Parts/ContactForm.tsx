@@ -7,24 +7,24 @@ export default function () {
         <>
             <form>
                 <div className="row justify-content-center">
-                    <div className="mb-5 col-5 mx-auto">
+                    <div className="mb-5 col-12 col-md-5 mx-auto">
                         <input required={true} type="text" className="form-control border-0 border-bottom" placeholder={"* " + t("Your Name")} id="nameInput" />
                     </div>
-                    <div className="mb-5 col-5 mx-auto">
+                    <div className="mb-5 col-12 col-md-5 mx-auto">
                         <input required={true} type="text" className="form-control border-0 border-bottom" placeholder={"* " + t("Your E-Mail")} id="emailInput" />
                     </div>
                 </div>
 
                 <div className="row justify-content-center">
-                    <div className="mb-5 col-5 mx-auto">
+                    <div className="mb-5 col-12 col-md-5 mx-auto">
                         <input type="text" className="form-control border-0 border-bottom" placeholder={t("Your Phone")} id="phoneInput" />
                     </div>
-                    <div className="mb-5 col-5 mx-auto">
+                    <div className="mb-5 col-12 col-md-5 mx-auto">
                         <input required={true} type="text" className="form-control border-0 border-bottom" placeholder={"* " + t("Subject")} id="subjectInput"/>
                     </div>
                 </div>
 
-                <div className="mb-5 col-11 mx-auto">
+                <div className="mb-5 col-12 col-md-11 mx-auto">
                     <textarea required={true} id="messageInput"  className="form-control border-0 border-bottom" placeholder={"* " + t("Your Message")}></textarea>
                 </div>
 

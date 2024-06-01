@@ -1,12 +1,12 @@
 import MainLayout from '../Layouts/MainLayout.js';
-import {Head, router, useForm} from '@inertiajs/react';
+import {Head, useForm} from '@inertiajs/react';
 import PageSection from "./Parts/PageSection";
 import {useMultistepForm} from "../Hooks/useMultistepForm";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import {AccountTypeSelection} from "./Parts/FormParts/AccountTypeSelection";
 import {AccountForm} from "./Parts/FormParts/AccountForm";
 import {AddressForm} from "./Parts/FormParts/AddressForm";
-import React, {FormEvent, useEffect, useState} from "react";
+import React, {FormEvent, useState} from "react";
 import {CompanyForm} from "./Parts/FormParts/CompanyForm";
 import {PersonalForm} from "./Parts/FormParts/PersonalForm";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -57,11 +57,11 @@ let INITIAL_DATA:FormDataType = {
 
 export default function Register() {
     const {data, setData,post, processing} = useForm(INITIAL_DATA);
-    const [showSuccesModal, setShowSuccesModal] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [postUrl, setPostUrl] = useState('');
 
-    const handleClose = () => setShowSuccesModal(false);
-    const handleShow = () => setShowSuccesModal(true);
+    const handleClose = () => setShowSuccessModal(false);
+    const handleShow = () => setShowSuccessModal(true);
 
     function updateFields(fields: Partial<FormDataType>, goToNextStep: boolean = false) {
         setData(prevState => {
@@ -116,7 +116,7 @@ export default function Register() {
             <Head title="Register" />
             <PageSection className={"bg-white full-h"}>
                 <div className="row">
-                    <form className={"col-9 mx-auto mt-5 border p-4 shadow"} onSubmit={onSubmit}>
+                    <form className={"col-12 col-md-9 mx-auto mt-5 border p-4 shadow"} onSubmit={onSubmit}>
                         <div className="col-12 text-center">
                             {
                                 !isFirstStep &&  (
@@ -150,7 +150,7 @@ export default function Register() {
 
                         {step}
 
-                        <div className={"col-7 mx-auto text-end mt-4"}>
+                        <div className={"col-12 col-md-7 mx-auto text-end mt-4"}>
                             {!isFirstStep &&
                                 <button onClick={back} type="button" className="btn btn-outline-primary">{t("Back")}</button>}
 
@@ -162,7 +162,7 @@ export default function Register() {
                 </div>
             </PageSection>
 
-            <Modal show={showSuccesModal} size={"lg"} centered onHide={handleClose}>
+            <Modal show={showSuccessModal} size={"lg"} centered onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>{t("Account created!")}</Modal.Title>
                 </Modal.Header>

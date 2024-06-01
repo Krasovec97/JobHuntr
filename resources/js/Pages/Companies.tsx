@@ -39,21 +39,21 @@ export default function Companies() {
                 <FancyTitle heading={t("The JobHuntr Advantage").toUpperCase()} subtitle={t("Why you'll love hiring with us")}/>
 
                 <div className="row">
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={true} icon={<i className="fa-solid fa-building-circle-check fa-4x"></i>}
                                   heading={t("Verified Companies")}>
                             <p>{t("At JobHuntr, we ensure the authenticity of every job listing by verifying each company before they can post. This builds trust with potential applicants and increases the quality of responses to your job ads.")}</p>
                         </IconCard>
                     </div>
 
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={true} icon={<i className="fa-solid fa-gears fa-4x"></i>}
                                   heading={t("Modern Solutions for Efficient Hiring")}>
                             <p>{t("JobHuntr offers a sleek, user-friendly platform that modernizes the hiring process. Our upcoming features, including contract building and applicant management, streamline recruitment, saving you time and resources.")}</p>
                         </IconCard>
                     </div>
 
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={true} icon={<i className="fa-solid fa-microchip fa-4x"></i>}
                                   heading={t("Future-Ready with AI-Driven Tools")}>
                             <p>{t("JobHuntr is designed with the future in mind. Our platform will soon include AI-powered tools to help you generate job details effortlessly, giving you complete control while making it easier to attract the right talent quickly and efficiently.")}</p>
@@ -66,7 +66,7 @@ export default function Companies() {
                 <FancyTitle darkBg={true} heading={t("Why JobHuntr Rocks!").toUpperCase()} subtitle={t("Discover the benefits of choosing us")}/>
 
                 <div className="row">
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={false} darkBg={true}
                                   icon={<i className="fa-solid fa-clock fa-2x"></i>}
                                   heading={t("Free to Start, Fair Pricing Always")}>
@@ -74,7 +74,7 @@ export default function Companies() {
                         </IconCard>
                     </div>
 
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={false} darkBg={true}
                                   icon={<i className="fa-solid fa-arrow-trend-up fa-2x"></i>}
                                   heading={t("Modernizing the Hiring Process")}>
@@ -82,7 +82,7 @@ export default function Companies() {
                         </IconCard>
                     </div>
 
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={false} darkBg={true}
                                   icon={<i className="fa-regular fa-lightbulb fa-2x"></i>}
                                   heading={t("Innovative and Unique Features")}>
@@ -92,7 +92,7 @@ export default function Companies() {
                 </div>
 
                 <div className="row mt-3">
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={false} darkBg={true}
                                   icon={<i className="fa-solid fa-seedling fa-2x"></i>}
                                   heading={t("Dedicated Support and Continuous Improvement")}>
@@ -100,7 +100,7 @@ export default function Companies() {
                         </IconCard>
                     </div>
 
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={false} darkBg={true}
                                   icon={<i className="fa-solid fa-shield fa-2x"></i>}
                             heading={t("Secure and Reliable Platform")}>
@@ -108,7 +108,7 @@ export default function Companies() {
                         </IconCard>
                     </div>
 
-                    <div className="col-4">
+                    <div className="col-12 col-md-4">
                         <IconCard alignMiddle={false} darkBg={true}
                                   icon={<i className="fa-solid fa-scale-balanced fa-2x"></i>}
                                   heading={t("Built on Integrity and Reliability")}>
@@ -121,7 +121,7 @@ export default function Companies() {
             <PageSection className={"bg-white"}>
                 <FancyTitle darkBg={false} heading={toTitleCase(t("Get in touch with us"))} subtitle={t("Have questions?")} />
 
-                <div className="col-9 my-5 mx-auto" id="contact-form">
+                <div className="col-12 col-md-9 my-5 mx-auto" id="contact-form">
                     <ContactForm />
                 </div>
             </PageSection>

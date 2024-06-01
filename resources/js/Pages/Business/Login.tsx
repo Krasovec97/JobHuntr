@@ -1,4 +1,4 @@
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import InputLabel from "../../Components/InputLabel";
 import TextInput from "../../Components/TextInput";
 import InputError from "../../Components/InputError";
@@ -7,8 +7,8 @@ import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../../Components/FancyTitle";
 
 
-export default function Login({ status, canResetPassword }) {
-    const { data, setData, post, processing, errors, reset } = useForm({
+export default function Login({ status }) {
+    const { data, setData, post,  errors } = useForm({
         email: '',
         password: '',
         remember: false,
@@ -38,10 +38,10 @@ export default function Login({ status, canResetPassword }) {
 
             <PageSection className={'full-h'}>
                 <FancyTitle heading={"Login"} subtitle={"Welcome"} />
-                <div className={"col-4 border p-4 rounded mx-auto shadow"}>
+                <div className={"col-12 col-md-4 border p-4 rounded mx-auto shadow"}>
                     <form onSubmit={submit}>
                         <div>
-                            <InputLabel htmlFor="email" value="Email"/>
+                            <InputLabel value="Email"/>
 
                             <TextInput
                                 id="email"
@@ -58,7 +58,7 @@ export default function Login({ status, canResetPassword }) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="password" value="Password"/>
+                            <InputLabel value="Password"/>
 
                             <TextInput
                                 id="password"
@@ -74,16 +74,6 @@ export default function Login({ status, canResetPassword }) {
                         </div>
                         <div className={"col-12 text-center mt-4"}>
                             <button className={"btn btn-primary px-5"}>{t("Login")}</button>
-                        </div>
-
-                        <div className="col-12 text-center my-2">
-                            {canResetPassword && (
-                                <Link
-                                    href={route('password.request')}
-                                    className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    Forgot your password?
-                                </Link>
-                            )}
                         </div>
                     </form>
                 </div>

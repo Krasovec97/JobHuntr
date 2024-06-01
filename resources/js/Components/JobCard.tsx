@@ -12,7 +12,7 @@ export default function JobCard({job, index}: ComponentProps, isDrafted = false)
 
     return (
         <>
-            <div key={index} className={"col-6 col-xxl-3 border rounded-4 shadow p-3 " + (isDrafted ? "" : "card-grow")}>
+            <div key={index} className={"col-12 col-md-6 col-xxl-3 border rounded-4 shadow p-3 " + (isDrafted ? "" : "card-grow")}>
                 <p className="fw-bold text-center h5">{job.title}</p>
 
                 <hr/>

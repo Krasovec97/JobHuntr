@@ -25,12 +25,12 @@ export default function NewJob({ job }: JobDetailsProps) {
 
             <PageSection className={'bg-white full-h'}>
                 <CompanyQuickView company={company}/>
-                <div className="row my-4 pb-2 text-grey border-2 border-bottom border-primary border-opacity-10">
-                    <div className="col-6">
+                <div className="row my-4 pb-2 text-grey text-center text-md-start border-2 border-bottom border-primary border-opacity-10">
+                    <div className="col-12 col-md-6">
                         <h3 className={"text-dark"}>{job.title}</h3>
                     </div>
                     {job.status === 'draft' &&
-                        <div className="col-6 text-end">
+                        <div className="col-12 col-md-6 text-end">
                             <button onClick={publishJobListingButton} className="btn btn-primary">
                                 {t("Activate job listing")}
                             </button>
@@ -41,7 +41,7 @@ export default function NewJob({ job }: JobDetailsProps) {
                 </div>
 
                 <div className="row">
-                    <div className="col-6">
+                    <div className="col-12 col-md-6">
                         <div className="row">
                             <div className="col-4 fw-semibold">{t("Employment type")}:</div>
                             <div className="col-8">{formatText(job.employment_type)}</div>
@@ -78,7 +78,7 @@ export default function NewJob({ job }: JobDetailsProps) {
                         </div>
                     </div>
 
-                    <div className="col-6">
+                    <div className="col-12 col-md-6">
                         <div className="row">
                             <div className="col-5 fw-semibold">{t("Number of open positions")}:</div>
                             <div className="col-7">{job.open_positions_count}</div>
@@ -98,7 +98,7 @@ export default function NewJob({ job }: JobDetailsProps) {
                         <div className="row mt-1">
                             <div className="col-12 fw-semibold">{t("Job description")}:</div>
                             <div className="col-12">
-                                <textarea readOnly={true} cols={60} rows={8} value={job.description}></textarea>
+                                <textarea readOnly={true} value={job.description}></textarea>
                             </div>
                         </div>
                     </div>

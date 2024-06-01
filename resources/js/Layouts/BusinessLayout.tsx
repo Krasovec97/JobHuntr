@@ -17,7 +17,7 @@ export default function ({ children }) {
                     </div>
 
                     <div className="row vh-fill">
-                        <div className="col-md-8 mx-auto">
+                        <div className="col-12 col-md-8 mx-md-auto">
                             <BusinessHeader />
                         </div>
                     </div>
@@ -39,9 +39,15 @@ let MenuSidebar = styled.div`
     max-width: 300px;
     background-color: #1a1a1a;
     height: 100vh;
+    @media only screen and (max-width: 768px) {
+        max-width: 150px;
+    }
 `
 
 let PageContent = styled.div`
     position: relative;
     width: calc(100% - 300px);
+    @media only screen and (max-width: 768px) {
+        width: calc(100% - 150px);
+    }
 `

@@ -9,7 +9,7 @@ type UserFormProps = AccountTypeData & {
     updateFields: (fields: Partial<AccountTypeData>, goToNextStep: boolean) => void
 }
 
-export function AccountTypeSelection({ is_business_account, updateFields, setPostUrl }: UserFormProps) {
+export function AccountTypeSelection({ updateFields, setPostUrl }: UserFormProps) {
     const {t} = useLaravelReactI18n();
 
     let handleBusinessAccountClick = () => {
@@ -32,7 +32,7 @@ export function AccountTypeSelection({ is_business_account, updateFields, setPos
                     {t("Business Account")}
                 </button>
 
-                <button type="button" className={"btn btn-lg btn-outline-primary ms-5"} title={t("I'm looking for work.")} onClick={() => handlePersonalAccountClick()}>
+                <button type="button" className={"btn btn-lg btn-outline-primary ms-md-5 mt-4 mt-md-0"} title={t("I'm looking for work.")} onClick={() => handlePersonalAccountClick()}>
                     {t("Personal Account")}
                 </button>
             </div>

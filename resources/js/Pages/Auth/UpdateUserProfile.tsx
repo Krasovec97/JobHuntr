@@ -4,17 +4,9 @@ import {useLaravelReactI18n} from "laravel-react-i18n";
 import {useEffect, useState} from "react";
 import FancyTitle from "../../Components/FancyTitle";
 import useGlobalContext from "../../Hooks/useGlobalContext";
+import {UserData} from "../../Interfaces/SharedInterfaces";
 
-interface UserData {
-    id: number,
-    contact_phone: string,
-    country: string,
-    street: string,
-    city: string,
-    zip: string,
-    date_of_birth: string,
-    education: string
-}
+
 
 export default function (user: UserData) {
     const {t} = useLaravelReactI18n();
@@ -113,9 +105,9 @@ export default function (user: UserData) {
 
 
     return (
-        <div className={"shadow p-5 my-5 col-8 mx-auto"}>
+        <div className={"shadow p-5 my-5 col-12 col-md-8 mx-auto"}>
             <FancyTitle heading={t("Update your profile")} subtitle={t("Spruce Up Your Profile, :name!", {name: user.name})} />
-            <form onSubmit={handleSubmit} className={"col-8 mx-auto"}>
+            <form onSubmit={handleSubmit} className={"col-12 col-md-8 mx-auto"}>
                 <div className="mb-3">
                     <label className={"form-label ps-0"}>{t("Contact Phone")} <span
                         className={"text-danger"}>*</span></label>

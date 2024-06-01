@@ -157,7 +157,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
 
                 <FancyTitle heading={t("Create a new job")} subtitle={""} />
 
-                <form onSubmit={handleSubmit} className={"col-10 mx-auto"}>
+                <form onSubmit={handleSubmit} className={"col-12 col-md-10 mx-auto"}>
                     <div className="row mb-3">
                         <div className="col-12">
                             <label>{t("Job Title")}</label>
