@@ -7,9 +7,6 @@ export default function ({darkBg}) {
     const {t} = useLaravelReactI18n();
     let user = usePage().props.auth.user;
 
-    const redirectToContactForm = () => {
-        window.location.href = '/'+'#contact-form';
-    }
 
     const logout = () => {
         post('/logout');
@@ -28,12 +25,7 @@ export default function ({darkBg}) {
                     </li>
 
                     <li className="nav-item">
-                        <a href="/about-us" className={textColor + " nav-link"}>{t("For companies").toUpperCase()}</a>
-                    </li>
-
-                    <li className="nav-item">
-                        <button onClick={redirectToContactForm}
-                                className={textColor + " nav-link"}>{t("Contact us").toUpperCase()}</button>
+                        <a href="/companies" className={textColor + " nav-link"}>{t("For companies").toUpperCase()}</a>
                     </li>
 
                     {user === null ?

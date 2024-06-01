@@ -44,5 +44,9 @@ Route::get('/remote', function () {
     return Inertia::render('RemoteJobs');
 });
 
+Route::get('/companies', function () {
+    return Inertia::render('Companies');
+});
+
 
 require __DIR__.'/auth.php';

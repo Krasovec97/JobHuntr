@@ -7,6 +7,7 @@ import IconCard from "../Components/IconCard.tsx";
 import ContactForm from "./Parts/ContactForm.tsx";
 import {JobInterface} from "../Interfaces/SharedInterfaces";
 import JobCard from "../Components/JobCard";
+import {toTitleCase} from "../Helpers";
 
 interface PageProps {
     newestJobs: Array<JobInterface>,
@@ -28,16 +29,16 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                         </div>
 
                         <h1 className="fw-bold">
-                            {t("Looking for a dream job?")}
+                            {toTitleCase(t("Searching for your dream job?"))}
                         </h1>
-                        <p>
-                            {t("We're here to help!")}
+                        <p className="w-50 mx-auto">
+                            {t("Let JobHuntr Guide You! Our platform is designed to connect you with the perfect opportunities tailored to your skills and aspirations. Join us today and take the first step towards your ideal career!")}
                         </p>
                     </div>
 
                     <div className="col-12 mb-5">
-                        <button className='btn btn-primary btn-lg me-4'>{t("Start searching")}</button>
-                        <button className='btn btn-outline-light btn-lg'>{t("Register")}</button>
+                        <a className='btn btn-primary btn-lg me-4' href="/jobs">{t("Start searching")}</a>
+                        <a className='btn btn-outline-light' href="/register">{t("Register")}</a>
                     </div>
                 </div>
             </PageSection>
@@ -46,7 +47,7 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                 <FancyTitle heading={t("Recently added jobs").toUpperCase()} subtitle={t("Fresh out of the oven")}/>
 
                 <div className="row mb-5">
-                    {newestJobs.map((job, index) => JobCard({job, index}))}
+                    {newestJobs.length > 0 && newestJobs.map((job, index) => JobCard({job, index}))}
                 </div>
             </PageSection>
 

@@ -5,6 +5,7 @@ import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../Components/FancyTitle.tsx";
 import IconCard from "../Components/IconCard.tsx";
 import ContactForm from "./Parts/ContactForm.tsx";
+import {toTitleCase} from "../Helpers";
 
 export default function RemoteJobs() {
     const {t} = useLaravelReactI18n();
@@ -13,47 +14,50 @@ export default function RemoteJobs() {
         <MainLayout>
             <Head title="Home"/>
 
-            <PageSection className={"bg-image-main"}>
-                <div className="row text-white vh-fill-90 flex-column justify-content-center">
-                    <div>
-                        <h4>{t("Do what you love to do - remotely").toUpperCase()}</h4>
-                        <h1 className="my-3 fw-bold">{t("Find your dream remote job").toUpperCase()}</h1>
+            <PageSection className={"bg-dark"}>
+                <div className="row text-white text-center flex-column justify-content-center">
+                    <div className="col-12 py-5">
+                        <div className="col-12">
+                            <img src="/img/online_worker.webp" alt="noimg" height={250}/>
+                        </div>
+
+                        <h1 className="fw-bold">
+                            {toTitleCase(t("Find your dream remote job"))}
+                        </h1>
+                        <p>
+                            {t("Do what you love to do - remotely!")}
+                        </p>
                     </div>
 
-                    <div className="mt-5">
-                        <button className="btn btn-primary rounded-4 px-4">
-                            {t("Start searching").toUpperCase()}
-                        </button>
-
-                        <button className="btn btn-outline-light rounded-4 ms-3 px-4">
-                            {t("Register now").toUpperCase()}
-                        </button>
+                    <div className="col-12 mb-5">
+                        <a className='btn btn-primary btn-lg me-4' href="/jobs">{t("Start searching")}</a>
+                        <a className='btn btn-outline-light' href="/register">{t("Register")}</a>
                     </div>
                 </div>
             </PageSection>
 
             <PageSection className={"bg-white"}>
-                <FancyTitle heading={t("Remote jobs?").toUpperCase()} subtitle={t("Why choose")}/>
+                <FancyTitle heading={t("Work from anywhere").toUpperCase()} subtitle={t("Your remote job awaits")}/>
 
                 <div className="row">
                     <div className="col-4">
                         <IconCard alignMiddle={true} icon={<i className=" fa-solid fa-globe fa-4x"></i>}
-                                  heading={t("Our Mission")}>
-                            <p>{t("Connecting companies that offer remote work, with digital nomads.")}</p>
+                                  heading={t("Worldwide Opportunities")}>
+                            <p>{t("JobHuntr links companies offering remote positions with digital nomads, expanding your job search across borders.")}</p>
                         </IconCard>
                     </div>
 
                     <div className="col-4">
                         <IconCard alignMiddle={true} icon={<i className="fa-brands fa-searchengin fa-4x"></i>}
-                                  heading={t("Simplification")}>
-                            <p>{t("Make it easier to find the perfect remote job for you.")}</p>
+                                  heading={t("Effortless Job Search")}>
+                            <p>{t("We've simplified the process to help you quickly discover and land the perfect remote job.")}</p>
                         </IconCard>
                     </div>
 
                     <div className="col-4">
                         <IconCard alignMiddle={true} icon={<i className="fa-solid fa-gauge-high fa-4x"></i>}
-                                  heading={t("Faster applications")}>
-                            <p>{t("When registered to JobHuntr, you can apply to jobs that you find interesting in one click!")}</p>
+                                  heading={t("Swift Applications")}>
+                            <p>{t("Our streamlined application process gets you closer to your dream remote job faster than ever.")}</p>
                         </IconCard>
                     </div>
                 </div>
