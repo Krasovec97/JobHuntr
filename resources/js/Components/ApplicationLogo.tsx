@@ -8,7 +8,7 @@ export default function ApplicationLogo(props) {
 
 const Image = styled.div`
     min-height: 80px;
-    background-image: url("/img/logo-main.svg");
+    background-image: url("/img/logo-main.webp");
     background-position: center;
     background-repeat: no-repeat;
     background-clip: border-box;

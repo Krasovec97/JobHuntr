@@ -18,7 +18,7 @@ export default function ({darkBg}) {
                 <div className="col-12 col-md-10 mx-auto">
                     <nav className="navbar navbar-expand-lg navbar-dark sticky">
                         <a className="navbar-brand" href="/">
-                            <img src="/img/logo-main.svg" alt="Logo" height="80"
+                            <img src="/img/logo-main.webp" alt="Logo" height="80"
                                  className="d-inline-block align-text-top"/>
                         </a>
 

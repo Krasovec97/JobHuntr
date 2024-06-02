@@ -45,7 +45,6 @@ class WebController extends Controller
 
     public function getAvailableJobs(Request $request)
     {
-
         $jobsQuery = Job::query()
             ->whereNotNull('posted_at');
 
