@@ -62,12 +62,14 @@ textarea {
     min-height: calc(100vh - (96px + 152px));
 }
 
-.card-grow {
-    transition: transform ease-in-out 250ms;
+@media (min-width: 768px) {
+    .card-grow {
+        transition: transform ease-in-out 250ms;
 
-    &:hover {
-        cursor: pointer !important;
-        transform: scale(1.05) !important;
+        &:hover {
+            cursor: pointer !important;
+            transform: scale(1.05) !important;
+        }
     }
 }
 

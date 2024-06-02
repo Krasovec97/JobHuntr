@@ -11,16 +11,16 @@ export default function JobCard({job, index}: ComponentProps, isDrafted = false)
     const {t} = useLaravelReactI18n();
 
     return (
-        <div key={index} className={"h-100 border rounded-4 shadow p-3 " + (isDrafted ? "" : "card-grow")}>
-            <div className="h-100">
-                <div>
-                    <p className="fw-bold text-center h-25">{job.title}</p>
-                    <hr/>
+        <div key={index} className={"card w-100 h-100 border rounded-4 shadow p-3 " + (isDrafted ? "" : "card-grow")}>
+                <div className="card-header d-flex" style={{minHeight: 85}}>
+                    <div className="align-self-center mx-auto">
+                        <p className="fw-bold text-center my-auto">{job.title}</p>
+                    </div>
                 </div>
-                {!isDrafted ? (
-                        <div className="h-50">
-                            <div>
-                                <div className="text-start">
+            {!isDrafted ? (
+                    <>
+                            <div className="card-body mb-4">
+                                <div className="card-text h-75">
                                     <div className="col-12 mb-1 fw-bold">
                                         {t("Description")}:
                                     </div>
@@ -29,26 +29,28 @@ export default function JobCard({job, index}: ComponentProps, isDrafted = false)
                                     </div>
                                 </div>
 
-                                <p className="m-0"><span
-                                    className="fw-bold">{t("Work location")}</span>: {formatText(job.work_location)}</p>
-                                <p className="m-0"><span
-                                    className="fw-bold">{t("Open positions")}</span>: {job.open_positions_count}</p>
-                                <p className="m-0"><span
-                                    className="fw-bold">{t("Salary")}</span>: {numberFormat(job.salary, job.salary_currency)}
-                                </p>
+                                <div>
+                                    <p className="m-0"><span
+                                        className="fw-bold">{t("Work location")}</span>: {formatText(job.work_location)}
+                                    </p>
+                                    <p className="m-0"><span
+                                        className="fw-bold">{t("Open positions")}</span>: {job.open_positions_count}</p>
+                                    <p className="m-0"><span
+                                        className="fw-bold">{t("Salary")}</span>: {numberFormat(job.salary, job.salary_currency)}
+                                    </p>
+                                </div>
                             </div>
 
-                            <div className="h-25">
-                                <hr/>
+                            <div className="card-footer">
                                 <p className="m-0 text-grey text-end">{t("Published") + ": " + formatDate(job.posted_at)}</p>
                             </div>
-                        </div>
+                        </>
                     )
                     :
                     (
                         <div className='blur'>
-                            <div>
-                                <div className="text-start">
+                            <div className="card-body mb-4">
+                                <div className="card-text h-75">
                                     <div className="col-12 mb-1 fw-bold">
                                         {t("Description")}:
                                     </div>
@@ -63,14 +65,12 @@ export default function JobCard({job, index}: ComponentProps, isDrafted = false)
                                     code. </p>
                             </div>
 
-                            <div className="mt-auto">
-                                <hr />
+                            <div className="card-footer">
                                 <p className="m-0 text-grey text-end">Published: January 1, 1983</p>
                             </div>
                         </div>
                     )
                 }
-            </div>
         </div>
     )
 }
