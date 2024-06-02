@@ -50,7 +50,7 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                 <div className="row mb-5">
                     {newestJobs.length > 0 && newestJobs.map((job, index) => {
                         return (
-                            <CardContainer className="col-12 col-md-3">
+                            <CardContainer className="col-12 col-md-6 col-xl-3 my-3">
                                 {JobCard({job, index})}
                             </CardContainer>
                         )
@@ -91,7 +91,7 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                 <div className="row">
                     {draftedJobs.length !== 0 ? draftedJobs.map((job, index) => {
                             return (
-                                <CardContainer className="col-12 col-md-3">
+                                <CardContainer className="col-12 col-md-6 col-xl-3 my-3">
                                     {JobCard({job, index}, true)}
                                 </CardContainer>
                             )

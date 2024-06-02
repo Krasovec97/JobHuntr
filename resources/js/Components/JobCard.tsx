@@ -13,11 +13,12 @@ export default function JobCard({job, index}: ComponentProps, isDrafted = false)
     return (
         <div key={index} className={"h-100 border rounded-4 shadow p-3 " + (isDrafted ? "" : "card-grow")}>
             <div className="h-100">
-                <p className="fw-bold text-center h6">{job.title}</p>
-
-                <hr/>
+                <div>
+                    <p className="fw-bold text-center h-25">{job.title}</p>
+                    <hr/>
+                </div>
                 {!isDrafted ? (
-                        <>
+                        <div className="h-50">
                             <div>
                                 <div className="text-start">
                                     <div className="col-12 mb-1 fw-bold">
@@ -37,11 +38,11 @@ export default function JobCard({job, index}: ComponentProps, isDrafted = false)
                                 </p>
                             </div>
 
-                            <div className="mt-auto">
+                            <div className="h-25">
                                 <hr/>
                                 <p className="m-0 text-grey text-end">{t("Published") + ": " + formatDate(job.posted_at)}</p>
                             </div>
-                        </>
+                        </div>
                     )
                     :
                     (

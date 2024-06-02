@@ -1,5 +1,6 @@
 import {useForm, usePage} from "@inertiajs/react";
 import {useLaravelReactI18n} from "laravel-react-i18n";
+import ApplicationLogo from "../../Components/ApplicationLogo";
 
 export default function ({darkBg}) {
     const {post} = useForm();
@@ -18,12 +19,11 @@ export default function ({darkBg}) {
                 <div className="col-12 col-md-10 mx-auto">
                     <nav className="navbar navbar-expand-lg navbar-dark sticky">
                         <a className="navbar-brand" href="/">
-                            <img src="/img/logo-main.webp" alt="Logo" height="80"
-                                 className="d-inline-block align-text-top"/>
+                            <ApplicationLogo width={330}/>
                         </a>
 
 
-                        <button className="navbar-toggler mt-2" type="button" data-bs-toggle="collapse"
+                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                                 aria-expanded="false"
                                 aria-label="Toggle navigation">

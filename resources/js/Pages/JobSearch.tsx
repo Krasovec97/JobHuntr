@@ -58,7 +58,7 @@ export default function JobSearch() {
                         <div className="row flex-grow-1">
                             {jobs.length > 0 && jobs.map((job, index) => {
                                 return (
-                                    <CardContainer key={index} className="col-12 col-md-3 my-3">
+                                    <CardContainer key={index} className="col-12 col-md-6 col-xl-3 my-3">
                                         {JobCard({job, index})}
                                     </CardContainer>
                                 )
