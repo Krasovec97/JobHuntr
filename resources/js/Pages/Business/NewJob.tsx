@@ -1,5 +1,4 @@
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import {CompanyData} from "../../Interfaces/GlobalTypes";
 import {Head, useForm, usePage} from "@inertiajs/react";
 import BusinessLayout from "../../Layouts/BusinessLayout";
 import PageSection from "../Parts/PageSection";
@@ -8,7 +7,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import useGlobalContext from "../../Hooks/useGlobalContext";
 import FancyTitle from "../../Components/FancyTitle";
-import {JobInterface, WorkAreaInterface} from "../../Interfaces/SharedInterfaces";
+import {CompanyData, JobInterface, WorkAreaInterface} from "../../Interfaces/SharedInterfaces";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 
 interface NewJobProps {

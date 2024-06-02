@@ -26,7 +26,9 @@ Route::get('/remote', [WebController::class, 'getRemoteJobsPage']);
 Route::get('/companies', [WebController::class, 'getCompaniesPitchPage']);
 
 Route::get('/jobs', [WebController::class, 'getJobsPage']);
+Route::get('/job/{id}', [WebController::class, 'getJobDetailsPage']);
 Route::get('/api/jobs', [WebController::class, 'getAvailableJobs']);
+Route::get('/api/job/{id}', [WebController::class, 'getJobDetails']);
 
 
 require __DIR__.'/auth.php';

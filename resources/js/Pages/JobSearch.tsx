@@ -6,24 +6,41 @@ import FancyTitle from "../Components/FancyTitle.tsx";
 import JobCard from "../Components/JobCard";
 import {toTitleCase} from "../Helpers";
 import axios from "axios";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import {Button, Modal} from "react-bootstrap";
+import {CompanyData, JobInterface} from "../Interfaces/SharedInterfaces";
 
+type JobWithCompanyData = JobInterface & {
+    company_data: CompanyData
+};
 
 export default function JobSearch() {
     const {t} = useLaravelReactI18n();
+    const [showModal, setShowModal] = useState(false);
     const [jobs, setJobs] = useState([]);
-    // const {data, setData, get} = useForm();
+    const [clickedJob, setClickedJob] = useState<JobWithCompanyData|null>(null);
 
-    function getJobs() {
+    useEffect(() => {
         axios.get('/api/jobs')
             .then((response) => {
                 setJobs(response.data);
             })
-    }
+    }, [])
 
-    useEffect(() => {
-        getJobs();
-    }, []);
+    const handleClose = () => {
+        setClickedJob(null);
+        setShowModal(false);
+    };
+
+    const handleShow = (index) => {
+        axios.get('/api/job/' + index)
+            .then((response) => {
+                setClickedJob(response.data);
+            })
+
+        setShowModal(true);
+    };
+
     return (
         <MainLayout>
             <Head title="Job Search"/>
@@ -55,10 +72,10 @@ export default function JobSearch() {
                     </div>
                     <div className="col-12 col-sm-9">
                         <div className="row justify-content-center">
-                            {jobs.length > 0 && jobs.map((job, index) => {
+                            {jobs.length > 0 && jobs.map((job) => {
                                 return (
-                                    <div key={index} className="col-11 col-md-6 col-xl-3 my-3 d-flex">
-                                        {JobCard({job, index})}
+                                    <div onClick={() => handleShow(job.id)} key={job.id} className="col-11 col-md-6 col-xl-3 my-3 d-flex">
+                                        {JobCard({job})}
                                     </div>
                                 )
                             })}
@@ -66,6 +83,42 @@ export default function JobSearch() {
                     </div>
                 </div>
             </PageSection>
+
+            {clickedJob &&
+                <Modal show={showModal} size={'lg'} fullscreen={"sm-down"} centered onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title className="fw-bold">{clickedJob.title}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {/*TODO Complete detailed */}
+                        <div>
+                            {clickedJob.description.substring(0, 1000)}
+                        </div>
+                        <hr/>
+                        <div className="my-3">
+                            <span className="fw-bold">{t("Employer info")}:</span>
+                            <div>
+                                {clickedJob.company_data.full_name}
+                            </div>
+                            <div>
+                                {clickedJob.company_data.street}, <br />
+                                {clickedJob.company_data.zip + " " + clickedJob.company_data.city}
+                            </div>
+                            <div>
+                                {clickedJob.company_data.contact_phone}
+                            </div>
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" target='_blank' href={'/job/'+clickedJob.id}>
+                            {t("See more details")}
+                        </Button>
+                        <Button variant="dark" onClick={handleClose}>
+                            {t("Close")}
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            }
         </MainLayout>
     );
 }

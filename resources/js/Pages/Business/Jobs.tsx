@@ -1,12 +1,11 @@
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import {CompanyData} from "../../Interfaces/GlobalTypes";
 import {Head, usePage} from "@inertiajs/react";
 import BusinessLayout from "../../Layouts/BusinessLayout";
 import PageSection from "../Parts/PageSection";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import FancyTitle from "../../Components/FancyTitle";
 import styled from "styled-components";
-import {JobInterface} from "../../Interfaces/SharedInterfaces";
+import {CompanyData, JobInterface} from "../../Interfaces/SharedInterfaces";
 import {capitalize, formatText, numberFormat} from "../../Helpers";
 
 interface JobsProps {

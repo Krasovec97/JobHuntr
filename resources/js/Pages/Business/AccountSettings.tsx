@@ -1,12 +1,12 @@
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import BusinessLayout from "../../Layouts/BusinessLayout";
-import {CompanyData} from "../../Interfaces/GlobalTypes";
 import {Head, useForm} from "@inertiajs/react";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import FancyTitle from "../../Components/FancyTitle";
 import PageSection from "../Parts/PageSection";
 import {useState} from "react";
 import useGlobalContext from "../../Hooks/useGlobalContext";
+import {CompanyData} from "../../Interfaces/SharedInterfaces";
 
 export default function AccountSettings({company}: CompanyData) {
     const [isVatObligated, setIsVatObligated] = useState(company.is_vat_obligated);

@@ -1,20 +1,20 @@
 import {formatDate, formatText, numberFormat} from "../Helpers";
 import {JobInterface} from "../Interfaces/SharedInterfaces";
 import {useLaravelReactI18n} from "laravel-react-i18n";
+import React from "react";
 
 interface ComponentProps {
-    job: JobInterface,
-    index: number
+    job: JobInterface
 }
 
-export default function JobCard({job, index}: ComponentProps, isDrafted = false) {
+export default function JobCard({job}: ComponentProps, isDrafted = false) {
     const {t} = useLaravelReactI18n();
 
     return (
-        <div key={index} className={"card w-100 h-100 border rounded-4 shadow p-3 " + (isDrafted ? "" : "card-grow")}>
-                <div className="card-header d-flex" style={{minHeight: 85}}>
+        <div className={"card w-100 h-100 border shadow " + (isDrafted ? "" : "card-grow")}>
+                <div className="card-header bg-dark d-flex " style={{minHeight: 85}}>
                     <div className="align-self-center mx-auto">
-                        <p className="fw-bold text-center my-auto">{job.title}</p>
+                        <p className="fw-bold text-center my-auto text-white">{job.title}</p>
                     </div>
                 </div>
             {!isDrafted ? (
@@ -42,7 +42,7 @@ export default function JobCard({job, index}: ComponentProps, isDrafted = false)
                             </div>
 
                             <div className="card-footer">
-                                <p className="m-0 text-grey text-end">{t("Published") + ": " + formatDate(job.posted_at)}</p>
+                                <p className="m-0 text-end">{t("Published") + ": " + formatDate(job.posted_at)}</p>
                             </div>
                         </>
                     )

@@ -1,11 +1,10 @@
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import MainLayout from "../../Layouts/MainLayout";
 import {Head, usePage} from "@inertiajs/react";
 import PageSection from "../Parts/PageSection";
 import BusinessLayout from "../../Layouts/BusinessLayout";
-import {CompanyData} from "../../Interfaces/GlobalTypes";
 import OverviewCard from "../Parts/OverviewCard";
 import CompanyQuickView from "../Parts/CompanyQuickView";
+import {CompanyData} from "../../Interfaces/SharedInterfaces";
 
 
 export default function Dashboard() {
