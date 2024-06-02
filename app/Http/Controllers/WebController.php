@@ -10,20 +10,17 @@ class WebController extends Controller
 {
     public function getWelcomePage()
     {
-        $jobQuery = \App\Models\Job::query();
+        $draftedJobs = Job::query()
+            ->where("status", "draft")
+            ->orderBy("created_at", "desc")
+            ->limit(4)
+            ->get();
 
-        $newestJobs = $jobQuery
+        $newestJobs = Job::query()
             ->whereNotNull('posted_at')
             ->orderBy('posted_at', 'desc')
             ->limit(4)
             ->get();
-
-        $draftedJobs = $jobQuery
-            ->where('status', 'draft')
-            ->orderBy('created_at', 'desc')
-            ->limit(6)
-            ->get(['title']);
-
 
         return Inertia::render('Welcome', [
             'newestJobs' => $newestJobs,
@@ -48,6 +45,7 @@ class WebController extends Controller
 
     public function getAvailableJobs(Request $request)
     {
+
         $jobsQuery = Job::query()
             ->whereNotNull('posted_at');
 

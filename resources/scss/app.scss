@@ -57,12 +57,6 @@ textarea {
     resize: none;
 }
 
-.bg-image-main {
-    background-image: url("/public/img/banner_front_01.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
 .full-h {
     height: auto;
     min-height: calc(100vh - (96px + 152px));

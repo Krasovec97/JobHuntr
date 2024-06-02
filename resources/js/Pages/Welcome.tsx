@@ -8,6 +8,7 @@ import ContactForm from "./Parts/ContactForm.tsx";
 import {JobInterface} from "../Interfaces/SharedInterfaces";
 import JobCard from "../Components/JobCard";
 import {toTitleCase} from "../Helpers";
+import {CardContainer} from "../Styles/SharedStyles";
 
 interface PageProps {
     newestJobs: Array<JobInterface>,
@@ -47,7 +48,13 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                 <FancyTitle heading={t("Recently added jobs").toUpperCase()} subtitle={t("Fresh out of the oven")}/>
 
                 <div className="row mb-5">
-                    {newestJobs.length > 0 && newestJobs.map((job, index) => JobCard({job, index}))}
+                    {newestJobs.length > 0 && newestJobs.map((job, index) => {
+                        return (
+                            <CardContainer className="col-12 col-md-3">
+                                {JobCard({job, index})}
+                            </CardContainer>
+                        )
+                    })}
                 </div>
             </PageSection>
 
@@ -82,9 +89,13 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                 <FancyTitle heading={t("In the workshop").toUpperCase()} subtitle={t("These jobs might be coming soon")}/>
 
                 <div className="row">
-                    {draftedJobs.length > 0 ? draftedJobs.map((job, index) => {
-                        return JobCard({job, index}, true)
-                    })
+                    {draftedJobs.length !== 0 ? draftedJobs.map((job, index) => {
+                            return (
+                                <CardContainer className="col-12 col-md-3">
+                                    {JobCard({job, index}, true)}
+                                </CardContainer>
+                            )
+                        })
                     :
                         <div className="col-12 my-auto text-center">
                             <div className="col-12 col-md-4 mx-auto border rounded shadow p-4 my-4">
@@ -108,5 +119,4 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
         </MainLayout>
     );
 }
-
 
