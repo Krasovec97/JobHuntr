@@ -66,3 +66,8 @@ export interface UserData {
     date_of_birth: string,
     education: string
 }
+
+export interface FilterTypes {
+    location: Array<string>,
+    employment_type: Array<string>,
+}

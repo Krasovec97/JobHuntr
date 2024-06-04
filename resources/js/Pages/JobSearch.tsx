@@ -4,11 +4,12 @@ import PageSection from "./Parts/PageSection.tsx";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../Components/FancyTitle.tsx";
 import JobCard from "../Components/JobCard";
-import {toTitleCase} from "../Helpers";
+import {formatText, numberFormat, toTitleCase} from "../Helpers";
 import axios from "axios";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Button, Modal} from "react-bootstrap";
-import {CompanyData, JobInterface} from "../Interfaces/SharedInterfaces";
+import {CompanyData, FilterTypes, JobInterface} from "../Interfaces/SharedInterfaces";
+import JobFilters from "../Components/JobFilters";
 
 type JobWithCompanyData = JobInterface & {
     company_data: CompanyData
@@ -19,13 +20,24 @@ export default function JobSearch() {
     const [showModal, setShowModal] = useState(false);
     const [jobs, setJobs] = useState([]);
     const [clickedJob, setClickedJob] = useState<JobWithCompanyData|null>(null);
+    const params = new URL(document.location.toString()).searchParams;
+    const location: string|null  = params.get("location");
+
+    const [filters, setFilters] = useState<FilterTypes>({
+        location: [],
+        employment_type: []
+    });
 
     useEffect(() => {
-        axios.get('/api/jobs')
+        let url = '/api/jobs';
+        url = `${url}?location=${filters.location.join(',')}&employment_type=${filters.employment_type.join(',')}`
+
+        axios.get(url)
             .then((response) => {
                 setJobs(response.data);
             })
-    }, [])
+    }, [filters])
+
 
     const handleClose = () => {
         setClickedJob(null);
@@ -50,32 +62,14 @@ export default function JobSearch() {
 
                 <div className="row justify-content-center">
                     <div className="col-12 col-sm-2">
-                        <h3 className='fw-bold'>{t("Filters")}:</h3>
-                        <hr/>
-                        <div className="col-12">
-                            <p className="fw-bold">{t("Location")}:</p>
-                            <div>
-                                <input className="form-check-inline" type="checkbox" id="remote"/>
-                                <label htmlFor="remote" className="form-check-label">{t("Remote jobs")}</label>
-                            </div>
-
-                            <div>
-                                <input className="form-check-inline" type="checkbox" id="hybrid"/>
-                                <label htmlFor="hybrid" className="form-check-label">{t("Hybrid jobs")}</label>
-                            </div>
-
-                            <div>
-                                <input className="form-check-inline" type="checkbox" id="on_location"/>
-                                <label htmlFor="on_location" className="form-check-label">{t("On location")}</label>
-                            </div>
-                        </div>
+                        <JobFilters filters={filters} setFilters={setFilters}/>
                     </div>
                     <div className="col-12 col-sm-9">
-                        <div className="row justify-content-center">
+                        <div className="row">
                             {jobs.length > 0 && jobs.map((job) => {
                                 return (
                                     <div onClick={() => handleShow(job.id)} key={job.id} className="col-11 col-md-6 col-xl-3 my-3 d-flex">
-                                        {JobCard({job})}
+                                        <JobCard job={job} />
                                     </div>
                                 )
                             })}
@@ -90,18 +84,38 @@ export default function JobSearch() {
                         <Modal.Title className="fw-bold">{clickedJob.title}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {/*TODO Complete detailed */}
-                        <div>
-                            {clickedJob.description.substring(0, 1000)}
+                        <div className="border-bottom mb-3">
+                            <p className="fw-bold m-0">{t("Employment type")}</p>
+                            {formatText(clickedJob.employment_type)}
                         </div>
-                        <hr/>
+                        <div className="border-bottom mb-3">
+                            <p className="fw-bold m-0">{t("Salary")}</p>
+                            {numberFormat(clickedJob.salary, clickedJob.salary_currency)}
+                        </div>
+                        <div className="border-bottom mb-3">
+                            <p className="fw-bold m-0">{t("Work area")}</p>
+                            {clickedJob.work_area.name}
+                        </div>
+                        <div className="border-bottom mb-3">
+                            <p className="fw-bold m-0">{t("Work field")}</p>
+                            {clickedJob.work_field.name}
+                        </div>
+                        <div className="border-bottom mb-3">
+                            <p className="fw-bold m-0">{t("Work Location")}</p>
+                            {formatText(clickedJob.work_location)}
+                        </div>
+                        <div className="border-bottom mb-3">
+                            <p className="fw-bold m-0">{t("Description")}</p>
+                            {clickedJob.description}
+                        </div>
+
                         <div className="my-3">
                             <span className="fw-bold">{t("Employer info")}:</span>
                             <div>
                                 {clickedJob.company_data.full_name}
                             </div>
                             <div>
-                                {clickedJob.company_data.street}, <br />
+                                {clickedJob.company_data.street}, <br/>
                                 {clickedJob.company_data.zip + " " + clickedJob.company_data.city}
                             </div>
                             <div>
@@ -110,7 +124,7 @@ export default function JobSearch() {
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" target='_blank' href={'/job/'+clickedJob.id}>
+                        <Button variant="primary" target='_blank' href={'/job/' + clickedJob.id}>
                             {t("See more details")}
                         </Button>
                         <Button variant="dark" onClick={handleClose}>

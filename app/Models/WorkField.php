@@ -22,4 +22,9 @@ class WorkField extends Model
     public function workArea() {
         return $this->belongsTo(WorkArea::class);
     }
+    public static function getById(int $id): self
+    {
+        return self::query()->findOrFail($id);
+    }
+
 }

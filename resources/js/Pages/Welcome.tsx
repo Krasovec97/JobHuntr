@@ -50,7 +50,7 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                     {newestJobs.length > 0 && newestJobs.map((job, index) => {
                         return (
                             <div key={index} className="col-12 col-md-6 col-xl-3 my-3">
-                                {JobCard({job})}
+                                <JobCard job={job} />
                             </div>
                         )
                     })}
@@ -91,7 +91,7 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                     {draftedJobs.length !== 0 ? draftedJobs.map((job, index) => {
                             return (
                                 <div key={index} className="col-12 col-md-6 col-xl-3 my-3">
-                                    {JobCard({job}, true)}
+                                    <JobCard job={job} isDrafted={true} />
                                 </div>
                             )
                         })

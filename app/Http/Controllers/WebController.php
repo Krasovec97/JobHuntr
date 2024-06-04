@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Models\WorkArea;
+use App\Models\WorkField;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -70,6 +72,18 @@ class WebController extends Controller
         $jobsQuery = Job::query()
             ->whereNotNull('posted_at');
 
+        $params = $request->query;
+
+        if ($params->get('location') !== null) {
+            $location = explode(',', $params->get('location'));
+            $jobsQuery->whereIn('work_location', $location);
+        }
+
+        if ($params->get('employment_type') !== null) {
+            $employmentType = explode(',', $params->get('employment_type'));
+            $jobsQuery->whereIn('employment_type', $employmentType);
+        }
+
         return $jobsQuery->get();
     }
 
@@ -83,6 +97,8 @@ class WebController extends Controller
         }
 
         $job->company_data = $job->company;
+        $job->work_area = WorkArea::getById($job->work_area_id);
+        $job->work_field = WorkField::getById($job->work_field_id);
 
         return $job;
     }

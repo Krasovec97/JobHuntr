@@ -4,10 +4,11 @@ import {useLaravelReactI18n} from "laravel-react-i18n";
 import React from "react";
 
 interface ComponentProps {
-    job: JobInterface
+    job: JobInterface,
+    isDrafted?: boolean
 }
 
-export default function JobCard({job}: ComponentProps, isDrafted = false) {
+export default function JobCard({job, isDrafted = false}: ComponentProps) {
     const {t} = useLaravelReactI18n();
 
     return (
@@ -34,7 +35,7 @@ export default function JobCard({job}: ComponentProps, isDrafted = false) {
                                         className="fw-bold">{t("Work location")}</span>: {formatText(job.work_location)}
                                     </p>
                                     <p className="m-0"><span
-                                        className="fw-bold">{t("Open positions")}</span>: {job.open_positions_count}</p>
+                                        className="fw-bold">{t("Employment type")}</span>: {formatText(job.employment_type)}</p>
                                     <p className="m-0"><span
                                         className="fw-bold">{t("Salary")}</span>: {numberFormat(job.salary, job.salary_currency)}
                                     </p>
