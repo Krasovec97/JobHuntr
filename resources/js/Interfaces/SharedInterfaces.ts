@@ -70,4 +70,5 @@ export interface UserData {
 export interface FilterTypes {
     location: Array<string>,
     employment_type: Array<string>,
+    search_string: string
 }

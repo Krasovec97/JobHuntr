@@ -31,4 +31,7 @@ Route::get('/api/jobs', [WebController::class, 'getAvailableJobs']);
 Route::get('/api/job/{id}', [WebController::class, 'getJobDetails']);
 
 
+Route::get('/api/work_areas', [WebController::class, 'getWorkAreas']);
+
+
 require __DIR__.'/auth.php';

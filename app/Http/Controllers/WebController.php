@@ -72,6 +72,8 @@ class WebController extends Controller
         $jobsQuery = Job::query()
             ->whereNotNull('posted_at');
 
+        $totalJobsCount = $jobsQuery->count();
+
         $params = $request->query;
 
         if ($params->get('location') !== null) {
@@ -84,7 +86,15 @@ class WebController extends Controller
             $jobsQuery->whereIn('employment_type', $employmentType);
         }
 
-        return $jobsQuery->get();
+        if ($params->get('search_string') !== null) {
+            $searchString = $params->get('search_string');
+            $jobsQuery->where('title', 'like', '%' . $searchString . '%');
+        }
+
+        return new Collection([
+            'jobs' => $jobsQuery->get(),
+            'total_jobs_count' => $totalJobsCount
+        ]);
     }
 
     public function getJobDetails(Request $request, int $id): Job
@@ -101,5 +111,10 @@ class WebController extends Controller
         $job->work_field = WorkField::getById($job->work_field_id);
 
         return $job;
+    }
+
+    public function getWorkAreas(): Collection
+    {
+        return WorkArea::query()->get();
     }
 }

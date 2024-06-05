@@ -6,7 +6,7 @@ import FancyTitle from "../Components/FancyTitle.tsx";
 import JobCard from "../Components/JobCard";
 import {formatText, numberFormat, toTitleCase} from "../Helpers";
 import axios from "axios";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Modal} from "react-bootstrap";
 import {CompanyData, FilterTypes, JobInterface} from "../Interfaces/SharedInterfaces";
 import JobFilters from "../Components/JobFilters";
@@ -20,24 +20,25 @@ export default function JobSearch() {
     const [showModal, setShowModal] = useState(false);
     const [jobs, setJobs] = useState([]);
     const [clickedJob, setClickedJob] = useState<JobWithCompanyData|null>(null);
-    const params = new URL(document.location.toString()).searchParams;
-    const location: string|null  = params.get("location");
+    const [totalJobsCount, setTotalJobsCount] = useState(0);
+    let currentJobsCount = jobs.length;
 
     const [filters, setFilters] = useState<FilterTypes>({
         location: [],
-        employment_type: []
+        employment_type: [],
+        search_string: ''
     });
 
     useEffect(() => {
         let url = '/api/jobs';
-        url = `${url}?location=${filters.location.join(',')}&employment_type=${filters.employment_type.join(',')}`
+        url = `${url}?location=${filters.location.join(',')}&employment_type=${filters.employment_type.join(',')}&search_string=${filters.search_string}`
 
         axios.get(url)
             .then((response) => {
-                setJobs(response.data);
+                setJobs(response.data.jobs);
+                if (totalJobsCount === 0) setTotalJobsCount(response.data.total_jobs_count);
             })
-    }, [filters])
-
+    }, [filters]);
 
     const handleClose = () => {
         setClickedJob(null);
@@ -57,22 +58,29 @@ export default function JobSearch() {
         <MainLayout>
             <Head title="Job Search"/>
 
-            <PageSection className={"bg-white"} fullWidth={true}>
+            <PageSection className={"bg-white min-vh-100"} fullWidth={true}>
                 <FancyTitle heading={t("Find Your Perfect Job").toUpperCase()} subtitle={toTitleCase(t("Discover opportunities today"))}/>
 
                 <div className="row justify-content-center">
                     <div className="col-12 col-sm-2">
-                        <JobFilters filters={filters} setFilters={setFilters}/>
+                        <JobFilters filters={filters} setFilters={setFilters} totalJobsCount={totalJobsCount} currentJobsCount={currentJobsCount}/>
                     </div>
                     <div className="col-12 col-sm-9">
                         <div className="row">
-                            {jobs.length > 0 && jobs.map((job) => {
+                            {jobs.length > 0 ? jobs.map((job) => {
                                 return (
                                     <div onClick={() => handleShow(job.id)} key={job.id} className="col-11 col-md-6 col-xl-3 my-3 d-flex">
                                         <JobCard job={job} />
                                     </div>
                                 )
-                            })}
+                            })
+                            :
+                            <div className="alert alert-primary justify-content-center text-center">
+                                <p className="fw-bold m-0">
+                                    {t("No jobs match your filters!")}
+                                </p>
+                            </div>
+                            }
                         </div>
                     </div>
                 </div>
