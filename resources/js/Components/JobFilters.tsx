@@ -18,7 +18,7 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
     const [selectedWorkAreas, setSelectedWorkAreas] = useState<Array<object>>([{}]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     let noOptionsText = t("Please, select the work area before selecting work field.");
-    let selectRef = null;
+    let workFieldsSelect = null;
 
     useEffect(() => {
         axios.get('/api/work_areas')
@@ -63,7 +63,7 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
     function updateSelectedWorkAreas(userSetWorkAreas) {
         if (userSetWorkAreas.length === 0) {
             setWorkFieldsArray([]);
-            selectRef.clearValue();
+            workFieldsSelect.clearValue();
         }
         setSelectedWorkAreas(userSetWorkAreas);
     }
@@ -185,7 +185,7 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
                 <div>
                     <Select
                         isClearable
-                        ref={ref => selectRef = ref}
+                        ref={ref => workFieldsSelect = ref}
                         noOptionsMessage={({inputValue}) => !inputValue ? noOptionsText : "No results found"}
                         options={workFieldsArray}
                         isMulti
