@@ -84,18 +84,18 @@ export default function NewJob({ job }: JobDetailsProps) {
                         </div>
 
                         {job.posted_at !== null && <div className="row">
-                            <div className="col-5 fw-semibold">{t("CompanyJob posted at")}:</div>
+                            <div className="col-5 fw-semibold">{t("Job posted at")}:</div>
                             <div className="col-7">{formatDate(job.posted_at)}</div>
                         </div>}
 
                         {job.expires_at !== null && <div className="row">
-                            <div className="col-5 fw-semibold">{t("CompanyJob post expires at")}:</div>
+                            <div className="col-5 fw-semibold">{t("Job post expires at")}:</div>
                             <div className="col-7">{formatDate(job.expires_at)}</div>
 
                         </div>}
 
                         <div className="row mt-1">
-                            <div className="col-12 fw-semibold">{t("CompanyJob description")}:</div>
+                            <div className="col-12 fw-semibold">{t("Job description")}:</div>
                             <div className="col-12">
                                 <textarea readOnly={true} value={job.description}></textarea>
                             </div>

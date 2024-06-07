@@ -32,12 +32,12 @@ export default function Jobs({companyJobs}: JobsProps) {
                 </div>
 
                 <div className={"row bg-primary text-white py-3"}>
-                    <div className="col-6 col-md-2 fw-bold">{t("CompanyJob Title")}</div>
-                    <div className="col-2 fw-bold d-none d-md-block">{t("CompanyJob Description")}</div>
+                    <div className="col-6 col-md-2 fw-bold">{t("Title")}</div>
+                    <div className="col-2 fw-bold d-none d-md-block">{t("Description")}</div>
                     <div className="col-2 fw-bold d-none d-md-block">{t("Work field")}</div>
                     <div className="col-2 fw-bold d-none d-md-block">{t("Work location")}</div>
                     <div className="col-2 fw-bold d-none d-md-block">{t("Yearly salary")}</div>
-                    <div className="col-6 col-md-2 fw-bold">{t("CompanyJob status")}</div>
+                    <div className="col-6 col-md-2 fw-bold">{t("Status")}</div>
                 </div>
 
 

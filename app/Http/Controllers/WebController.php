@@ -7,6 +7,7 @@ use App\Models\WorkArea;
 use App\Models\WorkField;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -88,7 +89,17 @@ class WebController extends Controller
 
         if ($params->get('search_string') !== null) {
             $searchString = $params->get('search_string');
-            $jobsQuery->where('title', 'like', '%' . $searchString . '%');
+            $jobsQuery->where(DB::raw('UPPER(title)'), 'like', '%' . $searchString . '%');
+        }
+
+        if ($params->get('work_area_ids') !== null) {
+            $workAreaIds = explode(',', $params->get('work_area_ids'));
+            $jobsQuery->whereIn('work_area_id', $workAreaIds);
+        }
+
+        if ($params->get('work_fields_ids') !== null) {
+            $workFieldIds = explode(',', $params->get('work_fields_ids'));
+            $jobsQuery->whereIn('work_field_id', $workFieldIds);
         }
 
         return new Collection([
@@ -116,5 +127,16 @@ class WebController extends Controller
     public function getWorkAreas(): Collection
     {
         return WorkArea::query()->get();
+    }
+
+    public function getWorkFields(Request $request): Collection|array
+    {
+        $workAreaIds = null;
+        if ($request->query->get('work_area_ids') !== null) {
+            $workAreaIds = explode(',', $request->query->get('work_area_ids'));
+        }
+
+        if($workAreaIds !== null) return WorkField::query()->whereIn('work_area_id', $workAreaIds)->get();
+        else return [];
     }
 }

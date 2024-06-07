@@ -159,7 +159,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                 <form onSubmit={handleSubmit} className={"col-12 col-md-10 mx-auto"}>
                     <div className="row mb-3">
                         <div className="col-12">
-                            <label>{t("CompanyJob Title")}</label>
+                            <label>{t("Job Title")}</label>
                             <input
                                 placeholder={t("Customer service representative")}
                                 required={true}
@@ -182,7 +182,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
 
                     <div className="row mb-3">
                         <div className="col-12">
-                            <label>{t("CompanyJob description")}</label>
+                            <label>{t("Job description")}</label>
                             <textarea
                                 placeholder={t("Handle customer complaints, provide appropriate solutions and alternatives...")}
                                 rows={25}

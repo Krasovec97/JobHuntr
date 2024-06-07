@@ -13,7 +13,12 @@ interface JobFilterProps {
 
 export default function JobFilters({filters, setFilters, totalJobsCount, currentJobsCount}: JobFilterProps) {
     const {t} = useLaravelReactI18n();
-    const [workAreasArray, setWorkAreasArray] = useState([{}]);
+    const [workAreasArray, setWorkAreasArray] = useState<Array<object>>([{}]);
+    const [workFieldsArray, setWorkFieldsArray] = useState<Array<object>>([{}]);
+    const [selectedWorkAreas, setSelectedWorkAreas] = useState<Array<object>>([{}]);
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    let noOptionsText = t("Please, select the work area before selecting work field.");
+    let selectRef = null;
 
     useEffect(() => {
         axios.get('/api/work_areas')
@@ -27,9 +32,40 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
             })
     }, []);
 
+    useEffect(() => {
+        let workAreaIds = [];
+        selectedWorkAreas.forEach((workArea) => {
+            workAreaIds.push(workArea.value);
+        })
+        let workAreaIdsString = '';
+        if (workAreaIds.length > 0) {
+            workAreaIdsString = workAreaIds.join(',');
 
-    function getRelevantWorkFields() {
-        //TODO Finish tomorrow
+            let workFieldsUrl = `/api/work_fields?work_area_ids=${workAreaIdsString}`;
+
+            axios.get(workFieldsUrl)
+                .then((response) => {
+                    setWorkFieldsArray(response.data.map((workArea) => {
+                        return {
+                            value: workArea.id,
+                            label: workArea.name
+                        }
+                    }))
+                });
+        }
+
+        let newSearchFilter = {...filters};
+        newSearchFilter.work_areas_string = workAreaIdsString;
+        setFilters(newSearchFilter);
+    }, [selectedWorkAreas])
+
+
+    function updateSelectedWorkAreas(userSetWorkAreas) {
+        if (userSetWorkAreas.length === 0) {
+            setWorkFieldsArray([]);
+            selectRef.clearValue();
+        }
+        setSelectedWorkAreas(userSetWorkAreas);
     }
 
     const handleLocationFilter = (location) => {
@@ -58,9 +94,25 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
         }
     }
 
-    const handleSearchFilter = (string) => {
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            let newSearchFilter = {...filters};
+            newSearchFilter.search_string = searchTerm;
+            setFilters(newSearchFilter);
+        }, 400)
+
+        return () => clearTimeout(delayDebounceFn)
+    }, [searchTerm])
+
+    const handleWorkFieldsFilter = (workFields) => {
+        let workFieldIds = [];
+        workFields.forEach((workFields) => {
+            workFieldIds.push(workFields.value);
+        })
+        let workFieldsString = workFieldIds.join(',');
+
         let newSearchFilter = {...filters};
-        newSearchFilter.search_string = string;
+        newSearchFilter.work_fields_string = workFieldsString;
         setFilters(newSearchFilter);
     }
 
@@ -81,7 +133,7 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
                 <p className="fw-bold mb-0" title={t("Search by job title")}>{t("Search")}:</p>
                 <small></small>
                 <div>
-                    <input onChange={(e) => handleSearchFilter(e.target.value)} className="form-control"
+                    <input onChange={(e) => setSearchTerm(e.target.value)} className="form-control"
                            type="text" id="search" placeholder={t("Search by job title...")}/>
                 </div>
             </div>
@@ -124,7 +176,21 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
             <div className="col-12 mt-3">
                 <p className="fw-bold mb-0">{t("Work Areas")}:</p>
                 <div>
-                    <Select options={workAreasArray} isMulti autoFocus />
+                    <Select options={workAreasArray} isClearable isMulti onChange={(e) => updateSelectedWorkAreas(e)}/>
+                </div>
+            </div>
+
+            <div className="col-12 mt-3">
+                <p className="fw-bold mb-0">{t("Work Fields")}:</p>
+                <div>
+                    <Select
+                        isClearable
+                        ref={ref => selectRef = ref}
+                        noOptionsMessage={({inputValue}) => !inputValue ? noOptionsText : "No results found"}
+                        options={workFieldsArray}
+                        isMulti
+                        onChange={(e) => handleWorkFieldsFilter(e)}
+                    />
                 </div>
             </div>
         </>

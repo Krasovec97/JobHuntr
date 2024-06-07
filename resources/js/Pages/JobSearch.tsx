@@ -21,20 +21,33 @@ export default function JobSearch() {
     const [jobs, setJobs] = useState([]);
     const [clickedJob, setClickedJob] = useState<JobWithCompanyData|null>(null);
     const [totalJobsCount, setTotalJobsCount] = useState(0);
+    const [loading, setLoading] = useState(true);
     let currentJobsCount = jobs.length;
 
     const [filters, setFilters] = useState<FilterTypes>({
         location: [],
         employment_type: [],
-        search_string: ''
+        search_string: '',
+        work_areas_string: '',
+        work_fields_string: ''
     });
 
     useEffect(() => {
         let url = '/api/jobs';
-        url = `${url}?location=${filters.location.join(',')}&employment_type=${filters.employment_type.join(',')}&search_string=${filters.search_string}`
+        url = `${url}?location=${filters.location.join(',')}`;
+
+        let queryParamArguments = [
+            `employment_type=${filters.employment_type.join(',')}`,
+            `search_string=${filters.search_string.toUpperCase()}`,
+            `work_area_ids=${filters.work_areas_string}`,
+            `work_fields_ids=${filters.work_fields_string}`,
+        ]
+
+        url += `&${queryParamArguments.join('&')}`
 
         axios.get(url)
             .then((response) => {
+                setLoading(false);
                 setJobs(response.data.jobs);
                 if (totalJobsCount === 0) setTotalJobsCount(response.data.total_jobs_count);
             })
@@ -59,27 +72,35 @@ export default function JobSearch() {
             <Head title="Job Search"/>
 
             <PageSection className={"bg-white min-vh-100"} fullWidth={true}>
-                <FancyTitle heading={t("Find Your Perfect CompanyJob").toUpperCase()} subtitle={toTitleCase(t("Discover opportunities today"))}/>
+                <FancyTitle heading={t("Find Your Perfect Job").toUpperCase()} subtitle={toTitleCase(t("Discover opportunities today"))}/>
 
                 <div className="row justify-content-center">
                     <div className="col-12 col-sm-2">
                         <JobFilters filters={filters} setFilters={setFilters} totalJobsCount={totalJobsCount} currentJobsCount={currentJobsCount}/>
                     </div>
                     <div className="col-12 col-sm-9">
-                        <div className="row">
-                            {jobs.length > 0 ? jobs.map((job) => {
-                                return (
-                                    <div onClick={() => handleShow(job.id)} key={job.id} className="col-11 col-md-6 col-xl-3 my-3 d-flex">
-                                        <JobCard job={job} />
-                                    </div>
-                                )
-                            })
-                            :
-                            <div className="alert alert-primary justify-content-center text-center">
-                                <p className="fw-bold m-0">
-                                    {t("No jobs match your filters!")}
-                                </p>
-                            </div>
+                        <div className="row justify-content-center justify-content-md-start">
+                            {loading ?
+                                <div className="spinner-grow text-primary" role="status">
+                                    <span className="sr-only">Loading...</span>
+                                </div>
+                                :
+                                <>
+                                {jobs.length > 0 ? jobs.map((job) => {
+                                            return (
+                                                <div onClick={() => handleShow(job.id)} key={job.id} className="col-11 col-md-6 col-xl-3 my-3 d-flex">
+                                                    <JobCard job={job} />
+                                                </div>
+                                            )
+                                        })
+                                        :
+                                        <div className="alert alert-primary justify-content-center text-center">
+                                            <p className="fw-bold m-0">
+                                                {t("No jobs match your filters!")}
+                                            </p>
+                                        </div>
+                                    }
+                                </>
                             }
                         </div>
                     </div>
