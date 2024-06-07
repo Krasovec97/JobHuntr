@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
-use App\Models\Job;
+use App\Models\CompanyJob;
 use App\Models\WorkArea;
 use App\Models\WorkField;
 use Carbon\Carbon;
@@ -46,7 +46,7 @@ class JobsController extends Controller
         $workAreas = WorkArea::query()->get();
         $job = null;
         if ($jobId !== null) {
-            $job = Job::query()->find($jobId);
+            $job = CompanyJob::query()->find($jobId);
             $job->work_area = WorkArea::query()->find($job->work_area_id);
             $job->work_field = WorkField::query()->find($job->work_field_id);
         }
@@ -92,8 +92,8 @@ class JobsController extends Controller
 
         $company = Company::getAuthenticatedCompany();
 
-        $job = Job::query()->find($jobId);
-        if ($job === null)$job = new Job();
+        $job = CompanyJob::query()->find($jobId);
+        if ($job === null)$job = new CompanyJob();
         $job->title = $request->input('job_title');
         $job->description = $request->input('job_description');
         $job->employment_type = $request->input('employment_type');
@@ -135,7 +135,7 @@ class JobsController extends Controller
      */
     public function getJobDetailsPage(Request $request, int $jobId): Response
     {
-        $job = Job::getById($jobId);
+        $job = CompanyJob::getById($jobId);
 
         if ($job === null) {
             abort(404);
@@ -158,7 +158,7 @@ class JobsController extends Controller
      */
     public function activateJobListing(Request $request, int $jobId): Response
     {
-        $job = Job::getById($jobId);
+        $job = CompanyJob::getById($jobId);
 
         if ($job === null) {
             abort(404);

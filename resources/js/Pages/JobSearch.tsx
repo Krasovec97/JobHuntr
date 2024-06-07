@@ -59,7 +59,7 @@ export default function JobSearch() {
             <Head title="Job Search"/>
 
             <PageSection className={"bg-white min-vh-100"} fullWidth={true}>
-                <FancyTitle heading={t("Find Your Perfect Job").toUpperCase()} subtitle={toTitleCase(t("Discover opportunities today"))}/>
+                <FancyTitle heading={t("Find Your Perfect CompanyJob").toUpperCase()} subtitle={toTitleCase(t("Discover opportunities today"))}/>
 
                 <div className="row justify-content-center">
                     <div className="col-12 col-sm-2">

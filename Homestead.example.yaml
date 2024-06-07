@@ -19,18 +19,15 @@ features:
     -
         mariadb: false
     -
-        postgresql: false
+        postgresql: true
     -
         ohmyzsh: false
     -
         webdriver: false
-services:
-    -
-        enabled: [mysql]
 
 ports:
-  - send: 33060
-    to: 3306
+  - send: 54320
+    to: 5432
 
 name: jobhuntr
 hostname: jobhuntr

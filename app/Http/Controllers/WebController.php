@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Job;
+use App\Models\CompanyJob;
 use App\Models\WorkArea;
 use App\Models\WorkField;
 use Illuminate\Database\Eloquent\Collection;
@@ -14,7 +14,7 @@ class WebController extends Controller
 {
     public function getWelcomePage(): Response
     {
-        $draftedJobsQuery = Job::query()
+        $draftedJobsQuery = CompanyJob::query()
             ->whereNot('title', 'like', '%test%')
             ->where("status", "draft");
 
@@ -27,7 +27,7 @@ class WebController extends Controller
             ->limit(4)
             ->get();
 
-        $newestJobs = Job::query()
+        $newestJobs = CompanyJob::query()
             ->whereNotNull('posted_at')
             ->orderBy('posted_at', 'desc')
             ->limit(4)
@@ -56,7 +56,7 @@ class WebController extends Controller
 
     public function getJobDetailsPage(Request $request, int $id): Response
     {
-        $job = Job::getById($id);
+        $job = CompanyJob::getById($id);
 
         if ($job === null) {
             abort(404);
@@ -69,7 +69,7 @@ class WebController extends Controller
 
     public function getAvailableJobs(Request $request): Collection|array
     {
-        $jobsQuery = Job::query()
+        $jobsQuery = CompanyJob::query()
             ->whereNotNull('posted_at');
 
         $totalJobsCount = $jobsQuery->count();
@@ -97,10 +97,10 @@ class WebController extends Controller
         ]);
     }
 
-    public function getJobDetails(Request $request, int $id): Job
+    public function getJobDetails(Request $request, int $id): CompanyJob
     {
-        /** @var Job $job */
-        $job = Job::getById($id);
+        /** @var CompanyJob $job */
+        $job = CompanyJob::getById($id);
 
         if ($job === null) {
             abort(404);

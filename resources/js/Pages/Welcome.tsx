@@ -86,7 +86,7 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                 <div className="row">
                     <div className="col-12 col-md-4">
                         <IconCard alignMiddle={true} darkBg={true} icon={<i className="fa-solid fa-clipboard-list fa-4x"></i>}
-                                  heading={t("Comprehensive Job Listings")}>
+                                  heading={t("Comprehensive CompanyJob Listings")}>
                             <p>{t("Access a wide range of job opportunities across various industries and locations. JobHuntr ensures you have the latest and most relevant job postings.")}</p>
                         </IconCard>
                     </div>

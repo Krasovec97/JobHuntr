@@ -49,7 +49,7 @@ export default function RemoteJobs() {
 
                     <div className="col-12 col-md-4">
                         <IconCard alignMiddle={true} icon={<i className="fa-brands fa-searchengin fa-4x"></i>}
-                                  heading={t("Effortless Job Search")}>
+                                  heading={t("Effortless CompanyJob Search")}>
                             <p>{t("We've simplified the process to help you quickly discover and land the perfect remote job.")}</p>
                         </IconCard>
                     </div>
@@ -104,7 +104,7 @@ export default function RemoteJobs() {
                     <div className="col-12 col-md-4">
                         <IconCard alignMiddle={false} darkBg={true}
                                   icon={<i className="fa-solid fa-earth-europe fa-2x"></i>}
-                                  heading={t("Expanded Job Opportunities")}>
+                                  heading={t("Expanded CompanyJob Opportunities")}>
                             <p>{t("Remote work allows people to access job opportunities that may not be available locally. This can be particularly beneficial for those in regions with limited job prospects in their field.")}</p>
                         </IconCard>
                     </div>

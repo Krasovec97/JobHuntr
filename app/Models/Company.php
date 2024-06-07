@@ -49,7 +49,7 @@ class Company extends Authenticatable
 
     public function jobs(): HasMany
     {
-        return $this->hasMany(Job::class, 'company_id');
+        return $this->hasMany(CompanyJob::class, 'company_id');
     }
 
     public static function getAuthenticatedCompany(): self

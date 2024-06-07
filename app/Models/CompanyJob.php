@@ -27,11 +27,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $updated_at
  * @property string $deleted_at
  */
-class Job extends Model
+class CompanyJob extends Model
 {
     use HasFactory;
 
-    public static function getById($id): ?Job
+    public static function getById($id): ?CompanyJob
     {
         return self::query()->find($id);
     }
