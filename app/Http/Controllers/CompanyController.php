@@ -10,13 +10,14 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use MatanYadaev\EloquentSpatial\Objects\Point;
 
 class CompanyController extends Controller
 {
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => ['required', 'unique:users,email', 'unique:companies,email'],
+            'email' => ['required', 'unique:companies,email'],
             'company_full_name' => ['required'],
             'company_short_name' => ['required'],
             'registration_house' => ['required'],
@@ -30,6 +31,7 @@ class CompanyController extends Controller
             'contact_person' => ['required'],
             'is_vat_obligated' => ['required', 'boolean'],
             'company_vat_id' => ['required'],
+            'coordinates' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -54,6 +56,7 @@ class CompanyController extends Controller
         $company->country = $request->get('country');
         $company->password = Hash::make($request->get('password'));
         $company->email_verification_token = Str::orderedUuid()->toString();
+        $company->coordinates = new Point($request->get('coordinates')['latitude'], $request->get('coordinates')['longitude']);
         $saved = $company->save();
 
         if ($saved) {

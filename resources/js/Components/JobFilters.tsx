@@ -102,7 +102,7 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
         }, 400)
 
         return () => clearTimeout(delayDebounceFn)
-    }, [searchTerm])
+    }, [searchTerm]);
 
     const handleWorkFieldsFilter = (workFields) => {
         let workFieldIds = [];

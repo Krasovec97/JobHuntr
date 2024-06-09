@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
+use MatanYadaev\EloquentSpatial\Objects\Point;
 
 /**
  * @property int $id
@@ -28,6 +29,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
+ * @property Point $coordinates
  */
 class User extends Authenticatable
 {
@@ -37,6 +39,9 @@ class User extends Authenticatable
     protected $primaryKey = 'id';
     public $incrementing = true;
 
+    protected $casts = [
+        'coordinates' => Point::class
+    ];
     /**
      * The attributes that should be hidden for serialization.
      *

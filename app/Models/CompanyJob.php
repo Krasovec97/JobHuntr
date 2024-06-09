@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use MatanYadaev\EloquentSpatial\Objects\Point;
 
 /**
  * @property int $id
@@ -26,10 +27,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
+ * @property Point $coordinates
  */
 class CompanyJob extends Model
 {
     use HasFactory;
+
+    protected $casts = [
+        'coordinates' => Point::class
+    ];
 
     public static function getById($id): ?CompanyJob
     {

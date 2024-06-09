@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
+use MatanYadaev\EloquentSpatial\Objects\Point;
 
 class UserController extends Controller
 {
@@ -36,6 +37,7 @@ class UserController extends Controller
             'zip' => ['required'],
             'password' => ['required', 'min:8'],
             'contact_phone' => ['required'],
+            'coordinates' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -55,6 +57,7 @@ class UserController extends Controller
         $user->country = $request->get('country');
         $user->password = Hash::make($request->get('password'));
         $user->email_verification_token = Str::orderedUuid()->toString();
+        $user->coordinates = new Point($request->get('coordinates')['latitude'], $request->get('coordinates')['longitude']);
         $saved = $user->save();
 
         if ($saved) {

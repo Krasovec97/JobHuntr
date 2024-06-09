@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Inertia\Response;
+    use MatanYadaev\EloquentSpatial\Objects\Point;
 
 class JobsController extends Controller
 {
@@ -107,6 +108,7 @@ class JobsController extends Controller
         $job->preferred_education = $request->input('education');
         $job->company_id = $company->id;
         $job->status = 'draft';
+//        $job->coordinates = new Point();
         $jobSaved = $job->save();
 
         if ($jobSaved) {

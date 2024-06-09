@@ -31,7 +31,11 @@ type FormDataType = {
     company_vat_id: string,
     is_vat_obligated: boolean,
     contact_person: string,
-    contact_phone: string
+    contact_phone: string,
+    coordinates: {
+        longitude: number,
+        latitude: number,
+    }
 }
 
 let INITIAL_DATA:FormDataType = {
@@ -52,7 +56,11 @@ let INITIAL_DATA:FormDataType = {
     company_vat_id: "",
     is_vat_obligated: false,
     contact_person: "",
-    contact_phone: ""
+    contact_phone: "",
+    coordinates: {
+        longitude: 0,
+        latitude: 0
+    }
 }
 
 export default function Register() {

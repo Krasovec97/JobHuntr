@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use MatanYadaev\EloquentSpatial\Objects\Point;
 
 /**
  * @property int $id
@@ -31,6 +32,7 @@ use Illuminate\Support\Facades\Auth;
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
+ * @property Point $coordinates
  * @property HasMany $jobs
  */
 class Company extends Authenticatable
@@ -38,7 +40,8 @@ class Company extends Authenticatable
     use HasFactory, SoftDeletes, Notifiable;
 
     protected $casts = [
-        'is_vat_obligated' => 'boolean'
+        'is_vat_obligated' => 'boolean',
+        'coordinates' => Point::class
     ];
 
     protected $hidden = [
