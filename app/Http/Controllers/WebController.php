@@ -8,6 +8,7 @@ use App\Models\WorkField;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -138,5 +139,25 @@ class WebController extends Controller
 
         if($workAreaIds !== null) return WorkField::query()->whereIn('work_area_id', $workAreaIds)->get();
         else return [];
+    }
+
+    public function getGooglePlacesResponse(Request $request)
+    {
+        $queryParams = $request->query;
+
+        if (!$queryParams->has('searchString')) {
+            return response('Missing parameters', 404);
+        }
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'X-Goog-Api-Key' => env('GOOGLE_MAPS_API'),
+            'X-Goog-FieldMask' => 'places.formattedAddress,places.addressComponents,places.location'
+        ])->post('https://places.googleapis.com/v1/places:searchText', [
+            'textQuery' => base64_decode($request->query->get('searchString')),
+        ]);
+
+
+        return $response->body();
     }
 }

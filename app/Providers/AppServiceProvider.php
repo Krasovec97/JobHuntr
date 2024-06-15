@@ -12,7 +12,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        Inertia::share('GOOGLE_MAPS_API', env('GOOGLE_MAPS_API'));
+        //
     }
 
     /**

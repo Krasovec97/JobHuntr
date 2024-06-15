@@ -38,7 +38,11 @@ export interface JobInterface {
     work_field_id: number,
     work_field?: WorkFieldInterface,
     work_area?: WorkAreaInterface,
-    work_location: string
+    work_location: string,
+    street: string,
+    zip: string,
+    city: string,
+    country:string
 }
 
 export interface WorkFieldInterface {

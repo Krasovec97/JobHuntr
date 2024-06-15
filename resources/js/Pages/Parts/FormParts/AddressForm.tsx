@@ -3,8 +3,7 @@ import {useLaravelReactI18n} from "laravel-react-i18n";
 import {useEffect, useState} from "react";
 import Select from "react-select";
 import axios from "axios";
-import {usePage} from "@inertiajs/react";
-import styled from "styled-components";
+import {AddressSelection} from "../../../Styles/SharedStyles";
 
 type AddressData = {
     street: string,
@@ -23,7 +22,6 @@ type AddressFormProps = AddressData & {
 
 
 export function AddressForm({ street, city, country, zip, updateFields }: AddressFormProps) {
-    const googleApiKey = usePage().props.GOOGLE_MAPS_API;
     const [countries, setCountries] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState({});
     const [addressSearch, setAddressSearch] = useState('');
@@ -46,17 +44,15 @@ export function AddressForm({ street, city, country, zip, updateFields }: Addres
     useEffect(() => {
         if (!userConfirmedAddress && addressSearch !== '') {
             const delayDebounceFn = setTimeout(() => {
-                axios.post(`https://places.googleapis.com/v1/places:searchText`, {"textQuery": addressSearch}, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Goog-Api-Key': googleApiKey,
-                        'X-Goog-FieldMask': 'places.formattedAddress,places.addressComponents,places.location'
-                    }
-                })
+                axios.get(`/google/places?searchString=${btoa(addressSearch.toUpperCase())}`)
                     .then((response) => {
-                        setAvailableLocations(response.data.places);
+                        if (Object.keys(response.data).length > 0) {
+                            setAvailableLocations(response.data.places);
+                        } else {
+                            setAvailableLocations([]);
+                        }
                     })
-            }, 500)
+            }, 650)
 
             return () => clearTimeout(delayDebounceFn)
         }
@@ -75,7 +71,9 @@ export function AddressForm({ street, city, country, zip, updateFields }: Addres
     let parseAndSetAddress = (place) => {
         let houseNumber = null;
         let streetName = null;
-        place.addressComponents.map((component) => {
+        let city = null;
+
+        place.addressComponents.forEach((component) => {
             switch (component.types[0]) {
                 case 'street_number':
                     houseNumber = component.longText
@@ -85,6 +83,7 @@ export function AddressForm({ street, city, country, zip, updateFields }: Addres
                     break;
                 case 'postal_town':
                     updateFields({city: component.longText});
+                    city = component.longText;
                     break;
                 case 'country':
                     countries.forEach((country) => {
@@ -98,14 +97,20 @@ export function AddressForm({ street, city, country, zip, updateFields }: Addres
                 case 'postal_code':
                     updateFields({zip: component.longText});
                     break;
+                case 'administrative_area_level_1':
+                    if (city === null) {
+                        updateFields({city: component.longText});
+                    }
+                    break;
             }
         });
 
         updateFields({street: streetName + " " + houseNumber});
         updateFields({coordinates: place.location});
-        setUserConfirmedAddress(true);
 
+        setUserConfirmedAddress(true);
         setAvailableLocations([]);
+        setAddressSearch(streetName + " " + houseNumber);
     }
 
     const {t} = useLaravelReactI18n();
@@ -119,7 +124,7 @@ export function AddressForm({ street, city, country, zip, updateFields }: Addres
                     required={true}
                     className={"form-control"}
                     type="text"
-                    defaultValue={street}
+                    value={addressSearch}
                     // onChange={e => updateFields({street: e.target.value})}
                     onChange={e => updateAddressInput(e.target.value)}
                 />
@@ -136,7 +141,7 @@ export function AddressForm({ street, city, country, zip, updateFields }: Addres
             </div>
 
             <div className="mb-3">
-                <label className={"form-label ps-0"}>{t("Zip")} <span className={"text-danger"}>*</span></label>
+                <label className={"form-label ps-0"}>{t("Postal Code")} <span className={"text-danger"}>*</span></label>
                 <input
                     required={true}
                     className={"form-control"}
@@ -158,19 +163,9 @@ export function AddressForm({ street, city, country, zip, updateFields }: Addres
             <div className="mb-3">
                 <label className={"form-label ps-0"}>{t("Country")} <span className={"text-danger"}>*</span></label>
                 <Select options={countries}
-                        defaultValue={selectedCountry}
+                        value={selectedCountry}
                         onChange={(selectedOption) => countryChange(selectedOption)}/>
             </div>
         </FormWrapper>
     )
 }
-
-let AddressSelection = styled.div`
-    border-radius: 7px;
-    cursor: pointer;
-    transition: all ease-in-out 100ms;
-        &:hover {
-            background: #d30855;
-            color: white;
-        }
-    `

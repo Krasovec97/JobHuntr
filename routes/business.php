@@ -5,6 +5,7 @@ use App\Http\Controllers\BusinessProfileController;
 use App\Http\Controllers\JobsController;
 use App\Http\Controllers\WorkareaController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WebController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,4 +40,6 @@ Route::middleware('auth_business')->group(function () {
 
     Route::get('/account', [BusinessProfileController::Class, 'displayAccountSettings']);
     Route::post('/account', [BusinessProfileController::Class, 'updateAccountSettings']);
+
+    Route::get('/google/places', [WebController::class, 'getGooglePlacesResponse']);
 });

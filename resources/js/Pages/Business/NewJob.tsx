@@ -9,6 +9,7 @@ import useGlobalContext from "../../Hooks/useGlobalContext";
 import FancyTitle from "../../Components/FancyTitle";
 import {CompanyData, JobInterface, WorkAreaInterface} from "../../Interfaces/SharedInterfaces";
 import CompanyQuickView from "../Parts/CompanyQuickView";
+import {AddressSelection} from "../../Styles/SharedStyles";
 
 interface NewJobProps {
     workAreas: Array<WorkAreaInterface>
@@ -34,10 +35,26 @@ export default function NewJob({workAreas, job}: NewJobProps) {
         }
     }
     const [selectedWorkField, setSelectedWorkField] = useState(initializeSelectedWorkField);
+    const [availableLocations, setAvailableLocations] = useState([]);
+    const [userConfirmedAddress, setUserConfirmedAddress] = useState(false);
+    const [addressSearch, setAddressSearch] = useState('');
+    const [countries, setCountries] = useState([]);
+    const [selectedCountry, setSelectedCountry] = useState({});
+
+    useEffect(() => {
+        fetch(
+            "https://valid.layercode.workers.dev/list/countries?format=select&flags=false&value=code"
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                setCountries(data.countries);
+            });
+    }, []);
 
     let noOptionsText = t("Please, select the work area before selecting work field.");
     let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
     const globalContext = useGlobalContext();
+
 
     let company: CompanyData = usePage().props.auth.company;
 
@@ -52,7 +69,12 @@ export default function NewJob({workAreas, job}: NewJobProps) {
         yearly_salary: job !== null ? job.salary : 0,
         currency: job !== null ? job.salary_currency : 'eur',
         gender: job !== null ? job.preferred_gender : 'any',
-        education: job !== null ? job.preferred_education : 'none'
+        education: job !== null ? job.preferred_education : 'none',
+        street: job !== null ? job.street : '',
+        city: job !== null ? job.city : '',
+        zip: job !== null ? job.zip : '',
+        country: job !== null ? job.country : '',
+        coordinates: job !== null ? job.country : '',
     })
 
     function showRelevantWorkFields(selectedArea) {
@@ -77,8 +99,33 @@ export default function NewJob({workAreas, job}: NewJobProps) {
             });
     }
 
+    useEffect(() => {
+        if (!userConfirmedAddress && addressSearch !== '') {
+            const delayDebounceFn = setTimeout(() => {
+                axios.get(`/google/places?searchString=${btoa(addressSearch.toUpperCase())}`)
+                    .then((response) => {
+                        if (Object.keys(response.data).length > 0) {
+                            setAvailableLocations(response.data.places);
+                        } else {
+                            setAvailableLocations([]);
+                        }
+                    })
+            }, 650)
+
+            return () => clearTimeout(delayDebounceFn)
+        }
+    }, [addressSearch]);
+
     if (job !== null) {
-        useEffect(() => getRelatedWorkFields({value: job.work_area_id}), [])
+        useEffect(() => {
+            getRelatedWorkFields({value: job.work_area_id})
+            countries.forEach((country) => {
+                if (country.label === job.country) {
+                    setSelectedCountry(country);
+                }
+            })
+        }, []);
+
     }
 
     function handleEmploymentTypeChange(e) {
@@ -124,6 +171,81 @@ export default function NewJob({workAreas, job}: NewJobProps) {
         }));
     }
 
+    let updateAddressInput = (address) => {
+        setData(values => ({
+            ...values,
+            street: address
+        }));
+        setAddressSearch(address);
+    }
+
+    let parseAndSetAddress = (place) => {
+        let houseNumber = null;
+        let streetName = null;
+        let city = null;
+
+        place.addressComponents.forEach((component) => {
+            switch (component.types[0]) {
+                case 'street_number':
+                    houseNumber = component.longText
+                    break;
+                case 'route':
+                    streetName = component.longText;
+                    break;
+                case 'postal_town':
+                    setData(values => ({
+                        ...values,
+                        city: component.longText
+                    }));
+                    city = component.longText;
+                    break;
+                case 'country':
+                    countries.forEach((country) => {
+                        if (country.value === component.shortText) {
+                            countryChange(country);
+                            setSelectedCountry(country);
+                        } else {
+                            countryChange({label: component.longText});
+                            setSelectedCountry({value: component.shortText, label: component.longText});
+                        }
+                    })
+                    break;
+                case 'postal_code':
+                    setData(values => ({
+                        ...values,
+                        zip: component.longText
+                    }));
+                    break;
+                case 'administrative_area_level_1':
+                    if (city === null) {
+                        setData(values => ({
+                            ...values,
+                            city: component.longText
+                        }));
+                    }
+                    break;
+            }
+        });
+
+        setData(values => ({
+            ...values,
+            street: streetName + " " + houseNumber,
+            coordinates: place.location
+        }));
+
+        setUserConfirmedAddress(true);
+        setAvailableLocations([]);
+        setAddressSearch(streetName + " " + houseNumber);
+    }
+
+    let countryChange = (selectedOption) => {
+        setData(values => ({
+            ...values,
+            country: selectedOption.label
+        }));
+        setSelectedCountry(selectedOption)
+    }
+
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -133,9 +255,11 @@ export default function NewJob({workAreas, job}: NewJobProps) {
             headers: {
                 'X-CSRF-TOKEN': csrfToken
             },
-            onError: (errors: string) => {
+            onError: (errors: string|string[]) => {
                 let errorMessage = '';
-                errors.map((error) => errorMessage += error + `<br >`)
+                if (typeof errors !== "string") {
+                    errors.map((error) => errorMessage += error + `<br >`)
+                }
                 globalContext.FlashNotification.setText(errorMessage);
                 globalContext.FlashNotification.setIsOpen('true');
                 globalContext.FlashNotification.setStyle("danger");
@@ -173,7 +297,8 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                     <div className="row mb-3">
                         <div className="col-12">
                             <label>{t("Employment type")}</label>
-                            <select required className={"form-select"} onChange={handleEmploymentTypeChange} defaultValue={job && job.employment_type}>
+                            <select required className={"form-select"} onChange={handleEmploymentTypeChange}
+                                    defaultValue={job && job.employment_type}>
                                 <option value="full_time">{t("Full-Time")}</option>
                                 <option value="part_time">{t("Part-Time")}</option>
                             </select>
@@ -198,6 +323,73 @@ export default function NewJob({workAreas, job}: NewJobProps) {
 
                     <div className="row mb-3">
                         <div className="col-12">
+                            <label>{t("Work location")}</label>
+                            <select required className={"form-select"} onChange={handleWorkLocationChange}
+                                    defaultValue={job && job.work_location}>
+                                <option value="remote">{t("Completely online / Remote")}</option>
+                                <option value="hybrid">{t("Partially online")}</option>
+                                <option value="on_location">{t("On location")}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    {data.work_location !== 'remote' && (
+                        <>
+                            <div className="mb-3">
+                                <label className={"form-label ps-0"}>{t("Street")}</label>
+                                <input
+                                    autoFocus
+                                    className={"form-control"}
+                                    type="text"
+                                    defaultValue={data.street}
+                                    // onChange={e => updateFields({street: e.target.value})}
+                                    onChange={e => updateAddressInput(e.target.value)}
+                                />
+
+                                <div className="border rounded p-2 mt-2" hidden={availableLocations.length === 0}>
+                                    {availableLocations.length > 0 && !userConfirmedAddress && availableLocations.map((place, index) => {
+                                        return (
+                                            <AddressSelection key={index} onClick={() => parseAndSetAddress(place)}
+                                                              className="p-2">
+                                                {place.formattedAddress}
+                                            </AddressSelection>
+                                        )
+                                    })}
+                                </div>
+                            </div>
+                            <small>{ t("If the job's location is the same as your company location, you may leave this fields empty. The job location will be the same as your company's location!") }</small>
+
+                            <div className="mb-3">
+                                <label className={"form-label ps-0"}>{t("Zip")}</label>
+                                <input
+                                    className={"form-control"}
+                                    type="text"
+                                    defaultValue={data.zip}
+                                    onChange={e => setData('zip', e.target.value)}/>
+                            </div>
+
+                            <div className="mb-3">
+                                <label className={"form-label ps-0"}>{t("City")}</label>
+                                <input
+                                    className={"form-control"}
+                                    type="text"
+                                    defaultValue={data.city}
+                                    onChange={e => setData('city', e.target.value)}/>
+                            </div>
+
+                            <div className="mb-3">
+                                <label className={"form-label ps-0"}>{t("Country")}</label>
+                                <Select options={countries}
+                                        value={selectedCountry}
+                                        onChange={(selectedOption) => countryChange(selectedOption)}/>
+                            </div>
+                        </>
+                    )}
+
+                    <hr className={"my-4"}/>
+
+                    <div className="row mb-3">
+                        <div className="col-12">
                             <label>{t("Work area")}</label>
                             <Select options={workAreasArray}
                                     defaultValue={job && {
@@ -217,17 +409,6 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                                 options={workFieldsArray}
                                 value={selectedWorkField} onChange={handleWorkFieldChange}
                                 required={true}/>
-                        </div>
-                    </div>
-
-                    <div className="row mb-3">
-                        <div className="col-12">
-                            <label>{t("Work location")}</label>
-                            <select required className={"form-select"} onChange={handleWorkLocationChange} defaultValue={job && job.work_location}>
-                                <option value="remote">{t("Completely online / Remote")}</option>
-                                <option value="hybrid">{t("Partially online")}</option>
-                                <option value="on_location">{t("On location")}</option>
-                            </select>
                         </div>
                     </div>
 
@@ -266,7 +447,8 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                         </div>
                         <div className="col-4">
                             <label>{t("Currency")}</label>
-                            <select required className={"form-select"} onChange={handleCurrencyChange} defaultValue={job && job.salary_currency}>
+                            <select required className={"form-select"} onChange={handleCurrencyChange}
+                                    defaultValue={job && job.salary_currency}>
                                 <option value="eur">{t("EUR")}</option>
                                 <option value="usd">{t("USD")}</option>
                                 <option value="gbp">{t("GBP")}</option>
@@ -277,7 +459,8 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                     <div className="row mb-3">
                         <div className="col-12">
                             <label>{t("Preferred gender")}</label>
-                            <select required className={"form-select"} onChange={handleGenderChange} defaultValue={job && job.preferred_gender}>
+                            <select required className={"form-select"} onChange={handleGenderChange}
+                                    defaultValue={job && job.preferred_gender}>
                                 <option value="any">{t("Any")}</option>
                                 <option value="male">{t("Male")}</option>
                                 <option value="female">{t("Female")}</option>
@@ -288,7 +471,8 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                     <div className="row mb-3">
                         <div className="col-12">
                             <label>{t("Preferred education")}</label>
-                            <select required className={"form-select"} onChange={handleEducationChange} defaultValue={job && job.preferred_education}>
+                            <select required className={"form-select"} onChange={handleEducationChange}
+                                    defaultValue={job && job.preferred_education}>
                                 <option value="none">{t("None")}</option>
                                 <option value="primary">{t("Primary school or equivalent")}</option>
                                 <option value="high_school">{t("High school or equivalent")}</option>

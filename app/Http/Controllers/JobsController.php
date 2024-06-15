@@ -78,7 +78,7 @@ class JobsController extends Controller
             "yearly_salary" => ["required", "numeric"],
             "currency" => ["required"],
             "gender" => ["required"],
-            "education" => ["required"]
+            "education" => ["required"],
         ]);
 
         if ($validator->fails()) {
@@ -106,9 +106,19 @@ class JobsController extends Controller
         $job->salary_currency = strtoupper($request->input('currency'));
         $job->preferred_gender = $request->input('gender');
         $job->preferred_education = $request->input('education');
+        $job->street = $request->input('street') ?? $company->street;
+        $job->city = $request->input('city') ?? $company->city;
+        $job->zip = $request->input('zip') ?? $company->zip;
+        $job->country = $request->input('country') ?? $company->country;
         $job->company_id = $company->id;
         $job->status = 'draft';
-//        $job->coordinates = new Point();
+
+        if ($request->get('coordinates')) {
+            $job->coordinates = new Point($request->get('coordinates')['latitude'], $request->get('coordinates')['longitude']);
+        } else {
+            $job->coordinates = new Point($company->coordinates->latitude, $company->coordinates->longitude);
+        }
+
         $jobSaved = $job->save();
 
         if ($jobSaved) {

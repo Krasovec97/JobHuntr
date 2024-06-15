@@ -123,7 +123,7 @@ export default function Register() {
         <MainLayout>
             <Head title="Register" />
             <PageSection className={"bg-white full-h"}>
-                <div className="row">
+                <div className="row m-md-5">
                     <form className={"col-12 col-md-9 mx-auto mt-5 border p-4 shadow"} onSubmit={onSubmit}>
                         <div className="col-12 text-center">
                             {

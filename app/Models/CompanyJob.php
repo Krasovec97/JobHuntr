@@ -27,6 +27,10 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
+ * @property string $city
+ * @property string $zip
+ * @property string $street
+ * @property string $country
  * @property Point $coordinates
  */
 class CompanyJob extends Model
