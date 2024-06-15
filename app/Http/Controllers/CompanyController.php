@@ -21,7 +21,7 @@ class CompanyController extends Controller
             'company_full_name' => ['required'],
             'company_short_name' => ['required'],
             'registration_house' => ['required'],
-            'registration_number' => ['required'],
+            'company_number' => ['required'],
             'street' => ['required'],
             'city' => ['required'],
             'country' => ['required'],
@@ -51,7 +51,7 @@ class CompanyController extends Controller
         $company->zip = $request->get('zip');
         $company->is_vat_obligated = $request->get('is_vat_obligated');
         $company->registration_house = $request->get('registration_house');
-        $company->registration_number = $request->get('registration_number');
+        $company->company_number = $request->get('company_number');
         $company->vat_id = $request->get('company_vat_id');
         $company->country = $request->get('country');
         $company->password = Hash::make($request->get('password'));

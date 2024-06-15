@@ -24,7 +24,7 @@ export default function AccountSettings({company}: CompanyData) {
         full_name: company.full_name,
         id: company.id,
         registration_house: company.registration_house,
-        registration_number: company.registration_number,
+        company_number: company.company_number,
         short_name: company.short_name,
         street: company.street,
         vat_id: company.vat_id,
@@ -118,7 +118,7 @@ export default function AccountSettings({company}: CompanyData) {
                             required={true}
                             className={"form-control"}
                             type="text"
-                            defaultValue={company.registration_number}
+                            defaultValue={company.company_number}
                             disabled={true}/>
                     </div>
 

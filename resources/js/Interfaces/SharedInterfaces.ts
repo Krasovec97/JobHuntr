@@ -8,7 +8,7 @@ export interface CompanyData {
     id: number,
     is_vat_obligated: boolean,
     registration_house: string,
-    registration_number: string,
+    company_number: string,
     short_name: string,
     street: string,
     updated_at: string,

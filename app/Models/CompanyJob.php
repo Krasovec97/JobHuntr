@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 
 /**
@@ -31,6 +32,7 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property string $zip
  * @property string $street
  * @property string $country
+ * @property string $job_application_email
  * @property Point $coordinates
  */
 class CompanyJob extends Model
@@ -41,6 +43,34 @@ class CompanyJob extends Model
         'coordinates' => Point::class
     ];
 
+    protected $fillable = [
+        'id',
+        'company_id',
+        'title',
+        'description',
+        'employment_type',
+        'salary',
+        'salary_currency',
+        'work_area_id',
+        'work_field_id',
+        'work_location',
+        'preferred_gender',
+        'preferred_education',
+        'open_positions_count',
+        'status',
+        'expires_at',
+        'posted_at',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'city',
+        'zip',
+        'street',
+        'country',
+        'coordinates',
+        'job_application_email'
+    ];
+
     public static function getById($id): ?CompanyJob
     {
         return self::query()->find($id);
@@ -49,5 +79,15 @@ class CompanyJob extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function workField(): HasOne
+    {
+        return $this->hasOne(WorkField::class, 'id', 'work_field_id');
+    }
+
+    public function workArea(): HasOne
+    {
+        return $this->hasOne(WorkArea::class, 'id', 'work_area_id');
     }
 }

@@ -17,6 +17,10 @@ class WorkArea extends Model
     use HasFactory;
     protected $table = 'work_areas';
 
+    protected $fillable = [
+        'name'
+    ];
+
     public function workFields(): HasMany
     {
         return $this->hasMany(WorkField::class, 'work_area_id');

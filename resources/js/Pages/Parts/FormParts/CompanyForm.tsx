@@ -6,7 +6,7 @@ type CompanyData = {
     company_full_name: string,
     company_short_name: string,
     registration_house: string,
-    registration_number: string,
+    company_number: string,
     company_vat_id: string,
     is_vat_obligated: boolean,
     contact_person: string,
@@ -17,7 +17,7 @@ type CompanyFormProps = CompanyData & {
     updateFields: (fields: Partial<CompanyData>) => void
 }
 
-export function CompanyForm({ company_full_name, company_short_name, registration_number, registration_house, company_vat_id, is_vat_obligated, contact_person, contact_phone, updateFields }: CompanyFormProps) {
+export function CompanyForm({ company_full_name, company_short_name, company_number, registration_house, company_vat_id, is_vat_obligated, contact_person, contact_phone, updateFields }: CompanyFormProps) {
     const [isVatObligated, setIsVatObligated] = useState(is_vat_obligated);
     const {t} = useLaravelReactI18n();
 
@@ -72,8 +72,8 @@ export function CompanyForm({ company_full_name, company_short_name, registratio
                     required={true}
                     className={"form-control"}
                     type="text"
-                    value={registration_number}
-                    onChange={e => updateFields({registration_number: e.target.value})}/>
+                    value={company_number}
+                    onChange={e => updateFields({company_number: e.target.value})}/>
             </div>
 
             <div className="mb-3">

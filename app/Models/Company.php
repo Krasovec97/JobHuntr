@@ -26,7 +26,7 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property string $password
  * @property string|null $email_verified_at
  * @property string $email_verification_token
- * @property string $registration_number
+ * @property string $company_number
  * @property string $registration_house
  * @property boolean $is_vat_obligated
  * @property string $created_at
@@ -34,6 +34,7 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property string $deleted_at
  * @property Point $coordinates
  * @property HasMany $jobs
+ * @property string $company_verified_at
  */
 class Company extends Authenticatable
 {
@@ -48,6 +49,32 @@ class Company extends Authenticatable
         'password',
         'email_verification_token',
         'email_verified_at',
+    ];
+
+    protected $fillable = [
+        'id',
+        'email',
+        'full_name',
+        'short_name',
+        'contact_phone',
+        'contact_person',
+        'country',
+        'street',
+        'city',
+        'zip',
+        'vat_id',
+        'password',
+        'email_verified_at',
+        'email_verification_token',
+        'company_number',
+        'registration_house',
+        'is_vat_obligated',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'coordinates',
+        'jobs',
+        'company_verified_at',
     ];
 
     public function jobs(): HasMany

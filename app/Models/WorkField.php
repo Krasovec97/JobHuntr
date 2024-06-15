@@ -19,8 +19,13 @@ class WorkField extends Model
 
     protected $table = 'work_fields';
 
+    protected $fillable = [
+        'name',
+        'work_area_id'
+    ];
+
     public function workArea() {
-        return $this->belongsTo(WorkArea::class);
+        return $this->belongsTo(WorkArea::class, 'work_area_id');
     }
     public static function getById(int $id): self
     {
