@@ -25,8 +25,9 @@ class WorkField extends Model
     ];
 
     public function workArea() {
-        return $this->belongsTo(WorkArea::class, 'work_area_id');
+        return $this->belongsTo(WorkArea::class, 'work_area_id', 'id');
     }
+
     public static function getById(int $id): self
     {
         return self::query()->findOrFail($id);

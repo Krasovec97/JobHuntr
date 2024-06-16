@@ -21,7 +21,7 @@ return new class extends Migration
             $table->double('salary');
             $table->string('salary_currency', 5);
             $table->unsignedBigInteger('work_area_id');
-            $table->foreign('work_area_id')->references('id')->on('work_fields');
+            $table->foreign('work_area_id')->references('id')->on('work_areas');
             $table->unsignedBigInteger('work_field_id');
             $table->foreign('work_field_id')->references('id')->on('work_fields');
             $table->string('work_location');

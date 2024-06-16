@@ -449,9 +449,9 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                             <label>{t("Currency")}</label>
                             <select required className={"form-select"} onChange={handleCurrencyChange}
                                     defaultValue={job && job.salary_currency}>
-                                <option value="eur">{t("EUR")}</option>
-                                <option value="usd">{t("USD")}</option>
-                                <option value="gbp">{t("GBP")}</option>
+                                <option value="eur">EUR</option>
+                                <option value="usd">USD</option>
+                                <option value="gbp">GBP</option>
                             </select>
                         </div>
                     </div>
@@ -476,9 +476,9 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                                 <option value="none">{t("None")}</option>
                                 <option value="primary">{t("Primary school or equivalent")}</option>
                                 <option value="high_school">{t("High school or equivalent")}</option>
-                                <option value="bachelor">{t("Bachelor's degree")}</option>
-                                <option value="master">{t("Master's degree")}</option>
-                                <option value="doctorate">{t("Doctorate or higher")}</option>
+                                <option value="bachelor">{t("Bachelor's degree or equivalent")}</option>
+                                <option value="master">{t("Master's degree or equivalent")}</option>
+                                <option value="doctorate">{t("Doctorate")}</option>
                             </select>
                         </div>
                     </div>

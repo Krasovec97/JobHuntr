@@ -32,7 +32,7 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property string $zip
  * @property string $street
  * @property string $country
- * @property string $job_application_email
+ * @property string $job_application_mail
  * @property Point $coordinates
  */
 class CompanyJob extends Model
@@ -68,7 +68,7 @@ class CompanyJob extends Model
         'street',
         'country',
         'coordinates',
-        'job_application_email'
+        'job_application_mail'
     ];
 
     public static function getById($id): ?CompanyJob

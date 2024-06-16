@@ -31,6 +31,7 @@ class WebController extends Controller
 
         $newestJobs = CompanyJob::query()
             ->whereNotNull('posted_at')
+            ->whereNot("status", "draft")
             ->orderBy('posted_at', 'desc')
             ->limit(4)
             ->get();
@@ -72,7 +73,8 @@ class WebController extends Controller
     public function getAvailableJobs(Request $request): Collection|array
     {
         $jobsQuery = CompanyJob::query()
-            ->whereNotNull('posted_at');
+            ->whereNotNull('posted_at')
+            ->whereNot('status', 'draft');
 
         $totalJobsCount = $jobsQuery->count();
 
