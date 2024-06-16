@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('preferred_education');
             $table->unsignedInteger('open_positions_count');
             $table->string('status');
-            $table->string('job_application_mail');
+            $table->string('application_mail')->nullable();
             $table->string('expires_at')->nullable();
             $table->string('posted_at')->nullable();
             $table->timestamps();

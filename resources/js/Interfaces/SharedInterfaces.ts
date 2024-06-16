@@ -42,7 +42,8 @@ export interface JobInterface {
     street: string,
     zip: string,
     city: string,
-    country:string
+    country:string,
+    application_mail: string
 }
 
 export interface WorkFieldInterface {

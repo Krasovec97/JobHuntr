@@ -79,6 +79,7 @@ class JobsController extends Controller
             "currency" => ["required"],
             "gender" => ["required"],
             "education" => ["required"],
+            "application_mail" => ["string"]
         ]);
 
         if ($validator->fails()) {
@@ -112,6 +113,7 @@ class JobsController extends Controller
         $job->country = $request->input('country') ?? $company->country;
         $job->company_id = $company->id;
         $job->status = 'draft';
+        $job->application_mail = $request->input('application_mail') ?? $company->email;
 
         if ($request->get('coordinates')) {
             $job->coordinates = new Point($request->get('coordinates')['latitude'], $request->get('coordinates')['longitude']);

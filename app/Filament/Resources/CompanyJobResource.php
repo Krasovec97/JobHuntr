@@ -79,7 +79,7 @@ class CompanyJobResource extends Resource
                     ->locale('sl')
                     ->displayFormat('d.m.Y')
                     ->minDate(today()->addMonth()),
-                TextInput::make('job_application_mail')->required(),
+                TextInput::make('application_mail')->required(),
                 Select::make('company_id')->relationship('company', 'full_name')->required(),
             ]);
     }

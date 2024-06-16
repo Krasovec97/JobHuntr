@@ -199,6 +199,17 @@ export default function AccountSettings({company}: CompanyData) {
                     </div>
 
                     <div className="mb-3">
+                        <label className={"form-label ps-0"}>{t("Company Email")} <span
+                            className={"text-danger"}>*</span></label>
+                        <input
+                            required={true}
+                            className={"form-control"}
+                            type="text"
+                            defaultValue={company.email}
+                            onChange={e => setData('email', e.target.value)}/>
+                    </div>
+
+                    <div className="mb-3">
                         <label className={"form-label ps-0"}>{t("Contact Phone")} <span
                             className={"text-danger"}>*</span></label>
                         <input

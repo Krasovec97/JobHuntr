@@ -75,6 +75,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
         zip: job !== null ? job.zip : '',
         country: job !== null ? job.country : '',
         coordinates: job !== null ? job.country : '',
+        application_mail: job !== null ? job.application_mail : '',
     })
 
     function showRelevantWorkFields(selectedArea) {
@@ -357,7 +358,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                                     })}
                                 </div>
                             </div>
-                            <small>{ t("If the job's location is the same as your company location, you may leave this fields empty. The job location will be the same as your company's location!") }</small>
+                            <small>{t("If the job's location is the same as your company location, you may leave this fields empty. The job location will be the same as your company's location!")}</small>
 
                             <div className="mb-3">
                                 <label className={"form-label ps-0"}>{t("Zip")}</label>
@@ -480,6 +481,22 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                                 <option value="master">{t("Master's degree or equivalent")}</option>
                                 <option value="doctorate">{t("Doctorate")}</option>
                             </select>
+                        </div>
+                    </div>
+
+                    <div className="row mb-3">
+                        <div className="col-12">
+                            <label>{t("Application email")}</label>
+                            <input
+                                required
+                                placeholder={t('apply@company.com')}
+                                className={"form-control"}
+                                defaultValue={job !== null ? job.application_mail : ''}
+                                type="text"
+                                onChange={(e) => setData('application_mail', e.target.value)}
+                            />
+                            <small>{t(`You may leave this empty and it will be set to the same email as your company's email`)}</small>
+
                         </div>
                     </div>
 
