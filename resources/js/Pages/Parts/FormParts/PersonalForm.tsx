@@ -1,5 +1,6 @@
 import {FormWrapper} from "./FormWrapper";
 import {useLaravelReactI18n} from "laravel-react-i18n";
+import React from "react";
 import {useEffect, useState} from "react";
 import Select from "react-select";
 

@@ -1,12 +1,18 @@
 import {useForm, usePage} from "@inertiajs/react";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import ApplicationLogo from "../../Components/ApplicationLogo";
+import React from "react";
+import {UserAuthProps, UserData} from "../../Interfaces/SharedInterfaces";
 
-export default function ({darkBg}) {
+interface HeaderProps {
+    darkBg: boolean
+}
+
+export default function ({darkBg}: HeaderProps) {
     const {post} = useForm();
     let textColor: string = darkBg ? 'text-white' : 'text-dark';
     const {t} = useLaravelReactI18n();
-    let user = usePage().props.auth.user;
+    let user: UserData = usePage<UserAuthProps>().props.auth.user;
 
 
     const logout = () => {

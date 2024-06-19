@@ -4,11 +4,16 @@ import PageSection from "./Parts/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import {Alert} from "react-bootstrap";
 import UpdateUserProfile from "./Auth/UpdateUserProfile";
+import React from 'react';
+import {UserAuthProps} from "../Interfaces/SharedInterfaces";
 
 
-export default function Dashboard({ hasVerifiedEmail }) {
+interface PageProps {
+    hasVerifiedEmail: boolean
+}
+export default function Dashboard({ hasVerifiedEmail }: PageProps) {
     const {t} = useLaravelReactI18n();
-    const user = usePage().props.auth.user;
+    const user = usePage<UserAuthProps>().props.auth.user;
 
     return (
             <MainLayout>

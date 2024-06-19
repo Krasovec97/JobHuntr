@@ -1,3 +1,5 @@
+import {ErrorBag, Errors} from "@inertiajs/core/types/types";
+
 export interface CompanyData {
     city: string,
     contact_person: string,
@@ -63,6 +65,7 @@ export interface WorkAreaInterface {
 
 export interface UserData {
     id: number,
+    name: string,
     contact_phone: string,
     country: string,
     street: string,
@@ -78,4 +81,45 @@ export interface FilterTypes {
     search_string: string,
     work_areas_string: string,
     work_fields_string: string
+}
+
+export interface Country {
+    value: string,
+    label: string
+}
+
+export interface PlaceInterface {
+    formattedAddress: string
+}
+
+interface PageProps {
+    [key: string]: unknown;
+}
+interface Page<SharedProps extends PageProps = PageProps> {
+    component: string;
+    props: PageProps & SharedProps & {
+        errors: Errors & ErrorBag;
+    };
+    url: string;
+    version: string | null;
+    /** @internal */
+    scrollRegions: Array<{
+        top: number;
+        left: number;
+    }>;
+    /** @internal */
+    rememberedState: Record<string, unknown>;
+}
+
+
+export interface CompanyAuthProps extends PageProps {
+    auth: {
+        company: CompanyData
+    }
+}
+
+export interface UserAuthProps extends PageProps {
+    auth: {
+        user: UserData
+    }
 }

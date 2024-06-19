@@ -1,3 +1,5 @@
+import React from "react";
+
 interface PageSectionInterface {
     className ?: string,
     fullWidth ?: boolean,

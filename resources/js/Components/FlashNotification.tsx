@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import parse from 'html-react-parser';
+import React from "react";
 
 interface NotificationData {
     style: 'primary'|'success'|'danger',

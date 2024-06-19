@@ -1,8 +1,8 @@
 import {Head} from '@inertiajs/react';
-import MainLayout from '../Layouts/MainLayout.tsx';
-import PageSection from "./Parts/PageSection.tsx";
+import MainLayout from '../Layouts/MainLayout';
+import PageSection from "./Parts/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import FancyTitle from "../Components/FancyTitle.tsx";
+import FancyTitle from "../Components/FancyTitle";
 import JobCard from "../Components/JobCard";
 import {formatText, numberFormat, toTitleCase} from "../Helpers";
 import axios from "axios";
@@ -58,7 +58,7 @@ export default function JobSearch() {
         setShowModal(false);
     };
 
-    const handleShow = (index) => {
+    const handleShow = (index: number) => {
         axios.get('/api/job/' + index)
             .then((response) => {
                 setClickedJob(response.data);
@@ -86,7 +86,7 @@ export default function JobSearch() {
                                 </div>
                                 :
                                 <>
-                                {jobs.length > 0 ? jobs.map((job) => {
+                                {jobs.length > 0 ? jobs.map((job: JobInterface) => {
                                             return (
                                                 <div onClick={() => handleShow(job.id)} key={job.id} className="col-11 col-md-6 col-xl-3 my-3 d-flex">
                                                     <JobCard job={job} />
@@ -123,11 +123,11 @@ export default function JobSearch() {
                         </div>
                         <div className="border-bottom mb-3">
                             <p className="fw-bold m-0">{t("Work area")}</p>
-                            {clickedJob.work_area.name}
+                            {clickedJob.work_area?.name}
                         </div>
                         <div className="border-bottom mb-3">
                             <p className="fw-bold m-0">{t("Work field")}</p>
-                            {clickedJob.work_field.name}
+                            {clickedJob.work_field?.name}
                         </div>
                         <div className="border-bottom mb-3">
                             <p className="fw-bold m-0">{t("Work Location")}</p>

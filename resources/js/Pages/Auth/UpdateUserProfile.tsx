@@ -4,14 +4,18 @@ import {useLaravelReactI18n} from "laravel-react-i18n";
 import {useEffect, useState} from "react";
 import FancyTitle from "../../Components/FancyTitle";
 import useGlobalContext from "../../Hooks/useGlobalContext";
-import {UserData} from "../../Interfaces/SharedInterfaces";
+import {Country, UserData} from "../../Interfaces/SharedInterfaces";
+import React from "react";
 
 
-
+interface EducationInterface {
+    value: string,
+    label: string
+}
 export default function (user: UserData) {
     const {t} = useLaravelReactI18n();
 
-    const typesOfEducation = [
+    const typesOfEducation: EducationInterface[] = [
         { value: 'primary', label: t("Primary school or equivalent") },
         { value: 'high_school', label: t("High school or equivalent") },
         { value: 'bachelor', label: t("Bachelor's degree") },
@@ -21,7 +25,7 @@ export default function (user: UserData) {
 
     const [countries, setCountries] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState({});
-    const [selectedEducation, setSelectedEducation] = useState(typesOfEducation.find((item) => item.value === user.education));
+    const [selectedEducation, setSelectedEducation] = useState(typesOfEducation.filter((item) => item.value === user.education));
     const globalContext = useGlobalContext();
 
     const {data, setData, post, processing} = useForm({
@@ -43,11 +47,11 @@ export default function (user: UserData) {
             .then((response) => response.json())
             .then((data) => {
                 setCountries(data.countries);
-                setSelectedCountry(data.countries.find((country) => country.label === user.country));
+                setSelectedCountry(data.countries.find((country: Country) => country.label === user.country));
             });
     }, []);
 
-    function handleChange(e) {
+    function handleChange(e: any) {
         let key = e.target.id;
         const value = e.target.value
         setData(values => ({
@@ -56,7 +60,7 @@ export default function (user: UserData) {
         }))
     }
 
-    function handleCountryChange(e) {
+    function handleCountryChange(e: any) {
         setSelectedCountry(e)
         setData(values => ({
             ...values,
@@ -64,7 +68,7 @@ export default function (user: UserData) {
         }));
     }
 
-    function handleEducationChange(e) {
+    function handleEducationChange(e: any) {
         setSelectedEducation(e)
         setData(values => ({
             ...values,
@@ -72,32 +76,31 @@ export default function (user: UserData) {
         }));
     }
 
-    function subtractYears(date, years) {
-        date.setFullYear(date.getFullYear() - years);
-        return date;
+    function subtractYears(date: Date, years: number): number {
+        return date.setFullYear(date.getFullYear() - years);
     }
 
     const date = new Date();
 
     const newDate = new Date(subtractYears(date, 15)).toISOString().split("T")[0];
 
-    let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+    let csrfToken = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
 
-    function handleSubmit(e) {
+    function handleSubmit(e: any) {
         e.preventDefault()
         post('user/update', {
             headers: {
-                'X-CSRF-TOKEN': csrfToken
+                'X-CSRF-TOKEN': csrfToken ?? ''
             },
-            onError: (errors: string) => {
-                globalContext.FlashNotification.setText(errors);
-                globalContext.FlashNotification.setIsOpen('true');
-                globalContext.FlashNotification.setStyle("success");
+            onError: (errors: any) => {
+                globalContext?.FlashNotification.setText(errors);
+                globalContext?.FlashNotification.setIsOpen('true');
+                globalContext?.FlashNotification.setStyle("success");
             },
             onSuccess: () => {
-                globalContext.FlashNotification.setText(t("Account updated!"));
-                globalContext.FlashNotification.setIsOpen('true');
-                globalContext.FlashNotification.setStyle("success");
+                globalContext?.FlashNotification.setText(t("Account updated!"));
+                globalContext?.FlashNotification.setIsOpen('true');
+                globalContext?.FlashNotification.setStyle("success");
             },
             preserveScroll: true
         });

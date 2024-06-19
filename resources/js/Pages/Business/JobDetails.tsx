@@ -3,8 +3,9 @@ import {Head, useForm, usePage} from "@inertiajs/react";
 import BusinessLayout from "../../Layouts/BusinessLayout";
 import PageSection from "../Parts/PageSection";
 import CompanyQuickView from "../Parts/CompanyQuickView";
-import {CompanyData, JobInterface} from "../../Interfaces/SharedInterfaces";
+import {CompanyData, CompanyAuthProps, JobInterface} from "../../Interfaces/SharedInterfaces";
 import {capitalize, formatDate, formatText, numberFormat} from "../../Helpers";
+import React from "react";
 
 interface JobDetailsProps {
     job: JobInterface
@@ -12,7 +13,7 @@ interface JobDetailsProps {
 
 export default function NewJob({ job }: JobDetailsProps) {
     const {t} = useLaravelReactI18n();
-    let company: CompanyData = usePage().props.auth.company;
+    let company: CompanyData = usePage<CompanyAuthProps>().props.auth.company;
     const {post} = useForm();
 
     let editJobButton = () => (window.location.href = `/job/${job.id}/update`)
@@ -53,12 +54,12 @@ export default function NewJob({ job }: JobDetailsProps) {
 
                         <div className="row">
                             <div className="col-4 fw-semibold">{t("Work area")}:</div>
-                            <div className="col-8">{job.work_area.name}</div>
+                            <div className="col-8">{job.work_area?.name}</div>
                         </div>
 
                         <div className="row">
                             <div className="col-4 fw-semibold">{t("Work field")}:</div>
-                            <div className="col-8">{job.work_field.name}</div>
+                            <div className="col-8">{job.work_field?.name}</div>
                         </div>
 
                         <div className="row">

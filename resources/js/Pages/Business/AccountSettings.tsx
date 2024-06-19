@@ -7,11 +7,16 @@ import PageSection from "../Parts/PageSection";
 import {useState} from "react";
 import useGlobalContext from "../../Hooks/useGlobalContext";
 import {CompanyData} from "../../Interfaces/SharedInterfaces";
+import React from "react";
 
-export default function AccountSettings({company}: CompanyData) {
+interface PageProps {
+    company: CompanyData
+}
+
+export default function AccountSettings({company}: PageProps) {
     const [isVatObligated, setIsVatObligated] = useState(company.is_vat_obligated);
     const {t} = useLaravelReactI18n();
-    let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+    let csrfToken = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
     const globalContext = useGlobalContext();
 
     const {data, setData, post, processing} = useForm({
@@ -39,23 +44,25 @@ export default function AccountSettings({company}: CompanyData) {
         }));
     }
 
-    function submit(e) {
+    function submit(e: any) {
         e.preventDefault();
         post('/account', {
             headers: {
-                'X-CSRF-TOKEN': csrfToken
+                'X-CSRF-TOKEN': csrfToken ?? ''
             },
-            onError: (errors: string) => {
+            onError: (errors: any|string|string[]) => {
                 let errorMessage = '';
-                errors.map((error) => errorMessage += error + `<br >`)
-                globalContext.FlashNotification.setText(errorMessage);
-                globalContext.FlashNotification.setIsOpen('true');
-                globalContext.FlashNotification.setStyle("danger");
+                if (typeof errors !== 'string') {
+                    errors?.map((error: string) => errorMessage += error + `<br >`)
+                }
+                globalContext?.FlashNotification.setText(errorMessage);
+                globalContext?.FlashNotification.setIsOpen('true');
+                globalContext?.FlashNotification.setStyle("danger");
             },
             onSuccess: () => {
-                globalContext.FlashNotification.setText(t("Account updated!"));
-                globalContext.FlashNotification.setIsOpen('true');
-                globalContext.FlashNotification.setStyle("success");
+                globalContext?.FlashNotification.setText(t("Account updated!"));
+                globalContext?.FlashNotification.setIsOpen('true');
+                globalContext?.FlashNotification.setStyle("success");
             },
             preserveScroll: true
         });

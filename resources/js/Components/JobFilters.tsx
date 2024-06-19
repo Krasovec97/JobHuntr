@@ -18,12 +18,12 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
     const [selectedWorkAreas, setSelectedWorkAreas] = useState<Array<object>>([{}]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     let noOptionsText = t("Please, select the work area before selecting work field.");
-    let workFieldsSelect = null;
+    let workFieldsSelect: any = null;
 
     useEffect(() => {
         axios.get('/api/work_areas')
             .then((response) => {
-                setWorkAreasArray(response.data.map((workArea) => {
+                setWorkAreasArray(response.data.map((workArea:any) => {
                     return {
                         value: workArea.id,
                         label: workArea.name
@@ -33,8 +33,8 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
     }, []);
 
     useEffect(() => {
-        let workAreaIds = [];
-        selectedWorkAreas.forEach((workArea) => {
+        let workAreaIds: any = [];
+        selectedWorkAreas.forEach((workArea: any) => {
             workAreaIds.push(workArea.value);
         })
         let workAreaIdsString = '';
@@ -45,7 +45,7 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
 
             axios.get(workFieldsUrl)
                 .then((response) => {
-                    setWorkFieldsArray(response.data.map((workArea) => {
+                    setWorkFieldsArray(response.data.map((workArea: any) => {
                         return {
                             value: workArea.id,
                             label: workArea.name
@@ -60,7 +60,7 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
     }, [selectedWorkAreas])
 
 
-    function updateSelectedWorkAreas(userSetWorkAreas) {
+    function updateSelectedWorkAreas(userSetWorkAreas: any) {
         if (userSetWorkAreas.length === 0) {
             setWorkFieldsArray([]);
             workFieldsSelect.clearValue();
@@ -68,7 +68,7 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
         setSelectedWorkAreas(userSetWorkAreas);
     }
 
-    const handleLocationFilter = (location) => {
+    const handleLocationFilter = (location: any) => {
         let newLocationFilters = {...filters};
         let index = filters.location.indexOf(location);
 
@@ -81,7 +81,7 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
         }
     }
 
-    const handleEmploymentTypeFilter = (employmentType) => {
+    const handleEmploymentTypeFilter = (employmentType: any) => {
         let newEmploymentTypeFilter = {...filters};
         let index = filters.employment_type.indexOf(employmentType);
 
@@ -104,9 +104,9 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
         return () => clearTimeout(delayDebounceFn)
     }, [searchTerm]);
 
-    const handleWorkFieldsFilter = (workFields) => {
-        let workFieldIds = [];
-        workFields.forEach((workFields) => {
+    const handleWorkFieldsFilter = (workFields: any) => {
+        let workFieldIds: any = [];
+        workFields.forEach((workFields: any) => {
             workFieldIds.push(workFields.value);
         })
         let workFieldsString = workFieldIds.join(',');

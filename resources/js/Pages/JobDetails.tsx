@@ -4,7 +4,10 @@ import MainLayout from "../Layouts/MainLayout";
 import {Head} from "@inertiajs/react";
 import PageSection from "./Parts/PageSection";
 
-export default function JobDetails({job}: JobInterface) {
+interface PageProps {
+    job: JobInterface
+}
+export default function JobDetails({job}: PageProps) {
     return (
         <MainLayout>
             <Head title="Job Details"/>

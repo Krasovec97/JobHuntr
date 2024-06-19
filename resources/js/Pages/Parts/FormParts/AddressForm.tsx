@@ -4,6 +4,8 @@ import {useEffect, useState} from "react";
 import Select from "react-select";
 import axios from "axios";
 import {AddressSelection} from "../../../Styles/SharedStyles";
+import React from "react";
+import {Country, PlaceInterface} from "../../../Interfaces/SharedInterfaces";
 
 type AddressData = {
     street: string,
@@ -58,22 +60,22 @@ export function AddressForm({ street, city, country, zip, updateFields }: Addres
         }
     }, [addressSearch]);
 
-    let countryChange = (selectedOption) => {
+    let countryChange = (selectedOption: any) => {
         updateFields({country: selectedOption.label})
         setSelectedCountry(selectedOption)
     }
 
-    let updateAddressInput = (string) => {
-        updateFields({street: string});
-        setAddressSearch(string);
+    let updateAddressInput = (street: string) => {
+        updateFields({street: street});
+        setAddressSearch(street);
     }
 
-    let parseAndSetAddress = (place) => {
+    let parseAndSetAddress = (place: any) => {
         let houseNumber = null;
         let streetName = null;
-        let city = null;
+        let city: null = null;
 
-        place.addressComponents.forEach((component) => {
+        place.addressComponents.forEach((component: any) => {
             switch (component.types[0]) {
                 case 'street_number':
                     houseNumber = component.longText
@@ -86,7 +88,7 @@ export function AddressForm({ street, city, country, zip, updateFields }: Addres
                     city = component.longText;
                     break;
                 case 'country':
-                    countries.forEach((country) => {
+                    countries.forEach((country: Country) => {
                         if (country.value === component.shortText) {
                             countryChange(country);
                         } else {
@@ -130,7 +132,7 @@ export function AddressForm({ street, city, country, zip, updateFields }: Addres
                 />
 
                     <div className="border rounded p-2 mt-2" hidden={availableLocations.length === 0}>
-                        {availableLocations.length > 0 && !userConfirmedAddress && availableLocations.map((place, index) => {
+                        {availableLocations.length > 0 && !userConfirmedAddress && availableLocations.map((place: PlaceInterface, index) => {
                             return (
                                 <AddressSelection key={index} onClick={() => parseAndSetAddress(place)} className="p-2">
                                     {place.formattedAddress}

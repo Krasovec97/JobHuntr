@@ -1,9 +1,10 @@
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../../../Components/FancyTitle";
+import React from "react";
 
 type AccountTypeData = {
     is_business_account: boolean,
-    setPostUrl?: (value: (((prevState: string) => string) | string)) => void
+    setPostUrl: (value: (((prevState: string) => string) | string)) => void
 }
 
 type UserFormProps = AccountTypeData & {

@@ -1,5 +1,6 @@
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import ApplicationLogo from "../../Components/ApplicationLogo";
+import React from "react";
 
 export default function () {
     const {t} = useLaravelReactI18n();

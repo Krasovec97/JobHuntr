@@ -1,4 +1,4 @@
-import MainLayout from '../Layouts/MainLayout.js';
+import MainLayout from '../Layouts/MainLayout';
 import {Head, useForm} from '@inertiajs/react';
 import PageSection from "./Parts/PageSection";
 import {useMultistepForm} from "../Hooks/useMultistepForm";
@@ -9,7 +9,6 @@ import {AddressForm} from "./Parts/FormParts/AddressForm";
 import React, {FormEvent, useState} from "react";
 import {CompanyForm} from "./Parts/FormParts/CompanyForm";
 import {PersonalForm} from "./Parts/FormParts/PersonalForm";
-import "bootstrap/dist/js/bootstrap.bundle.min";
 import {Button, Modal} from "react-bootstrap";
 
 
@@ -98,7 +97,7 @@ export default function Register() {
     ];
     const { steps, currentStepIndex, step, isFirstStep, back, next, isLastStep } = useMultistepForm(data.is_business_account ? businessSteps : personalSteps );
 
-    let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+    let csrfToken = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
 
 
 
@@ -108,7 +107,7 @@ export default function Register() {
 
         post(postUrl, {
             headers: {
-                'X-CSRF-TOKEN': csrfToken
+                'X-CSRF-TOKEN': csrfToken ?? ''
             },
             onError: (errors) => {
                 alert(errors);

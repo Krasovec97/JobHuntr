@@ -1,11 +1,12 @@
 import {Head} from '@inertiajs/react';
-import MainLayout from '../Layouts/MainLayout.tsx';
-import PageSection from "./Parts/PageSection.tsx";
+import MainLayout from '../Layouts/MainLayout';
+import PageSection from "./Parts/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import FancyTitle from "../Components/FancyTitle.tsx";
-import IconCard from "../Components/IconCard.tsx";
-import ContactForm from "./Parts/ContactForm.tsx";
+import FancyTitle from "../Components/FancyTitle";
+import IconCard from "../Components/IconCard";
+import ContactForm from "./Parts/ContactForm";
 import {toTitleCase} from "../Helpers";
+import React from "react";
 
 export default function RemoteJobs() {
     const {t} = useLaravelReactI18n();

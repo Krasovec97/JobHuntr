@@ -1,5 +1,6 @@
 import {FormWrapper} from "./FormWrapper";
 import {useLaravelReactI18n} from "laravel-react-i18n";
+import React from "react";
 import {useEffect, useState} from "react";
 
 type AccountData = {
@@ -29,7 +30,7 @@ export function AccountForm({ email, password, updateFields }: AccountFormProps)
         }
     }, [cPassword])
 
-    const handleCPassword = (e) => {
+    const handleCPassword = (e: { target: { value: React.SetStateAction<string>; }; }) => {
         setCPassword(e.target.value);
         setIsCPasswordDirty(true);
     }

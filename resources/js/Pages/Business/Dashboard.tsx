@@ -4,12 +4,15 @@ import PageSection from "../Parts/PageSection";
 import BusinessLayout from "../../Layouts/BusinessLayout";
 import OverviewCard from "../Parts/OverviewCard";
 import CompanyQuickView from "../Parts/CompanyQuickView";
-import {CompanyData} from "../../Interfaces/SharedInterfaces";
+import {CompanyData, CompanyAuthProps} from "../../Interfaces/SharedInterfaces";
+import React from "react";
+import {PageItemProps} from "react-bootstrap";
+
 
 
 export default function Dashboard() {
     const {t} = useLaravelReactI18n();
-    let company: CompanyData = usePage().props.auth.company;
+    let company: CompanyData = usePage<CompanyAuthProps>().props.auth.company;
 
     return (
         <BusinessLayout>

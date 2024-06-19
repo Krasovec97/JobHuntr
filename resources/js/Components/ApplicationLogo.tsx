@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 
 interface LogoProps {
@@ -24,7 +25,7 @@ const Image = styled.div<{ width?: number }>`
 
     @media only screen and (max-width: 768px) {
         min-width: ${props => {
-            return (props.width - 100) + "px"
+            if (props.width !== undefined) return (props.width - 100) + "px"
         }};
     }
 `

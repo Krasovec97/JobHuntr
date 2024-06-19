@@ -1,4 +1,4 @@
-import {useLaravelReactI18n} from "laravel-react-i18n";
+import React from "react";
 
 interface OCardInterface {
     headerText: string,
