@@ -65,6 +65,10 @@ class WebController extends Controller
             abort(404);
         }
 
+        $job->job_company = $job->company;
+        $job->work_area = WorkArea::getById($job->work_area_id);
+        $job->work_field = WorkField::getById($job->work_field_id);
+
         return Inertia::render('JobDetails', [
             'job' => $job
         ]);

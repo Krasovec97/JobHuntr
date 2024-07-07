@@ -45,6 +45,6 @@ return new class extends Migration
         Schema::table('company_jobs', function (Blueprint $table) {
             $table->dropForeign(['company_id']);
         });
-        Schema::dropIfExists('jobs');
+        Schema::dropIfExists('company_jobs');
     }
 };

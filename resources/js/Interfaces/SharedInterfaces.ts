@@ -45,7 +45,7 @@ export interface JobInterface {
     zip: string,
     city: string,
     country:string,
-    application_mail: string
+    application_mail?: string
 }
 
 export interface WorkFieldInterface {

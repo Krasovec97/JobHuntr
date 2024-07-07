@@ -7,6 +7,7 @@ use App\Models\WorkArea;
 use App\Models\WorkField;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use MatanYadaev\EloquentSpatial\Objects\Point;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CompanyJob>
@@ -61,12 +62,18 @@ class CompanyJobFactory extends Factory
             "salary_currency" => fake()->randomElement(['USD', 'EUR', 'GBP']),
             "preferred_gender" => fake()->randomElement(['male', 'female', 'any']),
             "preferred_education" => fake()->randomElement(['none', 'primary', 'high_school', 'bachelor', 'master', 'doctorate']),
+            "application_mail" => fake()->email,
             "status" => $status,
             "posted_at" => $jobPostedAt,
             "expires_at" => $expiresAt,
             "company_id" => $company->id,
             "work_area_id" => $workArea->id,
             "work_field_id" => $workField->id,
+            "country" => fake()->country,
+            "street" => fake()->streetName,
+            "city" => fake()->city,
+            "zip" => fake()->postcode,
+            "coordinates" => new Point(0, 0),
         ];
     }
 }

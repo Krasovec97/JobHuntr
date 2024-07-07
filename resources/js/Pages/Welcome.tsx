@@ -170,18 +170,30 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                             {clickedJob.description}
                         </div>
 
+                        <div className="border-bottom mb-3">
+                            <p className="fw-bold m-0">{t("Job application email")}</p>
+                            <a href={"mailto:" + clickedJob.application_mail ?? clickedJob.company_data.email}>{clickedJob.application_mail ?? clickedJob.company_data.email}</a>
+                        </div>
+
                         <div className="my-3">
-                            <span className="fw-bold">{t("Employer info")}:</span>
-                            <div>
-                                {clickedJob.company_data.full_name}
-                            </div>
-                            <div>
-                                {clickedJob.company_data.street}, <br/>
-                                {clickedJob.company_data.zip + " " + clickedJob.company_data.city}
-                            </div>
-                            <div>
-                                {clickedJob.company_data.contact_phone}
-                            </div>
+                            {clickedJob.company_data.id !== 1 ? <>
+                                    <span className="fw-bold">{t("Employer info")}:</span>
+                                    <div>
+                                        {clickedJob.company_data.full_name}
+                                    </div>
+                                    <div>
+                                        {clickedJob.company_data.street}, <br/>
+                                        {clickedJob.company_data.zip + " " + clickedJob.company_data.city}
+                                    </div>
+                                    <div>
+                                        {clickedJob.company_data.contact_phone}
+                                    </div>
+                                </>
+                                :
+                                <div className="text-end">
+                                    <small className="my-auto fw-light fst-italic">{t("This job was posted by JobHuntr")}</small>
+                                </div>
+                            }
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
