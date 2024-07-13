@@ -78,7 +78,7 @@ export default function JobDetails({job}: PageProps) {
                             </div>
                             <div className="border-bottom mb-3">
                                 <p className="fw-bold m-0">{t("Job application email")}</p>
-                                <a href={"mailto:" + job.application_mail ?? job.company.email}>{job.application_mail ?? job.company.email}</a>
+                                <a href={"mailto:" + job.application_mail}>{job.application_mail}</a>
                             </div>
                             <div className="text-end">
                                 <a href="/jobs" className="btn btn-primary">{t('Back to all jobs')}</a>
