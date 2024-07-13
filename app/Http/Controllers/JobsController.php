@@ -24,7 +24,7 @@ class JobsController extends Controller
      */
     public function getJobsPage(Request $request): Response
     {
-        $companyJobs = Company::getAuthenticatedCompany()->jobs;
+        $companyJobs = Company::getAuthenticatedCompany()->jobs()->orderBy('id')->get();
 
         foreach ($companyJobs as $job) {
             $job->work_field = WorkField::query()->find($job->work_field_id);
@@ -77,7 +77,6 @@ class JobsController extends Controller
             "num_of_positions" => ["required", "numeric"],
             "yearly_salary" => ["required", "numeric"],
             "currency" => ["required"],
-            "gender" => ["required"],
             "education" => ["required"],
             "application_mail" => ["string"]
         ]);

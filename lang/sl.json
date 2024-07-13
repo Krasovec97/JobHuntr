@@ -240,5 +240,21 @@
     "Verified": "Preverjeno",
     "Unverified": "Nepreverjeno",
     "Jobs overview": "Pregled delovnih mest",
-    "List of all of your jobs": "Seznam vseh vaših delovnih mest"
+    "List of all of your jobs": "Seznam vseh vaših delovnih mest",
+    "Bold": "Krepko",
+    "Italic": "Ležeče",
+    "Strike": "Prečrtano",
+    "Code": "Koda",
+    "Clear marks": "Počisti oznake",
+    "Clear nodes": "Počisti vozlišča",
+    "Paragraph": "Odstavek",
+    "Align left": "Poravnaj levo",
+    "Align center": "Poravnaj na sredino",
+    "Align right": "Poravnaj desno",
+    "Bullet list": "Označen seznam",
+    "Ordered list": "Oštevilčen seznam",
+    "Code Block": "Blok kode",
+    "Blockquote": "Citat",
+    "Undo": "Razveljavi",
+    "Redo": "Uveljavi"
 }

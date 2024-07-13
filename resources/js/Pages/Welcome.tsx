@@ -166,7 +166,9 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                         </div>
                         <div className="border-bottom mb-3">
                             <p className="fw-bold m-0">{t("Description")}</p>
-                            {clickedJob.description}
+                            <div className="col-12"
+                                 dangerouslySetInnerHTML={{__html: clickedJob.description.substring(0, 300)}}>
+                            </div>
                         </div>
 
                         <div className="border-bottom mb-3">
@@ -190,7 +192,8 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                                 </>
                                 :
                                 <div className="text-end">
-                                    <small className="my-auto fw-light fst-italic">{t("This job was posted by JobHuntr")}</small>
+                                    <small
+                                        className="my-auto fw-light fst-italic">{t("This job was posted by JobHuntr")}</small>
                                 </div>
                             }
                         </div>

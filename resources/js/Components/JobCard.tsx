@@ -25,8 +25,7 @@ export default function JobCard({job, isDrafted = false}: ComponentProps) {
                                     <div className="col-12 mb-1 fw-bold">
                                         {t("Description")}:
                                     </div>
-                                    <div className="col-12">
-                                        <p>{job.description.substring(0, 200)}...</p>
+                                    <div className="col-12" dangerouslySetInnerHTML={{__html: job.description.substring(0, 200)}}>
                                     </div>
                                 </div>
 

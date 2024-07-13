@@ -18,7 +18,7 @@ export default function ({company}: PageProps) {
             <div className="col-6 text-end">
                 <CompanyVerifiedPill
                     title={company.company_verified_at !== null ? t('Your company is verified!') : t('Your company is still being verified. We usually verify your company within 24 hours of registering.')}
-                    verified={company.company_verified_at !== null}>
+                    verified={company.company_verified_at !== null? 1 : 0}>
                     {company.company_verified_at !== null ? t('Verified') : t('Unverified')}
                 </CompanyVerifiedPill>
             </div>
@@ -26,7 +26,7 @@ export default function ({company}: PageProps) {
     )
 }
 
-let CompanyVerifiedPill = styled.div<{ verified: boolean }>`
+let CompanyVerifiedPill = styled.div<{ verified: number }>`
     padding: 10px;
     font-weight: bold;
     width: fit-content;

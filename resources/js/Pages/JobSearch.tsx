@@ -135,7 +135,9 @@ export default function JobSearch() {
                         </div>
                         <div className="border-bottom mb-3">
                             <p className="fw-bold m-0">{t("Description")}</p>
-                            {clickedJob.description}
+                            <div className="col-12"
+                                 dangerouslySetInnerHTML={{__html: clickedJob.description.substring(0, 300)}}>
+                            </div>
                         </div>
 
                         <div className="border-bottom mb-3">

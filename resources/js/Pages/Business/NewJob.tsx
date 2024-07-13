@@ -18,6 +18,7 @@ import {
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import {AddressSelection} from "../../Styles/SharedStyles";
 import React from "react";
+import Tiptap from "../../Components/Tiptap";
 
 interface NewJobProps {
     workAreas: Array<WorkAreaInterface>
@@ -48,6 +49,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
     const [addressSearch, setAddressSearch] = useState('');
     const [countries, setCountries] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState({});
+    const [editorContent, setEditorContent] = useState("");
 
     useEffect(() => {
         fetch(
@@ -130,9 +132,16 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                     setSelectedCountry(country);
                 }
             })
-        }, [countries]);
+        }, [countries, editorContent]);
 
     }
+
+    useEffect(() => {
+        setData(values => ({
+            ...values,
+            job_description: editorContent
+        }));
+    }, [editorContent]);
 
     function handleEmploymentTypeChange(e: { target: { value: string; }; }) {
         setData(values => ({
@@ -307,14 +316,9 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                     <div className="row mb-3">
                         <div className="col-12">
                             <label>{t("Job description")}</label>
-                            <textarea
-                                placeholder={t("Handle customer complaints, provide appropriate solutions and alternatives...")}
-                                rows={25}
-                                required
-                                className={"form-control"}
-                                onChange={(e) => setData('job_description', e.target.value)}
-                                defaultValue={job ? job.description : undefined}
-                            ></textarea>
+                            <div className="card">
+                                <Tiptap content={job?.description} setEditorContent={setEditorContent}/>
+                            </div>
                         </div>
                     </div>
 
