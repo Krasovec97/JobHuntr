@@ -8,7 +8,10 @@ export default function () {
         <>
             <footer className="bg-dark py-3 text-center">
                 <div>
-                    <ApplicationLogo />
+                    <ApplicationLogo/>
+                </div>
+                <div className="mt-3">
+                    <i className="fa-solid fa-at"></i> <a href="mailto:info@jobhuntr.co" className="fw-bold">info@jobhuntr.co</a>
                 </div>
                 <div className="mt-3">
                     {t("© 2024 JobHuntr | All rights reserved | Terms of use")}

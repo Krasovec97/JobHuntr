@@ -4,7 +4,6 @@ import PageSection from "../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../Components/FancyTitle";
 import IconCard from "../Components/IconCard";
-import ContactForm from "./Parts/ContactForm";
 import {CompanyData, JobInterface} from "../Interfaces/SharedInterfaces";
 import JobCard from "../Components/JobCard";
 import {formatText, numberFormat, toTitleCase} from "../Helpers";
@@ -127,14 +126,6 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                             </div>
                         </div>
                     }
-                </div>
-            </PageSection>
-
-            <PageSection className={"bg-white"}>
-                <FancyTitle darkBg={false} heading={t("Contact us").toUpperCase()} subtitle={t("Need help?")} />
-
-                <div className="col-12 col-md-9 my-5 mx-auto" id="contact-form">
-                    <ContactForm />
                 </div>
             </PageSection>
 

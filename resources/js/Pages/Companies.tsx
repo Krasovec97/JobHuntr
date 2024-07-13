@@ -4,7 +4,6 @@ import PageSection from "../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../Components/FancyTitle";
 import IconCard from "../Components/IconCard";
-import ContactForm from "./Parts/ContactForm";
 import {toTitleCase} from "../Helpers";
 import React from 'react';
 
@@ -116,14 +115,6 @@ export default function Companies() {
                             <p>{t("JobHuntr is founded on principles of integrity and reliability. We rigorously verify each company to ensure only legitimate and trustworthy job listings are posted, building a platform you and your applicants can depend on.")}</p>
                         </IconCard>
                     </div>
-                </div>
-            </PageSection>
-
-            <PageSection className={"bg-white"}>
-                <FancyTitle darkBg={false} heading={t("Get in touch with us").toUpperCase()} subtitle={t("Have questions?")} />
-
-                <div className="col-12 col-md-9 my-5 mx-auto" id="contact-form">
-                    <ContactForm />
                 </div>
             </PageSection>
         </MainLayout>

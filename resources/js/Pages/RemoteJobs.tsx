@@ -4,7 +4,6 @@ import PageSection from "../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../Components/FancyTitle";
 import IconCard from "../Components/IconCard";
-import ContactForm from "./Parts/ContactForm";
 import {toTitleCase} from "../Helpers";
 import React from "react";
 
@@ -144,14 +143,6 @@ export default function RemoteJobs() {
                             <p>{t("With more control over your work environment, you can create a workspace that is comfortable and conducive to your health. You can set up an ergonomic workstation, control lighting, and reduce exposure to germs in a shared office space.")}</p>
                         </IconCard>
                     </div>
-                </div>
-            </PageSection>
-
-            <PageSection className={"bg-white"}>
-                <FancyTitle darkBg={false} heading={t("Contact us").toUpperCase()} subtitle={t("Need to know more?")} />
-
-                <div className="col-12 col-md-9 my-5 mx-auto" id="contact-form">
-                    <ContactForm />
                 </div>
             </PageSection>
         </MainLayout>
