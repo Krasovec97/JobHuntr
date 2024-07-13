@@ -2,10 +2,10 @@ $primary: #d30855;
 $dark: #1a1a1a;
 
 @import "~bootstrap/scss/bootstrap";
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,800");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 body {
-    font-family: 'Open Sans', sans-serif !important;
+    font-family: 'Poppins', sans-serif !important;
 }
 
 .bg-dark {
@@ -46,6 +46,7 @@ body {
         padding: calc(var(--g) + var(--t));
         outline: var(--t) solid $primary; /* the color here */
         outline-offset: calc(-1*var(--t));
+        //noinspection CssInvalidFunction
         mask:
             conic-gradient(at var(--s) var(--s),#0000 75%,#000 0)
             0 0/calc(100% - var(--s)) calc(100% - var(--s)),

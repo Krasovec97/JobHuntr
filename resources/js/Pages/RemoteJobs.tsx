@@ -1,6 +1,6 @@
 import {Head} from '@inertiajs/react';
 import MainLayout from '../Layouts/MainLayout';
-import PageSection from "./Parts/PageSection";
+import PageSection from "../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../Components/FancyTitle";
 import IconCard from "../Components/IconCard";
@@ -25,14 +25,15 @@ export default function RemoteJobs() {
                         <h1 className="fw-bold">
                             {toTitleCase(t("Find your dream remote job"))}
                         </h1>
+
                         <p>
                             {t("Do what you love to do - remotely!")}
                         </p>
                     </div>
 
                     <div className="col-12 mb-5">
-                        <a className='btn btn-primary btn-lg me-4' href="/jobs">{t("Start searching")}</a>
-                        <a className='btn btn-outline-light' href="/register">{t("Register")}</a>
+                        <a className='btn btn-primary btn-lg me-4 text-white py-2 px-4 fw-bold' href="/jobs">{t("Start searching").toUpperCase()}</a>
+                        {/*<a className='btn btn-outline-light' href="/register">{t("Register")}</a>*/}
                     </div>
                 </div>
             </PageSection>
@@ -147,7 +148,7 @@ export default function RemoteJobs() {
             </PageSection>
 
             <PageSection className={"bg-white"}>
-                <FancyTitle darkBg={false} heading={t("Contact us")} subtitle={t("Need to know more?")} />
+                <FancyTitle darkBg={false} heading={t("Contact us").toUpperCase()} subtitle={t("Need to know more?")} />
 
                 <div className="col-12 col-md-9 my-5 mx-auto" id="contact-form">
                     <ContactForm />

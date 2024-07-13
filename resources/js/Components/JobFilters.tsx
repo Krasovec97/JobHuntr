@@ -163,13 +163,13 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
                 <div>
                     <input onChange={() => handleEmploymentTypeFilter("full_time")} className="form-check-inline"
                            type="checkbox"/>
-                    <label htmlFor="remote" className="form-check-label">{t("Full Time")}</label>
+                    <label htmlFor="remote" className="form-check-label">{t("Full time")}</label>
                 </div>
 
                 <div>
                     <input onChange={() => handleEmploymentTypeFilter("part_time")} className="form-check-inline"
                            type="checkbox"/>
-                    <label htmlFor="hybrid" className="form-check-label">{t("Part Time")}</label>
+                    <label htmlFor="hybrid" className="form-check-label">{t("Part time")}</label>
                 </div>
             </div>
 

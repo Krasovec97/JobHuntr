@@ -62,8 +62,7 @@ export default function JobCard({job, isDrafted = false}: ComponentProps) {
 
                                 <p className="m-0">This is just some random text...</p>
                                 <p className="m-0">There is probably a million positions open</p>
-                                <p className="m-0">Need a job at JobHuntr? You probably seem to be looking at this
-                                    code. </p>
+                                <p className="m-0">Greetings Mr. Inspector.</p>
                             </div>
 
                             <div className="card-footer">

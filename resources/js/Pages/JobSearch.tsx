@@ -1,10 +1,10 @@
 import {Head} from '@inertiajs/react';
 import MainLayout from '../Layouts/MainLayout';
-import PageSection from "./Parts/PageSection";
+import PageSection from "../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../Components/FancyTitle";
 import JobCard from "../Components/JobCard";
-import {formatText, numberFormat, toTitleCase} from "../Helpers";
+import {formatText, numberFormat} from "../Helpers";
 import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Button, Modal} from "react-bootstrap";
@@ -72,7 +72,7 @@ export default function JobSearch() {
             <Head title="Job Search"/>
 
             <PageSection className={"bg-white min-vh-100"} fullWidth={true}>
-                <FancyTitle heading={t("Find Your Perfect Job").toUpperCase()} subtitle={toTitleCase(t("Discover opportunities today"))}/>
+                <FancyTitle heading={t("Find Your Perfect Job").toUpperCase()} subtitle={t("Discover opportunities today")}/>
 
                 <div className="row justify-content-center">
                     <div className="col-12 col-sm-2">
@@ -115,7 +115,7 @@ export default function JobSearch() {
                     <Modal.Body>
                         <div className="border-bottom mb-3">
                             <p className="fw-bold m-0">{t("Employment type")}</p>
-                            {formatText(clickedJob.employment_type)}
+                            {t(formatText(clickedJob.employment_type))}
                         </div>
                         <div className="border-bottom mb-3">
                             <p className="fw-bold m-0">{t("Salary")}</p>
@@ -140,7 +140,7 @@ export default function JobSearch() {
 
                         <div className="border-bottom mb-3">
                             <p className="fw-bold m-0">{t("Job application email")}</p>
-                            <a href={"mailto:" + clickedJob.application_mail ?? clickedJob.company_data.email}>{clickedJob.application_mail ?? clickedJob.company_data.email}</a>
+                            <a href={"mailto:" + clickedJob.application_mail}>{clickedJob.application_mail}</a>
                         </div>
 
                         <div className="my-3">

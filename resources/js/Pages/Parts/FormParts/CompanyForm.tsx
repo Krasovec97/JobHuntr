@@ -62,7 +62,7 @@ export function CompanyForm({ company_full_name, company_short_name, company_num
                     value={registration_house}
                     onChange={e => updateFields({registration_house: e.target.value})}/>
                 <div id={"companyHouseExplanation"} className={"form-text fst-italic"}>
-                    {t("Entity at which the company was registered (Company House for UK, Ajpes for Slovenia, etc.).")}
+                    {t("Entity at which the company was registered (Company House for UK, Ajpes for Slovenia, etc.)")}
                 </div>
             </div>
 

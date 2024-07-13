@@ -1,7 +1,8 @@
-import Header from "../Pages/Parts/Header.tsx";
+import Header from "../Pages/Parts/Header";
 import Footer from "../Pages/Parts/Footer";
+import React from "react";
 
-export default function ({ children }) {
+export default function ({ children }: any) {
     return (
         <div className="container-fluid">
             <div className="row bg-dark sticky-top">

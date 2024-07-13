@@ -2,7 +2,7 @@ import React from "react";
 import {CompanyData, JobInterface} from "../Interfaces/SharedInterfaces";
 import MainLayout from "../Layouts/MainLayout";
 import {Head} from "@inertiajs/react";
-import PageSection from "./Parts/PageSection";
+import PageSection from "../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import {formatText, numberFormat} from "../Helpers";
 import IconWithText from "../Components/IconWithText";

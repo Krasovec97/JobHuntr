@@ -1,7 +1,7 @@
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import {Head, usePage} from "@inertiajs/react";
 import BusinessLayout from "../../Layouts/BusinessLayout";
-import PageSection from "../Parts/PageSection";
+import PageSection from "../../Components/PageSection";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import FancyTitle from "../../Components/FancyTitle";
 import styled from "styled-components";

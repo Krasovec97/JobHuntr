@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import {useLaravelReactI18n} from "laravel-react-i18n";
 import parse from 'html-react-parser';
 import React from "react";
 
@@ -11,7 +10,6 @@ interface NotificationData {
 }
 
 export default function ({text, style, isOpen, onClose}: NotificationData) {
-    const {t} = useLaravelReactI18n();
     let iconClass = '';
 
     switch (style) {

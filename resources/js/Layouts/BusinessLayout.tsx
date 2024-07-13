@@ -1,9 +1,12 @@
+// noinspection HtmlUnknownTarget
+
 import ApplicationLogo from '../Components/ApplicationLogo.js';
 import { Link } from '@inertiajs/react';
 import BusinessHeader from "../Pages/Parts/BusinessHeader";
 import styled from "styled-components";
+import React from 'react';
 
-export default function ({ children }) {
+export default function ({ children }: any) {
     return (
         <div className="container-fluid">
             <div className="row min-vh-100">

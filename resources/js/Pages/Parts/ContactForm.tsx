@@ -30,7 +30,7 @@ export default function () {
                 </div>
 
                 <div className="text-center mt-4">
-                    <button type="submit" className="btn btn-primary px-4 rounded">{t("Send now")}</button>
+                    <button type="submit" className="btn btn-primary px-4 rounded fw-bold">{t("Send now").toUpperCase()}</button>
                 </div>
             </form>
         </>

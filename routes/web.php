@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -18,8 +19,8 @@ use \Illuminate\Support\Facades;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', [WebController::class, 'getWelcomePage']);
+Route::get('/verify/{token}', [UserController::class, 'verifyUserEmail']);
 
 Route::get('/remote', [WebController::class, 'getRemoteJobsPage']);
 

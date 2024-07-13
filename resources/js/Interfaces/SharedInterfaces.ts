@@ -45,7 +45,7 @@ export interface JobInterface {
     zip: string,
     city: string,
     country:string,
-    application_mail?: string
+    application_mail: string
 }
 
 export interface WorkFieldInterface {
@@ -95,6 +95,7 @@ export interface PlaceInterface {
 interface PageProps {
     [key: string]: unknown;
 }
+// noinspection JSUnusedLocalSymbols
 interface Page<SharedProps extends PageProps = PageProps> {
     component: string;
     props: PageProps & SharedProps & {

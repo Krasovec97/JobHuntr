@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Remoter'),
+    'name' => env('APP_NAME', 'JobHuntr'),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://remoter.test'),
+    'url' => env('APP_URL', 'http://JobHuntr.test'),
 
     'asset_url' => env('ASSET_URL'),
 

@@ -1,7 +1,7 @@
 import { Head, useForm } from '@inertiajs/react';
 import InputLabel from "../../Components/InputLabel";
 import InputError from "../../Components/InputError";
-import PageSection from "../Parts/PageSection";
+import PageSection from "../../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../../Components/FancyTitle";
 import React from 'react';

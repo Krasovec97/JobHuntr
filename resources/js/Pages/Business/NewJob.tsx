@@ -1,8 +1,8 @@
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import {Head, useForm, usePage} from "@inertiajs/react";
 import BusinessLayout from "../../Layouts/BusinessLayout";
-import PageSection from "../Parts/PageSection";
-import Select, {SingleValue} from "react-select";
+import PageSection from "../../Components/PageSection";
+import Select from "react-select";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import useGlobalContext from "../../Hooks/useGlobalContext";
@@ -26,7 +26,7 @@ interface NewJobProps {
 
 export default function NewJob({workAreas, job}: NewJobProps) {
     const {t} = useLaravelReactI18n();
-    const [workAreasArray, setWorkAreasArray] = useState(workAreas.map((area) => {
+    const [workAreasArray] = useState(workAreas.map((area) => {
         return {
             value: area.id,
             label: area.name

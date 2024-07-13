@@ -31,12 +31,12 @@ export function AccountTypeSelection({updateFields, setPostUrl}: UserFormProps) 
 
             <div className={"col-12 my-5 text-center"}>
                 <button type="button" className={"btn btn-lg btn-primary"} title={t("I'm offering work.")}
-                        onClick={() => handleBusinessAccountClick()}>
+                        onClick={handleBusinessAccountClick}>
                     {t("Business Account")}
                 </button>
 
                 <button type="button" className={"btn btn-lg btn-outline-primary ms-md-5 mt-4 mt-md-0"}
-                        title={t("I'm looking for work.")} onClick={() => handlePersonalAccountClick()}>
+                        title={t("I'm looking for work.")} onClick={handlePersonalAccountClick}>
                     {t("Personal Account")}
                 </button>
             </div>

@@ -1,6 +1,6 @@
 import MainLayout from '../Layouts/MainLayout';
 import {Head, useForm} from '@inertiajs/react';
-import PageSection from "./Parts/PageSection";
+import PageSection from "../Components/PageSection";
 import {useMultistepForm} from "../Hooks/useMultistepForm";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import {AccountTypeSelection} from "./Parts/FormParts/AccountTypeSelection";
@@ -120,7 +120,7 @@ export default function Register() {
 
     return (
         <MainLayout>
-            <Head title="Register" />
+            <Head title={t("Register")} />
             <PageSection className={"bg-white full-h"}>
                 <div className="row m-md-5">
                     <form className={"col-12 col-md-9 mx-auto mt-5 border p-4 shadow"} onSubmit={onSubmit}>

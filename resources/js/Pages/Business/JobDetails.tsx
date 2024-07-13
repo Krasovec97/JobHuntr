@@ -1,7 +1,7 @@
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import {Head, useForm, usePage} from "@inertiajs/react";
 import BusinessLayout from "../../Layouts/BusinessLayout";
-import PageSection from "../Parts/PageSection";
+import PageSection from "../../Components/PageSection";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import {CompanyData, CompanyAuthProps, JobInterface} from "../../Interfaces/SharedInterfaces";
 import {capitalize, formatDate, formatText, numberFormat} from "../../Helpers";

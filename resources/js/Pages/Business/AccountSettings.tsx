@@ -3,7 +3,7 @@ import BusinessLayout from "../../Layouts/BusinessLayout";
 import {Head, useForm} from "@inertiajs/react";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import FancyTitle from "../../Components/FancyTitle";
-import PageSection from "../Parts/PageSection";
+import PageSection from "../../Components/PageSection";
 import {useState} from "react";
 import useGlobalContext from "../../Hooks/useGlobalContext";
 import {CompanyData} from "../../Interfaces/SharedInterfaces";
@@ -19,7 +19,7 @@ export default function AccountSettings({company}: PageProps) {
     let csrfToken = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
     const globalContext = useGlobalContext();
 
-    const {data, setData, post, processing} = useForm({
+    const {setData, post, processing} = useForm({
         contact_person: company.contact_person,
         contact_phone: company.contact_phone,
         is_vat_obligated: isVatObligated,

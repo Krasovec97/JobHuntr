@@ -2,7 +2,7 @@ import { Head, useForm } from '@inertiajs/react';
 import MainLayout from '../../Layouts/MainLayout.js';
 import InputLabel from "../../Components/InputLabel";
 import InputError from "../../Components/InputError";
-import PageSection from "../Parts/PageSection";
+import PageSection from "../../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../../Components/FancyTitle";
 import React from 'react';
@@ -23,10 +23,10 @@ export default function Login() {
 
     return (
         <MainLayout>
-            <Head title="Log in" />
+            <Head title={t("Login")} />
 
             <PageSection className={'full-h'}>
-                <FancyTitle heading={"Login"} subtitle={"Welcome"} />
+                <FancyTitle heading={t("Login")} subtitle={t("Welcome")} />
                 <div className={"col-12 col-md-4 border p-4 rounded mx-auto shadow"}>
                     <form onSubmit={submit}>
                         <div>

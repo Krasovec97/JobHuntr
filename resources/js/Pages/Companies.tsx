@@ -1,6 +1,6 @@
 import {Head} from '@inertiajs/react';
 import MainLayout from '../Layouts/MainLayout';
-import PageSection from "./Parts/PageSection";
+import PageSection from "../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../Components/FancyTitle";
 import IconCard from "../Components/IconCard";
@@ -31,7 +31,7 @@ export default function Companies() {
                     </div>
 
                     <div className="col-12 mb-5">
-                        <a className='btn btn-outline-light btn-lg' href="/register">{t("Register")}</a>
+                        <a className='btn btn-outline-light btn-lg fw-bold px-5' href="/register">{t("Register").toUpperCase()}</a>
                     </div>
                 </div>
             </PageSection>
@@ -120,7 +120,7 @@ export default function Companies() {
             </PageSection>
 
             <PageSection className={"bg-white"}>
-                <FancyTitle darkBg={false} heading={toTitleCase(t("Get in touch with us"))} subtitle={t("Have questions?")} />
+                <FancyTitle darkBg={false} heading={t("Get in touch with us").toUpperCase()} subtitle={t("Have questions?")} />
 
                 <div className="col-12 col-md-9 my-5 mx-auto" id="contact-form">
                     <ContactForm />

@@ -1,6 +1,6 @@
 import {Head} from '@inertiajs/react';
 import MainLayout from '../Layouts/MainLayout';
-import PageSection from "./Parts/PageSection";
+import PageSection from "../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../Components/FancyTitle";
 import IconCard from "../Components/IconCard";
@@ -60,8 +60,7 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                     </div>
 
                     <div className="col-12 mb-5">
-                        <a className='btn btn-primary btn-lg me-4' href="/jobs">{t("Start searching")}</a>
-                        <a className='btn btn-outline-light' href="/register">{t("Register")}</a>
+                        <a className='btn btn-primary btn-lg me-4 px-5 fw-bold' href="/jobs">{t("Start searching").toUpperCase()}</a>
                     </div>
                 </div>
             </PageSection>
@@ -132,7 +131,7 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
             </PageSection>
 
             <PageSection className={"bg-white"}>
-                <FancyTitle darkBg={false} heading={t("Contact us")} subtitle={t("Need help?")} />
+                <FancyTitle darkBg={false} heading={t("Contact us").toUpperCase()} subtitle={t("Need help?")} />
 
                 <div className="col-12 col-md-9 my-5 mx-auto" id="contact-form">
                     <ContactForm />
@@ -172,7 +171,7 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
 
                         <div className="border-bottom mb-3">
                             <p className="fw-bold m-0">{t("Job application email")}</p>
-                            <a href={"mailto:" + clickedJob.application_mail ?? clickedJob.company_data.email}>{clickedJob.application_mail ?? clickedJob.company_data.email}</a>
+                            <a href={"mailto:" + clickedJob.application_mail}>{clickedJob.application_mail}</a>
                         </div>
 
                         <div className="my-3">

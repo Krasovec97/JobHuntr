@@ -1,9 +1,9 @@
 import React from "react";
 
 interface ComponentProps {
-    message: string,
+    message?: string,
     className: string,
-    props: any
+    props?: any
 }
 export default function InputError({ message, className = '', ...props }: ComponentProps) {
     return message ? (

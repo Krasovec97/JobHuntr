@@ -102,4 +102,16 @@ class UserController extends Controller
 
         return Redirect::to('/dashboard');
     }
+
+    public function verifyUserEmail(Request $request, string $token)
+    {
+        /** @var User $user */
+        $user = User::query()->where('email_verification_token', $token)->first();
+        if ($user === null) abort(404);
+
+        $user->email_verified_at = now();
+        $user->save();
+
+        return Inertia::render('EmailVerified');
+    }
 }

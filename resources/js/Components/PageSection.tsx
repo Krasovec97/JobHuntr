@@ -8,7 +8,7 @@ interface PageSectionInterface {
 
 export default function ({ className = "bg-dark",fullWidth = false, children }: PageSectionInterface) {
     return (
-        <div className={className}>
+        <div className={"py-5 " + className}>
             <div className={(fullWidth ? "col-12" : "col-9") + " mx-auto"}>
                 { children }
             </div>
