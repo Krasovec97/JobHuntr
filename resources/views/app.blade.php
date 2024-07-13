@@ -33,13 +33,13 @@
     </head>
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KMS3KN9V6C"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TRF524KEBJ"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
-        gtag('config', 'G-KMS3KN9V6C');
+        gtag('config', 'G-TRF524KEBJ');
     </script>
 
     <body class="font-sans antialiased">
