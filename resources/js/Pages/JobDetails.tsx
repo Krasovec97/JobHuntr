@@ -29,8 +29,8 @@ export default function JobDetails({job}: PageProps) {
         <MainLayout>
             <Head title="Job Details"/>
 
-            <PageSection className="bg-white">
-                <div className="col-8 mx-auto shadow border-3 m-5 rounded p-5">
+            <PageSection className="bg-white" fullWidth={true}>
+                <div className="col-12 col-md-6 mx-auto shadow border-3 m-5 rounded p-md-5 p-2">
                     <div className="row text-center">
                         <h1 className="fw-bold">{job.title}</h1>
                     </div>

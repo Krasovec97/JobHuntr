@@ -10,6 +10,7 @@ import React, {useEffect, useState} from "react";
 import {Button, Modal} from "react-bootstrap";
 import {CompanyData, FilterTypes, JobInterface} from "../Interfaces/SharedInterfaces";
 import JobFilters from "../Components/JobFilters";
+import styled from "styled-components";
 
 type JobWithCompanyData = JobInterface & {
     company_data: CompanyData
@@ -75,10 +76,10 @@ export default function JobSearch() {
                 <FancyTitle heading={t("Find Your Perfect Job").toUpperCase()} subtitle={t("Discover opportunities today")}/>
 
                 <div className="row justify-content-center">
-                    <div className="col-12 col-sm-2">
+                    <MenuSidebar className="col-12 col-sm-2">
                         <JobFilters filters={filters} setFilters={setFilters} totalJobsCount={totalJobsCount} currentJobsCount={currentJobsCount}/>
-                    </div>
-                    <div className="col-12 col-sm-9">
+                    </MenuSidebar>
+                    <PageContent className="col-12 col-sm-9">
                         <div className="row justify-content-center justify-content-md-start">
                             {loading ?
                                 <div className="spinner-grow text-primary" role="status">
@@ -103,7 +104,7 @@ export default function JobSearch() {
                                 </>
                             }
                         </div>
-                    </div>
+                    </PageContent>
                 </div>
             </PageSection>
 
@@ -180,3 +181,21 @@ export default function JobSearch() {
     );
 }
 
+let MenuSidebar = styled.div`
+    @media only screen and (min-width: 800px) {
+        position: sticky;
+        top: 150px;
+        left: 0;
+        margin-right: 40px;
+        min-width: 0;
+        max-width: 300px;
+        height: 100vh;
+    }
+`
+
+let PageContent = styled.div`
+    @media only screen and (min-width: 800px) {
+        position: relative;
+        width: calc(90% - 300px);
+    }
+`
