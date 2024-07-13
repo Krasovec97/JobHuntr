@@ -25,7 +25,6 @@ return new class extends Migration
             $table->unsignedBigInteger('work_field_id');
             $table->foreign('work_field_id')->references('id')->on('work_fields');
             $table->string('work_location');
-            $table->string('preferred_gender');
             $table->string('preferred_education');
             $table->unsignedInteger('open_positions_count');
             $table->string('status');

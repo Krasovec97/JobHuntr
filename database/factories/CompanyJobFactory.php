@@ -60,7 +60,6 @@ class CompanyJobFactory extends Factory
             "open_positions_count" => fake()->numberBetween(1, 7),
             "salary" => fake()->numberBetween(10000, 200000),
             "salary_currency" => fake()->randomElement(['USD', 'EUR', 'GBP']),
-            "preferred_gender" => fake()->randomElement(['male', 'female', 'any']),
             "preferred_education" => fake()->randomElement(['none', 'primary', 'high_school', 'bachelor', 'master', 'doctorate']),
             "application_mail" => fake()->email,
             "status" => $status,

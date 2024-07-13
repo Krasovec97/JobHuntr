@@ -46,11 +46,6 @@ class CompanyJobResource extends Resource
                     'hybrid' => __("Partially online"),
                     'on_location' => __("On location")
                 ])->required(),
-                Select::make('preferred_gender')->options([
-                    'any' => __("Any"),
-                    'male' => __("Male"),
-                    'female' => __("Female")
-                ])->required(),
                 Select::make('preferred_education')->options([
                     'none' => __("None"),
                     'primary' => __("Primary school or equivalent"),

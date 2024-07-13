@@ -19,7 +19,6 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property int $work_area_id
  * @property int $work_field_id
  * @property string $work_location
- * @property string $preferred_gender
  * @property string $preferred_education
  * @property int $open_positions_count
  * @property string $status
@@ -54,7 +53,6 @@ class CompanyJob extends Model
         'work_area_id',
         'work_field_id',
         'work_location',
-        'preferred_gender',
         'preferred_education',
         'open_positions_count',
         'status',

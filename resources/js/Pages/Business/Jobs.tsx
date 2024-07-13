@@ -24,7 +24,7 @@ export default function Jobs({companyJobs}: JobsProps) {
             <PageSection className={'bg-white full-h'}>
                 <CompanyQuickView company={company} />
 
-                <FancyTitle heading={"Jobs overview"} subtitle={"List of all of your jobs"}/>
+                <FancyTitle heading={t("Jobs overview")} subtitle={t("List of all of your jobs")}/>
 
                 <div className={"row mb-3"}>
                     <div className="col-12 text-end">

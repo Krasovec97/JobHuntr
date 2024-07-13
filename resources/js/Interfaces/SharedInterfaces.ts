@@ -33,7 +33,6 @@ export interface JobInterface {
     open_positions_count: number,
     posted_at?: string,
     preferred_education: string,
-    preferred_gender: string,
     salary: number,
     salary_currency: string,
     status: string,

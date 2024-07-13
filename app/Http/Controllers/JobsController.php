@@ -105,7 +105,6 @@ class JobsController extends Controller
         $job->open_positions_count = $request->input('num_of_positions');
         $job->salary = $request->input('yearly_salary');
         $job->salary_currency = strtoupper($request->input('currency'));
-        $job->preferred_gender = $request->input('gender');
         $job->preferred_education = $request->input('education');
         $job->street = $request->input('street') ?? $company->street;
         $job->city = $request->input('city') ?? $company->city;
@@ -122,6 +121,7 @@ class JobsController extends Controller
         }
 
         $jobSaved = $job->save();
+
 
         if ($jobSaved) {
             $job->work_area = WorkArea::query()->find($job->work_area_id);
@@ -180,7 +180,34 @@ class JobsController extends Controller
 
         $job->status = 'active';
         $job->posted_at = now();
-        $job->expires_at = Carbon::now()->addMonth();
+        $job->expires_at = $job->expires_at ?? Carbon::now()->addMonth();
+        $job->save();
+
+        $job->work_area = WorkArea::query()->find($job->work_area_id);
+        $job->work_field = WorkField::query()->find($job->work_field_id);
+
+        return Inertia::render('Business/JobDetails', [
+            "job" => $job
+        ]);
+    }
+
+    /**
+     * Activate a job listing.
+     *
+     * @param Request $request The HTTP request.
+     * @param int $jobId The job ID.
+     * @return Response The Inertia response.
+     */
+    public function cancelJobListing(Request $request, int $jobId): Response
+    {
+        $job = CompanyJob::getById($jobId);
+
+        if ($job === null) {
+            abort(404);
+        }
+
+        $job->status = 'draft';
+        $job->posted_at = null;
         $job->save();
 
         $job->work_area = WorkArea::query()->find($job->work_area_id);

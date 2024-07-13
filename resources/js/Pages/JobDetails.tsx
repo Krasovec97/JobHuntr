@@ -71,10 +71,6 @@ export default function JobDetails({job}: PageProps) {
                                 {formatText(job.employment_type)}
                             </div>
                             <div className="border-bottom mb-3">
-                                <p className="fw-bold m-0">{t("Preferred Gender")}</p>
-                                {formatText(job.preferred_gender)}
-                            </div>
-                            <div className="border-bottom mb-3">
                                 <p className="fw-bold m-0">{t("Preferred Education")}</p>
                                 {formatText(job.preferred_education)}
                             </div>

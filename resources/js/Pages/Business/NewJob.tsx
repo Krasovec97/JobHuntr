@@ -75,13 +75,11 @@ export default function NewJob({workAreas, job}: NewJobProps) {
         num_of_positions: job?.open_positions_count ?? 0,
         yearly_salary: job?.salary ?? 0,
         currency: job?.salary_currency ?? 'eur',
-        gender: job?.preferred_gender ?? 'any',
         education: job?.preferred_education ?? 'none',
         street: job?.street ?? '',
         city: job?.city ?? '',
         zip: job?.zip ?? '',
         country: job?.country ?? '',
-        coordinates: job?.country ?? '',
         application_mail: job?.application_mail ?? '',
     })
 
@@ -132,7 +130,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                     setSelectedCountry(country);
                 }
             })
-        }, []);
+        }, [countries]);
 
     }
 
@@ -162,13 +160,6 @@ export default function NewJob({workAreas, job}: NewJobProps) {
         setData(values => ({
             ...values,
             currency: e.target.value
-        }));
-    }
-
-    function handleGenderChange(e: { target: { value: string; }; }) {
-        setData(values => ({
-            ...values,
-            gender: e.target.value
         }));
     }
 
@@ -350,7 +341,6 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                                     className={"form-control"}
                                     type="text"
                                     defaultValue={data.street}
-                                    // onChange={e => updateFields({street: e.target.value})}
                                     onChange={e => updateAddressInput(e.target.value)}
                                 />
 
@@ -460,18 +450,6 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                                 <option value="eur">EUR</option>
                                 <option value="usd">USD</option>
                                 <option value="gbp">GBP</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className="row mb-3">
-                        <div className="col-12">
-                            <label>{t("Preferred gender")}</label>
-                            <select required className={"form-select"} onChange={handleGenderChange}
-                                    defaultValue={job?.preferred_gender}>
-                                <option value="any">{t("Any")}</option>
-                                <option value="male">{t("Male")}</option>
-                                <option value="female">{t("Female")}</option>
                             </select>
                         </div>
                     </div>
