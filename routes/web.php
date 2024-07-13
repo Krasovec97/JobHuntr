@@ -19,6 +19,8 @@ use \Illuminate\Support\Facades;
 | contains the "web" middleware group. Now create something great!
 |
 */
+\Illuminate\Support\Facades\App::setLocale(request()->getPreferredLanguage(['sl', 'en'] ?? 'en'));
+
 Route::get('/', [WebController::class, 'getWelcomePage']);
 Route::get('/verify/{token}', [UserController::class, 'verifyUserEmail']);
 

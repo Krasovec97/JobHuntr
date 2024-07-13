@@ -32,14 +32,14 @@ export default function Login() {
 
     return (
         <>
-            <Head title="[Business] Log in" />
+            <Head title={t('[Business] Log in')} />
 
             <PageSection className={'full-h'}>
                 <FancyTitle heading={"Login"} subtitle={"Welcome"} />
                 <div className={"col-12 col-md-4 border p-4 rounded mx-auto shadow"}>
                     <form onSubmit={submit}>
                         <div>
-                            <InputLabel value="Email"/>
+                            <InputLabel value={t('Email')}/>
 
                             <input
                                 id="email"
@@ -56,7 +56,7 @@ export default function Login() {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel value="Password"/>
+                            <InputLabel value={t('Password')}/>
 
                             <input
                                 id="password"

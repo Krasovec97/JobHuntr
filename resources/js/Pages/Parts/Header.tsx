@@ -46,15 +46,19 @@ export default function ({darkBg}: HeaderProps) {
                                        className={textColor + " nav-link"}>{t("Jobs").toUpperCase()}</a>
                                 </li>
 
-                                <li className="nav-item my-auto">
-                                    <a href="/remote"
-                                       className={textColor + " nav-link"}>{t("Online jobs").toUpperCase()}</a>
-                                </li>
+                                {user === null &&
+                                    <>
+                                        <li className="nav-item my-auto">
+                                            <a href="/remote"
+                                               className={textColor + " nav-link"}>{t("Online jobs").toUpperCase()}</a>
+                                        </li>
 
-                                <li className="nav-item my-auto">
-                                    <a href="/companies"
-                                       className={textColor + " nav-link"}>{t("For companies").toUpperCase()}</a>
-                                </li>
+                                        <li className="nav-item my-auto">
+                                            <a href="/companies"
+                                               className={textColor + " nav-link"}>{t("For companies").toUpperCase()}</a>
+                                        </li>
+                                    </>
+                                }
 
                                 {user === null ?
                                     <>
@@ -64,7 +68,7 @@ export default function ({darkBg}: HeaderProps) {
                                         </li>
 
                                         <li className="nav-item ms-3 mt-3 my-md-auto">
-                                            <a href="/register"
+                                        <a href="/register"
                                                className={"btn btn-outline-primary"}>{t("Register").toUpperCase()}</a>
                                         </li>
                                     </>

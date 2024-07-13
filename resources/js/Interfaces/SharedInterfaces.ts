@@ -15,7 +15,10 @@ export interface CompanyData {
     street: string,
     updated_at: string,
     vat_id: string,
-    zip: string
+    zip: string,
+    email_verified_at: string,
+    email_verification_token: string,
+    company_verified_at: string,
 }
 
 

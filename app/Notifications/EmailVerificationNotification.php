@@ -39,7 +39,7 @@ class EmailVerificationNotification extends Notification
                     ->subject(__("Welcome to JobHuntr"))
                     ->line(__("We are happy that you decided to join us. Please click the button below, to finalize your account and verify your email!"))
                     ->action(__("Verify now!"), url('/verify/'.$this->token))
-                    ->line(__("Thank you for using Remoter!"));
+                    ->line(__("Thank you for using JobHuntr!"));
     }
 
 }

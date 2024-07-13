@@ -17,6 +17,7 @@ use App\Http\Controllers\WebController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+\Illuminate\Support\Facades\App::setLocale(request()->getPreferredLanguage(['sl', 'en'] ?? 'en'));
 
 Route::get('/', [AuthenticatedSessionController::class, 'renderBusinessLoginView']);
 

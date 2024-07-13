@@ -14,6 +14,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+\Illuminate\Support\Facades\App::setLocale(request()->getPreferredLanguage(['sl', 'en'] ?? 'en'));
+
+
 Route::middleware('guest')->group(function () {
     Route::get('register', [UserController::class, 'displayRegisterPage'])
                 ->name('register');
