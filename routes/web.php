@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebController;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use \Illuminate\Support\Facades;
@@ -19,7 +21,11 @@ use \Illuminate\Support\Facades;
 | contains the "web" middleware group. Now create something great!
 |
 */
-\Illuminate\Support\Facades\App::setLocale(request()->getPreferredLanguage(['sl', 'en'] ?? 'en'));
+App::setLocale(request()->getPreferredLanguage(['sl', 'en'] ?? 'en'));
+
+if(env('APP_ENV') !== 'production') {
+    Route::get('/test', [TestController::class, 'test']);
+}
 
 Route::get('/', [WebController::class, 'getWelcomePage']);
 Route::get('/verify/{token}', [UserController::class, 'verifyUserEmail']);
