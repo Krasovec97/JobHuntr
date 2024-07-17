@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\User;
 use App\Notifications\EmailVerificationNotification;
 use Illuminate\Http\JsonResponse;
@@ -106,12 +107,14 @@ class UserController extends Controller
 
     public function verifyUserEmail(Request $request, string $token)
     {
-        /** @var User $user */
-        $user = User::query()->where('email_verification_token', $token)->first();
-        if ($user === null) abort(404);
+        /** @var User|Company $entity */
+        $entity = User::query()->where('email_verification_token', $token)->first();
+        if ($entity === null) $entity = Company::query()->where('email_verification_token', $token)->first();
 
-        $user->email_verified_at = now();
-        $user->save();
+        if ($entity === null) abort(404);
+
+        $entity->email_verified_at = now();
+        $entity->save();
 
         return Inertia::render('EmailVerified');
     }

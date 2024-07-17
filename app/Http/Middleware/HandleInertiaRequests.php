@@ -35,8 +35,10 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
-                'company' => Auth::guard('web_business')->user()
-            ]
+                'company' => Auth::guard('web_business')->user(),
+            ],
+            'app_url'=> env('APP_URL'),
+            'business_url'=> env('APP_BUSINESS_URL'),
         ];
     }
 }

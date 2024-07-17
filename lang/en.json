@@ -265,5 +265,18 @@
     "Cookies": "Cookies",
     "We use cookies to ensure our site functions properly, gather usage data, remember your preferences.": "We use cookies to ensure our site functions properly, gather usage data, remember your preferences.",
     "Agree & close": "Agree & close",
-    "More information": "More information"
+    "More information": "More information",
+    "Best regards, JobHuntr": "Best regards, JobHuntr",
+    "An email was sent to provided address, if an account was found!": "An email was sent to provided address, if an account was found!",
+    "Forgotten password?": "Forgotten password?",
+    "Reset your password": "Reset your password",
+    "Oopsie": "Oopsie",
+    "It seems that you have requested to change your password.": "It seems that you have requested to change your password.",
+    "If that is not the case, please just ignore this email.": "If that is not the case, please just ignore this email.",
+    "Password reset link has expired.": "Password reset link has expired.",
+    "Back to login": "Back to login",
+    "Let's get you back on track": "Let's get you back on track",
+    "Choose a new password": "Choose a new password",
+    "Company login": "Company login",
+    "Your password was successfully reset, you can now login to your account": "Your password was successfully reset, you can now login to your account"
 }

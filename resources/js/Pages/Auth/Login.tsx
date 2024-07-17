@@ -27,7 +27,7 @@ export default function Login() {
 
             <PageSection className={'full-h'}>
                 <FancyTitle heading={t("Login")} subtitle={t("Welcome")} />
-                <div className={"col-12 col-md-4 border p-4 rounded mx-auto shadow"}>
+                <div className={"col-12 col-md-5 border p-4 rounded mx-auto shadow"}>
                     <form onSubmit={submit}>
                         <div>
                             <InputLabel value="Email"/>
@@ -60,6 +60,11 @@ export default function Login() {
                             />
 
                             <InputError message={errors.password} className="mt-2"/>
+                        </div>
+                        <div className="text-end my-2">
+                            <a href="/forgotten/password">
+                                <small>{t("Forgotten password?")}</small>
+                            </a>
                         </div>
                         <div className={"col-12 text-center mt-4"}>
                             <button className={"btn btn-primary px-5"}>{t("Login")}</button>

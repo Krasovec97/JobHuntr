@@ -1,4 +1,4 @@
-import { Head, useForm } from '@inertiajs/react';
+import {Head, useForm, usePage} from '@inertiajs/react';
 import InputLabel from "../../Components/InputLabel";
 import InputError from "../../Components/InputError";
 import PageSection from "../../Components/PageSection";
@@ -35,8 +35,8 @@ export default function Login() {
             <Head title={t('[Business] Log in')} />
 
             <PageSection className={'full-h'}>
-                <FancyTitle heading={"Login"} subtitle={"Welcome"} />
-                <div className={"col-12 col-md-4 border p-4 rounded mx-auto shadow"}>
+                <FancyTitle heading={t("Company login")} subtitle={t("Welcome")} />
+                <div className={"col-12 col-md-5 border p-4 rounded mx-auto shadow"}>
                     <form onSubmit={submit}>
                         <div>
                             <InputLabel value={t('Email')}/>
@@ -69,6 +69,11 @@ export default function Login() {
                             />
 
                             <InputError message={errors.password} className="mt-2"/>
+                        </div>
+                        <div className="text-end my-2">
+                            <a href={`https://${usePage().props.app_url}/forgotten/password`}>
+                                <small>{t("Forgotten password?")}</small>
+                            </a>
                         </div>
                         <div className={"col-12 text-center mt-4"}>
                             <button className={"btn btn-primary px-5"}>{t("Login")}</button>

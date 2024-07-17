@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class EmailVerificationNotification extends Notification
+class PasswordResetNotification extends Notification
 {
     use Queueable;
     private string $token;
@@ -37,11 +37,13 @@ class EmailVerificationNotification extends Notification
     {
         return (new MailMessage)
                     ->greeting(__("Hello"))
-                    ->subject(__("Welcome to JobHuntr"))
-                    ->line(__("We are happy that you decided to join us. Please click the button below, to finalize your account and verify your email!"))
-                    ->action(__("Verify now!"), url('/verify/'.$this->token))
+                    ->line(__("It seems that you have requested to change your password."))
+                    ->line(__("If that is not the case, please just ignore this email."))
+                    ->action(__("Reset password!"), url('/password/reset/' . $this->token))
                     ->line(__("Thank you for using JobHuntr!"))
                     ->salutation(__("Best regards, JobHuntr"));
+
     }
+
 
 }

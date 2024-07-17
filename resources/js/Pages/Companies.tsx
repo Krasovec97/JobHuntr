@@ -1,4 +1,4 @@
-import {Head} from '@inertiajs/react';
+import {Head, usePage} from '@inertiajs/react';
 import MainLayout from '../Layouts/MainLayout';
 import PageSection from "../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
@@ -29,7 +29,7 @@ export default function Companies() {
                     </div>
 
                     <div className="col-12 mb-5">
-                        <a className='btn btn-outline-light btn-lg fw-bold px-5' href="/register">{t("Register").toUpperCase()}</a>
+                        <a className='btn btn-outline-light btn-lg fw-bold px-5' href={`https://${usePage().props.business_url}`}>{t("Company login").toUpperCase()}</a>
                     </div>
                 </div>
             </PageSection>

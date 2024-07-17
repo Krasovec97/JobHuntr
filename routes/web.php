@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
@@ -44,6 +45,12 @@ Route::get('/api/work_areas', [WebController::class, 'getWorkAreas']);
 Route::get('/api/work_fields', [WebController::class, 'getWorkFields']);
 
 Route::get('/google/places', [WebController::class, 'getGooglePlacesResponse']);
+
+Route::get('/forgotten/password', [PasswordResetLinkController::class, 'getForgottenPasswordPage']);
+Route::post('/forgotten/password', [PasswordResetLinkController::class, 'handleUserPasswordResetRequest']);
+
+Route::get('/password/reset/{token}', [PasswordResetLinkController::class, 'resetPasswordPage']);
+Route::post('/password/reset/', [PasswordResetLinkController::class, 'resetEntityPassword']);
 
 
 require __DIR__.'/auth.php';
