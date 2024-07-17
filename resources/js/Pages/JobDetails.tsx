@@ -57,19 +57,19 @@ export default function JobDetails({job}: PageProps) {
                         <div className="my-5 col-10 mx-auto" dangerouslySetInnerHTML={{__html: job.description}}></div>
                         <div className="col-10 mx-auto my-4">
                             <div className="border-bottom mb-3">
-                                <p className="fw-bold m-0">{t("Work Area")}</p>
+                                <p className="fw-bold m-0">{t("Work area")}</p>
                                 {job.work_area?.name}
                             </div>
                             <div className="border-bottom mb-3">
-                                <p className="fw-bold m-0">{t("Work Field")}</p>
+                                <p className="fw-bold m-0">{t("Work field")}</p>
                                 {job.work_field?.name}
                             </div>
                             <div className="border-bottom mb-3">
-                                <p className="fw-bold m-0">{t("Employment Type")}</p>
+                                <p className="fw-bold m-0">{t("Employment type")}</p>
                                 {formatText(job.employment_type)}
                             </div>
                             <div className="border-bottom mb-3">
-                                <p className="fw-bold m-0">{t("Preferred Education")}</p>
+                                <p className="fw-bold m-0">{t("Preferred education")}</p>
                                 {formatText(job.preferred_education)}
                             </div>
                             <div className="border-bottom mb-3">

@@ -20,7 +20,7 @@
     "Master's degree": "Magisterij",
     "Doctorate or higher": "Doktorat ali višja",
     "Update your profile": "Posodobite svoj profil",
-    "Spruce Up Your Profile, :name!": "Olepšaj svoj profil, :name!",
+    "Spruce up your profile, :name!": "Olepšaj svoj profil, :name!",
     "Education": "Izobrazba",
     "Date of birth": "Datum rojstva",
     "Account updated!": "Račun posodobljen!",
@@ -118,7 +118,7 @@
     "Subject": "Zadeva",
     "Your Message": "Tvoje sporočilo",
     "Send now": "Pošlji",
-    "© 2024 JobHuntr | All rights reserved | Terms of use": "© 2024 JobHuntr | Vse pravice pridržane | Pogoji uporabe",
+    "© 2024 JobHuntr | All rights reserved": "© 2024 JobHuntr | Vse pravice pridržane",
     "Home": "Domov",
     "Jobs": "Delovna mesta",
     "Online jobs": "Zaposlitve preko spleta",
@@ -256,5 +256,14 @@
     "Code Block": "Blok kode",
     "Blockquote": "Citat",
     "Undo": "Razveljavi",
-    "Redo": "Uveljavi"
+    "Redo": "Uveljavi",
+    "Back to all jobs": "Nazaj na vse službe",
+    "Terms of use": "Pogoji uporabe",
+    "GDPR Policy": "Politika GDPR",
+    "Privacy policy": "Politika zasebnosti",
+    "Cookie policy": "Politika piškotkov",
+    "Cookies": "Piškotki",
+    "We use cookies to ensure our site functions properly, gather usage data, remember your preferences.": "Piškotke uporabljamo, da zagotovimo pravilno delovanje naše strani, zbiramo podatke o uporabi in si zapomnimo vaše nastavitve.",
+    "Agree & close": "Strinjam se in zapri",
+    "More information": "Več informacij"
 }

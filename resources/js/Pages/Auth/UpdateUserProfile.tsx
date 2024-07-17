@@ -109,7 +109,7 @@ export default function (user: UserData) {
 
     return (
         <div className={"shadow p-5 my-5 col-12 col-md-8 mx-auto"}>
-            <FancyTitle heading={t("Update your profile")} subtitle={t("Spruce Up Your Profile, :name!", {name: user.name})} />
+            <FancyTitle heading={t("Update your profile").toUpperCase()} subtitle={t("Spruce up your profile, :name!", {name: user.name})} />
             <form onSubmit={handleSubmit} className={"col-12 col-md-8 mx-auto"}>
                 <div className="mb-3">
                     <label className={"form-label ps-0"}>{t("Contact Phone")} <span

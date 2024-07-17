@@ -4,7 +4,6 @@ import PageSection from "../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../Components/FancyTitle";
 import IconCard from "../Components/IconCard";
-import {toTitleCase} from "../Helpers";
 import React from 'react';
 
 export default function Companies() {
@@ -22,7 +21,7 @@ export default function Companies() {
                         </div>
 
                         <h1 className="fw-bold">
-                            {toTitleCase(t("Offering work?"))}
+                            {t("Offering work?")}
                         </h1>
                         <p>
                             {t("We're the ideal platform for posting job opportunities")}

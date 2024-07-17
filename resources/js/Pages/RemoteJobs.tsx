@@ -4,7 +4,6 @@ import PageSection from "../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../Components/FancyTitle";
 import IconCard from "../Components/IconCard";
-import {toTitleCase} from "../Helpers";
 import React from "react";
 
 export default function RemoteJobs() {
@@ -22,7 +21,7 @@ export default function RemoteJobs() {
                         </div>
 
                         <h1 className="fw-bold">
-                            {toTitleCase(t("Find your dream remote job"))}
+                            {t("Find your dream remote job")}
                         </h1>
 
                         <p>
