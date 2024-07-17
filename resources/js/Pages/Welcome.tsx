@@ -6,7 +6,7 @@ import FancyTitle from "../Components/FancyTitle";
 import IconCard from "../Components/IconCard";
 import {CompanyData, JobInterface} from "../Interfaces/SharedInterfaces";
 import JobCard from "../Components/JobCard";
-import {formatText, numberFormat, toTitleCase} from "../Helpers";
+import {formatText, numberFormat} from "../Helpers";
 import React, {useState} from "react";
 import {Button, Modal} from "react-bootstrap";
 import axios from "axios";
@@ -51,7 +51,7 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                         </div>
 
                         <h1 className="fw-bold">
-                            {toTitleCase(t("Searching for your dream job?"))}
+                            {t("Searching for your dream job?")}
                         </h1>
                         <p className="w-md-50 mx-auto">
                             {t("Let JobHuntr Guide You! Our platform is designed to connect you with the perfect opportunities tailored to your skills and aspirations. Join us today and take the first step towards your ideal career!")}
