@@ -122,6 +122,9 @@ export default function (user: UserData) {
                         value={data.contact_phone}
                         pattern={"^\\+\\d.*"}
                         onChange={handleChange}/>
+                    <small>
+                        {t("Please include country code for your telephone number (Start with +). Your telephone number also shouldn't contain any spaces.")}
+                    </small>
                 </div>
 
                 <div className="mb-3">

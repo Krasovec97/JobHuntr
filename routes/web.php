@@ -1,16 +1,11 @@
 <?php
 
 use App\Http\Controllers\Auth\PasswordResetLinkController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use \Illuminate\Support\Facades;
 
 /*
 |--------------------------------------------------------------------------
