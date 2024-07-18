@@ -4,6 +4,22 @@ import React from "react";
 
 export default function () {
     const {t} = useLaravelReactI18n();
+
+    const getClientLang = (lang: string) => {
+        const baseLang = lang.substring(0, 2);
+
+        const supportedLanguages = [
+            "en",
+            "sl"
+        ];
+
+        if (supportedLanguages.includes(baseLang)) {
+            return baseLang;
+        } else {
+            return 'en';
+        }
+    }
+
     return (
         <>
             <footer className="bg-dark py-3 text-center">
@@ -17,17 +33,17 @@ export default function () {
                     {t("© 2024 JobHuntr | All rights reserved")}
                 </div>
                 <div>
-                    <a className="mx-2" href={`/policies/tos_${navigator.language}.pdf`} target={"_blank"}>
+                    <a className="mx-2" href={`/policies/tos_${getClientLang(navigator.language)}.pdf`} target={"_blank"}>
                         <small>{t("Terms of use")}</small>
                     </a>
 
-                    <a className="mx-2" href={`/policies/gdpr_${navigator.language}.pdf`} target={"_blank"}>
+                    <a className="mx-2" href={`/policies/gdpr_${getClientLang(navigator.language)}.pdf`} target={"_blank"}>
                         <small>{t("GDPR Policy")}</small>
                     </a>
-                    <a className="mx-2" href={`/policies/privacy_policy_${navigator.language}.pdf`} target={"_blank"}>
+                    <a className="mx-2" href={`/policies/privacy_policy_${getClientLang(navigator.language)}.pdf`} target={"_blank"}>
                         <small>{t("Privacy policy")}</small>
                     </a>
-                    <a className="mx-2" href={`/policies/cookie_policy_${navigator.language}.pdf`} target={"_blank"}>
+                    <a className="mx-2" href={`/policies/cookie_policy_${getClientLang(navigator.language)}.pdf`} target={"_blank"}>
                         <small>{t("Cookie policy")}</small>
                     </a>
                 </div>
