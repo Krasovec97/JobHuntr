@@ -17,11 +17,11 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
     const [workFieldsArray, setWorkFieldsArray] = useState<Array<object>>([{}]);
     const [selectedWorkAreas, setSelectedWorkAreas] = useState<Array<object>>([{}]);
     const [searchTerm, setSearchTerm] = useState<string>('');
-    let noOptionsText = t("Please, select the work area before selecting work field.");
+    let noOptionsText = t("Please, select the sector before selecting work field.");
     let workFieldsSelect: any = null;
 
     useEffect(() => {
-        axios.get('/api/work_areas')
+        axios.get('/api/sectors')
             .then((response) => {
                 setWorkAreasArray(response.data.map((workArea:any) => {
                     return {
@@ -41,7 +41,7 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
         if (workAreaIds.length > 0) {
             workAreaIdsString = workAreaIds.join(',');
 
-            let workFieldsUrl = `/api/work_fields?work_area_ids=${workAreaIdsString}`;
+            let workFieldsUrl = `/api/work_fields?sector_ids=${workAreaIdsString}`;
 
             axios.get(workFieldsUrl)
                 .then((response) => {
@@ -55,7 +55,7 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
         }
 
         let newSearchFilter = {...filters};
-        newSearchFilter.work_areas_string = workAreaIdsString;
+        newSearchFilter.sectors_string = workAreaIdsString;
         setFilters(newSearchFilter);
     }, [selectedWorkAreas])
 
@@ -174,7 +174,7 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
             </div>
 
             <div className="col-12 mt-3">
-                <p className="fw-bold mb-0">{t("Work Areas")}:</p>
+                <p className="fw-bold mb-0">{t("Sectors")}:</p>
                 <div>
                     <Select options={workAreasArray} isClearable isMulti onChange={(e) => updateSelectedWorkAreas(e)}/>
                 </div>

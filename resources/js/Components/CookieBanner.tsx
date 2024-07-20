@@ -1,5 +1,6 @@
 import React from "react";
 import {useLaravelReactI18n} from "laravel-react-i18n";
+import {getClientLang} from "../Helpers";
 
 export default function CookieBanner() {
     const {t} = useLaravelReactI18n();
@@ -19,7 +20,7 @@ export default function CookieBanner() {
                     </div>
                     <div className="mt-3">
                         <button className="btn btn-primary me-2" data-bs-dismiss="offcanvas" onClick={acceptCookies}>{t('Agree & close')}</button>
-                        <a className="btn btn-secondary" href={`/policies/cookie_policy_${navigator.language}.pdf`} target="_blank">{t('More information')}</a>
+                        <a className="btn btn-secondary" href={`/policies/cookie_policy_${getClientLang(navigator.language)}.pdf`} target="_blank">{t('More information')}</a>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CompanyJob;
-use App\Models\WorkArea;
+use App\Models\Sector;
 use App\Models\WorkField;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -66,7 +66,7 @@ class WebController extends Controller
         }
 
         $job->job_company = $job->company;
-        $job->work_area = WorkArea::getById($job->work_area_id);
+        $job->sector = Sector::getById($job->sector_id);
         $job->work_field = WorkField::getById($job->work_field_id);
 
         return Inertia::render('JobDetails', [
@@ -99,9 +99,9 @@ class WebController extends Controller
             $jobsQuery->where(DB::raw('UPPER(title)'), 'like', '%' . $searchString . '%');
         }
 
-        if ($params->get('work_area_ids') !== null) {
-            $workAreaIds = explode(',', $params->get('work_area_ids'));
-            $jobsQuery->whereIn('work_area_id', $workAreaIds);
+        if ($params->get('sector_ids') !== null) {
+            $workAreaIds = explode(',', $params->get('sector_ids'));
+            $jobsQuery->whereIn('sector_id', $workAreaIds);
         }
 
         if ($params->get('work_fields_ids') !== null) {
@@ -125,7 +125,7 @@ class WebController extends Controller
         }
 
         $job->company_data = $job->company;
-        $job->work_area = WorkArea::getById($job->work_area_id);
+        $job->sector = Sector::getById($job->sector_id);
         $job->work_field = WorkField::getById($job->work_field_id);
 
         return $job;
@@ -133,17 +133,17 @@ class WebController extends Controller
 
     public function getWorkAreas(): Collection
     {
-        return WorkArea::query()->get();
+        return Sector::query()->get();
     }
 
     public function getWorkFields(Request $request): Collection|array
     {
         $workAreaIds = null;
-        if ($request->query->get('work_area_ids') !== null) {
-            $workAreaIds = explode(',', $request->query->get('work_area_ids'));
+        if ($request->query->get('sector_ids') !== null) {
+            $workAreaIds = explode(',', $request->query->get('sector_ids'));
         }
 
-        if($workAreaIds !== null) return WorkField::query()->whereIn('work_area_id', $workAreaIds)->get();
+        if($workAreaIds !== null) return WorkField::query()->whereIn('sector_id', $workAreaIds)->get();
         else return [];
     }
 

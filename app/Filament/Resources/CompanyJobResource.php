@@ -39,7 +39,7 @@ class CompanyJobResource extends Resource
                     'gbp' => "USD",
                     'usd' => "GBP"
                 ])->required(),
-                Select::make('work_area_id')->relationship('workArea', 'name')->required(),
+                Select::make('sector_id')->relationship('workArea', 'name')->required(),
                 Select::make('work_field_id')->relationship('workField', 'name')->required(),
                 Select::make('work_location')->options([
                     'remote' => __("Completely online / Remote"),

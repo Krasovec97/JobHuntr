@@ -13,7 +13,29 @@ export function numberFormat(number: number, currency: string) {
     return numberFormat.format(number);
 }
 
-export let formatText = (string: string) => (capitalize(string.replace('_', ' ')));
+export const formatText = (string: string) => (capitalize(string.replace('_', ' ')));
 
-export let formatDate = (string: string) => DateTime.fromSQL(string).toFormat("dd.MM.yyyy");
+export const formatDate = (string: string|undefined) => {
+    if(typeof string !== "undefined") {
+        return DateTime.fromSQL(string).toFormat("dd.MM.yyyy");
+    } else {
+        return string;
+    }
+}
+
+export const getClientLang = (lang: string) => {
+    const baseLang = lang.substring(0, 2);
+
+    const supportedLanguages = [
+        "en",
+        "sl"
+    ];
+
+    // @ts-ignore
+    if (supportedLanguages.includes(baseLang)) {
+        return baseLang;
+    } else {
+        return 'en';
+    }
+}
 

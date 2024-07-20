@@ -66,8 +66,8 @@ export default function NewJob({ job }: JobDetailsProps) {
                         </div>
 
                         <div className="row">
-                            <div className="col-4 fw-semibold">{t("Work area")}:</div>
-                            <div className="col-8">{job.work_area?.name}</div>
+                            <div className="col-4 fw-semibold">{t("Sector")}:</div>
+                            <div className="col-8">{job.sector?.name}</div>
                         </div>
 
                         <div className="row">

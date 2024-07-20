@@ -61,7 +61,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
             });
     }, []);
 
-    let noOptionsText = t("Please, select the work area before selecting work field.");
+    let noOptionsText = t("Please, select the sector before selecting work field.");
     let csrfToken = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
     const globalContext = useGlobalContext();
 
@@ -71,7 +71,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
         job_title: job?.title ?? '',
         employment_type: job?.employment_type ?? 'full_time',
         job_description: job?.description ?? '',
-        work_area_id: job?.work_area_id ?? 0,
+        sector_id: job?.sector_id ?? 0,
         work_field_id: job?.work_field_id ?? 0,
         work_location: job?.work_location ?? 'remote',
         num_of_positions: job?.open_positions_count ?? 0,
@@ -90,7 +90,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
 
         setData(values => ({
             ...values,
-            work_area_id: selectedArea.value,
+            sector_id: selectedArea.value,
             work_field_id: 0
         }));
 
@@ -98,7 +98,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
     }
 
     function getRelatedWorkFields(selectedArea: any) {
-        axios.get('/work_area/'+selectedArea.value+'/fields')
+        axios.get('/sector/'+selectedArea.value+'/fields')
             .then(response => {
                 setWorkFieldsArray(response.data.map((workField: any) => ({
                     value: workField.id,
@@ -126,7 +126,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
 
     if (job !== null) {
         useEffect(() => {
-            getRelatedWorkFields({value: job?.work_area_id})
+            getRelatedWorkFields({value: job?.sector_id})
             countries.forEach((country: Country) => {
                 if (country.label === job?.country) {
                     setSelectedCountry(country);
@@ -392,11 +392,11 @@ export default function NewJob({workAreas, job}: NewJobProps) {
 
                     <div className="row mb-3">
                         <div className="col-12">
-                            <label>{t("Work area")}</label>
+                            <label>{t("Sector")}</label>
                             <Select options={workAreasArray}
                                     defaultValue={{
-                                        value: job?.work_area?.id,
-                                        label: job?.work_area?.name
+                                        value: job?.sector?.id,
+                                        label: job?.sector?.name
                                     }}
                                     onChange={(selectedArea) => showRelevantWorkFields(selectedArea)}
                                     required={true}/>
