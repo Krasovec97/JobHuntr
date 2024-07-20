@@ -31,6 +31,7 @@ export const getClientLang = (lang: string) => {
         "sl"
     ];
 
+    // @ts-ignore
     if (supportedLanguages.includes(baseLang)) {
         return baseLang;
     } else {

@@ -169,7 +169,7 @@ export default function (user: UserData) {
                 </div>
 
                 <div className="mb-3">
-                    <label className={"form-label ps-0"}>{t("Education")}</label>
+                    <label className={"form-label ps-0"}>{t("Your education")}</label>
                     <Select options={typesOfEducation}
                             id="education"
                             value={selectedEducation}
