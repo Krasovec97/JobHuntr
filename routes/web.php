@@ -36,7 +36,7 @@ Route::get('/api/jobs', [WebController::class, 'getAvailableJobs']);
 Route::get('/api/job/{id}', [WebController::class, 'getJobDetails']);
 
 
-Route::get('/api/work_areas', [WebController::class, 'getWorkAreas']);
+Route::get('/api/sectors', [WebController::class, 'getWorkAreas']);
 Route::get('/api/work_fields', [WebController::class, 'getWorkFields']);
 
 Route::get('/google/places', [WebController::class, 'getGooglePlacesResponse']);

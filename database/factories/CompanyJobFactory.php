@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Company;
-use App\Models\WorkArea;
+use App\Models\Sector;
 use App\Models\WorkField;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -21,7 +21,7 @@ class CompanyJobFactory extends Factory
      */
     public function definition(): array
     {
-        $workAreasQuery = WorkArea::query();
+        $workAreasQuery = Sector::query();
         $availableWorkAreasCount = $workAreasQuery->count();
 
         $workArea =  $workAreasQuery
@@ -29,7 +29,7 @@ class CompanyJobFactory extends Factory
             ->first(['id']);
 
         $workFieldQuery = WorkField::query()
-            ->where('work_area_id', $workArea->id);
+            ->where('sector_id', $workArea->id);
         $workFields = $workFieldQuery->get();
         $workFieldsCount = $workFieldQuery->count();
 
@@ -66,7 +66,7 @@ class CompanyJobFactory extends Factory
             "posted_at" => $jobPostedAt,
             "expires_at" => $expiresAt,
             "company_id" => $company->id,
-            "work_area_id" => $workArea->id,
+            "sector_id" => $workArea->id,
             "work_field_id" => $workField->id,
             "country" => fake()->country,
             "street" => fake()->streetName,

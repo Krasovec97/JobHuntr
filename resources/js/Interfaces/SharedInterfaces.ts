@@ -38,10 +38,10 @@ export interface JobInterface {
     status: string,
     title: string,
     updated_at: string,
-    work_area_id: number,
+    sector_id: number,
     work_field_id: number,
     work_field?: WorkFieldInterface,
-    work_area?: WorkAreaInterface,
+    sector?: WorkAreaInterface,
     work_location: string,
     street: string,
     zip: string,
@@ -55,7 +55,7 @@ export interface WorkFieldInterface {
     id?: number,
     name: string,
     updated_at?: string,
-    work_area_id: number
+    sector_id: number
 }
 
 export interface WorkAreaInterface {
@@ -81,7 +81,7 @@ export interface FilterTypes {
     location: Array<string>,
     employment_type: Array<string>,
     search_string: string,
-    work_areas_string: string,
+    sectors_string: string,
     work_fields_string: string
 }
 

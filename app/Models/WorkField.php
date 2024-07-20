@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property int $id
  * @property string $name
- * @property int $work_area_id
+ * @property int $sector_id
  * @property string $created_at
  * @property string $updated_at
  */
@@ -21,11 +21,11 @@ class WorkField extends Model
 
     protected $fillable = [
         'name',
-        'work_area_id'
+        'sector_id'
     ];
 
     public function workArea() {
-        return $this->belongsTo(WorkArea::class, 'work_area_id', 'id');
+        return $this->belongsTo(Sector::class, 'sector_id', 'id');
     }
 
     public static function getById(int $id): self

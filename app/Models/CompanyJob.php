@@ -16,7 +16,7 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property string $employment_type
  * @property float $salary
  * @property string $salary_currency
- * @property int $work_area_id
+ * @property int $sector_id
  * @property int $work_field_id
  * @property string $work_location
  * @property string $preferred_education
@@ -50,7 +50,7 @@ class CompanyJob extends Model
         'employment_type',
         'salary',
         'salary_currency',
-        'work_area_id',
+        'sector_id',
         'work_field_id',
         'work_location',
         'preferred_education',
@@ -84,8 +84,8 @@ class CompanyJob extends Model
         return $this->hasOne(WorkField::class, 'id', 'work_field_id');
     }
 
-    public function workArea(): HasOne
+    public function sector(): HasOne
     {
-        return $this->hasOne(WorkArea::class, 'id', 'work_area_id');
+        return $this->hasOne(Sector::class, 'id', 'sector_id');
     }
 }

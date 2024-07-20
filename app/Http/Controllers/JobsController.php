@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\CompanyJob;
-use App\Models\WorkArea;
+use App\Models\Sector;
 use App\Models\WorkField;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -44,11 +44,11 @@ class JobsController extends Controller
      */
     public function getJobCreationPage(Request $request, int $jobId = null): Response
     {
-        $workAreas = WorkArea::query()->get();
+        $workAreas = Sector::query()->get();
         $job = null;
         if ($jobId !== null) {
             $job = CompanyJob::query()->find($jobId);
-            $job->work_area = WorkArea::query()->find($job->work_area_id);
+            $job->sector = Sector::query()->find($job->sector_id);
             $job->work_field = WorkField::query()->find($job->work_field_id);
         }
 
@@ -71,7 +71,7 @@ class JobsController extends Controller
             "job_title" => ["required"],
             "employment_type" => ["required"],
             "job_description" => ["required"],
-            "work_area_id" => ["required", "exists:work_areas,id"],
+            "sector_id" => ["required", "exists:sectors,id"],
             "work_field_id" => ["required", "exists:work_fields,id"],
             "work_location" => ["required"],
             "num_of_positions" => ["required", "numeric"],
@@ -82,7 +82,7 @@ class JobsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $workAreas = WorkArea::query()->get();
+            $workAreas = Sector::query()->get();
 
             return Inertia::render('Business/NewJob', [
                 'errors' => $validator->errors()->all(),
@@ -98,7 +98,7 @@ class JobsController extends Controller
         $job->title = $request->input('job_title');
         $job->description = $request->input('job_description');
         $job->employment_type = $request->input('employment_type');
-        $job->work_area_id = $request->input('work_area_id');
+        $job->sector_id = $request->input('sector_id');
         $job->work_field_id = $request->input('work_field_id');
         $job->work_location = $request->input('work_location');
         $job->open_positions_count = $request->input('num_of_positions');
@@ -123,14 +123,14 @@ class JobsController extends Controller
 
 
         if ($jobSaved) {
-            $job->work_area = WorkArea::query()->find($job->work_area_id);
+            $job->sector = Sector::query()->find($job->sector_id);
             $job->work_field = WorkField::query()->find($job->work_field_id);
 
             return Inertia::render('Business/JobDetails', [
                 "job" => $job,
             ]);
         } else {
-            $workAreas = WorkArea::query()->get();
+            $workAreas = Sector::query()->get();
 
             return Inertia::render('Business/NewJob', [
                 'errors' => [__("An unexpected error has occurred.")],
@@ -154,7 +154,7 @@ class JobsController extends Controller
             abort(404);
         }
 
-        $job->work_area = WorkArea::query()->find($job->work_area_id);
+        $job->sector = Sector::query()->find($job->sector_id);
         $job->work_field = WorkField::query()->find($job->work_field_id);
 
         return Inertia::render('Business/JobDetails', [
@@ -182,7 +182,7 @@ class JobsController extends Controller
         $job->expires_at = $job->expires_at ?? Carbon::now()->addMonth();
         $job->save();
 
-        $job->work_area = WorkArea::query()->find($job->work_area_id);
+        $job->sector = Sector::query()->find($job->sector_id);
         $job->work_field = WorkField::query()->find($job->work_field_id);
 
         return Inertia::render('Business/JobDetails', [
@@ -209,7 +209,7 @@ class JobsController extends Controller
         $job->posted_at = null;
         $job->save();
 
-        $job->work_area = WorkArea::query()->find($job->work_area_id);
+        $job->sector = Sector::query()->find($job->sector_id);
         $job->work_field = WorkField::query()->find($job->work_field_id);
 
         return Inertia::render('Business/JobDetails', [

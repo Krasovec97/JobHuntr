@@ -26,7 +26,7 @@ class WorkFieldResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name'),
-                Forms\Components\Select::make('work_area_id')->relationship('workArea', 'name')->required(),
+                Forms\Components\Select::make('sector_id')->relationship('workArea', 'name')->required(),
             ]);
     }
 
@@ -38,8 +38,8 @@ class WorkFieldResource extends Resource
                 TextColumn::make('workArea.name'),
             ])
             ->filters([
-                SelectFilter::make('work_area_id')
-                    ->label('Work Area')
+                SelectFilter::make('sector_id')
+                    ->label('Sector')
                     ->relationship('workArea', 'name')
             ])
             ->actions([

@@ -38,7 +38,7 @@ Route::middleware('auth_business')->group(function () {
     Route::post('/job/{jobId}/cancel', [JobsController::class, 'cancelJobListing']);
     Route::get('/job/{id}', [JobsController::class, 'getJobDetailsPage']);
 
-    Route::get('/work_area/{id}/fields', [WorkareaController::Class, 'getWorkFields']);
+    Route::get('/sector/{id}/fields', [WorkareaController::Class, 'getWorkFields']);
 
     Route::get('/account', [BusinessProfileController::Class, 'displayAccountSettings']);
     Route::post('/account', [BusinessProfileController::Class, 'updateAccountSettings']);

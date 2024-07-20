@@ -12,10 +12,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $created_at
  * @property string $updated_at
  */
-class WorkArea extends Model
+class Sector extends Model
 {
     use HasFactory;
-    protected $table = 'work_areas';
+    protected $table = 'sectors';
 
     protected $fillable = [
         'name'
@@ -23,10 +23,10 @@ class WorkArea extends Model
 
     public function workFields(): HasMany
     {
-        return $this->hasMany(WorkField::class, 'work_area_id');
+        return $this->hasMany(WorkField::class, 'sector_id');
     }
 
-    public static function getById(int $id): WorkArea
+    public static function getById(int $id): Sector
     {
         return self::query()->findOrFail($id);
     }

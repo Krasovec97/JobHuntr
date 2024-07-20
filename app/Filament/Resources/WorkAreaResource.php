@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\WorkAreaResource\Pages;
 use App\Filament\Resources\WorkAreaResource\RelationManagers;
-use App\Models\WorkArea;
+use App\Models\Sector;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class WorkAreaResource extends Resource
 {
-    protected static ?string $model = WorkArea::class;
+    protected static ?string $model = Sector::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
