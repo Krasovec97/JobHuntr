@@ -109,8 +109,12 @@ class WebController extends Controller
             $jobsQuery->whereIn('work_field_id', $workFieldIds);
         }
 
+        $jobs = $jobsQuery
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return new Collection([
-            'jobs' => $jobsQuery->get(),
+            'jobs' => $jobs,
             'total_jobs_count' => $totalJobsCount
         ]);
     }
