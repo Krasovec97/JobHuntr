@@ -100,8 +100,8 @@ class WebController extends Controller
         }
 
         if ($params->get('sector_ids') !== null) {
-            $workAreaIds = explode(',', $params->get('sector_ids'));
-            $jobsQuery->whereIn('sector_id', $workAreaIds);
+            $sectorIds = explode(',', $params->get('sector_ids'));
+            $jobsQuery->whereIn('sector_id', $sectorIds);
         }
 
         if ($params->get('work_fields_ids') !== null) {
@@ -131,19 +131,19 @@ class WebController extends Controller
         return $job;
     }
 
-    public function getWorkAreas(): Collection
+    public function getSectors(): Collection
     {
         return Sector::query()->get();
     }
 
     public function getWorkFields(Request $request): Collection|array
     {
-        $workAreaIds = null;
+        $sectorIds = null;
         if ($request->query->get('sector_ids') !== null) {
-            $workAreaIds = explode(',', $request->query->get('sector_ids'));
+            $sectorIds = explode(',', $request->query->get('sector_ids'));
         }
 
-        if($workAreaIds !== null) return WorkField::query()->whereIn('sector_id', $workAreaIds)->get();
+        if($sectorIds !== null) return WorkField::query()->whereIn('sector_id', $sectorIds)->get();
         else return [];
     }
 

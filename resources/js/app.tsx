@@ -8,7 +8,7 @@ import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import {LaravelReactI18nProvider} from "laravel-react-i18n";
 import GlobalContext from "./Context/GlobalContext";
-import React from 'react';
+import React, {StrictMode} from 'react';
 import CookieBanner from "./Components/CookieBanner";
 
 const appName = 'JobHuntr';
@@ -21,6 +21,7 @@ createInertiaApp({
         const root = createRoot(el);
 
         root.render(
+            <StrictMode>
                 <LaravelReactI18nProvider
                     locale={navigator.language}
                     fallbackLocale={'en'}
@@ -30,8 +31,9 @@ createInertiaApp({
                     <GlobalContext>
                         <App {...props} />
                     </GlobalContext>
-                <CookieBanner />
+                    <CookieBanner />
                 </LaravelReactI18nProvider>
+            </StrictMode>
         );
     },
     progress: {

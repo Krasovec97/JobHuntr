@@ -22,9 +22,9 @@ class CreateCompanyJob extends CreateRecord
     protected function handleRecordCreation(array $data): \Illuminate\Database\Eloquent\Model
     {
         $data['coordinates'] = new Point(0, 0);
-        $workArea = Sector::getById($data['sector_id']);
-        $data['sector_id'] = $workArea->id;
-        $field = $workArea->workFields()->find($data['work_field_id']);
+        $sector = Sector::getById($data['sector_id']);
+        $data['sector_id'] = $sector->id;
+        $field = $sector->workFields()->find($data['work_field_id']);
         $data['work_field_id'] = $field->id;
         return static::getModel()::create($data);
     }

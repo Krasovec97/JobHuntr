@@ -41,7 +41,7 @@ export interface JobInterface {
     sector_id: number,
     work_field_id: number,
     work_field?: WorkFieldInterface,
-    sector?: WorkAreaInterface,
+    sector?: SectorInterface,
     work_location: string,
     street: string,
     zip: string,
@@ -58,7 +58,7 @@ export interface WorkFieldInterface {
     sector_id: number
 }
 
-export interface WorkAreaInterface {
+export interface SectorInterface {
     id: number,
     name: string,
     created_at?: string,

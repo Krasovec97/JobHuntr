@@ -65,8 +65,8 @@
     "Any": "Katerokoli",
     "Male": "Moški",
     "Female": "Ženski",
-    "Preferred education": "Želena izobrazba",
-    "None": "Brez",
+    "Preferred education": "Željena izobrazba",
+    "None": "Ni pomembno",
     "Primary school or equivalent": "Osnovna šola",
     "High school or equivalent": "Srednja šola ali enakovredna",
     "Bachelor's degree or equivalent": "Diploma ali enakovredna",
@@ -420,5 +420,6 @@
     "Library Science": "Knjižničarstvo",
     "Cosmetology": "Kozmetologija",
     "Pest Control": "Zatiranje škodljivcev",
-    "Property Management": "Upravljanje nepremičnin"
+    "Property Management": "Upravljanje nepremičnin",
+    "Not important": "Ni pomembno"
 }

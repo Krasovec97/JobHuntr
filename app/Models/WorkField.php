@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
@@ -24,7 +25,8 @@ class WorkField extends Model
         'sector_id'
     ];
 
-    public function workArea() {
+    public function sector(): BelongsTo
+    {
         return $this->belongsTo(Sector::class, 'sector_id', 'id');
     }
 

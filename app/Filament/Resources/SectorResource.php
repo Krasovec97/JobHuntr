@@ -2,18 +2,16 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\WorkAreaResource\Pages;
-use App\Filament\Resources\WorkAreaResource\RelationManagers;
+use App\Filament\Resources\SectorResource\Pages;
+use App\Filament\Resources\SectorResource\RelationManagers;
 use App\Models\Sector;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class WorkAreaResource extends Resource
+class SectorResource extends Resource
 {
     protected static ?string $model = Sector::class;
 
@@ -59,8 +57,8 @@ class WorkAreaResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListWorkAreas::route('/'),
-            'create' => Pages\CreateWorkArea::route('/create'),
+            'index' => Pages\ListSectors::route('/'),
+            'create' => Pages\CreateSector::route('/create'),
         ];
     }
 }
