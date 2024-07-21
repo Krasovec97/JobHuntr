@@ -1,9 +1,8 @@
-<?php /** @noinspection ALL */
-
+<?php
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BusinessProfileController;
 use App\Http\Controllers\JobsController;
-use App\Http\Controllers\WorkareaController;
+use App\Http\Controllers\SectorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebController;
 
@@ -38,7 +37,8 @@ Route::middleware('auth_business')->group(function () {
     Route::post('/job/{jobId}/cancel', [JobsController::class, 'cancelJobListing']);
     Route::get('/job/{id}', [JobsController::class, 'getJobDetailsPage']);
 
-    Route::get('/sector/{id}/fields', [WorkareaController::Class, 'getWorkFields']);
+    Route::get('/sectors', [SectorController::class, 'getSectors']);
+    Route::get('/sector/{id}/fields', [SectorController::class, 'getWorkFields']);
 
     Route::get('/account', [BusinessProfileController::Class, 'displayAccountSettings']);
     Route::post('/account', [BusinessProfileController::Class, 'updateAccountSettings']);

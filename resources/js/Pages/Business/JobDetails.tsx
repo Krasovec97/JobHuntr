@@ -82,7 +82,7 @@ export default function NewJob({ job }: JobDetailsProps) {
 
                         <div className="row">
                             <div className="col-4 fw-semibold">{t("Preferred education")}:</div>
-                            <div className="col-8">{formatText(job.preferred_education)}</div>
+                            <div className="col-8">{t(formatText(job.preferred_education))}</div>
                         </div>
                     </div>
 

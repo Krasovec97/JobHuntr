@@ -13,7 +13,7 @@ import {
     CompanyAuthProps,
     JobInterface,
     PlaceInterface,
-    WorkAreaInterface
+    SectorInterface
 } from "../../Interfaces/SharedInterfaces";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import {AddressSelection} from "../../Styles/SharedStyles";
@@ -21,50 +21,24 @@ import React from "react";
 import Tiptap from "../../Components/Tiptap";
 
 interface NewJobProps {
-    workAreas: Array<WorkAreaInterface>
-    job?: JobInterface
+    job?: JobInterface|null,
+    errors?: string[]
 }
 
-export default function NewJob({workAreas, job}: NewJobProps) {
+export default function NewJob({job = null, errors}: NewJobProps) {
     const {t} = useLaravelReactI18n();
-    const [workAreasArray] = useState(workAreas.map((area) => {
-        return {
-            value: area.id,
-            label: area.name
-        }
-    }));
+    const [sectorsArray, setSectorsArray] = useState([]);
     const [workFieldsArray, setWorkFieldsArray] = useState([]);
-
-    function initializeSelectedWorkField() {
-        if (job === null) return null;
-
-        return {
-            value: job?.work_field?.id,
-            label: job?.work_field?.name
-        }
-    }
-    const [selectedWorkField, setSelectedWorkField] = useState(initializeSelectedWorkField);
+    const [selectedWorkField, setSelectedWorkField] = useState({});
     const [availableLocations, setAvailableLocations] = useState([]);
     const [userConfirmedAddress, setUserConfirmedAddress] = useState(false);
     const [addressSearch, setAddressSearch] = useState('');
     const [countries, setCountries] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState({});
-    const [editorContent, setEditorContent] = useState("");
-
-    useEffect(() => {
-        fetch(
-            "https://valid.layercode.workers.dev/list/countries?format=select&flags=false&value=code"
-        )
-            .then((response) => response.json())
-            .then((data) => {
-                setCountries(data.countries);
-            });
-    }, []);
-
+    const [editorContent, setEditorContent] = useState(job?.description ?? '');
     let noOptionsText = t("Please, select the sector before selecting work field.");
     let csrfToken = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
     const globalContext = useGlobalContext();
-
     let company: CompanyData = usePage<CompanyAuthProps>().props.auth.company;
 
     const {data, setData, post, processing} = useForm({
@@ -85,27 +59,24 @@ export default function NewJob({workAreas, job}: NewJobProps) {
         application_mail: job?.application_mail ?? '',
     })
 
-    function showRelevantWorkFields(selectedArea: any) {
-        setSelectedWorkField(null);
-
-        setData(values => ({
-            ...values,
-            sector_id: selectedArea.value,
-            work_field_id: 0
-        }));
-
-        getRelatedWorkFields(selectedArea)
-    }
-
-    function getRelatedWorkFields(selectedArea: any) {
-        axios.get('/sector/'+selectedArea.value+'/fields')
-            .then(response => {
-                setWorkFieldsArray(response.data.map((workField: any) => ({
-                    value: workField.id,
-                    label: workField.name
-                })));
+    useEffect(() => {
+        fetch(
+            "https://valid.layercode.workers.dev/list/countries?format=select&flags=false&value=code"
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                setCountries(data.countries);
             });
-    }
+
+        axios.get("/sectors").then((response) => {
+            setSectorsArray(response.data.map((sector: SectorInterface) => {
+                return {
+                    value: sector.id,
+                    label: t(sector.name)
+                }
+            }))
+        });
+    }, []);
 
     useEffect(() => {
         if (!userConfirmedAddress && addressSearch !== '') {
@@ -124,24 +95,54 @@ export default function NewJob({workAreas, job}: NewJobProps) {
         }
     }, [addressSearch]);
 
-    if (job !== null) {
-        useEffect(() => {
-            getRelatedWorkFields({value: job?.sector_id})
-            countries.forEach((country: Country) => {
-                if (country.label === job?.country) {
-                    setSelectedCountry(country);
-                }
-            })
-        }, [countries, editorContent]);
-
-    }
-
     useEffect(() => {
         setData(values => ({
             ...values,
             job_description: editorContent
         }));
     }, [editorContent]);
+
+    useEffect(() => {
+        if (job !== null) {
+            setSelectedWorkField({
+                value: job?.work_field?.id,
+                label: t(job?.work_field?.name ?? '')
+            })
+        }
+    }, [job]);
+
+    function getRelatedWorkFields(selectedSector: any) {
+        if (typeof selectedSector !== "undefined") {
+            axios.get('/sector/'+selectedSector.value+'/fields')
+                .then(response => {
+                    setWorkFieldsArray(response.data.map((workField: any) => ({
+                        value: workField.id,
+                        label: t(workField.name)
+                    })));
+                });
+        }
+    }
+
+    function showRelevantWorkFields(selectedSector: any) {
+        setData(values => ({
+            ...values,
+            sector_id: selectedSector.value,
+            work_field_id: 0
+        }));
+
+        getRelatedWorkFields(selectedSector)
+    }
+
+    if (job !== null) {
+        useEffect(() => {
+            getRelatedWorkFields({value: job.sector_id})
+            countries.forEach((country: Country) => {
+                if (country.label === job.country) {
+                    setSelectedCountry(country);
+                }
+            })
+        }, [countries]);
+    }
 
     function handleEmploymentTypeChange(e: { target: { value: string; }; }) {
         setData(values => ({
@@ -267,13 +268,12 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                 let errorMessage = '';
                 if (typeof errors !== "string") {
                     errors.map((error: string) => errorMessage += error + `<br >`)
+                } else {
+                    errorMessage = errors
                 }
                 globalContext?.FlashNotification.setText(errorMessage);
                 globalContext?.FlashNotification.setIsOpen('true');
                 globalContext?.FlashNotification.setStyle("danger");
-            },
-            onSuccess: () => {
-
             },
             preserveScroll: true
         });
@@ -306,7 +306,7 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                         <div className="col-12">
                             <label>{t("Employment type")}</label>
                             <select required className={"form-select"} onChange={handleEmploymentTypeChange}
-                                    defaultValue={job && job.employment_type}>
+                                    defaultValue={job ? job.employment_type : undefined}>
                                 <option value="full_time">{t("Full-Time")}</option>
                                 <option value="part_time">{t("Part-Time")}</option>
                             </select>
@@ -393,12 +393,12 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                     <div className="row mb-3">
                         <div className="col-12">
                             <label>{t("Sector")}</label>
-                            <Select options={workAreasArray}
+                            <Select options={sectorsArray}
                                     defaultValue={{
                                         value: job?.sector?.id,
                                         label: job?.sector?.name
                                     }}
-                                    onChange={(selectedArea) => showRelevantWorkFields(selectedArea)}
+                                    onChange={(selectedSector) => showRelevantWorkFields(selectedSector)}
                                     required={true}/>
                         </div>
                     </div>
@@ -477,7 +477,6 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                         <div className="col-12">
                             <label>{t("Application email")}</label>
                             <input
-                                required
                                 placeholder={t('apply@company.com')}
                                 className={"form-control"}
                                 defaultValue={job?.application_mail}
@@ -485,9 +484,20 @@ export default function NewJob({workAreas, job}: NewJobProps) {
                                 onChange={(e) => setData('application_mail', e.target.value)}
                             />
                             <small>{t(`You may leave this empty and it will be set to the same email as your company's email`)}</small>
-
                         </div>
                     </div>
+
+                    {errors && errors.length > 0 &&
+                        <div className="row mb-3">
+                            <div className="col-12">
+                                <ul>
+                                    {errors.map(e => {
+                                        <li>{e}</li>
+                                    })}
+                                </ul>
+                            </div>
+                        </div>
+                    }
 
                     <div className="row mb-3">
                         <div className="col-12 text-end">

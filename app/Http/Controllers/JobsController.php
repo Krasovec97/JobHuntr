@@ -44,7 +44,6 @@ class JobsController extends Controller
      */
     public function getJobCreationPage(Request $request, int $jobId = null): Response
     {
-        $workAreas = Sector::query()->get();
         $job = null;
         if ($jobId !== null) {
             $job = CompanyJob::query()->find($jobId);
@@ -53,7 +52,6 @@ class JobsController extends Controller
         }
 
         return Inertia::render('Business/NewJob', [
-            'workAreas' => $workAreas,
             'job' => $job
         ]);
     }
@@ -63,9 +61,8 @@ class JobsController extends Controller
      *
      * @param Request $request The HTTP request.
      * @param int|null $jobId The job ID, defaults to null.
-     * @return Response The Inertia response.
      */
-    public function postNewJob(Request $request, int $jobId = null): Response
+    public function postNewJob(Request $request, int $jobId = null): Response|\Symfony\Component\HttpFoundation\Response
     {
         $validator = Validator::make($request->all(), [
             "job_title" => ["required"],
@@ -78,16 +75,12 @@ class JobsController extends Controller
             "yearly_salary" => ["required", "numeric"],
             "currency" => ["required"],
             "education" => ["required"],
-            "application_mail" => ["string"]
+            "application_mail" => ["string", "nullable"]
         ]);
 
         if ($validator->fails()) {
-            $workAreas = Sector::query()->get();
-
             return Inertia::render('Business/NewJob', [
-                'errors' => $validator->errors()->all(),
-                'workAreas' => $workAreas
-
+                'errors' => $validator->errors()->all()
             ]);
         }
 
@@ -123,18 +116,13 @@ class JobsController extends Controller
 
 
         if ($jobSaved) {
-            $job->sector = Sector::query()->find($job->sector_id);
-            $job->work_field = WorkField::query()->find($job->work_field_id);
-
-            return Inertia::render('Business/JobDetails', [
-                "job" => $job,
-            ]);
+            return Inertia::location('/job/' . $jobId);
+//            return Inertia::render('Business/JobDetails', [
+//                'job' => $job
+//            ]);
         } else {
-            $workAreas = Sector::query()->get();
-
             return Inertia::render('Business/NewJob', [
-                'errors' => [__("An unexpected error has occurred.")],
-                'workAreas' => $workAreas
+                'errors' => [__("An unexpected error has occurred.")]
             ]);
         }
     }

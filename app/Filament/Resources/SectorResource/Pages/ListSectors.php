@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\WorkAreaResource\Pages;
+namespace App\Filament\Resources\SectorResource\Pages;
 
-use App\Filament\Resources\WorkAreaResource;
+use App\Filament\Resources\SectorResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListWorkAreas extends ListRecords
+class ListSectors extends ListRecords
 {
-    protected static string $resource = WorkAreaResource::class;
+    protected static string $resource = SectorResource::class;
 
     protected function getHeaderActions(): array
     {

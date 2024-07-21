@@ -13,9 +13,9 @@ interface JobFilterProps {
 
 export default function JobFilters({filters, setFilters, totalJobsCount, currentJobsCount}: JobFilterProps) {
     const {t} = useLaravelReactI18n();
-    const [workAreasArray, setWorkAreasArray] = useState<Array<object>>([{}]);
+    const [sectorsArray, setSectorsArray] = useState<Array<object>>([{}]);
     const [workFieldsArray, setWorkFieldsArray] = useState<Array<object>>([{}]);
-    const [selectedWorkAreas, setSelectedWorkAreas] = useState<Array<object>>([{}]);
+    const [selectedSectors, setSelectedSectors] = useState<Array<object>>([{}]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     let noOptionsText = t("Please, select the sector before selecting work field.");
     let workFieldsSelect: any = null;
@@ -23,49 +23,49 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
     useEffect(() => {
         axios.get('/api/sectors')
             .then((response) => {
-                setWorkAreasArray(response.data.map((workArea:any) => {
+                setSectorsArray(response.data.map((sector:any) => {
                     return {
-                        value: workArea.id,
-                        label: workArea.name
+                        value: sector.id,
+                        label: t(sector.name)
                     }
                 }))
             })
     }, []);
 
     useEffect(() => {
-        let workAreaIds: any = [];
-        selectedWorkAreas.forEach((workArea: any) => {
-            workAreaIds.push(workArea.value);
+        let sectorIds: any = [];
+        selectedSectors.forEach((sector: any) => {
+            sectorIds.push(sector.value);
         })
-        let workAreaIdsString = '';
-        if (workAreaIds.length > 0) {
-            workAreaIdsString = workAreaIds.join(',');
+        let sectorIdsString = '';
+        if (sectorIds.length > 0) {
+            sectorIdsString = sectorIds.join(',');
 
-            let workFieldsUrl = `/api/work_fields?sector_ids=${workAreaIdsString}`;
+            let workFieldsUrl = `/api/work_fields?sector_ids=${sectorIdsString}`;
 
             axios.get(workFieldsUrl)
                 .then((response) => {
-                    setWorkFieldsArray(response.data.map((workArea: any) => {
+                    setWorkFieldsArray(response.data.map((sector: any) => {
                         return {
-                            value: workArea.id,
-                            label: workArea.name
+                            value: sector.id,
+                            label: t(sector.name)
                         }
                     }))
                 });
         }
 
         let newSearchFilter = {...filters};
-        newSearchFilter.sectors_string = workAreaIdsString;
+        newSearchFilter.sectors_string = sectorIdsString;
         setFilters(newSearchFilter);
-    }, [selectedWorkAreas])
+    }, [selectedSectors])
 
 
-    function updateSelectedWorkAreas(userSetWorkAreas: any) {
-        if (userSetWorkAreas.length === 0) {
+    function updateSelectedSectors(selectedSectors: any) {
+        if (selectedSectors.length === 0) {
             setWorkFieldsArray([]);
             workFieldsSelect.clearValue();
         }
-        setSelectedWorkAreas(userSetWorkAreas);
+        setSelectedSectors(selectedSectors);
     }
 
     const handleLocationFilter = (location: any) => {
@@ -176,7 +176,7 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
             <div className="col-12 mt-3">
                 <p className="fw-bold mb-0">{t("Sectors")}:</p>
                 <div>
-                    <Select options={workAreasArray} isClearable isMulti onChange={(e) => updateSelectedWorkAreas(e)}/>
+                    <Select options={sectorsArray} isClearable isMulti onChange={(e) => updateSelectedSectors(e)}/>
                 </div>
             </div>
 
