@@ -1,5 +1,6 @@
 import {createContext, useState} from "react";
 import FlashNotification from "../Components/FlashNotification";
+import React from "react";
 
 
 interface GlobalContextData {
@@ -12,7 +13,7 @@ interface GlobalContextData {
 
 export const GlobalContext = createContext<GlobalContextData|undefined>(undefined);
 
-export default function ({children}) {
+export default function ({children}: any) {
     const [text, setText] = useState("");
     const [style, setStyle] = useState<'primary'|'success'|'danger'>("primary");
     const [isOpen, setIsOpen] = useState('false');

@@ -163,8 +163,8 @@ class WebController extends Controller
             'Content-Type' => 'application/json',
             'X-Goog-Api-Key' => env('GOOGLE_MAPS_API'),
             'X-Goog-FieldMask' => 'places.formattedAddress,places.addressComponents,places.location'
-        ])->post('https://places.googleapis.com/v1/places:searchText', [
-            'textQuery' => base64_decode($request->query->get('searchString')),
+        ])->post('https://places.googleapis.com/v1/places:autocomplete', [
+            "input" => base64_decode($request->query->get('searchString')),
         ]);
 
 

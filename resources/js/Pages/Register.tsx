@@ -17,13 +17,10 @@ type FormDataType = {
     first_name: string,
     last_name: string,
     date_of_birth: string,
-    street: string,
-    city: string,
-    country: string,
-    zip: string,
     email: string,
     password: string,
     registration_house: string,
+    place_id: string,
     company_full_name: string,
     company_short_name: string,
     company_number: string,
@@ -34,6 +31,12 @@ type FormDataType = {
     coordinates: {
         longitude: number,
         latitude: number,
+    },
+    address: {
+        street: string,
+        city: string,
+        country: string,
+        zip: string,
     }
 }
 
@@ -42,10 +45,7 @@ let INITIAL_DATA:FormDataType = {
     first_name: "",
     last_name: "",
     date_of_birth: "",
-    street: "",
-    city: "",
-    country: "",
-    zip: "",
+    place_id: "",
     email: "",
     password: "",
     registration_house: "",
@@ -59,11 +59,17 @@ let INITIAL_DATA:FormDataType = {
     coordinates: {
         longitude: 0,
         latitude: 0
+    },
+    address: {
+        street: "",
+        city: "",
+        country: "",
+        zip: "",
     }
 }
 
 export default function Register() {
-    const {data, setData,post, processing} = useForm(INITIAL_DATA);
+    const {data, setData, post, processing} = useForm(INITIAL_DATA);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [postUrl, setPostUrl] = useState('');
 
@@ -85,14 +91,14 @@ export default function Register() {
     const businessSteps = [
         <AccountTypeSelection {...data} updateFields={updateFields} setPostUrl={setPostUrl} />,
         <CompanyForm {...data} updateFields={updateFields} />,
-        <AddressForm {...data} updateFields={updateFields} />,
+        <AddressForm {...data} updateFields={updateFields} address={data.address} />,
         <AccountForm {...data} updateFields={updateFields} />
     ];
 
     const personalSteps = [
         <AccountTypeSelection {...data} updateFields={updateFields} setPostUrl={setPostUrl} />,
         <PersonalForm {...data} updateFields={updateFields} />,
-        <AddressForm {...data} updateFields={updateFields} />,
+        <AddressForm {...data} updateFields={updateFields} address={data.address} />,
         <AccountForm {...data} updateFields={updateFields} />,
     ];
     const { steps, currentStepIndex, step, isFirstStep, back, next, isLastStep } = useMultistepForm(data.is_business_account ? businessSteps : personalSteps );
@@ -157,7 +163,7 @@ export default function Register() {
 
                         {step}
 
-                        <div className={"col-12 col-md-7 mx-auto text-end mt-4"}>
+                        <div className={"col-12 mx-auto text-end mt-4"}>
                             {!isFirstStep &&
                                 <button onClick={back} type="button" className="btn btn-outline-primary">{t("Back")}</button>}
 
