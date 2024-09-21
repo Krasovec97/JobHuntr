@@ -47,8 +47,6 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
     });
     const sessionId = useRef<string>(makeId(8));
 
-    console.log(selectedAddress);
-
     useEffect(() => {
         fetch("https://valid.layercode.workers.dev/list/countries?format=select&flags=false&value=code")
             .then((response) => response.json())
