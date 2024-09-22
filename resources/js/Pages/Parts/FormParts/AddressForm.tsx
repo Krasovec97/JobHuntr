@@ -25,7 +25,7 @@ export function AddressForm({ updateFields, address }: AddressFormProps) {
     const {t} = useLaravelReactI18n();
     return (
         <FormWrapper title={t("Address information")} subtitle={t("Where are you located?")}>
-            <GoogleLocationSelect updateFields={updateFields} address={address} />
+            <GoogleLocationSelect updateFields={updateFields} address={address} showAllFields={false}/>
         </FormWrapper>
     )
 }

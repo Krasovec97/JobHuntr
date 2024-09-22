@@ -105,8 +105,6 @@ export default function Register() {
 
     let csrfToken = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
 
-
-
     function onSubmit(e: FormEvent) {
         e.preventDefault();
         if (!isLastStep) return next();

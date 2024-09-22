@@ -74,13 +74,10 @@ class UserController extends Controller
     public function update(Request $request) {
         $validator = Validator::make($request->all(), [
             'user_id' => ['required'],
-            'street' => ['required'],
-            'city' => ['required'],
-            'country' => ['required'],
-            'zip' => ['required'],
             'education' => ['nullable'],
             'date_of_birth' => ['nullable'],
-            'contact_phone' => ['required']
+            'contact_phone' => ['required'],
+            'address' => ['required', 'array:street,city,zip,country'],
         ]);
 
         if ($validator->fails()) {
@@ -91,10 +88,10 @@ class UserController extends Controller
 
         $user = User::getById($request->get('user_id'));
         $user->contact_phone = $request->get('contact_phone');
-        $user->street = $request->get('street');
-        $user->city = $request->get('city');
-        $user->zip = $request->get('zip');
-        $user->country = $request->get('country');
+        $user->street = $request->get('address')['street'];
+        $user->city = $request->get('address')['city'];
+        $user->zip = $request->get('address')['zip'];
+        $user->country = $request->get('address')['country'];
         $user->date_of_birth = $request->get('date_of_birth');
         $user->education = $request->get('education');
         $user->save();

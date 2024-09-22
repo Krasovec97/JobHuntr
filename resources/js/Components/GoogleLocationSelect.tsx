@@ -12,7 +12,8 @@ interface ComponentProps {
         city: string,
         zip: string,
         country: string,
-    }
+    },
+    showAllFields: boolean
 }
 
 interface LocationProps {
@@ -27,7 +28,7 @@ interface AddressProps {
     country: string,
 }
 
-export default function GoogleLocationSelect({updateFields, address}: ComponentProps) {
+export default function GoogleLocationSelect({updateFields, address, showAllFields = false}: ComponentProps) {
     const {t} = useLaravelReactI18n();
     const [availableLocations, setAvailableLocations] = useState<Array<LocationProps>>([{
         label: '',
@@ -139,7 +140,7 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
                         onInputChange={e => getLocationRecommendations(e)}
                 />
             </div>
-            {selectedAddress &&
+            {(selectedAddress || showAllFields) &&
                 <>
                     <div className="mb-3">
                         <label className={"form-label ps-0"}>{t("Postal Code")} <span className={"text-danger"}>*</span></label>
@@ -149,7 +150,14 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
                             type="text"
                             value={selectedAddress.zip}
                             onChange={e => {
-                                updateFields({address: {zip: e.target.value}})
+                                setSelectedAddress({
+                                    ...selectedAddress,
+                                    zip: e.target.value
+                                })
+                                updateFields({address: {
+                                    ...selectedAddress,
+                                    zip: e.target.value
+                                }})
                             }}/>
                     </div>
 
@@ -162,7 +170,14 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
                             type="text"
                             value={selectedAddress.city}
                             onChange={e => {
-                                updateFields({address: {city: e.target.value}})
+                                setSelectedAddress({
+                                    ...selectedAddress,
+                                    city: e.target.value
+                                })
+                                updateFields({address: {
+                                    ...selectedAddress,
+                                    city: e.target.value
+                                }})
                             }}/>
                     </div>
 
