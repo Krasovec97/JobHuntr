@@ -88,7 +88,9 @@ class JobsController extends Controller
         $company = Company::getAuthenticatedCompany();
 
         $job = CompanyJob::query()->find($jobId);
-        if ($job === null)$job = new CompanyJob();
+        if ($job === null) {
+            $job = new CompanyJob();
+        }
         $job->title = $request->input('job_title');
         $job->description = $request->input('job_description');
         $job->employment_type = $request->input('employment_type');
@@ -117,7 +119,7 @@ class JobsController extends Controller
 
 
         if ($jobSaved) {
-            return Inertia::location('/job/' . $jobId);
+            return Inertia::location('/job/' . ($jobId ?? $job->id));
 //            return Inertia::render('Business/JobDetails', [
 //                'job' => $job
 //            ]);

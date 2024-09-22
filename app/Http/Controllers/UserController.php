@@ -78,6 +78,7 @@ class UserController extends Controller
             'date_of_birth' => ['nullable'],
             'contact_phone' => ['required'],
             'address' => ['required', 'array:street,city,zip,country'],
+            'coordinates' => ['required', 'array:longitude,latitude'],
         ]);
 
         if ($validator->fails()) {
@@ -94,6 +95,7 @@ class UserController extends Controller
         $user->country = $request->get('address')['country'];
         $user->date_of_birth = $request->get('date_of_birth');
         $user->education = $request->get('education');
+        $user->coordinates = new Point($request->get('coordinates')['latitude'], $request->get('coordinates')['longitude']);
         $user->save();
 
         return Redirect::to('/dashboard');

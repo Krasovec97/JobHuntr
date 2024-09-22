@@ -24,6 +24,10 @@ interface UserObjectData {
         city: string,
         country: string,
         zip: string,
+    },
+    coordinates: {
+        longitude: number,
+        latitude: number,
     }
 }
 
@@ -51,8 +55,10 @@ export default function (user: UserData) {
             city: user.city,
             country: user.country,
             zip: user.zip,
-        }
-    })
+        },
+        coordinates: user.coordinates
+    });
+    console.log(user);
 
     function handleChange(e: any) {
         let key = e.target.id;

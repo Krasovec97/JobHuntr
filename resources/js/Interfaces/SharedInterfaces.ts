@@ -74,7 +74,11 @@ export interface UserData {
     city: string,
     zip: string,
     date_of_birth: string,
-    education: string
+    education: string,
+    coordinates: {
+        longitude: number,
+        latitude: number,
+    }
 }
 
 export interface FilterTypes {
