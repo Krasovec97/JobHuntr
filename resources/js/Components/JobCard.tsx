@@ -1,5 +1,5 @@
-import {formatDate, formatText, numberFormat} from "../Helpers";
-import {JobInterface} from "../Interfaces/SharedInterfaces";
+import {formatDate, formatText, numberFormat} from "@/Helpers";
+import {JobInterface} from "@/Interfaces/SharedInterfaces";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import React from "react";
 

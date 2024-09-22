@@ -2,11 +2,11 @@ import {useForm} from "@inertiajs/react";
 import Select from "react-select";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import {useState} from "react";
-import FancyTitle from "../../Components/FancyTitle";
-import useGlobalContext from "../../Hooks/useGlobalContext";
-import {UserData} from "../../Interfaces/SharedInterfaces";
+import FancyTitle from "@/Components/FancyTitle";
+import useGlobalContext from "@/Hooks/useGlobalContext";
+import {UserData} from "@/Interfaces/SharedInterfaces";
 import React from "react";
-import GoogleLocationSelect from "../../Components/GoogleLocationSelect";
+import GoogleLocationSelect from "@/Components/GoogleLocationSelect";
 
 
 interface EducationInterface {
@@ -136,7 +136,7 @@ export default function (user: UserData) {
                 </div>
 
                 <div className="mb-3">
-                    <GoogleLocationSelect updateFields={updateFields} address={data.address} showAllFields={true}/>
+                    <GoogleLocationSelect updateFields={updateFields} address={data.address}/>
                 </div>
 
                 <div className="mb-3">

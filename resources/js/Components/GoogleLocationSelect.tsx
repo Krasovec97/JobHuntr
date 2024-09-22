@@ -1,9 +1,9 @@
 import Select from "react-select";
 import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
-import {AddressComponent, Country, PlacePredictionInterface} from "../Interfaces/SharedInterfaces";
+import {AddressComponent, Country, PlacePredictionInterface} from "@/Interfaces/SharedInterfaces";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import {makeId} from "../Helpers";
+import {makeId} from "@/Helpers";
 
 interface ComponentProps {
     updateFields: Function,
@@ -12,8 +12,7 @@ interface ComponentProps {
         city: string,
         zip: string,
         country: string,
-    },
-    showAllFields: boolean
+    }
 }
 
 interface LocationProps {
@@ -28,7 +27,7 @@ interface AddressProps {
     country: string,
 }
 
-export default function GoogleLocationSelect({updateFields, address, showAllFields = false}: ComponentProps) {
+export default function GoogleLocationSelect({updateFields, address}: ComponentProps) {
     const {t} = useLaravelReactI18n();
     const [availableLocations, setAvailableLocations] = useState<Array<LocationProps>>([{
         label: '',
@@ -140,56 +139,56 @@ export default function GoogleLocationSelect({updateFields, address, showAllFiel
                         onInputChange={e => getLocationRecommendations(e)}
                 />
             </div>
-            {(selectedAddress || showAllFields) &&
-                <>
-                    <div className="mb-3">
-                        <label className={"form-label ps-0"}>{t("Postal Code")} <span className={"text-danger"}>*</span></label>
-                        <input
-                            required={true}
-                            className={"form-control"}
-                            type="text"
-                            value={selectedAddress.zip}
-                            onChange={e => {
-                                setSelectedAddress({
-                                    ...selectedAddress,
-                                    zip: e.target.value
-                                })
-                                updateFields({address: {
-                                    ...selectedAddress,
-                                    zip: e.target.value
-                                }})
-                            }}/>
-                    </div>
+            <div className="mb-3">
+                <label className={"form-label ps-0"}>{t("Postal Code")} <span className={"text-danger"}>*</span></label>
+                <input
+                    required={true}
+                    className={"form-control"}
+                    type="text"
+                    value={selectedAddress.zip}
+                    onChange={e => {
+                        setSelectedAddress({
+                            ...selectedAddress,
+                            zip: e.target.value
+                        })
+                        updateFields({
+                            address: {
+                                ...selectedAddress,
+                                zip: e.target.value
+                            }
+                        })
+                    }}/>
+            </div>
 
-                    <div className="mb-3">
-                        <label className={"form-label ps-0"}>{t("City")} <span
-                            className={"text-danger"}>*</span></label>
-                        <input
-                            required={true}
-                            className={"form-control"}
-                            type="text"
-                            value={selectedAddress.city}
-                            onChange={e => {
-                                setSelectedAddress({
-                                    ...selectedAddress,
-                                    city: e.target.value
-                                })
-                                updateFields({address: {
-                                    ...selectedAddress,
-                                    city: e.target.value
-                                }})
-                            }}/>
-                    </div>
+            <div className="mb-3">
+                <label className={"form-label ps-0"}>{t("City")} <span
+                    className={"text-danger"}>*</span></label>
+                <input
+                    required={true}
+                    className={"form-control"}
+                    type="text"
+                    value={selectedAddress.city}
+                    onChange={e => {
+                        setSelectedAddress({
+                            ...selectedAddress,
+                            city: e.target.value
+                        })
+                        updateFields({
+                            address: {
+                                ...selectedAddress,
+                                city: e.target.value
+                            }
+                        })
+                    }}/>
+            </div>
 
-                    <div className="mb-3">
-                        <label className={"form-label ps-0"}>{t("Country")} <span
-                            className={"text-danger"}>*</span></label>
-                        <Select options={countries}
-                                value={selectedCountry}
-                                onChange={(selectedOption) => countryChange(selectedOption)}/>
-                    </div>
-                </>
-            }
+            <div className="mb-3">
+                <label className={"form-label ps-0"}>{t("Country")} <span
+                    className={"text-danger"}>*</span></label>
+                <Select options={countries}
+                        value={selectedCountry}
+                        onChange={(selectedOption) => countryChange(selectedOption)}/>
+            </div>
         </>
     )
 }

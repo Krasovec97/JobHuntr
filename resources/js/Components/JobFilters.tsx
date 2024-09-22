@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import {FilterTypes} from "../Interfaces/SharedInterfaces";
+import {FilterTypes} from "@/Interfaces/SharedInterfaces";
 import Select from "react-select";
 import axios from "axios";
 

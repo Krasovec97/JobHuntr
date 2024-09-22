@@ -1,7 +1,7 @@
-import MainLayout from '../Layouts/MainLayout';
+import MainLayout from '@/Layouts/MainLayout';
 import {Head, useForm} from '@inertiajs/react';
-import PageSection from "../Components/PageSection";
-import {useMultistepForm} from "../Hooks/useMultistepForm";
+import PageSection from "@/Components/PageSection";
+import {useMultistepForm} from "@/Hooks/useMultistepForm";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import {AccountTypeSelection} from "./Parts/FormParts/AccountTypeSelection";
 import {AccountForm} from "./Parts/FormParts/AccountForm";

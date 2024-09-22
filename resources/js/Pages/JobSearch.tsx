@@ -1,15 +1,15 @@
 import {Head} from '@inertiajs/react';
-import MainLayout from '../Layouts/MainLayout';
-import PageSection from "../Components/PageSection";
+import MainLayout from '@/Layouts/MainLayout';
+import PageSection from "@/Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import FancyTitle from "../Components/FancyTitle";
-import JobCard from "../Components/JobCard";
-import {formatText, numberFormat} from "../Helpers";
+import FancyTitle from "@/Components/FancyTitle";
+import JobCard from "@/Components/JobCard";
+import {formatText, numberFormat} from "@/Helpers";
 import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Button, Modal} from "react-bootstrap";
-import {CompanyData, FilterTypes, JobInterface} from "../Interfaces/SharedInterfaces";
-import JobFilters from "../Components/JobFilters";
+import {CompanyData, FilterTypes, JobInterface} from "@/Interfaces/SharedInterfaces";
+import JobFilters from "@/Components/JobFilters";
 import styled from "styled-components";
 
 type JobWithCompanyData = JobInterface & {

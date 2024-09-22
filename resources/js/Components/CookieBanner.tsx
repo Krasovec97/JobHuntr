@@ -1,6 +1,6 @@
 import React from "react";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import {getClientLang} from "../Helpers";
+import {getClientLang} from "@/Helpers";
 
 export default function CookieBanner() {
     const {t} = useLaravelReactI18n();

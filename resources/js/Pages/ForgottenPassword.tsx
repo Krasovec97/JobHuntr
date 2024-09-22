@@ -1,11 +1,11 @@
 import { Head, useForm } from '@inertiajs/react';
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import React, {useState} from 'react';
-import MainLayout from "../Layouts/MainLayout";
-import PageSection from "../Components/PageSection";
-import FancyTitle from "../Components/FancyTitle";
-import InputLabel from "../Components/InputLabel";
-import InputError from "../Components/InputError";
+import MainLayout from "@/Layouts/MainLayout";
+import PageSection from "@/Components/PageSection";
+import FancyTitle from "@/Components/FancyTitle";
+import InputLabel from "@/Components/InputLabel";
+import InputError from "@/Components/InputError";
 
 
 export default function ForgottenPassword() {
