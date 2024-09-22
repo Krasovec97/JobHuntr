@@ -1,17 +1,36 @@
 import {useForm} from "@inertiajs/react";
 import Select from "react-select";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import FancyTitle from "../../Components/FancyTitle";
 import useGlobalContext from "../../Hooks/useGlobalContext";
-import {Country, UserData} from "../../Interfaces/SharedInterfaces";
+import {UserData} from "../../Interfaces/SharedInterfaces";
 import React from "react";
+import GoogleLocationSelect from "../../Components/GoogleLocationSelect";
 
 
 interface EducationInterface {
     value: string,
     label: string
 }
+
+interface UserObjectData {
+    user_id: number,
+    date_of_birth: string,
+    education: string,
+    contact_phone: string,
+    address: {
+        street: string,
+        city: string,
+        country: string,
+        zip: string,
+    },
+    coordinates: {
+        longitude: number,
+        latitude: number,
+    }
+}
+
 export default function (user: UserData) {
     const {t} = useLaravelReactI18n();
 
@@ -20,11 +39,9 @@ export default function (user: UserData) {
         { value: 'high_school', label: t("High school or equivalent") },
         { value: 'bachelor', label: t("Bachelor's degree") },
         { value: 'master', label: t("Master's degree") },
-        { value: 'doctorate', label: t("Doctorate or higher") },
+        { value: 'doctorate', label: t("Doctorate or higher") }
     ]
 
-    const [countries, setCountries] = useState([]);
-    const [selectedCountry, setSelectedCountry] = useState({});
     const [selectedEducation, setSelectedEducation] = useState(typesOfEducation.filter((item) => item.value === user.education));
     const globalContext = useGlobalContext();
 
@@ -32,40 +49,31 @@ export default function (user: UserData) {
         user_id: user.id,
         date_of_birth: user.date_of_birth ?? '',
         education: user.education ?? '',
-        street: user.street,
-        city: user.city,
-        country: user.country,
-        zip: user.zip,
-        contact_phone: user.contact_phone
-    })
-
-
-    useEffect(() => {
-        fetch(
-            "https://valid.layercode.workers.dev/list/countries?format=select&flags=false&value=code"
-        )
-            .then((response) => response.json())
-            .then((data) => {
-                setCountries(data.countries);
-                setSelectedCountry(data.countries.find((country: Country) => country.label === user.country));
-            });
-    }, []);
+        contact_phone: user.contact_phone,
+        address: {
+            street: user.street,
+            city: user.city,
+            country: user.country,
+            zip: user.zip,
+        },
+        coordinates: user.coordinates
+    });
+    console.log(user);
 
     function handleChange(e: any) {
         let key = e.target.id;
-        const value = e.target.value
+        const value = e.target.value;
+
         setData(values => ({
             ...values,
             [key]: value,
         }))
     }
 
-    function handleCountryChange(e: any) {
-        setSelectedCountry(e)
-        setData(values => ({
-            ...values,
-            country: e.label
-        }));
+    function updateFields(fields: Partial<UserObjectData>) {
+        setData(prevState => {
+            return {...prevState, ...fields};
+        })
     }
 
     function handleEducationChange(e: any) {
@@ -128,44 +136,7 @@ export default function (user: UserData) {
                 </div>
 
                 <div className="mb-3">
-                    <label className={"form-label ps-0"}>{t("Street")} <span className={"text-danger"}>*</span></label>
-                    <input
-                        id="street"
-                        required={true}
-                        className={"form-control"}
-                        type="text"
-                        value={data.street}
-                        onChange={handleChange}/>
-                </div>
-
-                <div className="mb-3">
-                    <label className={"form-label ps-0"}>{t("Zip")} <span className={"text-danger"}>*</span></label>
-                    <input
-                        id="zip"
-                        required={true}
-                        className={"form-control"}
-                        type="text"
-                        value={data.zip}
-                        onChange={handleChange}/>
-                </div>
-
-                <div className="mb-3">
-                    <label className={"form-label ps-0"}>{t("City")} <span className={"text-danger"}>*</span></label>
-                    <input
-                        id="city"
-                        required={true}
-                        className={"form-control"}
-                        type="text"
-                        value={data.city}
-                        onChange={handleChange}/>
-                </div>
-
-                <div className="mb-3">
-                    <label className={"form-label ps-0"}>{t("Country")} <span className={"text-danger"}>*</span></label>
-                    <Select options={countries}
-                            id="country"
-                            value={selectedCountry}
-                            onChange={handleCountryChange}/>
+                    <GoogleLocationSelect updateFields={updateFields} address={data.address} showAllFields={true}/>
                 </div>
 
                 <div className="mb-3">
@@ -173,7 +144,7 @@ export default function (user: UserData) {
                     <Select options={typesOfEducation}
                             id="education"
                             value={selectedEducation}
-                            onChange={handleEducationChange}/>
+                            onChange={handleEducationChange} />
                 </div>
 
                 <div className="mb-3">

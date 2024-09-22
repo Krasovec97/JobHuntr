@@ -3,45 +3,64 @@ import {Head, useForm, usePage} from "@inertiajs/react";
 import BusinessLayout from "../../Layouts/BusinessLayout";
 import PageSection from "../../Components/PageSection";
 import Select from "react-select";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import axios from "axios";
 import useGlobalContext from "../../Hooks/useGlobalContext";
 import FancyTitle from "../../Components/FancyTitle";
 import {
     CompanyData,
-    Country,
     CompanyAuthProps,
     JobInterface,
-    PlaceInterface,
-    SectorInterface
+    SectorInterface, WorkFieldInterface
 } from "../../Interfaces/SharedInterfaces";
 import CompanyQuickView from "../Parts/CompanyQuickView";
-import {AddressSelection} from "../../Styles/SharedStyles";
 import React from "react";
 import Tiptap from "../../Components/Tiptap";
+import GoogleLocationSelect from "../../Components/GoogleLocationSelect";
 
 interface NewJobProps {
     job?: JobInterface|null,
     errors?: string[]
 }
 
+interface FormDataType {
+    job_title: string,
+    employment_type: string,
+    job_description: string,
+    sector_id: number,
+    work_field_id: number,
+    work_location: string,
+    num_of_positions: number,
+    yearly_salary: number,
+    currency: string,
+    education: string,
+    application_mail: string,
+    address: {
+        street: string,
+        city: string,
+        zip: string,
+        country: string,
+    }
+}
+
+type WorkField = {
+    value: number;
+    label: string;
+};
+
+let initialRender = true
+
 export default function NewJob({job = null, errors}: NewJobProps) {
     const {t} = useLaravelReactI18n();
     const [sectorsArray, setSectorsArray] = useState([]);
-    const [workFieldsArray, setWorkFieldsArray] = useState([]);
-    const [selectedWorkField, setSelectedWorkField] = useState({});
-    const [availableLocations, setAvailableLocations] = useState([]);
-    const [userConfirmedAddress, setUserConfirmedAddress] = useState(false);
-    const [addressSearch, setAddressSearch] = useState('');
-    const [countries, setCountries] = useState([]);
-    const [selectedCountry, setSelectedCountry] = useState({});
-    const [editorContent, setEditorContent] = useState(job?.description ?? '');
+    const [workFieldsArray, setWorkFieldsArray] = useState<Array<WorkField>>([]);
     let noOptionsText = t("Please, select the sector before selecting work field.");
     let csrfToken = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
     const globalContext = useGlobalContext();
     let company: CompanyData = usePage<CompanyAuthProps>().props.auth.company;
 
-    const {data, setData, post, processing} = useForm({
+
+    const {data, setData, post, processing} = useForm<FormDataType>({
         job_title: job?.title ?? '',
         employment_type: job?.employment_type ?? 'full_time',
         job_description: job?.description ?? '',
@@ -52,70 +71,49 @@ export default function NewJob({job = null, errors}: NewJobProps) {
         yearly_salary: job?.salary ?? 0,
         currency: job?.salary_currency ?? 'eur',
         education: job?.preferred_education ?? 'none',
-        street: job?.street ?? '',
-        city: job?.city ?? '',
-        zip: job?.zip ?? '',
-        country: job?.country ?? '',
         application_mail: job?.application_mail ?? '',
+        address: {
+            street: job?.street ?? '',
+            city: job?.city ?? '',
+            zip: job?.zip ?? '',
+            country: job?.country ?? '',
+        }
     })
 
-    useEffect(() => {
-        fetch(
-            "https://valid.layercode.workers.dev/list/countries?format=select&flags=false&value=code"
-        )
-            .then((response) => response.json())
-            .then((data) => {
-                setCountries(data.countries);
+    const workField = workFieldsArray.find(item => item.value === data.work_field_id) || {
+        value: job?.work_field?.id,
+        label: t(job?.work_field?.name ?? '')
+    }
+
+
+    if (initialRender) {
+        axios.get("/sectors")
+            .then((response) => {
+                setSectorsArray(response.data.map((sector: SectorInterface) => {
+                    return {
+                        value: sector.id,
+                        label: t(sector.name)
+                    }
+                }))
+            })
+            .finally(() => {
+                initialRender = false
             });
+    }
 
-        axios.get("/sectors").then((response) => {
-            setSectorsArray(response.data.map((sector: SectorInterface) => {
-                return {
-                    value: sector.id,
-                    label: t(sector.name)
-                }
-            }))
-        });
-    }, []);
 
-    useEffect(() => {
-        if (!userConfirmedAddress && addressSearch !== '') {
-            const delayDebounceFn = setTimeout(() => {
-                axios.get(`/google/places?searchString=${btoa(addressSearch.toUpperCase())}`)
-                    .then((response) => {
-                        if (Object.keys(response.data).length > 0) {
-                            setAvailableLocations(response.data.places);
-                        } else {
-                            setAvailableLocations([]);
-                        }
-                    })
-            }, 650)
-
-            return () => clearTimeout(delayDebounceFn)
-        }
-    }, [addressSearch]);
-
-    useEffect(() => {
+    function handleDescriptionChange(text: string) {
         setData(values => ({
             ...values,
-            job_description: editorContent
+            job_description: text
         }));
-    }, [editorContent]);
-
-    useEffect(() => {
-        if (job !== null) {
-            setSelectedWorkField({
-                value: job?.work_field?.id,
-                label: t(job?.work_field?.name ?? '')
-            })
-        }
-    }, [job]);
+    }
 
     function getRelatedWorkFields(selectedSector: any) {
         if (typeof selectedSector !== "undefined") {
             axios.get('/sector/'+selectedSector.value+'/fields')
                 .then(response => {
-                    setWorkFieldsArray(response.data.map((workField: any) => ({
+                    setWorkFieldsArray(response.data.map((workField: WorkFieldInterface) => ({
                         value: workField.id,
                         label: t(workField.name)
                     })));
@@ -133,17 +131,6 @@ export default function NewJob({job = null, errors}: NewJobProps) {
         getRelatedWorkFields(selectedSector)
     }
 
-    if (job !== null) {
-        useEffect(() => {
-            getRelatedWorkFields({value: job.sector_id})
-            countries.forEach((country: Country) => {
-                if (country.label === job.country) {
-                    setSelectedCountry(country);
-                }
-            })
-        }, [countries]);
-    }
-
     function handleEmploymentTypeChange(e: { target: { value: string; }; }) {
         setData(values => ({
             ...values,
@@ -152,7 +139,6 @@ export default function NewJob({job = null, errors}: NewJobProps) {
     }
 
     function handleWorkFieldChange(e: any) {
-        setSelectedWorkField(e);
         setData(values => ({
             ...values,
             work_field_id: e.value
@@ -180,79 +166,10 @@ export default function NewJob({job = null, errors}: NewJobProps) {
         }));
     }
 
-    let updateAddressInput = (address: string) => {
-        setData(values => ({
-            ...values,
-            street: address
-        }));
-        setAddressSearch(address);
-    }
-
-    let parseAndSetAddress = (place: any) => {
-        let houseNumber: null = null;
-        let streetName: null = null;
-        let city: null = null;
-
-        place.addressComponents.forEach((component: any) => {
-            switch (component.types[0]) {
-                case 'street_number':
-                    houseNumber = component.longText
-                    break;
-                case 'route':
-                    streetName = component.longText;
-                    break;
-                case 'postal_town':
-                    setData(values => ({
-                        ...values,
-                        city: component.longText
-                    }));
-                    city = component.longText;
-                    break;
-                case 'country':
-                    countries.forEach((country: Country) => {
-                        if (country.value === component.shortText) {
-                            countryChange(country);
-                            setSelectedCountry(country);
-                        } else {
-                            countryChange({label: component.longText});
-                            setSelectedCountry({value: component.shortText, label: component.longText});
-                        }
-                    })
-                    break;
-                case 'postal_code':
-                    setData(values => ({
-                        ...values,
-                        zip: component.longText
-                    }));
-                    break;
-                case 'administrative_area_level_1':
-                    if (city === null) {
-                        setData(values => ({
-                            ...values,
-                            city: component.longText
-                        }));
-                    }
-                    break;
-            }
-        });
-
-        setData(values => ({
-            ...values,
-            street: streetName + " " + houseNumber,
-            coordinates: place.location
-        }));
-
-        setUserConfirmedAddress(true);
-        setAvailableLocations([]);
-        setAddressSearch(streetName + " " + houseNumber);
-    }
-
-    let countryChange = (selectedOption: any) => {
-        setData(values => ({
-            ...values,
-            country: selectedOption?.label ?? ''
-        }));
-        setSelectedCountry(selectedOption ?? '')
+    function updateFields(fields: Partial<FormDataType>) {
+        setData(prevState => {
+            return {...prevState, ...fields};
+        })
     }
 
 
@@ -317,7 +234,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                         <div className="col-12">
                             <label>{t("Job description")}</label>
                             <div className="card">
-                                <Tiptap content={job?.description} setEditorContent={setEditorContent}/>
+                                <Tiptap content={job?.description} setEditorContent={handleDescriptionChange}/>
                             </div>
                         </div>
                     </div>
@@ -336,57 +253,9 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                         </div>
                     </div>
 
-                    {data.work_location !== 'remote' && (
-                        <>
-                            <div className="mb-3">
-                                <label className={"form-label ps-0"}>{t("Street")}</label>
-                                <input
-                                    autoFocus
-                                    className={"form-control"}
-                                    type="text"
-                                    defaultValue={data.street}
-                                    onChange={e => updateAddressInput(e.target.value)}
-                                />
-
-                                <div className="border rounded p-2 mt-2" hidden={availableLocations.length === 0}>
-                                    {availableLocations.length > 0 && !userConfirmedAddress && availableLocations.map((place: PlaceInterface, index) => {
-                                        return (
-                                            <AddressSelection key={index} onClick={() => parseAndSetAddress(place)}
-                                                              className="p-2">
-                                                {place.formattedAddress}
-                                            </AddressSelection>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-                            <small>{t("If the job's location is the same as your company location, you may leave this fields empty. The job location will be the same as your company's location!")}</small>
-
-                            <div className="mb-3">
-                                <label className={"form-label ps-0"}>{t("Zip")}</label>
-                                <input
-                                    className={"form-control"}
-                                    type="text"
-                                    defaultValue={data.zip}
-                                    onChange={e => setData('zip', e.target.value)}/>
-                            </div>
-
-                            <div className="mb-3">
-                                <label className={"form-label ps-0"}>{t("City")}</label>
-                                <input
-                                    className={"form-control"}
-                                    type="text"
-                                    defaultValue={data.city}
-                                    onChange={e => setData('city', e.target.value)}/>
-                            </div>
-
-                            <div className="mb-3">
-                                <label className={"form-label ps-0"}>{t("Country")}</label>
-                                <Select options={countries}
-                                        value={selectedCountry}
-                                        onChange={(selectedOption) => countryChange(selectedOption)}/>
-                            </div>
-                        </>
-                    )}
+                    {data.work_location !== 'remote' &&
+                        <GoogleLocationSelect updateFields={updateFields} showAllFields={true} address={data.address} />
+                    }
 
                     <hr className={"my-4"}/>
 
@@ -409,7 +278,8 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                             <Select
                                 noOptionsMessage={({inputValue}) => !inputValue ? noOptionsText : "No results found"}
                                 options={workFieldsArray}
-                                value={selectedWorkField} onChange={handleWorkFieldChange}
+                                value={workField}
+                                onChange={handleWorkFieldChange}
                                 required={true}/>
                         </div>
                     </div>
@@ -491,9 +361,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                         <div className="row mb-3">
                             <div className="col-12">
                                 <ul>
-                                    {errors.map(e => {
-                                        <li>{e}</li>
-                                    })}
+                                    {errors.map(e => <li>{e}</li>)}
                                 </ul>
                             </div>
                         </div>
