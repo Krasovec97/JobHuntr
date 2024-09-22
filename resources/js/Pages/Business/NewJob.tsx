@@ -3,7 +3,7 @@ import {Head, useForm, usePage} from "@inertiajs/react";
 import BusinessLayout from "../../Layouts/BusinessLayout";
 import PageSection from "../../Components/PageSection";
 import Select from "react-select";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import axios from "axios";
 import useGlobalContext from "../../Hooks/useGlobalContext";
 import FancyTitle from "../../Components/FancyTitle";
@@ -11,7 +11,7 @@ import {
     CompanyData,
     CompanyAuthProps,
     JobInterface,
-    SectorInterface
+    SectorInterface, WorkFieldInterface
 } from "../../Interfaces/SharedInterfaces";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import React from "react";
@@ -43,16 +43,22 @@ interface FormDataType {
     }
 }
 
+type WorkField = {
+    value: number;
+    label: string;
+};
+
+let initialRender = true
+
 export default function NewJob({job = null, errors}: NewJobProps) {
     const {t} = useLaravelReactI18n();
     const [sectorsArray, setSectorsArray] = useState([]);
-    const [workFieldsArray, setWorkFieldsArray] = useState([]);
-    const [selectedWorkField, setSelectedWorkField] = useState({});
-    const [editorContent, setEditorContent] = useState(job?.description ?? '');
+    const [workFieldsArray, setWorkFieldsArray] = useState<Array<WorkField>>([]);
     let noOptionsText = t("Please, select the sector before selecting work field.");
     let csrfToken = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
     const globalContext = useGlobalContext();
     let company: CompanyData = usePage<CompanyAuthProps>().props.auth.company;
+
 
     const {data, setData, post, processing} = useForm<FormDataType>({
         job_title: job?.title ?? '',
@@ -74,38 +80,40 @@ export default function NewJob({job = null, errors}: NewJobProps) {
         }
     })
 
-    useEffect(() => {
-        axios.get("/sectors").then((response) => {
-            setSectorsArray(response.data.map((sector: SectorInterface) => {
-                return {
-                    value: sector.id,
-                    label: t(sector.name)
-                }
-            }))
-        });
-    }, []);
+    const workField = workFieldsArray.find(item => item.value === data.work_field_id) || {
+        value: job?.work_field?.id,
+        label: t(job?.work_field?.name ?? '')
+    }
 
-    useEffect(() => {
+
+    if (initialRender) {
+        axios.get("/sectors")
+            .then((response) => {
+                setSectorsArray(response.data.map((sector: SectorInterface) => {
+                    return {
+                        value: sector.id,
+                        label: t(sector.name)
+                    }
+                }))
+            })
+            .finally(() => {
+                initialRender = false
+            });
+    }
+
+
+    function handleDescriptionChange(text: string) {
         setData(values => ({
             ...values,
-            job_description: editorContent
+            job_description: text
         }));
-    }, [editorContent]);
-
-    useEffect(() => {
-        if (job !== null) {
-            setSelectedWorkField({
-                value: job?.work_field?.id,
-                label: t(job?.work_field?.name ?? '')
-            })
-        }
-    }, [job]);
+    }
 
     function getRelatedWorkFields(selectedSector: any) {
         if (typeof selectedSector !== "undefined") {
             axios.get('/sector/'+selectedSector.value+'/fields')
                 .then(response => {
-                    setWorkFieldsArray(response.data.map((workField: any) => ({
+                    setWorkFieldsArray(response.data.map((workField: WorkFieldInterface) => ({
                         value: workField.id,
                         label: t(workField.name)
                     })));
@@ -131,7 +139,6 @@ export default function NewJob({job = null, errors}: NewJobProps) {
     }
 
     function handleWorkFieldChange(e: any) {
-        setSelectedWorkField(e);
         setData(values => ({
             ...values,
             work_field_id: e.value
@@ -227,7 +234,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                         <div className="col-12">
                             <label>{t("Job description")}</label>
                             <div className="card">
-                                <Tiptap content={job?.description} setEditorContent={setEditorContent}/>
+                                <Tiptap content={job?.description} setEditorContent={handleDescriptionChange}/>
                             </div>
                         </div>
                     </div>
@@ -271,7 +278,8 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                             <Select
                                 noOptionsMessage={({inputValue}) => !inputValue ? noOptionsText : "No results found"}
                                 options={workFieldsArray}
-                                value={selectedWorkField} onChange={handleWorkFieldChange}
+                                value={workField}
+                                onChange={handleWorkFieldChange}
                                 required={true}/>
                         </div>
                     </div>
@@ -353,9 +361,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                         <div className="row mb-3">
                             <div className="col-12">
                                 <ul>
-                                    {errors.map(e => {
-                                        <li>{e}</li>
-                                    })}
+                                    {errors.map(e => <li>{e}</li>)}
                                 </ul>
                             </div>
                         </div>
