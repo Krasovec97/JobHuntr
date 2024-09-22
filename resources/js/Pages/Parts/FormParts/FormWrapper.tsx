@@ -1,5 +1,5 @@
 import {ReactNode} from "react";
-import FancyTitle from "../../../Components/FancyTitle";
+import FancyTitle from "@/Components/FancyTitle";
 import React from "react";
 
 interface FormWrapperProps {

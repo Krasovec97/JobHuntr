@@ -1,9 +1,9 @@
 import {Head} from '@inertiajs/react';
-import MainLayout from '../Layouts/MainLayout';
-import PageSection from "../Components/PageSection";
+import MainLayout from '@/Layouts/MainLayout';
+import PageSection from "@/Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import FancyTitle from "../Components/FancyTitle";
-import IconCard from "../Components/IconCard";
+import FancyTitle from "@/Components/FancyTitle";
+import IconCard from "@/Components/IconCard";
 import React from "react";
 
 export default function RemoteJobs() {

@@ -1,22 +1,22 @@
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import {Head, useForm, usePage} from "@inertiajs/react";
-import BusinessLayout from "../../Layouts/BusinessLayout";
-import PageSection from "../../Components/PageSection";
+import BusinessLayout from "@/Layouts/BusinessLayout";
+import PageSection from "@/Components/PageSection";
 import Select from "react-select";
 import {useState} from "react";
 import axios from "axios";
-import useGlobalContext from "../../Hooks/useGlobalContext";
-import FancyTitle from "../../Components/FancyTitle";
+import useGlobalContext from "@/Hooks/useGlobalContext";
+import FancyTitle from "@/Components/FancyTitle";
 import {
     CompanyData,
     CompanyAuthProps,
     JobInterface,
     SectorInterface, WorkFieldInterface
-} from "../../Interfaces/SharedInterfaces";
+} from "@/Interfaces/SharedInterfaces";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import React from "react";
-import Tiptap from "../../Components/Tiptap";
-import GoogleLocationSelect from "../../Components/GoogleLocationSelect";
+import Tiptap from "@/Components/Tiptap";
+import GoogleLocationSelect from "@/Components/GoogleLocationSelect";
 
 interface NewJobProps {
     job?: JobInterface|null,
@@ -254,7 +254,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                     </div>
 
                     {data.work_location !== 'remote' &&
-                        <GoogleLocationSelect updateFields={updateFields} showAllFields={true} address={data.address} />
+                        <GoogleLocationSelect updateFields={updateFields} address={data.address} />
                     }
 
                     <hr className={"my-4"}/>

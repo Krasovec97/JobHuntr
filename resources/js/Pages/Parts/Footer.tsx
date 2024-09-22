@@ -1,7 +1,7 @@
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import ApplicationLogo from "../../Components/ApplicationLogo";
+import ApplicationLogo from "@/Components/ApplicationLogo";
 import React from "react";
-import {getClientLang} from "../../Helpers";
+import {getClientLang} from "@/Helpers";
 
 export default function () {
     const {t} = useLaravelReactI18n();
