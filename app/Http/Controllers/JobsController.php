@@ -75,7 +75,8 @@ class JobsController extends Controller
             "yearly_salary" => ["required", "numeric"],
             "currency" => ["required"],
             "education" => ["required"],
-            "application_mail" => ["string", "nullable"]
+            "application_mail" => ["string", "nullable"],
+            "address" => ["required", "array:street,city,zip,country"]
         ]);
 
         if ($validator->fails()) {
@@ -87,7 +88,9 @@ class JobsController extends Controller
         $company = Company::getAuthenticatedCompany();
 
         $job = CompanyJob::query()->find($jobId);
-        if ($job === null)$job = new CompanyJob();
+        if ($job === null) {
+            $job = new CompanyJob();
+        }
         $job->title = $request->input('job_title');
         $job->description = $request->input('job_description');
         $job->employment_type = $request->input('employment_type');
@@ -98,10 +101,10 @@ class JobsController extends Controller
         $job->salary = $request->input('yearly_salary');
         $job->salary_currency = strtoupper($request->input('currency'));
         $job->preferred_education = $request->input('education');
-        $job->street = $request->input('street') ?? $company->street;
-        $job->city = $request->input('city') ?? $company->city;
-        $job->zip = $request->input('zip') ?? $company->zip;
-        $job->country = $request->input('country') ?? $company->country;
+        $job->street = $request->input('address')['street'] ?? $company->street;
+        $job->city = $request->input('address')['city'] ?? $company->city;
+        $job->zip = $request->input('address')['zip'] ?? $company->zip;
+        $job->country = $request->input('address')['country'] ?? $company->country;
         $job->company_id = $company->id;
         $job->status = 'draft';
         $job->application_mail = $request->input('application_mail') ?? $company->email;
@@ -116,7 +119,7 @@ class JobsController extends Controller
 
 
         if ($jobSaved) {
-            return Inertia::location('/job/' . $jobId);
+            return Inertia::location('/job/' . ($jobId ?? $job->id));
 //            return Inertia::render('Business/JobDetails', [
 //                'job' => $job
 //            ]);

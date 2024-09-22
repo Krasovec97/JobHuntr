@@ -33,13 +33,10 @@ class UserController extends Controller
             'email' => ['required', 'unique:users,email'],
             'first_name' => ['required'],
             'last_name' => ['required'],
-            'street' => ['required'],
-            'city' => ['required'],
-            'country' => ['required'],
-            'zip' => ['required'],
             'password' => ['required', 'min:8'],
             'contact_phone' => ['required'],
             'coordinates' => ['required'],
+            'address' => ['required', 'array:street,city,zip,country'],
         ]);
 
         if ($validator->fails()) {
@@ -53,10 +50,10 @@ class UserController extends Controller
         $user->name = $request->get('first_name');
         $user->surname = $request->get('last_name');
         $user->contact_phone = $request->get('contact_phone');
-        $user->street = $request->get('street');
-        $user->city = $request->get('city');
-        $user->zip = $request->get('zip');
-        $user->country = $request->get('country');
+        $user->street = $request->get('address')['street'];
+        $user->city = $request->get('address')['city'];
+        $user->zip = $request->get('address')['zip'];
+        $user->country = $request->get('address')['country'];
         $user->password = Hash::make($request->get('password'));
         $user->email_verification_token = Str::orderedUuid()->toString();
         $user->coordinates = new Point($request->get('coordinates')['latitude'], $request->get('coordinates')['longitude']);
@@ -77,13 +74,11 @@ class UserController extends Controller
     public function update(Request $request) {
         $validator = Validator::make($request->all(), [
             'user_id' => ['required'],
-            'street' => ['required'],
-            'city' => ['required'],
-            'country' => ['required'],
-            'zip' => ['required'],
             'education' => ['nullable'],
             'date_of_birth' => ['nullable'],
-            'contact_phone' => ['required']
+            'contact_phone' => ['required'],
+            'address' => ['required', 'array:street,city,zip,country'],
+            'coordinates' => ['required', 'array:longitude,latitude'],
         ]);
 
         if ($validator->fails()) {
@@ -94,12 +89,13 @@ class UserController extends Controller
 
         $user = User::getById($request->get('user_id'));
         $user->contact_phone = $request->get('contact_phone');
-        $user->street = $request->get('street');
-        $user->city = $request->get('city');
-        $user->zip = $request->get('zip');
-        $user->country = $request->get('country');
+        $user->street = $request->get('address')['street'];
+        $user->city = $request->get('address')['city'];
+        $user->zip = $request->get('address')['zip'];
+        $user->country = $request->get('address')['country'];
         $user->date_of_birth = $request->get('date_of_birth');
         $user->education = $request->get('education');
+        $user->coordinates = new Point($request->get('coordinates')['latitude'], $request->get('coordinates')['longitude']);
         $user->save();
 
         return Redirect::to('/dashboard');

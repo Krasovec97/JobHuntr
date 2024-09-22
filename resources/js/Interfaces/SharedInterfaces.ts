@@ -74,7 +74,11 @@ export interface UserData {
     city: string,
     zip: string,
     date_of_birth: string,
-    education: string
+    education: string,
+    coordinates: {
+        longitude: number,
+        latitude: number,
+    }
 }
 
 export interface FilterTypes {
@@ -90,8 +94,21 @@ export interface Country {
     label: string
 }
 
+export interface AddressComponent {
+    longText: string,
+    shortText: string,
+    types: string[]
+    languageCode: string
+}
+
+export interface LocationInterface {
+    latitude: string,
+    longitude: string,
+}
+
 export interface PlaceInterface {
-    formattedAddress: string
+    addressComponents: AddressComponent[],
+    location: LocationInterface
 }
 
 interface PageProps {
@@ -124,5 +141,37 @@ export interface CompanyAuthProps extends PageProps {
 export interface UserAuthProps extends PageProps {
     auth: {
         user: UserData
+    }
+}
+
+export interface PlacePredictionInterface {
+    "placePrediction": {
+        "place": string,
+        "placeId": string,
+        "text": {
+            "text": string,
+            "matches": [
+                {
+                    "endOffset": number
+                }
+            ]
+        },
+        "structuredFormat": {
+            "mainText": {
+                "text": string,
+                "matches": [
+                    {
+                        "endOffset": number
+                    }
+                ]
+            },
+            "secondaryText": {
+                "text": string
+            }
+        },
+        "types": [
+            "street_address",
+            "geocode"
+        ]
     }
 }
