@@ -45,6 +45,8 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
         city: address.city ?? '',
         country: address.country ?? '',
     });
+    const [addressSearch, setAddressSearch] = useState<string>("");
+    const [noOptionsString, setNoOptionsString] = useState<string>(t("No options"));
     const sessionId = useRef<string>(makeId(8));
 
     useEffect(() => {
@@ -59,8 +61,11 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
 
     const getLocationRecommendations = (value: string) => {
         if (value !== '') {
+            let pattern = new RegExp(/\d/);
+            if (!pattern.test(value)) value = value + ' 1';
+
             axios.post(`https://places.googleapis.com/v1/places:autocomplete?key=AIzaSyAXq5JaClCPlEky2fnD5Icy9WKeuYAmF4U&sessionToken=${sessionId.current}`, {
-                "input": value
+                "input": value,
             }).then((response) => {
                 setAvailableLocations(response.data.suggestions.map((place: PlacePredictionInterface) => {
                     return {
@@ -68,9 +73,19 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
                         label: place.placePrediction.text.text
                     }
                 }));
-            });
+            }).catch(() => setNoOptionsString(t("No options")));
         }
     }
+
+    useEffect(() => {
+        setNoOptionsString(t('Searching') + '...');
+
+        const delay = setTimeout(() => {
+            getLocationRecommendations(addressSearch);
+        }, 500);
+
+        return () => clearTimeout(delay);
+    }, [addressSearch]);
 
 
     const setLocation = (place: LocationProps) => {
@@ -136,7 +151,8 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
                         onChange={(value) => value && setLocation(value)}
                         value={selectedLocation}
                         placeholder={t("Start typing and choose your location")}
-                        onInputChange={e => getLocationRecommendations(e)}
+                        noOptionsMessage={() => noOptionsString}
+                        onInputChange={e => setAddressSearch(e)}
                 />
             </div>
             <div className="mb-3">
