@@ -26,7 +26,7 @@
     "Account updated!": "Račun posodobljen!",
     "[Business] Account settings": "[Poslovno] Nastavitve računa",
     "Update your account": "Posodobi svoj račun",
-    "Company street": "Ulica",
+    "Company street": "Ulica in hišna številka",
     "Company zip": "Poštna številka",
     "Company city": "Mesto",
     "In case you want to change any of the information above, please email us at info@jobhuntr.co": "Če želite spremeniti katerega od zgornjih podatkov, nam pišite na info@jobhuntr.co",
@@ -90,7 +90,7 @@
     "Personal Account": "Osebni račun",
     "Address information": "Naslov",
     "Where are you located?": "Kje se nahajate?",
-    "Street": "Ulica",
+    "Street": "Ulica in hišna številka",
     "Postal Code": "Pošna številka",
     "City": "Mesto",
     "Country": "Država",
@@ -422,5 +422,7 @@
     "Pest Control": "Zatiranje škodljivcev",
     "Property Management": "Upravljanje nepremičnin",
     "Not important": "Ni pomembno",
-    "Start typing and choose your location": "Začnite tipkati in izberite svojo lokacijo"
+    "Start typing and choose your location": "Začnite tipkati in izberite svojo lokacijo",
+    "No options": "Ni zadetkov",
+    "Searching": "Iskanje"
 }

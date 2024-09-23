@@ -26,7 +26,7 @@
     "Account updated!": "Account updated!",
     "[Business] Account settings": "[Business] Account settings",
     "Update your account": "Update your account",
-    "Company street": "Street",
+    "Company street": "Street and house number",
     "Company zip": "Zip code",
     "Company city": "City",
     "In case you want to change any of the information above, please email us at info@jobhuntr.co": "If you want to change any of the information above, please email us at info@jobhuntr.co",
@@ -90,7 +90,7 @@
     "Personal Account": "Personal Account",
     "Address information": "Address",
     "Where are you located?": "Where are you located?",
-    "Street": "Street",
+    "Street": "Street and house number",
     "Postal Code": "Postal Code",
     "City": "City",
     "Country": "Country",
@@ -422,5 +422,7 @@
     "Pest Control": "Pest Control",
     "Property Management": "Property Management",
     "Not important": "Not important",
-    "Start typing and choose your location": "Start typing and choose your location"
+    "Start typing and choose your location": "Start typing and choose your location",
+    "No options": "No options",
+    "Searching": "Searching"
 }
