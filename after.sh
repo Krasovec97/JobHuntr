@@ -23,6 +23,4 @@
 #sudo apt-get install -y nodejs
 
 sudo apt install postgis;
-sudo apt install postgresql-15-postgis-3;
-
 sudo -u postgres psql -c "CREATE EXTENSION postgis;" jobhuntr_dev

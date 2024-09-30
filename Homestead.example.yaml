@@ -3,6 +3,7 @@ memory: 2048
 cpus: 2
 provider: virtualbox
 authorize: ~/.ssh/id_ed25519.pub
+
 keys:
     - ~/.ssh/id_ed25519
 folders:
@@ -16,14 +17,10 @@ sites:
 databases:
     - jobhuntr_dev
 features:
-    -
-        mariadb: false
-    -
-        postgresql: true
-    -
-        ohmyzsh: false
-    -
-        webdriver: false
+    - mariadb: false
+    - postgresql: true
+    - ohmyzsh: false
+    - webdriver: false
 
 ports:
   - send: 54320
@@ -31,3 +28,9 @@ ports:
 
 name: jobhuntr
 hostname: jobhuntr
+
+services:
+  - enabled:
+      - "postgresql"
+  - disabled:
+      - "mysql"
