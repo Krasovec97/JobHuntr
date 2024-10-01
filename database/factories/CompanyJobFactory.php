@@ -21,26 +21,10 @@ class CompanyJobFactory extends Factory
      */
     public function definition(): array
     {
-        $sectorsQuery = Sector::query();
-        $availablesectorsCount = $sectorsQuery->count();
-
-        $sector =  $sectorsQuery
-            ->where('id', rand(1, $availablesectorsCount))
-            ->first(['id']);
-
-        $workFieldQuery = WorkField::query()
-            ->where('sector_id', $sector->id);
-        $workFields = $workFieldQuery->get();
-        $workFieldsCount = $workFieldQuery->count();
-
-        $availableWorkFieldIds = [];
-        foreach ($workFields as $workField) $availableWorkFieldIds[] = $workField->id;
-
-
-        $workField =  $workFieldQuery
-            ->whereIn('id', $availableWorkFieldIds)
-            ->skip(rand(0, ($workFieldsCount - 1)))
-            ->first(['id']);
+        /** @var WorkField $workField */
+        $workField = WorkField::query()
+            ->inRandomOrder()
+            ->first();
 
         /** @var Company $company */
         $company = Company::query()->first();
@@ -66,7 +50,7 @@ class CompanyJobFactory extends Factory
             "posted_at" => $jobPostedAt,
             "expires_at" => $expiresAt,
             "company_id" => $company->id,
-            "sector_id" => $sector->id,
+            "sector_id" => $workField->sector_id,
             "work_field_id" => $workField->id,
             "country" => fake()->country,
             "street" => fake()->streetName,
