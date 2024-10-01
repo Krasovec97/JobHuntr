@@ -7,7 +7,7 @@ type AddressData = {
     address: {
         street: string,
         city: string,
-        country: string,
+        country_code: string,
         zip: string,
     }
     coordinates: {

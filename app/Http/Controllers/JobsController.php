@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\CompanyJob;
+use App\Models\Country;
 use App\Models\Sector;
 use App\Models\WorkField;
 use Carbon\Carbon;
@@ -46,7 +47,9 @@ class JobsController extends Controller
     {
         $job = null;
         if ($jobId !== null) {
+            /** @var CompanyJob $job */
             $job = CompanyJob::query()->find($jobId);
+            $job->country_code = $job->country->code;
             $job->sector = Sector::query()->find($job->sector_id);
             $job->work_field = WorkField::query()->find($job->work_field_id);
         }
@@ -76,7 +79,7 @@ class JobsController extends Controller
             "currency" => ["required"],
             "education" => ["required"],
             "application_mail" => ["string", "nullable"],
-            "address" => ["required", "array:street,city,zip,country"]
+            "address" => ["nullable", "array:street,city,zip,country_code"]
         ]);
 
         if ($validator->fails()) {
@@ -101,10 +104,6 @@ class JobsController extends Controller
         $job->salary = $request->input('yearly_salary');
         $job->salary_currency = strtoupper($request->input('currency'));
         $job->preferred_education = $request->input('education');
-        $job->street = $request->input('address')['street'] ?? $company->street;
-        $job->city = $request->input('address')['city'] ?? $company->city;
-        $job->zip = $request->input('address')['zip'] ?? $company->zip;
-        $job->country = $request->input('address')['country'] ?? $company->country;
         $job->company_id = $company->id;
         $job->status = 'draft';
         $job->application_mail = $request->input('application_mail') ?? $company->email;
@@ -115,14 +114,20 @@ class JobsController extends Controller
             $job->coordinates = new Point($company->coordinates->latitude, $company->coordinates->longitude);
         }
 
+        if ($request->input('address')) {
+            $country = Country::query()->where('code', $request->input('address')['country_code'])->first();
+
+            $job->street = $request->input('address')['street'] ?? $company->street;
+            $job->city = $request->input('address')['city'] ?? $company->city;
+            $job->zip = $request->input('address')['zip'] ?? $company->zip;
+            $job->country_id = $country->id ?? $company->country_id;
+        }
+
         $jobSaved = $job->save();
 
 
         if ($jobSaved) {
             return Inertia::location('/job/' . ($jobId ?? $job->id));
-//            return Inertia::render('Business/JobDetails', [
-//                'job' => $job
-//            ]);
         } else {
             return Inertia::render('Business/NewJob', [
                 'errors' => [__("An unexpected error has occurred.")]

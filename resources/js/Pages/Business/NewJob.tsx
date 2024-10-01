@@ -39,7 +39,7 @@ interface FormDataType {
         street: string,
         city: string,
         zip: string,
-        country: string,
+        country_code: string,
     }
 }
 
@@ -76,7 +76,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
             street: job?.street ?? '',
             city: job?.city ?? '',
             zip: job?.zip ?? '',
-            country: job?.country ?? '',
+            country_code: job.country_code ?? '',
         }
     })
 
@@ -101,14 +101,6 @@ export default function NewJob({job = null, errors}: NewJobProps) {
             });
     }
 
-
-    function handleDescriptionChange(text: string) {
-        setData(values => ({
-            ...values,
-            job_description: text
-        }));
-    }
-
     function getRelatedWorkFields(selectedSector: any) {
         if (typeof selectedSector !== "undefined") {
             axios.get('/sector/'+selectedSector.value+'/fields')
@@ -129,41 +121,6 @@ export default function NewJob({job = null, errors}: NewJobProps) {
         }));
 
         getRelatedWorkFields(selectedSector)
-    }
-
-    function handleEmploymentTypeChange(e: { target: { value: string; }; }) {
-        setData(values => ({
-            ...values,
-            employment_type: e.target.value
-        }));
-    }
-
-    function handleWorkFieldChange(e: any) {
-        setData(values => ({
-            ...values,
-            work_field_id: e.value
-        }));
-    }
-
-    function handleWorkLocationChange(e: { target: { value: string; }; }) {
-        setData(values => ({
-            ...values,
-            work_location: e.target.value
-        }));
-    }
-
-    function handleCurrencyChange(e: { target: { value: string; }; }) {
-        setData(values => ({
-            ...values,
-            currency: e.target.value
-        }));
-    }
-
-    function handleEducationChange(e: { target: { value: string; }; }) {
-        setData(values => ({
-            ...values,
-            education: e.target.value
-        }));
     }
 
     function updateFields(fields: Partial<FormDataType>) {
@@ -215,14 +172,14 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                                 className={"form-control"}
                                 type="text"
                                 defaultValue={job ? job.title : undefined}
-                                onChange={(e) => setData('job_title', e.target.value)}/>
+                                onChange={(e) => updateFields({job_title: e.target.value})}/>
                         </div>
                     </div>
 
                     <div className="row mb-3">
                         <div className="col-12">
                             <label>{t("Employment type")}</label>
-                            <select required className={"form-select"} onChange={handleEmploymentTypeChange}
+                            <select required className={"form-select"} onChange={(event) => updateFields({employment_type: event.target.value})}
                                     defaultValue={job ? job.employment_type : undefined}>
                                 <option value="full_time">{t("Full-Time")}</option>
                                 <option value="part_time">{t("Part-Time")}</option>
@@ -234,7 +191,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                         <div className="col-12">
                             <label>{t("Job description")}</label>
                             <div className="card">
-                                <Tiptap content={job?.description} setEditorContent={handleDescriptionChange}/>
+                                <Tiptap content={job?.description} setEditorContent={(content) => updateFields({job_description: content})}/>
                             </div>
                         </div>
                     </div>
@@ -244,7 +201,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                     <div className="row mb-3">
                         <div className="col-12">
                             <label>{t("Work location")}</label>
-                            <select required className={"form-select"} onChange={handleWorkLocationChange}
+                            <select required className={"form-select"} onChange={(event) => updateFields({work_location: event.target.value})}
                                     defaultValue={job?.work_location}>
                                 <option value="remote">{t("Completely online / Remote")}</option>
                                 <option value="hybrid">{t("Partially online")}</option>
@@ -279,7 +236,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                                 noOptionsMessage={({inputValue}) => !inputValue ? noOptionsText : "No results found"}
                                 options={workFieldsArray}
                                 value={workField}
-                                onChange={handleWorkFieldChange}
+                                onChange={(event) => updateFields({work_field_id: event.value})}
                                 required={true}/>
                         </div>
                     </div>
@@ -296,7 +253,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                                 min={1}
                                 max={999}
                                 step={1}
-                                onChange={(e) => setData('num_of_positions', e.target.valueAsNumber)}
+                                onChange={(e) => updateFields({num_of_positions: e.target.valueAsNumber})}
                             />
                         </div>
                     </div>
@@ -314,12 +271,12 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                                 step={0.5}
                                 min={1}
                                 type="number"
-                                onChange={(e) => setData('yearly_salary', e.target.valueAsNumber)}
+                                onChange={(e) => updateFields({yearly_salary: e.target.valueAsNumber})}
                             />
                         </div>
                         <div className="col-4">
                             <label>{t("Currency")}</label>
-                            <select required className={"form-select"} onChange={handleCurrencyChange}
+                            <select required className={"form-select"} onChange={(event) => updateFields({currency: event.target.value})}
                                     defaultValue={job?.salary_currency}>
                                 <option value="eur">EUR</option>
                                 <option value="usd">USD</option>
@@ -331,7 +288,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                     <div className="row mb-3">
                         <div className="col-12">
                             <label>{t("Preferred education")}</label>
-                            <select required className={"form-select"} onChange={handleEducationChange}
+                            <select required className={"form-select"} onChange={(event) => updateFields({education: event.target.value})}
                                     defaultValue={job?.preferred_education}>
                                 <option value="none">{t("None")}</option>
                                 <option value="primary">{t("Primary school or equivalent")}</option>
@@ -351,7 +308,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                                 className={"form-control"}
                                 defaultValue={job?.application_mail}
                                 type="text"
-                                onChange={(e) => setData('application_mail', e.target.value)}
+                                onChange={(e) => updateFields({application_mail: e.target.value})}
                             />
                             <small>{t(`You may leave this empty and it will be set to the same email as your company's email`)}</small>
                         </div>

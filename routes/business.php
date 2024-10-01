@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BusinessProfileController;
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\JobsController;
 use App\Http\Controllers\SectorController;
 use Illuminate\Support\Facades\Route;
