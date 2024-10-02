@@ -48,6 +48,7 @@ export interface JobInterface {
     city: string,
     country_id: number,
     country_code: string,
+    country: string,
     application_mail: string
 }
 
