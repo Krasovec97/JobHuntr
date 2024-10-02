@@ -6,7 +6,7 @@ import FancyTitle from "../../Components/FancyTitle";
 import PageSection from "../../Components/PageSection";
 import {useState} from "react";
 import useGlobalContext from "../../Hooks/useGlobalContext";
-import {CompanyData} from "../../Interfaces/SharedInterfaces";
+import {CompanyData} from "@/Interfaces/SharedInterfaces";
 import React from "react";
 
 interface PageProps {
@@ -24,7 +24,7 @@ export default function AccountSettings({company}: PageProps) {
         contact_phone: company.contact_phone,
         is_vat_obligated: isVatObligated,
         city: company.city,
-        country: company.country,
+        country_id: company.country_id,
         email: company.email,
         full_name: company.full_name,
         id: company.id,

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebController;
@@ -32,12 +33,6 @@ Route::get('/companies', [WebController::class, 'getCompaniesPitchPage']);
 
 Route::get('/jobs', [WebController::class, 'getJobsPage']);
 Route::get('/job/{id}', [WebController::class, 'getJobDetailsPage']);
-Route::get('/api/jobs', [WebController::class, 'getAvailableJobs']);
-Route::get('/api/job/{id}', [WebController::class, 'getJobDetails']);
-
-
-Route::get('/api/sectors', [WebController::class, 'getSectors']);
-Route::get('/api/work_fields', [WebController::class, 'getWorkFields']);
 
 Route::get('/google/places', [WebController::class, 'getGooglePlacesResponse']);
 

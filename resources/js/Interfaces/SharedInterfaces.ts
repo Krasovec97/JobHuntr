@@ -4,7 +4,7 @@ export interface CompanyData {
     city: string,
     contact_person: string,
     contact_phone: string,
-    country: string,
+    country_id: number,
     email: string,
     full_name: string,
     id: number,
@@ -46,7 +46,9 @@ export interface JobInterface {
     street: string,
     zip: string,
     city: string,
-    country:string,
+    country_id: number,
+    country_code: string,
+    country: string,
     application_mail: string
 }
 
@@ -69,15 +71,19 @@ export interface UserData {
     id: number,
     name: string,
     contact_phone: string,
-    country: string,
+    country_id: number,
+    country_code?: string,
     street: string,
     city: string,
     zip: string,
     date_of_birth: string,
     education: string,
     coordinates: {
-        longitude: number,
-        latitude: number,
+        coordinates: {
+            longitude: number,
+            latitude: number,
+        },
+        type: string
     }
 }
 

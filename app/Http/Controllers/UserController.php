@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Country;
 use App\Models\User;
 use App\Notifications\EmailVerificationNotification;
 use Illuminate\Http\JsonResponse;
@@ -36,7 +37,7 @@ class UserController extends Controller
             'password' => ['required', 'min:8'],
             'contact_phone' => ['required'],
             'coordinates' => ['required'],
-            'address' => ['required', 'array:street,city,zip,country'],
+            'address' => ['required', 'array:street,city,zip,country_code'],
         ]);
 
         if ($validator->fails()) {
@@ -44,6 +45,8 @@ class UserController extends Controller
                 'errors' => $validator->errors()->all()
             ]);
         }
+
+        $country = Country::query()->where('code', $request->input('address')['country_code'])->first();
 
         $user = new User();
         $user->email = $request->get('email');
@@ -53,7 +56,7 @@ class UserController extends Controller
         $user->street = $request->get('address')['street'];
         $user->city = $request->get('address')['city'];
         $user->zip = $request->get('address')['zip'];
-        $user->country = $request->get('address')['country'];
+        $user->country_id = $country->id;
         $user->password = Hash::make($request->get('password'));
         $user->email_verification_token = Str::orderedUuid()->toString();
         $user->coordinates = new Point($request->get('coordinates')['latitude'], $request->get('coordinates')['longitude']);
@@ -77,7 +80,7 @@ class UserController extends Controller
             'education' => ['nullable'],
             'date_of_birth' => ['nullable'],
             'contact_phone' => ['required'],
-            'address' => ['required', 'array:street,city,zip,country'],
+            'address' => ['required', 'array:street,city,zip,country_code'],
             'coordinates' => ['required', 'array:longitude,latitude'],
         ]);
 
@@ -87,12 +90,15 @@ class UserController extends Controller
             ]);
         }
 
+        $country = Country::query()->where('code', $request->input('address')['country_code'])->first();
+
+
         $user = User::getById($request->get('user_id'));
         $user->contact_phone = $request->get('contact_phone');
         $user->street = $request->get('address')['street'];
         $user->city = $request->get('address')['city'];
         $user->zip = $request->get('address')['zip'];
-        $user->country = $request->get('address')['country'];
+        $user->country_id = $country->id;
         $user->date_of_birth = $request->get('date_of_birth');
         $user->education = $request->get('education');
         $user->coordinates = new Point($request->get('coordinates')['latitude'], $request->get('coordinates')['longitude']);

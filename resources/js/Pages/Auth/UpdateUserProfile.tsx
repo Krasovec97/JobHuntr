@@ -22,7 +22,7 @@ interface UserObjectData {
     address: {
         street: string,
         city: string,
-        country: string,
+        country_code: number,
         zip: string,
     },
     coordinates: {
@@ -30,6 +30,7 @@ interface UserObjectData {
         latitude: number,
     }
 }
+
 
 export default function (user: UserData) {
     const {t} = useLaravelReactI18n();
@@ -44,7 +45,6 @@ export default function (user: UserData) {
 
     const [selectedEducation, setSelectedEducation] = useState(typesOfEducation.filter((item) => item.value === user.education));
     const globalContext = useGlobalContext();
-
     const {data, setData, post, processing} = useForm({
         user_id: user.id,
         date_of_birth: user.date_of_birth ?? '',
@@ -53,22 +53,14 @@ export default function (user: UserData) {
         address: {
             street: user.street,
             city: user.city,
-            country: user.country,
+            country_code: user.country_code,
             zip: user.zip,
         },
-        coordinates: user.coordinates
+        coordinates: {
+            longitude: user.coordinates.coordinates[0],
+            latitude: user.coordinates.coordinates[1],
+        }
     });
-    console.log(user);
-
-    function handleChange(e: any) {
-        let key = e.target.id;
-        const value = e.target.value;
-
-        setData(values => ({
-            ...values,
-            [key]: value,
-        }))
-    }
 
     function updateFields(fields: Partial<UserObjectData>) {
         setData(prevState => {
@@ -77,11 +69,8 @@ export default function (user: UserData) {
     }
 
     function handleEducationChange(e: any) {
-        setSelectedEducation(e)
-        setData(values => ({
-            ...values,
-            education: e.value
-        }));
+        updateFields({education: e.value});
+        setSelectedEducation(e);
     }
 
     function subtractYears(date: Date, years: number): number {
@@ -95,18 +84,24 @@ export default function (user: UserData) {
     let csrfToken = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
 
     function handleSubmit(e: any) {
-        e.preventDefault()
+        e.preventDefault();
         post('user/update', {
             headers: {
                 'X-CSRF-TOKEN': csrfToken ?? ''
             },
-            onError: (errors: any) => {
-                globalContext?.FlashNotification.setText(errors);
+            onError: (errors: any|string|string[]) => {
+                let errorMessage = '';
+                if (typeof errors !== "string") {
+                    errors.map((error: string) => errorMessage += error + `<br >`)
+                } else {
+                    errorMessage = errors
+                }
+                globalContext?.FlashNotification.setText(errorMessage);
                 globalContext?.FlashNotification.setIsOpen('true');
-                globalContext?.FlashNotification.setStyle("success");
+                globalContext?.FlashNotification.setStyle("danger");
             },
             onSuccess: () => {
-                globalContext?.FlashNotification.setText(t("Account updated!"));
+                globalContext?.FlashNotification.setText("Account updated!");
                 globalContext?.FlashNotification.setIsOpen('true');
                 globalContext?.FlashNotification.setStyle("success");
             },
@@ -129,7 +124,7 @@ export default function (user: UserData) {
                         type="text"
                         value={data.contact_phone}
                         pattern={"^\\+\\d.*"}
-                        onChange={handleChange}/>
+                        onChange={(event) => {updateFields({contact_phone: event.target.value})}}/>
                     <small>
                         {t("Please include country code for your telephone number (Start with +). Your telephone number also shouldn't contain any spaces.")}
                     </small>
@@ -155,7 +150,7 @@ export default function (user: UserData) {
                         max={newDate}
                         type="date"
                         value={data.date_of_birth}
-                        onChange={handleChange}/>
+                        onChange={(event) => {updateFields({date_of_birth: event.target.value})}} />
                 </div>
 
                 <div className="col-12 text-center">
