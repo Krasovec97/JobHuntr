@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Company;
+use App\Models\Country;
 use App\Models\Sector;
 use App\Models\WorkField;
 use Carbon\Carbon;
@@ -36,6 +37,10 @@ class CompanyJobFactory extends Factory
             $expiresAt = Carbon::now()->addMonth();
         }
 
+        $country = Country::query()
+            ->inRandomOrder()
+            ->first();
+
         return [
             "title" => fake()->jobTitle,
             "description" => fake()->realText,
@@ -52,7 +57,7 @@ class CompanyJobFactory extends Factory
             "company_id" => $company->id,
             "sector_id" => $workField->sector_id,
             "work_field_id" => $workField->id,
-            "country" => fake()->country,
+            "country_id" => $country->id,
             "street" => fake()->streetName,
             "city" => fake()->city,
             "zip" => fake()->postcode,

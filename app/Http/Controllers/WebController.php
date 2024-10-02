@@ -68,6 +68,7 @@ class WebController extends Controller
         $job->job_company = $job->company;
         $job->sector = Sector::getById($job->sector_id);
         $job->work_field = WorkField::getById($job->work_field_id);
+        $job->country = $job->country()->first()->name;
 
         return Inertia::render('JobDetails', [
             'job' => $job

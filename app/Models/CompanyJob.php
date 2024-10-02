@@ -30,7 +30,7 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property string $city
  * @property string $zip
  * @property string $street
- * @property string $country
+ * @property int $country_id
  * @property string $application_mail
  * @property Point $coordinates
  */
@@ -69,7 +69,7 @@ class CompanyJob extends Model
         'application_mail'
     ];
 
-    public static function getById($id): ?CompanyJob
+    public static function getById($id): CompanyJob|Model
     {
         return self::query()->find($id);
     }
@@ -87,5 +87,10 @@ class CompanyJob extends Model
     public function sector(): HasOne
     {
         return $this->hasOne(Sector::class, 'id', 'sector_id');
+    }
+
+    public function country(): HasOne
+    {
+        return $this->hasOne(Country::class, 'id', 'country_id');
     }
 }

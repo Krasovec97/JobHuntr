@@ -11,7 +11,7 @@ interface ComponentProps {
         street: string,
         city: string,
         zip: string,
-        country: string,
+        country_code: string,
     }
 }
 
@@ -24,7 +24,7 @@ interface AddressProps {
     street: string,
     zip: string,
     city: string,
-    country: string,
+    country_code: string,
 }
 
 export default function GoogleLocationSelect({updateFields, address}: ComponentProps) {
@@ -43,20 +43,29 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
         street: address.street ?? '',
         zip: address.zip ?? '',
         city: address.city ?? '',
-        country: address.country ?? '',
+        country_code: address.country_code ?? "",
     });
     const [addressSearch, setAddressSearch] = useState<string>("");
     const [noOptionsString, setNoOptionsString] = useState<string>(t("No options"));
     const sessionId = useRef<string>(makeId(8));
 
     useEffect(() => {
-        fetch("https://valid.layercode.workers.dev/list/countries?format=select&flags=false&value=code")
-            .then((response) => response.json())
-            .then((data) => {
-                setCountries(data.countries);
-                setSelectedCountry(data.userSelectValue);
-                updateFields({country: data.userSelectValue.label})
-            });
+        if (address.country_code) {
+            axios.get(`/api/country/code/${address.country_code}`).then((response) => {
+                setSelectedCountry({
+                    label: response.data.name,
+                    value: response.data.code
+                })
+            })
+        }
+
+        axios.get('/api/countries')
+            .then((response) => {
+                const countriesObject = []
+                response.data.forEach((country) => country.id && countriesObject.push({value: country.code, label: country.name}));
+
+                setCountries(countriesObject);
+            })
     }, []);
 
     const getLocationRecommendations = (value: string) => {
@@ -106,11 +115,11 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
                                 if (country.value.toUpperCase() === component.shortText.toUpperCase()) {
                                     countryChange(country);
                                     setSelectedCountry(country);
-                                    newSelectedAddress.country = country.label;
+                                    newSelectedAddress.country_code = country.value;
                                 } else {
                                     countryChange({label: component.longText});
                                     setSelectedCountry({value: component.shortText, label: component.longText});
-                                    newSelectedAddress.country = component.longText;
+                                    newSelectedAddress.country_code = component.shortText;
                                 }
                             })
                             break;
@@ -139,7 +148,7 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
     };
 
     let countryChange = (selectedOption: any) => {
-        updateFields({country: selectedOption.label})
+        updateFields({address: {...address, country_code: selectedOption.value}});
         setSelectedCountry(selectedOption)
     }
 
@@ -148,7 +157,7 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
             <div className="mb-3">
                 <label className={"form-label ps-0"}>{t("Street")} <span className={"text-danger"}>*</span></label>
                 <Select options={availableLocations}
-                        onChange={(value) => value && setLocation(value)}
+                        onChange={(value) => value && setLocation(value as LocationProps)}
                         value={selectedLocation}
                         placeholder={t("Start typing and choose your location")}
                         noOptionsMessage={() => noOptionsString}

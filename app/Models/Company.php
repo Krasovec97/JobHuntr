@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +19,7 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property string $short_name
  * @property string $contact_phone
  * @property string $contact_person
- * @property string $country
+ * @property int $country_id
  * @property string $street
  * @property string $city
  * @property string $zip
@@ -80,6 +81,11 @@ class Company extends Authenticatable
     public function jobs(): HasMany
     {
         return $this->hasMany(CompanyJob::class, 'company_id');
+    }
+
+    public function country(): HasOne
+    {
+        return $this->hasOne(Country::class, 'id', 'country_id');
     }
 
     public static function getAuthenticatedCompany(): self
