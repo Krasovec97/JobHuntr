@@ -38,10 +38,8 @@ export interface JobInterface {
     status: string,
     title: string,
     updated_at: string,
-    sector_id: number,
     work_field_id: number,
     work_field?: WorkFieldInterface,
-    sector?: SectorInterface,
     work_location: string,
     street: string,
     zip: string,
@@ -57,14 +55,6 @@ export interface WorkFieldInterface {
     id?: number,
     name: string,
     updated_at?: string,
-    sector_id: number
-}
-
-export interface SectorInterface {
-    id: number,
-    name: string,
-    created_at?: string,
-    updated_at?: string
 }
 
 export interface UserData {
@@ -85,14 +75,6 @@ export interface UserData {
         },
         type: string
     }
-}
-
-export interface FilterTypes {
-    location: Array<string>,
-    employment_type: Array<string>,
-    search_string: string,
-    sectors_string: string,
-    work_fields_string: string
 }
 
 export interface Country {
