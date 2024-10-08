@@ -55,7 +55,11 @@ class AuthenticatedSessionController extends Controller
 
     public function renderBusinessLoginView(): Response
     {
-        return Inertia::render('Business/Login');
+        return Inertia::render('Business/Login', [
+            'status' => session('status'),
+            'app_url' => env('APP_URL')
+
+        ]);
     }
 
     /**

@@ -11,7 +11,7 @@ import {
     CompanyData,
     CompanyAuthProps,
     JobInterface,
-    SectorInterface, WorkFieldInterface
+    WorkFieldInterface
 } from "@/Interfaces/SharedInterfaces";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import React from "react";
@@ -27,7 +27,6 @@ interface FormDataType {
     job_title: string,
     employment_type: string,
     job_description: string,
-    sector_id: number,
     work_field_id: number,
     work_location: string,
     num_of_positions: number,
@@ -52,9 +51,7 @@ let initialRender = true
 
 export default function NewJob({job = null, errors}: NewJobProps) {
     const {t} = useLaravelReactI18n();
-    const [sectorsArray, setSectorsArray] = useState([]);
     const [workFieldsArray, setWorkFieldsArray] = useState<Array<WorkField>>([]);
-    let noOptionsText = t("Please, select the sector before selecting work field.");
     let csrfToken = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
     const globalContext = useGlobalContext();
     let company: CompanyData = usePage<CompanyAuthProps>().props.auth.company;
@@ -64,7 +61,6 @@ export default function NewJob({job = null, errors}: NewJobProps) {
         job_title: job?.title ?? '',
         employment_type: job?.employment_type ?? 'full_time',
         job_description: job?.description ?? '',
-        sector_id: job?.sector_id ?? 0,
         work_field_id: job?.work_field_id ?? 0,
         work_location: job?.work_location ?? 'remote',
         num_of_positions: job?.open_positions_count ?? 0,
@@ -76,7 +72,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
             street: job?.street ?? '',
             city: job?.city ?? '',
             zip: job?.zip ?? '',
-            country_code: job.country_code ?? '',
+            country_code: job?.country_code ?? '',
         }
     })
 
@@ -87,40 +83,16 @@ export default function NewJob({job = null, errors}: NewJobProps) {
 
 
     if (initialRender) {
-        axios.get("/sectors")
+        axios.get("/api/work_fields?all=true")
             .then((response) => {
-                setSectorsArray(response.data.map((sector: SectorInterface) => {
+                setWorkFieldsArray(response.data.map((workField: WorkFieldInterface) => {
                     return {
-                        value: sector.id,
-                        label: t(sector.name)
+                        value: workField.id,
+                        label: t(workField.name)
                     }
                 }))
             })
-            .finally(() => {
-                initialRender = false
-            });
-    }
-
-    function getRelatedWorkFields(selectedSector: any) {
-        if (typeof selectedSector !== "undefined") {
-            axios.get('/sector/'+selectedSector.value+'/fields')
-                .then(response => {
-                    setWorkFieldsArray(response.data.map((workField: WorkFieldInterface) => ({
-                        value: workField.id,
-                        label: t(workField.name)
-                    })));
-                });
-        }
-    }
-
-    function showRelevantWorkFields(selectedSector: any) {
-        setData(values => ({
-            ...values,
-            sector_id: selectedSector.value,
-            work_field_id: 0
-        }));
-
-        getRelatedWorkFields(selectedSector)
+            .finally(() => initialRender = false)
     }
 
     function updateFields(fields: Partial<FormDataType>) {
@@ -218,22 +190,8 @@ export default function NewJob({job = null, errors}: NewJobProps) {
 
                     <div className="row mb-3">
                         <div className="col-12">
-                            <label>{t("Sector")}</label>
-                            <Select options={sectorsArray}
-                                    defaultValue={{
-                                        value: job?.sector?.id,
-                                        label: job?.sector?.name
-                                    }}
-                                    onChange={(selectedSector) => showRelevantWorkFields(selectedSector)}
-                                    required={true}/>
-                        </div>
-                    </div>
-
-                    <div className="row mb-3">
-                        <div className="col-12">
                             <label>{t("Work field")}</label>
                             <Select
-                                noOptionsMessage={({inputValue}) => !inputValue ? noOptionsText : "No results found"}
                                 options={workFieldsArray}
                                 value={workField}
                                 onChange={(event) => updateFields({work_field_id: event.value})}

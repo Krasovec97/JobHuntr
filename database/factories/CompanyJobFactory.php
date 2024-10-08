@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Company;
 use App\Models\Country;
-use App\Models\Sector;
 use App\Models\WorkField;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -55,7 +54,6 @@ class CompanyJobFactory extends Factory
             "posted_at" => $jobPostedAt,
             "expires_at" => $expiresAt,
             "company_id" => $company->id,
-            "sector_id" => $workField->sector_id,
             "work_field_id" => $workField->id,
             "country_id" => $country->id,
             "street" => fake()->streetName,

@@ -39,7 +39,6 @@ class CompanyJobResource extends Resource
                     'gbp' => "USD",
                     'usd' => "GBP"
                 ])->required(),
-                Select::make('sector_id')->relationship('sector', 'name')->required(),
                 Select::make('work_field_id')->relationship('workField', 'name')->required(),
                 Select::make('work_location')->options([
                     'remote' => __("Completely online / Remote"),
@@ -87,7 +86,6 @@ class CompanyJobResource extends Resource
                 Tables\Columns\TextColumn::make('title'),
                 Tables\Columns\TextColumn::make('employment_type'),
                 Tables\Columns\TextColumn::make('salary'),
-                Tables\Columns\TextColumn::make('sector.name'),
                 Tables\Columns\TextColumn::make('workField.name'),
                 Tables\Columns\TextColumn::make('work_location'),
                 Tables\Columns\TextColumn::make('status'),
