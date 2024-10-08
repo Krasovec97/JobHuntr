@@ -8,7 +8,7 @@ import {formatText, numberFormat} from "@/Helpers";
 import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Button, Modal} from "react-bootstrap";
-import {CompanyData, FilterTypes, JobInterface} from "@/Interfaces/SharedInterfaces";
+import {CompanyData, JobInterface} from "@/Interfaces/SharedInterfaces";
 import JobFilters from "@/Components/JobFilters";
 import styled from "styled-components";
 
@@ -25,11 +25,10 @@ export default function JobSearch() {
     const [loading, setLoading] = useState(true);
     let currentJobsCount = jobs.length;
 
-    const [filters, setFilters] = useState<FilterTypes>({
+    const [filters, setFilters] = useState({
         location: [],
         employment_type: [],
         search_string: '',
-        sectors_string: '',
         work_fields_string: ''
     });
 
@@ -40,7 +39,6 @@ export default function JobSearch() {
         let queryParamArguments = [
             `employment_type=${filters.employment_type.join(',')}`,
             `search_string=${filters.search_string.toUpperCase()}`,
-            `sector_ids=${filters.sectors_string}`,
             `work_fields_ids=${filters.work_fields_string}`,
         ]
 
@@ -121,10 +119,6 @@ export default function JobSearch() {
                         <div className="border-bottom mb-3">
                             <p className="fw-bold m-0">{t("Salary")}</p>
                             {numberFormat(clickedJob.salary, clickedJob.salary_currency)}
-                        </div>
-                        <div className="border-bottom mb-3">
-                            <p className="fw-bold m-0">{t("sector")}</p>
-                            {clickedJob.sector?.name}
                         </div>
                         <div className="border-bottom mb-3">
                             <p className="fw-bold m-0">{t("Work field")}</p>

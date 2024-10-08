@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\CompanyJob;
-use App\Models\Sector;
 use App\Models\WorkField;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -66,7 +65,6 @@ class WebController extends Controller
         }
 
         $job->job_company = $job->company;
-        $job->sector = Sector::getById($job->sector_id);
         $job->work_field = WorkField::getById($job->work_field_id);
         $job->country = $job->country()->first()->name;
 
@@ -100,11 +98,6 @@ class WebController extends Controller
             $jobsQuery->where(DB::raw('UPPER(title)'), 'like', '%' . $searchString . '%');
         }
 
-        if ($params->get('sector_ids') !== null) {
-            $sectorIds = explode(',', $params->get('sector_ids'));
-            $jobsQuery->whereIn('sector_id', $sectorIds);
-        }
-
         if ($params->get('work_fields_ids') !== null) {
             $workFieldIds = explode(',', $params->get('work_fields_ids'));
             $jobsQuery->whereIn('work_field_id', $workFieldIds);
@@ -130,26 +123,27 @@ class WebController extends Controller
         }
 
         $job->company_data = $job->company;
-        $job->sector = Sector::getById($job->sector_id);
         $job->work_field = WorkField::getById($job->work_field_id);
 
         return $job;
     }
 
-    public function getSectors(): Collection
-    {
-        return Sector::query()->get();
-    }
-
     public function getWorkFields(Request $request): Collection|array
     {
-        $sectorIds = null;
-        if ($request->query->get('sector_ids') !== null) {
-            $sectorIds = explode(',', $request->query->get('sector_ids'));
+        $params = $request->query;
+        $returnAll = $params->get('all', false);
+        if ($returnAll) {
+            return WorkField::all();
         }
 
-        if($sectorIds !== null) return WorkField::query()->whereIn('sector_id', $sectorIds)->get();
-        else return [];
+        $availableWorkFields = CompanyJob::query()
+            ->where('status', 'active')
+            ->where('expires_at', '>', now()->toDateTimeString())
+            ->get('work_field_id');
+
+        return WorkField::query()
+            ->whereIn('id', $availableWorkFields)
+            ->get();
     }
 
     public function getGooglePlacesResponse(Request $request)

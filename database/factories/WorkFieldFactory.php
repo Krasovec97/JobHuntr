@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Sector;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +16,7 @@ class WorkFieldFactory extends Factory
      */
     public function definition(): array
     {
-        $sectorNames = [
+        $workFields = [
             'Agriculture, food and forestry',
             'Energy and mining',
             'Private services sectors',
@@ -30,15 +29,8 @@ class WorkFieldFactory extends Factory
             'Business and Finance'
         ];
 
-        $sectorsQuery = Sector::query();
-        $availablesectorsCount = $sectorsQuery->count();
-        /** @var Sector $sector */
-        $sector =  $sectorsQuery
-            ->where('id', rand(1, $availablesectorsCount))
-            ->first(['id']);
         return [
-            'name' => $this->faker->randomElement($sectorNames),
-            'sector_id' => $sector->id
+            'name' => $this->faker->randomElement($workFields),
         ];
     }
 }

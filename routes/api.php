@@ -21,7 +21,6 @@ Route::get('/countries', [CountryController::class, 'getCountries']);
 Route::get('/jobs', [WebController::class, 'getAvailableJobs']);
 Route::get('/job/{id}', [WebController::class, 'getJobDetails']);
 
-Route::get('/sectors', [WebController::class, 'getSectors']);
 Route::get('/work_fields', [WebController::class, 'getWorkFields']);
 
 Route::get('/countries', [CountryController::class, 'getCountries']);

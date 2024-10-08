@@ -47,7 +47,7 @@ export default function Login() {
                                 name="email"
                                 value={data.email}
                                 className="form-control"
-                                autoComplete="username"
+                                autoComplete="email"
                                 autoFocus={true}
                                 onChange={handleChange}
                             />

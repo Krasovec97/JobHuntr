@@ -144,10 +144,6 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                             {numberFormat(clickedJob.salary, clickedJob.salary_currency)}
                         </div>
                         <div className="border-bottom mb-3">
-                            <p className="fw-bold m-0">{t("Sector")}</p>
-                            {clickedJob.sector?.name}
-                        </div>
-                        <div className="border-bottom mb-3">
                             <p className="fw-bold m-0">{t("Work field")}</p>
                             {clickedJob.work_field?.name}
                         </div>

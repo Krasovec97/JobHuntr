@@ -1,10 +1,10 @@
 import React from "react";
-import {CompanyData, JobInterface} from "../Interfaces/SharedInterfaces";
+import {CompanyData, JobInterface} from "@/Interfaces/SharedInterfaces";
 import MainLayout from "../Layouts/MainLayout";
 import {Head} from "@inertiajs/react";
 import PageSection from "../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import {formatText, numberFormat} from "../Helpers";
+import {formatText, numberFormat} from "@/Helpers";
 import IconWithText from "../Components/IconWithText";
 
 interface PageProps extends JobInterface {
@@ -56,10 +56,6 @@ export default function JobDetails({job}: PageProps) {
                         </div>
                         <div className="my-5 col-10 mx-auto" dangerouslySetInnerHTML={{__html: job.description}}></div>
                         <div className="col-10 mx-auto my-4">
-                            <div className="border-bottom mb-3">
-                                <p className="fw-bold m-0">{t("Sector")}</p>
-                                {job.sector?.name}
-                            </div>
                             <div className="border-bottom mb-3">
                                 <p className="fw-bold m-0">{t("Work field")}</p>
                                 {job.work_field?.name}
