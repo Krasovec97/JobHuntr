@@ -42,11 +42,15 @@ class CompanyJobFactory extends Factory
 
         return [
             "title" => fake()->jobTitle,
-            "description" => fake()->realText,
+            "benefits" => fake()->realText,
+            "expectations" => fake()->realText,
+            "assignments" => fake()->realText,
+            "intro" => fake()->realText(100),
             "employment_type" => fake()->randomElement(['full_time', 'part_time']),
             "work_location" => fake()->randomElement(['remote', 'hybrid', 'on_location']),
             "open_positions_count" => fake()->numberBetween(1, 7),
-            "salary" => fake()->numberBetween(10000, 200000),
+            "salary_from" => fake()->numberBetween(1200, 2200),
+            "salary_to" => fake()->numberBetween(2200, 3500),
             "salary_currency" => fake()->randomElement(['USD', 'EUR', 'GBP']),
             "preferred_education" => fake()->randomElement(['none', 'primary', 'high_school', 'bachelor', 'master', 'doctorate']),
             "application_mail" => fake()->email,

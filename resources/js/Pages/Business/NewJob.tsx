@@ -194,7 +194,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                             <Select
                                 options={workFieldsArray}
                                 value={workField}
-                                onChange={(event) => updateFields({work_field_id: event.value})}
+                                onChange={(event) => event && updateFields({work_field_id: event.value})}
                                 required={true}/>
                         </div>
                     </div>

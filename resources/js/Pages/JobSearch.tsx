@@ -118,7 +118,7 @@ export default function JobSearch() {
                         </div>
                         <div className="border-bottom mb-3">
                             <p className="fw-bold m-0">{t("Salary")}</p>
-                            {numberFormat(clickedJob.salary, clickedJob.salary_currency)}
+                            {numberFormat(clickedJob.salary_from, clickedJob.salary_currency)}
                         </div>
                         <div className="border-bottom mb-3">
                             <p className="fw-bold m-0">{t("Work field")}</p>
@@ -131,7 +131,7 @@ export default function JobSearch() {
                         <div className="border-bottom mb-3">
                             <p className="fw-bold m-0">{t("Description")}</p>
                             <div className="col-12"
-                                 dangerouslySetInnerHTML={{__html: clickedJob.description.substring(0, 300)}}>
+                                 dangerouslySetInnerHTML={{__html: clickedJob.intro}}>
                             </div>
                         </div>
 

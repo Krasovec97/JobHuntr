@@ -21,13 +21,13 @@ export default function JobCard({job, isDrafted = false}: ComponentProps) {
             {!isDrafted ? (
                     <>
                             <div className="card-body mb-4">
-                                <div className="card-text h-75">
-                                    <div className="col-12 mb-1 fw-bold">
-                                        {t("Description")}:
-                                    </div>
-                                    <div className="col-12" dangerouslySetInnerHTML={{__html: job.description.substring(0, 200)}}>
-                                    </div>
-                                </div>
+                                {/*<div className="card-text h-75">*/}
+                                {/*    <div className="col-12 mb-1 fw-bold">*/}
+                                {/*        {t("Description")}:*/}
+                                {/*    </div>*/}
+                                {/*    <div className="col-12" dangerouslySetInnerHTML={{__html: job.description.substring(0, 200)}}>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
 
                                 <div>
                                     <p className="m-0"><span
@@ -36,7 +36,7 @@ export default function JobCard({job, isDrafted = false}: ComponentProps) {
                                     <p className="m-0"><span
                                         className="fw-bold">{t("Employment type")}</span>: {formatText(job.employment_type)}</p>
                                     <p className="m-0"><span
-                                        className="fw-bold">{t("Salary")}</span>: {numberFormat(job.salary, job.salary_currency)}
+                                        className="fw-bold">{t("Salary")}</span>: {numberFormat(job.salary_from, job.salary_currency)}
                                     </p>
                                 </div>
                             </div>
