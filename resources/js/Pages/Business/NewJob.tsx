@@ -26,11 +26,17 @@ interface NewJobProps {
 interface FormDataType {
     job_title: string,
     employment_type: string,
-    job_description: string,
+    expectations: string,
+    benefits: string,
+    assignments: string,
+    intro: string,
     work_field_id: number,
     work_location: string,
+    method_of_payment: string,
     num_of_positions: number,
-    yearly_salary: number,
+    salary_from: number,
+    salary_to: number,
+    hourly_rate: number,
     currency: string,
     education: string,
     application_mail: string,
@@ -60,11 +66,17 @@ export default function NewJob({job = null, errors}: NewJobProps) {
     const {data, setData, post, processing} = useForm<FormDataType>({
         job_title: job?.title ?? '',
         employment_type: job?.employment_type ?? 'full_time',
-        job_description: job?.description ?? '',
+        expectations: job?.expectations ?? '',
+        benefits: job?.benefits ?? '',
+        assignments: job?.assignments ?? '',
+        intro: job?.intro ?? '',
+        method_of_payment: job?.method_of_payment ?? 'salary',
         work_field_id: job?.work_field_id ?? 0,
         work_location: job?.work_location ?? 'remote',
         num_of_positions: job?.open_positions_count ?? 0,
-        yearly_salary: job?.salary ?? 0,
+        salary_from: job?.salary_from ?? 0,
+        salary_to: job?.salary_to ?? 0,
+        hourly_rate: job?.hourly_rate ?? 0,
         currency: job?.salary_currency ?? 'eur',
         education: job?.preferred_education ?? 'none',
         application_mail: job?.application_mail ?? '',
@@ -137,7 +149,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                 <form onSubmit={handleSubmit} className={"col-12 col-md-10 mx-auto"}>
                     <div className="row mb-3">
                         <div className="col-12">
-                            <label>{t("Job Title")}</label>
+                            <label className="fw-semibold">{t("Job Title")}</label>
                             <input
                                 placeholder={t("Customer service representative")}
                                 required={true}
@@ -150,20 +162,82 @@ export default function NewJob({job = null, errors}: NewJobProps) {
 
                     <div className="row mb-3">
                         <div className="col-12">
-                            <label>{t("Employment type")}</label>
-                            <select required className={"form-select"} onChange={(event) => updateFields({employment_type: event.target.value})}
+                            <label className="fw-semibold">{t("Employment type")}</label>
+                            <select required className={"form-select"}
+                                    onChange={(event) => updateFields({employment_type: event.target.value})}
                                     defaultValue={job ? job.employment_type : undefined}>
                                 <option value="full_time">{t("Full-Time")}</option>
                                 <option value="part_time">{t("Part-Time")}</option>
+                                <option value="student">{t("Student work")}</option>
+                                <option value="contract">{t("By contract")}</option>
                             </select>
                         </div>
                     </div>
 
                     <div className="row mb-3">
                         <div className="col-12">
-                            <label>{t("Job description")}</label>
+                            <label className="fw-semibold">{t("Short company introduction")}</label>
+                            <div className="mb-2">
+                                <small>{t("Provide a brief introduction to your company and the role. (max. 250 characters)")}</small>
+                            </div>
+
                             <div className="card">
-                                <Tiptap content={job?.description} setEditorContent={(content) => updateFields({job_description: content})}/>
+                                <Tiptap
+                                    placeholder={t('We are a fast-growing tech company looking for talented individuals')}
+                                    characterLimit={250}
+                                    content={job?.intro}
+                                    setEditorContent={(content) => updateFields({intro: content})}/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row mb-3">
+                        <div className="col-12">
+                            <label className="fw-semibold">{t("Main Tasks")}</label>
+                            <div className="mb-2">
+                                <small>{t("Describe the main tasks and responsibilities for this position")}.</small>
+                            </div>
+
+                            <div className="card">
+                                <Tiptap
+                                    placeholder={t('Managing projects, coordinating teams, developing strategies')}
+                                    characterLimit={0}
+                                    content={job?.assignments}
+                                    setEditorContent={(content) => updateFields({assignments: content})}/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row mb-3">
+                        <div className="col-12">
+                            <label className="fw-semibold">{t("What We Offer")}</label>
+                            <div className="mb-2">
+                                <small>{t("Highlight the key benefits and perks offered by your company")}.</small>
+                            </div>
+
+                            <div className="card">
+                                <Tiptap
+                                    placeholder={t('Health insurance, flexible hours, professional development')}
+                                    characterLimit={0}
+                                    content={job?.benefits}
+                                    setEditorContent={(content) => updateFields({benefits: content})}/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row mb-3">
+                        <div className="col-12">
+                            <label className="fw-semibold">{t("What We Expect")}</label>
+                            <div className="mb-2">
+                                <small>{t("Outline the qualifications and skills required for this role")}.</small>
+                            </div>
+
+                            <div className="card">
+                                <Tiptap
+                                    placeholder={t('3+ years of experience, excellent communication skills')}
+                                    characterLimit={0}
+                                    content={job?.expectations}
+                                    setEditorContent={(content) => updateFields({expectations: content})}/>
                             </div>
                         </div>
                     </div>
@@ -172,8 +246,9 @@ export default function NewJob({job = null, errors}: NewJobProps) {
 
                     <div className="row mb-3">
                         <div className="col-12">
-                            <label>{t("Work location")}</label>
-                            <select required className={"form-select"} onChange={(event) => updateFields({work_location: event.target.value})}
+                            <label className="fw-semibold">{t("Work location")}</label>
+                            <select required className={"form-select"}
+                                    onChange={(event) => updateFields({work_location: event.target.value})}
                                     defaultValue={job?.work_location}>
                                 <option value="remote">{t("Completely online / Remote")}</option>
                                 <option value="hybrid">{t("Partially online")}</option>
@@ -183,14 +258,14 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                     </div>
 
                     {data.work_location !== 'remote' &&
-                        <GoogleLocationSelect updateFields={updateFields} address={data.address} />
+                        <GoogleLocationSelect updateFields={updateFields} address={data.address}/>
                     }
 
                     <hr className={"my-4"}/>
 
                     <div className="row mb-3">
                         <div className="col-12">
-                            <label>{t("Work field")}</label>
+                            <label className="fw-semibold">{t("Work field")}</label>
                             <Select
                                 options={workFieldsArray}
                                 value={workField}
@@ -201,7 +276,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
 
                     <div className="row mb-3">
                         <div className="col-12">
-                            <label>{t("Number of open positions")}</label>
+                            <label className="fw-semibold">{t("Number of open positions")}</label>
                             <input
                                 required
                                 placeholder={'3'}
@@ -219,34 +294,99 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                     <hr className={"my-4"}/>
 
                     <div className="row mb-3">
-                        <div className="col-8">
-                            <label>{t("Estimated yearly salary")}</label>
-                            <input
-                                required
-                                placeholder={'42000'}
-                                className={"form-control"}
-                                defaultValue={job?.salary}
-                                step={0.5}
-                                min={1}
-                                type="number"
-                                onChange={(e) => updateFields({yearly_salary: e.target.valueAsNumber})}
-                            />
-                        </div>
-                        <div className="col-4">
-                            <label>{t("Currency")}</label>
-                            <select required className={"form-select"} onChange={(event) => updateFields({currency: event.target.value})}
-                                    defaultValue={job?.salary_currency}>
-                                <option value="eur">EUR</option>
-                                <option value="usd">USD</option>
-                                <option value="gbp">GBP</option>
+                        <div className="col-12">
+                            <label className="fw-semibold">{t("Method of payment")}</label>
+                            <select required className={"form-select"}
+                                    onChange={(event) => updateFields({method_of_payment: event.target.value})}
+                                    defaultValue={job?.method_of_payment}>
+                                <option value="salary">{t("Salary")}</option>
+                                <option value="hourly">{t("Hourly rate")}</option>
                             </select>
                         </div>
                     </div>
 
+                    {data.method_of_payment === 'salary' ?
+                        <>
+                            <div className="row mb-3">
+                                <div className="col-5">
+                                    <label className="fw-semibold">{t("Salary Range (From)")}</label>
+                                    <input
+                                        required
+                                        placeholder={'2000'}
+                                        className={"form-control"}
+                                        defaultValue={job?.salary_from}
+                                        step={0.5}
+                                        min={1}
+                                        type="number"
+                                        onChange={(e) => updateFields({salary_from: e.target.valueAsNumber})}
+                                    />
+                                </div>
+
+                                <div className="col-5">
+                                    <label className="fw-semibold">{t("Salary Range (To)")}</label>
+                                    <input
+                                        placeholder={'2700'}
+                                        className={"form-control"}
+                                        defaultValue={job?.salary_to}
+                                        step={0.5}
+                                        min={1}
+                                        type="number"
+                                        onChange={(e) => updateFields({salary_to: e.target.valueAsNumber})}
+                                    />
+                                </div>
+                                <div className="col-2">
+                                    <label className="fw-semibold">{t("Currency")}</label>
+                                    <select required className={"form-select"}
+                                            onChange={(event) => updateFields({currency: event.target.value})}
+                                            defaultValue={job?.salary_currency}>
+                                        <option value="eur">EUR</option>
+                                        <option value="usd">USD</option>
+                                        <option value="gbp">GBP</option>
+                                    </select>
+                                </div>
+                                <div className="col-12 mt-1">
+                                    <small>{t('All salary figures should be provided as a monthly amount')}.</small>
+                                </div>
+                            </div>
+                        </>
+                        :
+                        <>
+                            <div className="row mb-3">
+                                <div className="col-10">
+                                    <label className="fw-semibold">{t("Hourly rate")}</label>
+                                    <input
+                                        required
+                                        placeholder={'15'}
+                                        className={"form-control"}
+                                        defaultValue={job?.hourly_rate}
+                                        step={0.5}
+                                        min={1}
+                                        type="number"
+                                        onChange={(e) => updateFields({hourly_rate: e.target.valueAsNumber})}
+                                    />
+                                </div>
+                                <div className="col-2">
+                                    <label className="fw-semibold">{t("Currency")}</label>
+                                    <select required className={"form-select"}
+                                            onChange={(event) => updateFields({currency: event.target.value})}
+                                            defaultValue={job?.salary_currency}>
+                                        <option value="eur">EUR</option>
+                                        <option value="usd">USD</option>
+                                        <option value="gbp">GBP</option>
+                                    </select>
+                                </div>
+                                <div className="col-12 mt-1">
+                                    <small>{t('All salary figures should be provided as a gross amount')}.</small>
+                                </div>
+                            </div>
+                        </>
+                    }
+
                     <div className="row mb-3">
                         <div className="col-12">
-                            <label>{t("Preferred education")}</label>
-                            <select required className={"form-select"} onChange={(event) => updateFields({education: event.target.value})}
+                            <label className="fw-semibold">{t("Preferred education")}</label>
+                            <select required className={"form-select"}
+                                    onChange={(event) => updateFields({education: event.target.value})}
                                     defaultValue={job?.preferred_education}>
                                 <option value="none">{t("None")}</option>
                                 <option value="primary">{t("Primary school or equivalent")}</option>
@@ -260,7 +400,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
 
                     <div className="row mb-3">
                         <div className="col-12">
-                            <label>{t("Application email")}</label>
+                            <label className="fw-semibold">{t("Application email")}</label>
                             <input
                                 placeholder={t('apply@company.com')}
                                 className={"form-control"}
@@ -284,7 +424,9 @@ export default function NewJob({job = null, errors}: NewJobProps) {
 
                     <div className="row mb-3">
                         <div className="col-12 text-end">
-                            <button disabled={processing} className={"btn btn-primary px-4"}>{t("Submit")}</button>
+                            <button disabled={processing} className={"btn btn-primary px-4"}>
+                                {job ? t("Update") : t("Save")}
+                            </button>
                         </div>
                     </div>
                 </form>

@@ -61,8 +61,18 @@ export default function NewJob({ job }: JobDetailsProps) {
                         </div>
 
                         <div className="row">
-                            <div className="col-4 fw-semibold">{t("Salary")}:</div>
-                            <div className="col-8">{numberFormat(job.salary, job.salary_currency)}</div>
+                            {job.method_of_payment === 'salary' ?
+                                <>
+                                    <div className="col-4 fw-semibold">{t("Salary")}:</div>
+                                    <div className="col-8">{numberFormat(job.salary_from, job.salary_currency)}</div>
+                                </>
+                                :
+                                <>
+                                    <div className="col-4 fw-semibold">{t("Hourly rate")}:</div>
+                                    <div className="col-8">{numberFormat(job.hourly_rate, job.salary_currency)}</div>
+                                </>
+                            }
+
                         </div>
 
                         <div className="row">
@@ -101,9 +111,8 @@ export default function NewJob({ job }: JobDetailsProps) {
 
                     <div className="col-12 mt-4">
                         <div className="row">
-                            <h3 className="col-12 fw-semibold text-center">{t("Job description")}</h3>
-                            <div className="col-12" dangerouslySetInnerHTML={{__html: job.description}}>
-                            </div>
+                            <h3 className="col-12 fw-semibold">{t("Job description")}</h3>
+                            {/*<div className="col-12" dangerouslySetInnerHTML={{__html: job.description}}></div>*/}
                         </div>
                     </div>
 

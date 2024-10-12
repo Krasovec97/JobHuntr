@@ -5,8 +5,8 @@ import PageSection from "../../Components/PageSection";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import FancyTitle from "../../Components/FancyTitle";
 import styled from "styled-components";
-import {CompanyData, CompanyAuthProps, JobInterface} from "../../Interfaces/SharedInterfaces";
-import {capitalize, formatText, numberFormat} from "../../Helpers";
+import {CompanyData, CompanyAuthProps, JobInterface} from "@/Interfaces/SharedInterfaces";
+import {capitalize, formatText, numberFormat} from "@/Helpers";
 import React from "react";
 
 interface JobsProps {
@@ -46,10 +46,10 @@ export default function Jobs({companyJobs}: JobsProps) {
                     return (
                         <TableRow href={"/job/" + job.id} className={"row py-3 text-decoration-none text-dark border-bottom border-dark border-opacity-25"} key={job.id}>
                             <div className="col-6 col-md-2">{job.title}</div>
-                            <div className="col-2 d-none d-md-block" dangerouslySetInnerHTML={{__html: job.description.substring(0, 25)}}></div>
+                            {/*<div className="col-2 d-none d-md-block" dangerouslySetInnerHTML={{__html: job.description.substring(0, 25)}}></div>*/}
                             <div className="col-2 d-none d-md-block">{job.work_field?.name}</div>
                             <div className="col-2 d-none d-md-block">{formatText(job.work_location)}</div>
-                            <div className="col-2 d-none d-md-block">{numberFormat(job.salary, job.salary_currency)}</div>
+                            <div className="col-2 d-none d-md-block">{numberFormat(job.salary_from, job.salary_currency)}</div>
                             <div className="col-6 col-md-2">{capitalize(job.status)}</div>
                         </TableRow>
                     )

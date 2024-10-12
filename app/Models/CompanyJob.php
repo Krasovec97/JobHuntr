@@ -15,11 +15,13 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property string $employment_type
  * @property float $salary_from
  * @property float $salary_to
+ * @property float $hourly_rate
  * @property string $salary_currency
  * @property int $work_field_id
  * @property string $work_location
  * @property string $preferred_education
  * @property int $open_positions_count
+ * @property string $method_of_payment
  * @property string $status
  * @property string $benefits
  * @property string $expectations
