@@ -20,37 +20,42 @@ export default function JobCard({job, isDrafted = false}: ComponentProps) {
                 </div>
             {!isDrafted ? (
                     <>
-                            <div className="card-body mb-4">
-                                {/*<div className="card-text h-75">*/}
-                                {/*    <div className="col-12 mb-1 fw-bold">*/}
-                                {/*        {t("Description")}:*/}
-                                {/*    </div>*/}
-                                {/*    <div className="col-12" dangerouslySetInnerHTML={{__html: job.description.substring(0, 200)}}>*/}
-                                {/*    </div>*/}
-                                {/*</div>*/}
-
-                                <div>
-                                    <p className="m-0"><span
-                                        className="fw-bold">{t("Work location")}</span>: {formatText(job.work_location)}
-                                    </p>
-                                    <p className="m-0"><span
-                                        className="fw-bold">{t("Employment type")}</span>: {formatText(job.employment_type)}</p>
-                                    <p className="m-0"><span
-                                        className="fw-bold">{t("Salary")}</span>: {numberFormat(job.salary_from, job.salary_currency)}
-                                    </p>
+                        <div className="card-body mb-4">
+                            <div>
+                                <p className="m-0"><span
+                                    className="fw-bold">{t("Work location")}</span>: {formatText(job.work_location)}
+                                </p>
+                                <p className="m-0"><span
+                                    className="fw-bold">{t("Employment type")}</span>: {formatText(job.employment_type)}
+                                </p>
+                                <p className="m-0">
+                                    <span className="fw-bold">
+                                        {job.method_of_payment === 'salary' ? t("Starting Salary") : t("Hourly rate")}
+                                    </span>: {
+                                    job.method_of_payment === 'salary' ? numberFormat(job.salary_from, job.salary_currency) : numberFormat(job.hourly_rate, job.salary_currency)
+                                }
+                                </p>
+                            </div>
+                            <div className="card-text mt-3">
+                                <div className="col-12 mb-1 fw-bold">
+                                    {t("Short company introduction")}:
+                                </div>
+                                <div className="col-12" dangerouslySetInnerHTML={{__html: job.intro}}>
                                 </div>
                             </div>
 
-                            <div className="card-footer">
-                                <p className="m-0 text-end">{t("Published") + ": " + formatDate(job.posted_at)}</p>
-                            </div>
-                        </>
-                    )
-                    :
-                    (
-                        <div className='blur'>
-                            <div className="card-body mb-4">
-                                <div className="card-text h-75">
+                        </div>
+
+                        <div className="card-footer">
+                            <p className="m-0 text-end">{t("Published") + ": " + formatDate(job.posted_at)}</p>
+                        </div>
+                    </>
+                )
+                :
+                (
+                    <div className='blur'>
+                        <div className="card-body mb-4">
+                            <div className="card-text">
                                     <div className="col-12 mb-1 fw-bold">
                                         {t("Description")}:
                                     </div>

@@ -40,6 +40,17 @@ class CompanyJobFactory extends Factory
             ->inRandomOrder()
             ->first();
 
+        $methodOfPayment = fake()->randomElement(["salary", "hourly"]);
+        $salaryFrom = null;
+        $salaryTo = null;
+        $hourlyRate = null;
+        if ($methodOfPayment === "salary") {
+            $salaryFrom = fake()->numberBetween(1200, 2200);
+            $salaryTo = fake()->numberBetween(2200, 3500);
+        } else {
+            $hourlyRate = fake()->numberBetween(5, 30);
+        }
+
         return [
             "title" => fake()->jobTitle,
             "benefits" => fake()->realText,
@@ -49,8 +60,10 @@ class CompanyJobFactory extends Factory
             "employment_type" => fake()->randomElement(['full_time', 'part_time']),
             "work_location" => fake()->randomElement(['remote', 'hybrid', 'on_location']),
             "open_positions_count" => fake()->numberBetween(1, 7),
-            "salary_from" => fake()->numberBetween(1200, 2200),
-            "salary_to" => fake()->numberBetween(2200, 3500),
+            "method_of_payment" => $methodOfPayment,
+            "salary_from" => $salaryFrom,
+            "salary_to" => $salaryTo,
+            "hourly_rate" => $hourlyRate,
             "salary_currency" => fake()->randomElement(['USD', 'EUR', 'GBP']),
             "preferred_education" => fake()->randomElement(['none', 'primary', 'high_school', 'bachelor', 'master', 'doctorate']),
             "application_mail" => fake()->email,

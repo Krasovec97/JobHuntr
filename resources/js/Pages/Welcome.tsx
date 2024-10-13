@@ -6,10 +6,9 @@ import FancyTitle from "@/Components/FancyTitle";
 import IconCard from "@/Components/IconCard";
 import {CompanyData, JobInterface} from "@/Interfaces/SharedInterfaces";
 import JobCard from "@/Components/JobCard";
-import {formatText, numberFormat} from "@/Helpers";
 import React, {useState} from "react";
-import {Button, Modal} from "react-bootstrap";
 import axios from "axios";
+import JobPostModal from "@/Components/JobPostModal";
 
 interface PageProps {
     newestJobs: Array<JobInterface>,
@@ -129,72 +128,7 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                 </div>
             </PageSection>
 
-            {clickedJob &&
-                <Modal show={showModal} size={'lg'} fullscreen={"sm-down"} centered onHide={handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title className="fw-bold">{clickedJob.title}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div className="border-bottom mb-3">
-                            <p className="fw-bold m-0">{t("Employment type")}</p>
-                            {formatText(clickedJob.employment_type)}
-                        </div>
-                        <div className="border-bottom mb-3">
-                            <p className="fw-bold m-0">{t("Salary")}</p>
-                            {numberFormat(clickedJob.salary_from, clickedJob.salary_currency)}
-                        </div>
-                        <div className="border-bottom mb-3">
-                            <p className="fw-bold m-0">{t("Work field")}</p>
-                            {clickedJob.work_field?.name}
-                        </div>
-                        <div className="border-bottom mb-3">
-                            <p className="fw-bold m-0">{t("Work Location")}</p>
-                            {formatText(clickedJob.work_location)}
-                        </div>
-                        <div className="border-bottom mb-3">
-                            <p className="fw-bold m-0">{t("Description")}</p>
-                            <div className="col-12"
-                                 dangerouslySetInnerHTML={{__html: clickedJob.intro.substring(0, 300)}}>
-                            </div>
-                        </div>
-
-                        <div className="border-bottom mb-3">
-                            <p className="fw-bold m-0">{t("Job application email")}</p>
-                            <a href={"mailto:" + clickedJob.application_mail}>{clickedJob.application_mail}</a>
-                        </div>
-
-                        <div className="my-3">
-                            {clickedJob.company_data.id !== 1 ? <>
-                                    <span className="fw-bold">{t("Employer info")}:</span>
-                                    <div>
-                                        {clickedJob.company_data.full_name}
-                                    </div>
-                                    <div>
-                                        {clickedJob.company_data.street}, <br/>
-                                        {clickedJob.company_data.zip + " " + clickedJob.company_data.city}
-                                    </div>
-                                    <div>
-                                        {clickedJob.company_data.contact_phone}
-                                    </div>
-                                </>
-                                :
-                                <div className="text-end">
-                                    <small
-                                        className="my-auto fw-light fst-italic">{t("This job was posted by JobHuntr")}</small>
-                                </div>
-                            }
-                        </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" target='_blank' href={'/job/' + clickedJob.id}>
-                            {t("See more details")}
-                        </Button>
-                        <Button variant="dark" onClick={handleClose}>
-                            {t("Close")}
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-            }
+            {clickedJob && <JobPostModal showModal={showModal} clickedJob={clickedJob} handleClose={handleClose} />}
         </MainLayout>
     );
 }
