@@ -45,7 +45,7 @@ class CompanyJobFactory extends Factory
             "benefits" => fake()->realText,
             "expectations" => fake()->realText,
             "assignments" => fake()->realText,
-            "intro" => fake()->realText(100),
+            "intro" => fake()->realText(250),
             "employment_type" => fake()->randomElement(['full_time', 'part_time']),
             "work_location" => fake()->randomElement(['remote', 'hybrid', 'on_location']),
             "open_positions_count" => fake()->numberBetween(1, 7),

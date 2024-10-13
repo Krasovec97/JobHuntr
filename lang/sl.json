@@ -36,8 +36,8 @@
     "[Business] Dashboard": "[Poslovno] Nadzorna plošča",
     "Activate job listing": "Aktivirajte delovno mesto",
     "Edit this job": "Uredite to delovno mesto",
-    "Job posted at": "Delovno mesto objavljeno na",
-    "Job post expires at": "Objava tega delovnega mesta poteče ob",
+    "Job posted at": "Objavljeno dne",
+    "Job post expires at": "Poteče dne",
     "[Business] Jobs": "[Poslovno] Delovna mesta",
     "Title": "Naziv",
     "Yearly salary": "Letna plača",
@@ -442,6 +442,10 @@
     "All salary figures should be provided as a gross amount": "Vsi zneski plačil morajo biti navedeni kot bruto znesek",
     "Only verified companies can post jobs on JobHuntr. Please wait until we verify you.": "Samo preverjena podjetja lahko objavljajo delovna mesta na portalu JobHuntr. Prosimo, počakajte, da vas preverimo.",
     "Method of payment": "Način plačila",
+    "Salary range": "Razpon plače",
     "Save": "Shrani",
-    "Hourly rate": "Urna postavka"
+    "Hourly rate": "Urna postavka",
+    "Hourly": "Urna postavka",
+    "Amount": "Znesek",
+    "From": "Od"
 }

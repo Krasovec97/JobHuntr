@@ -442,6 +442,10 @@
     "All salary figures should be provided as a gross amount": "All salary figures should be provided as a gross amount",
     "Only verified companies can post jobs on JobHuntr. Please wait until we verify you.": "Only verified companies can post jobs on JobHuntr. Please wait until we verify you.",
     "Method of payment": "Method of payment",
+    "Salary range": "Salary range",
     "Save": "Save",
-    "Hourly rate": "Hourly rate"
+    "Hourly rate": "Hourly rate",
+    "Hourly": "Hourly rate",
+    "Amount": "Amount",
+    "From": "From"
 }
