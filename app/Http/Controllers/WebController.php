@@ -124,6 +124,7 @@ class WebController extends Controller
 
         $job->company_data = $job->company;
         $job->work_field = WorkField::getById($job->work_field_id);
+        $job->country = $job->country()->first()->name;
 
         return $job;
     }

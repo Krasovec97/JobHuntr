@@ -23,10 +23,10 @@ export default function JobCard({job, isDrafted = false}: ComponentProps) {
                         <div className="card-body mb-4">
                             <div>
                                 <p className="m-0"><span
-                                    className="fw-bold">{t("Work location")}</span>: {formatText(job.work_location)}
+                                    className="fw-bold">{t("Work location")}</span>: {t(formatText(job.work_location))}
                                 </p>
                                 <p className="m-0"><span
-                                    className="fw-bold">{t("Employment type")}</span>: {formatText(job.employment_type)}
+                                    className="fw-bold">{t("Employment type")}</span>: {t(formatText(job.employment_type))}
                                 </p>
                                 <p className="m-0">
                                     <span className="fw-bold">

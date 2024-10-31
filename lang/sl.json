@@ -203,7 +203,7 @@
     "Fresh out of the oven": "Sveže",
     "Why choose JobHuntr?": "Zakaj izbrati JobHuntr?",
     "Let us help you": "Naj vam pomagamo",
-    "Comprehensive Job Listings": "Izčrpni seznami delovnih mest",
+    "Comprehensive Job Listings": "Obsežni seznami delovnih mest",
     "Access a wide range of job opportunities across various industries and locations. JobHuntr ensures you have the latest and most relevant job postings.": "Dostopajte do širokega nabora zaposlitvenih možnosti v različnih panogah in na različnih lokacijah.",
     "User-Friendly Experience": "Uporabniku prijazna izkušnja",
     "Enjoy an intuitive interface with advanced search filters and personalized job recommendations. Apply quickly and efficiently with our streamlined application process.": "Uživajte v intuitivnem vmesniku z naprednimi iskalnimi filtri in prilagojenimi priporočili za delo. Prijavite se hitro in učinkovito s poenostavljenim postopkom prijave.",
@@ -448,5 +448,6 @@
     "Hourly": "Urna postavka",
     "Amount": "Znesek",
     "From": "Od",
-    "Starting Salary": "Začetna plača"
+    "Starting Salary": "Začetna plača",
+    "Apply now": "Prijavi se na delovno mesto"
 }
