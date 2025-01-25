@@ -40,13 +40,30 @@ class CompanyJobFactory extends Factory
             ->inRandomOrder()
             ->first();
 
+        $methodOfPayment = fake()->randomElement(["salary", "hourly"]);
+        $salaryFrom = null;
+        $salaryTo = null;
+        $hourlyRate = null;
+        if ($methodOfPayment === "salary") {
+            $salaryFrom = fake()->numberBetween(1200, 2200);
+            $salaryTo = fake()->numberBetween(2200, 3500);
+        } else {
+            $hourlyRate = fake()->numberBetween(5, 30);
+        }
+
         return [
             "title" => fake()->jobTitle,
-            "description" => fake()->realText,
-            "employment_type" => fake()->randomElement(['full_time', 'part_time']),
+            "benefits" => fake()->realText,
+            "expectations" => fake()->realText,
+            "assignments" => fake()->realText,
+            "intro" => fake()->realText(250),
+            "employment_type" => fake()->randomElement(['full_time', 'part_time', 'student', 'contract']),
             "work_location" => fake()->randomElement(['remote', 'hybrid', 'on_location']),
             "open_positions_count" => fake()->numberBetween(1, 7),
-            "salary" => fake()->numberBetween(10000, 200000),
+            "method_of_payment" => $methodOfPayment,
+            "salary_from" => $salaryFrom,
+            "salary_to" => $salaryTo,
+            "hourly_rate" => $hourlyRate,
             "salary_currency" => fake()->randomElement(['USD', 'EUR', 'GBP']),
             "preferred_education" => fake()->randomElement(['none', 'primary', 'high_school', 'bachelor', 'master', 'doctorate']),
             "application_mail" => fake()->email,
@@ -59,7 +76,7 @@ class CompanyJobFactory extends Factory
             "street" => fake()->streetName,
             "city" => fake()->city,
             "zip" => fake()->postcode,
-            "coordinates" => new Point(0, 0),
+            "coordinates" => new Point(fake()->latitude(), fake()->longitude()),
         ];
     }
 }

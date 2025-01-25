@@ -29,6 +29,7 @@ class WebController extends Controller
             ->get();
 
         $newestJobs = CompanyJob::query()
+            ->where('expires_at', '>', now())
             ->whereNotNull('posted_at')
             ->whereNot("status", "draft")
             ->orderBy('posted_at', 'desc')
@@ -77,6 +78,7 @@ class WebController extends Controller
     {
         $jobsQuery = CompanyJob::query()
             ->whereNotNull('posted_at')
+            ->where('expires_at', '>', now())
             ->whereNot('status', 'draft');
 
         $totalJobsCount = $jobsQuery->count();
@@ -103,6 +105,15 @@ class WebController extends Controller
             $jobsQuery->whereIn('work_field_id', $workFieldIds);
         }
 
+        if ($params->get('radius') !== null && $params->get('current_coords') !== null) {
+            $radius = $params->getInt('radius');
+            $currentCoords = explode(',', $params->get('current_coords'));
+            $longitude = $currentCoords[0];
+            $latitude = $currentCoords[1];
+
+            $jobsQuery->whereRaw("FLOOR(CAST(ST_DistanceSpheroid(ST_Centroid(coordinates)::geometry,ST_GeomFromText('POINT($longitude $latitude)', 4326),'SPHEROID[\"WGS 8\",6378137,298.257223563]') / 1000 AS numeric)) < $radius");
+        }
+
         $jobs = $jobsQuery
             ->orderBy('created_at', 'desc')
             ->get();
@@ -124,6 +135,7 @@ class WebController extends Controller
 
         $job->company_data = $job->company;
         $job->work_field = WorkField::getById($job->work_field_id);
+        $job->country = $job->country()->first()->name;
 
         return $job;
     }

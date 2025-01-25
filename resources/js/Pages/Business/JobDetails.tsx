@@ -5,7 +5,7 @@ import PageSection from "@/Components/PageSection";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import {CompanyData, CompanyAuthProps, JobInterface} from "@/Interfaces/SharedInterfaces";
 import {formatDate, formatText, numberFormat} from "@/Helpers";
-import React from "react";
+import React, {useState} from "react";
 
 interface JobDetailsProps {
     job: JobInterface
@@ -16,9 +16,13 @@ export default function NewJob({ job }: JobDetailsProps) {
     let company: CompanyData = usePage<CompanyAuthProps>().props.auth.company;
     const companyVerified = company.company_verified_at !== null;
     const {post} = useForm();
+    const [descriptionContent, setDescriptionContent] = useState<string>(job.intro);
 
     let editJobButton = () => (window.location.href = `/job/${job.id}/update`)
-    let publishJobListingButton = () => (post(`/job/${job.id}/activate`))
+    let publishJobListingButton = () => {
+        post(`/job/${job.id}/activate`)
+        window.location.reload();
+    }
     let cancelJobListing = () => (post(`/job/${job.id}/cancel`))
 
     return (
@@ -61,8 +65,20 @@ export default function NewJob({ job }: JobDetailsProps) {
                         </div>
 
                         <div className="row">
-                            <div className="col-4 fw-semibold">{t("Salary")}:</div>
-                            <div className="col-8">{numberFormat(job.salary, job.salary_currency)}</div>
+                            {job.method_of_payment === 'salary' ?
+                                <>
+                                    <div className="col-4 fw-semibold">{job.salary_to ? t("Salary range") : t('Salary')}:</div>
+                                    <div className="col-8">
+                                        {numberFormat(job.salary_from, job.salary_currency) + (!job.salary_to ? '+ ' : ' - ') + (job.salary_to ? numberFormat(job.salary_to, job.salary_currency) : '')}
+                                    </div>
+                                </>
+                                :
+                                <>
+                                    <div className="col-4 fw-semibold">{t("Hourly rate")}:</div>
+                                    <div className="col-8">{numberFormat(job.hourly_rate, job.salary_currency)}</div>
+                                </>
+                            }
+
                         </div>
 
                         <div className="row">
@@ -101,8 +117,31 @@ export default function NewJob({ job }: JobDetailsProps) {
 
                     <div className="col-12 mt-4">
                         <div className="row">
-                            <h3 className="col-12 fw-semibold text-center">{t("Job description")}</h3>
-                            <div className="col-12" dangerouslySetInnerHTML={{__html: job.description}}>
+                            <h3 className="col-12 fw-semibold my-3">{t("Job description")}</h3>
+                            <div className="col-3">
+                                <button className={`btn col-12 p-3 ${descriptionContent === job.intro ? 'bg-primary text-white fw-bold' : 'bg-light'}`}
+                                        onClick={() => {setDescriptionContent(job.intro)}}
+                                >
+                                    <p className='m-0'>{t('Short company introduction')}</p>
+                                </button>
+                                <button className={`btn col-12 p-3 ${descriptionContent === job.assignments ? 'bg-primary text-white fw-bold' : 'bg-light'}`}
+                                        onClick={() => {setDescriptionContent(job.assignments)}}
+                                >
+                                    <p className='m-0'>{t('Main Tasks')}</p>
+                                </button>
+                                <button className={`btn col-12 p-3 ${descriptionContent === job.benefits ? 'bg-primary text-white fw-bold' : 'bg-light'}`}
+                                        onClick={() => {setDescriptionContent(job.benefits)}}
+                                >
+                                    <p className='m-0'>{t('What We Offer')}</p>
+                                </button>
+                                <button className={`btn col-12 p-3 ${descriptionContent === job.expectations ? 'bg-primary text-white fw-bold' : 'bg-light'}`}
+                                        onClick={() => {setDescriptionContent(job.expectations)}}
+                                >
+                                    <p className='m-0'>{t('What We Expect')}</p>
+                                </button>
+                            </div>
+                            <div className="col-9 card p-3">
+                                <div dangerouslySetInnerHTML={{__html: descriptionContent}}></div>
                             </div>
                         </div>
                     </div>

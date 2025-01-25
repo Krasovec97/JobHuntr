@@ -26,14 +26,20 @@ export interface JobInterface {
     company_id: number,
     created_at: string,
     deleted_at?: string,
-    description: string,
     employment_type: string,
     expires_at?: string,
     id: number,
     open_positions_count: number,
     posted_at?: string,
     preferred_education: string,
-    salary: number,
+    benefits: string,
+    expectations: string,
+    assignments: string,
+    intro: string,
+    method_of_payment: string,
+    salary_from: number,
+    salary_to: number,
+    hourly_rate: number,
     salary_currency: string,
     status: string,
     title: string,
@@ -94,9 +100,13 @@ export interface LocationInterface {
     longitude: string,
 }
 
-export interface PlaceInterface {
-    addressComponents: AddressComponent[],
-    location: LocationInterface
+export interface FilterTypes {
+    location: string[],
+    employment_type: string[],
+    search_string: string,
+    work_fields_string: string,
+    radius?: number,
+    current_position?: LocationInterface
 }
 
 interface PageProps {

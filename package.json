@@ -21,6 +21,8 @@
     },
     "dependencies": {
         "@popperjs/core": "^2.11.8",
+        "@tiptap/extension-character-count": "^2.8.0",
+        "@tiptap/extension-placeholder": "^2.8.0",
         "@tiptap/extension-text-align": "^2.4.0",
         "@tiptap/pm": "^2.4.0",
         "@tiptap/react": "^2.4.0",

@@ -108,7 +108,6 @@ export default function Register() {
     function onSubmit(e: FormEvent) {
         e.preventDefault();
         if (!isLastStep) return next();
-        console.log(data);
 
         post(postUrl, {
             headers: {
