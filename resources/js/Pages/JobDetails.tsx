@@ -4,7 +4,7 @@ import MainLayout from "../Layouts/MainLayout";
 import {Head} from "@inertiajs/react";
 import PageSection from "../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import {formatText, numberFormat} from "@/Helpers";
+import {numberFormat, parseEducation, parseEmploymentType} from "@/Helpers";
 import IconWithText from "../Components/IconWithText";
 import {formatJobLocation} from "@/Helpers/Helpers";
 
@@ -80,13 +80,13 @@ export default function JobDetails({job}: PageProps) {
                                 </div>
                                 <div className="col-12 col-md-6 border-bottom mb-3">
                                     <p className="fw-bold m-0">{t("Employment type")}</p>
-                                    {t(formatText(job.employment_type))}
+                                    {t(parseEmploymentType(job.employment_type))}
                                 </div>
                             </div>
                             <div className="row my-3">
                                 <div className="col-12 col-md-6 border-bottom mb-3">
                                     <p className="fw-bold m-0">{t("Preferred education")}</p>
-                                    {t(formatText(job.preferred_education))}
+                                    {t(parseEducation(job.preferred_education))}
                                 </div>
                                 <div className="col-12 col-md-6 border-bottom mb-3">
                                     <p className="fw-bold m-0">{t("Number of open positions")}</p>

@@ -57,7 +57,7 @@ class CompanyJobFactory extends Factory
             "expectations" => fake()->realText,
             "assignments" => fake()->realText,
             "intro" => fake()->realText(250),
-            "employment_type" => fake()->randomElement(['full_time', 'part_time']),
+            "employment_type" => fake()->randomElement(['full_time', 'part_time', 'student', 'contract']),
             "work_location" => fake()->randomElement(['remote', 'hybrid', 'on_location']),
             "open_positions_count" => fake()->numberBetween(1, 7),
             "method_of_payment" => $methodOfPayment,
@@ -76,7 +76,7 @@ class CompanyJobFactory extends Factory
             "street" => fake()->streetName,
             "city" => fake()->city,
             "zip" => fake()->postcode,
-            "coordinates" => new Point(0, 0),
+            "coordinates" => new Point(fake()->latitude(), fake()->longitude()),
         ];
     }
 }

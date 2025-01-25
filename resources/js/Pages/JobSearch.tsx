@@ -6,7 +6,7 @@ import FancyTitle from "@/Components/FancyTitle";
 import JobCard from "@/Components/JobCard";
 import axios from "axios";
 import React, {useEffect, useState} from "react";
-import {CompanyData, JobInterface} from "@/Interfaces/SharedInterfaces";
+import {CompanyData, FilterTypes, JobInterface} from "@/Interfaces/SharedInterfaces";
 import JobFilters from "@/Components/JobFilters";
 import styled from "styled-components";
 import JobPostModal from "@/Components/JobPostModal";
@@ -24,7 +24,7 @@ export default function JobSearch() {
     const [loading, setLoading] = useState(true);
     let currentJobsCount = jobs.length;
 
-    const [filters, setFilters] = useState({
+    const [filters, setFilters] = useState<FilterTypes>({
         location: [],
         employment_type: [],
         search_string: '',
@@ -39,7 +39,13 @@ export default function JobSearch() {
             `employment_type=${filters.employment_type.join(',')}`,
             `search_string=${filters.search_string.toUpperCase()}`,
             `work_fields_ids=${filters.work_fields_string}`,
+            `radius=${filters.radius}`
         ]
+
+        if (filters.current_position && filters.current_position.latitude && filters.current_position.longitude)
+            queryParamArguments.push(
+                `current_coords=${filters.current_position.longitude},${filters.current_position.latitude}`,
+            )
 
         url += `&${queryParamArguments.join('&')}`
 

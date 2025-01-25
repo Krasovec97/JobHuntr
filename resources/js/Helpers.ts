@@ -15,6 +15,34 @@ export function numberFormat(number: number, currency: string) {
 
 export const formatText = (string: string) => (capitalize(string.replace('_', ' ')));
 
+export const parseEmploymentType = (employmentType: string) => {
+    switch (employmentType) {
+        case 'contract':
+            return 'By contract';
+        case 'student':
+            return 'Student work';
+        default:
+            return formatText(employmentType);
+    }
+}
+
+export const parseEducation = (education: string) => {
+    switch (education) {
+        default:
+            return 'None';
+        case 'primary':
+            return 'Primary school or equivalent';
+        case 'bachelor':
+            return 'Bachelor\'s degree or equivalent';
+        case 'doctorate':
+            return 'Doctorate';
+        case 'master':
+            return 'Master\'s degree or equivalent';
+        case 'high_school':
+            return 'High school or equivalent';
+    }
+}
+
 export const formatDate = (string: string|undefined) => {
     if(typeof string !== "undefined") {
         return DateTime.fromSQL(string).toFormat("dd.MM.yyyy");

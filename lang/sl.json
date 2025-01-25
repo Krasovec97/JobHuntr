@@ -67,11 +67,11 @@
     "Female": "Ženski",
     "Preferred education": "Željena izobrazba",
     "None": "Ni pomembno",
-    "Primary school or equivalent": "Osnovna šola",
-    "High school or equivalent": "Srednja šola ali enakovredna",
-    "Bachelor's degree or equivalent": "Diploma ali enakovredna",
-    "Master's degree or equivalent": "Magisterij ali enakovredna",
-    "Doctorate": "Doktorat",
+    "Primary school or equivalent": "Osnovnošolska izobrazba",
+    "High school or equivalent": "Srednješolska izobrazba",
+    "Bachelor's degree or equivalent": "Diplomska izobrazba",
+    "Master's degree or equivalent": "Magistrska izobrazba",
+    "Doctorate": "Doktorska izobrazba",
     "Application email": "E-poštni naslov za prijavo",
     "apply@company.com": "apply@company.com",
     "You may leave this empty and it will be set to the same email as your company's email": "To polje lahko pustite prazno in bo nastavljeno na e-poštni naslov vašega podjetja",
@@ -449,5 +449,9 @@
     "Amount": "Znesek",
     "From": "Od",
     "Starting Salary": "Začetna plača",
-    "Apply now": "Prijavi se na delovno mesto"
+    "Apply now": "Prijavi se na delovno mesto",
+    "Radius": "Lokacija",
+    "Show job post in the radius of :radius km": "Pokaži oglase v radiusu :radius km",
+    "Show all job posts": "Pokaži vse oglase",
+    "Application deadline": "Rok za prijavo"
 }

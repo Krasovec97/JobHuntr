@@ -100,9 +100,13 @@ export interface LocationInterface {
     longitude: string,
 }
 
-export interface PlaceInterface {
-    addressComponents: AddressComponent[],
-    location: LocationInterface
+export interface FilterTypes {
+    location: string[],
+    employment_type: string[],
+    search_string: string,
+    work_fields_string: string,
+    radius?: number,
+    current_position?: LocationInterface
 }
 
 interface PageProps {

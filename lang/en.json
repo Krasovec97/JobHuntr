@@ -67,10 +67,10 @@
     "Female": "Female",
     "Preferred education": "Desired education",
     "None": "None",
-    "Primary school or equivalent": "Osnovna školá",
-    "High school or equivalent": "Srednja schola or equivalent",
-    "Bachelor's degree or equivalent": "Diploma or equivalent",
-    "Master's degree or equivalent": "Master's degree or equivalent",
+    "Primary school or equivalent": "Primary education",
+    "High school or equivalent": "Secondary education",
+    "Bachelor's degree or equivalent": "Bachelor's degree",
+    "Master's degree or equivalent": "Master's degree",
     "Doctorate": "Doctorate",
     "Application email": "Application email address",
     "apply@company.com": "apply@company.com",
@@ -449,5 +449,9 @@
     "Amount": "Amount",
     "From": "From",
     "Starting Salary": "Starting Salary",
-    "Apply now": "Apply now"
+    "Apply now": "Apply now",
+    "Radius": "Radius",
+    "Show job post in the radius of :radius km": "Show job post in the radius of :radius km",
+    "Show all job posts": "Show all job posts",
+    "Application deadline": "Application deadline"
 }

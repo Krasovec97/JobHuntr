@@ -1,5 +1,5 @@
 import {Button, Modal} from "react-bootstrap";
-import {formatText, numberFormat} from "@/Helpers";
+import {formatText, numberFormat, parseEmploymentType} from "@/Helpers";
 import React from "react";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import {CompanyData, JobInterface} from "@/Interfaces/SharedInterfaces";
@@ -44,7 +44,7 @@ export default function JobPostModal({showModal, clickedJob, handleClose}: Modal
                 </div>
                 <div className="border-bottom mb-3 pb-2">
                     <p className="fw-bold m-0">{t("Employment type")}</p>
-                    {t(formatText(clickedJob.employment_type))}
+                    {t(parseEmploymentType(clickedJob.employment_type))}
                 </div>
                 <div className="border-bottom mb-3 pb-2">
                     <p className="fw-bold m-0">{t("Work Location")}</p>

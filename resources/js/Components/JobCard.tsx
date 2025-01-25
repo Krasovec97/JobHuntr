@@ -1,4 +1,4 @@
-import {formatDate, formatText, numberFormat} from "@/Helpers";
+import {formatDate, formatText, numberFormat, parseEmploymentType} from "@/Helpers";
 import {JobInterface} from "@/Interfaces/SharedInterfaces";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import React from "react";
@@ -26,7 +26,7 @@ export default function JobCard({job, isDrafted = false}: ComponentProps) {
                                     className="fw-bold">{t("Work location")}</span>: {t(formatText(job.work_location))}
                                 </p>
                                 <p className="m-0"><span
-                                    className="fw-bold">{t("Employment type")}</span>: {t(formatText(job.employment_type))}
+                                    className="fw-bold">{t("Employment type")}</span>: {t(parseEmploymentType(job.employment_type))}
                                 </p>
                                 <p className="m-0">
                                     <span className="fw-bold">
@@ -46,9 +46,10 @@ export default function JobCard({job, isDrafted = false}: ComponentProps) {
 
                         </div>
 
-                        <div className="card-footer">
+                        <small className="card-footer">
+                            <p className="m-0 text-end">{t("Application deadline") + ": " + formatDate(job.expires_at)}</p>
                             <p className="m-0 text-end">{t("Published") + ": " + formatDate(job.posted_at)}</p>
-                        </div>
+                        </small>
                     </>
                 )
                 :
