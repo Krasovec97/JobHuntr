@@ -6,10 +6,9 @@ import {
 } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
-import {useLaravelReactI18n} from "laravel-react-i18n";
 import TextAlign from '@tiptap/extension-text-align'
-import Placeholder from '@tiptap/extension-placeholder'
 import {CharacterCount} from "@tiptap/extension-character-count";
+import {Placeholder} from "@tiptap/extension-placeholder";
 
 const MenuBar = () => {
     const { editor } = useCurrentEditor()
