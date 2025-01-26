@@ -12,15 +12,21 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property int $id
  * @property int $company_id
  * @property string $title
- * @property string $description
  * @property string $employment_type
- * @property float $salary
+ * @property float $salary_from
+ * @property float $salary_to
+ * @property float $hourly_rate
  * @property string $salary_currency
  * @property int $work_field_id
  * @property string $work_location
  * @property string $preferred_education
  * @property int $open_positions_count
+ * @property string $method_of_payment
  * @property string $status
+ * @property string $benefits
+ * @property string $expectations
+ * @property string $assignments
+ * @property string $intro
  * @property string $expires_at
  * @property string $posted_at
  * @property string $created_at
@@ -45,9 +51,13 @@ class CompanyJob extends Model
         'id',
         'company_id',
         'title',
-        'description',
         'employment_type',
-        'salary',
+        'salary_from',
+        'salary_to',
+        'benefits',
+        'expectations',
+        'assignments',
+        'intro',
         'salary_currency',
         'work_field_id',
         'work_location',

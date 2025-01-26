@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import {FilterTypes, WorkFieldInterface} from "@/Interfaces/SharedInterfaces";
+import {FilterTypes, LocationInterface, WorkFieldInterface} from "@/Interfaces/SharedInterfaces";
 import Select from "react-select";
 import axios from "axios";
+import FormRange from "react-bootstrap/FormRange";
 
 interface JobFilterProps {
     filters: FilterTypes,
@@ -15,6 +16,8 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
     const {t} = useLaravelReactI18n();
     const [workFieldsArray, setWorkFieldsArray] = useState<Array<object>>([{}]);
     const [searchTerm, setSearchTerm] = useState<string>('');
+    const [currentLocation, setCurrentLocation] = useState<LocationInterface|undefined>();
+    const [radius, setRadius] = useState<number>(50);
 
     useEffect(() => {
         let workFieldsUrl = `/api/work_fields`;
@@ -31,7 +34,19 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
 
         let newSearchFilter = {...filters};
         setFilters(newSearchFilter);
-    }, [])
+
+
+        navigator.geolocation.getCurrentPosition(currentPositionSuccess, null, {
+            maximumAge: 1800000
+        })
+    }, []);
+
+    function currentPositionSuccess(position: any) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        setCurrentLocation({ longitude, latitude });
+        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    }
 
     const handleLocationFilter = (location: any) => {
         let newLocationFilters = {...filters};
@@ -81,6 +96,20 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
         setFilters(newSearchFilter);
     }
 
+    const handleRadiusFilter = () => {
+        let newFilters = {...filters};
+
+        if (radius < 90 && currentLocation) {
+            newFilters.radius = radius
+            newFilters.current_position = currentLocation;
+        } else {
+            newFilters.radius = undefined;
+            newFilters.current_position = undefined;
+        }
+
+        setFilters(newFilters);
+    }
+
     return (
         <>
             <h3 className='fw-bold'>{t("Filters")}:</h3>
@@ -126,15 +155,33 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
             <div className="col-12 mt-3">
                 <p className="fw-bold mb-0">{t("Employment Type")}:</p>
                 <div>
-                    <input onChange={() => handleEmploymentTypeFilter("full_time")} className="form-check-inline"
+                    <input onChange={() => handleEmploymentTypeFilter("full_time")}
+                           className="form-check-inline"
+                           id={"full_time_filter"}
                            type="checkbox"/>
-                    <label htmlFor="remote" className="form-check-label">{t("Full time")}</label>
+                    <label htmlFor="full_time_filter" className="form-check-label">{t("Full time")}</label>
                 </div>
 
                 <div>
-                    <input onChange={() => handleEmploymentTypeFilter("part_time")} className="form-check-inline"
+                    <input onChange={() => handleEmploymentTypeFilter("part_time")}
+                           className="form-check-inline"
+                           id={"part_time_filter"}
                            type="checkbox"/>
-                    <label htmlFor="hybrid" className="form-check-label">{t("Part time")}</label>
+                    <label htmlFor="part_time_filter" className="form-check-label">{t("Part time")}</label>
+                </div>
+                <div>
+                    <input onChange={() => handleEmploymentTypeFilter("student")}
+                           className="form-check-inline"
+                           id={"student_filter"}
+                           type="checkbox"/>
+                    <label htmlFor="student_filter" className="form-check-label">{t("Student work")}</label>
+                </div>
+                <div>
+                    <input onChange={() => handleEmploymentTypeFilter("contract")}
+                           className="form-check-inline"
+                           id={"contract_filter"}
+                           type="checkbox"/>
+                    <label htmlFor="contract_filter" className="form-check-label">{t("By contract")}</label>
                 </div>
             </div>
 
@@ -147,6 +194,30 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
                         isMulti
                         onChange={(e) => handleWorkFieldsFilter(e)}
                     />
+                </div>
+            </div>
+
+            <div className="col-12 mt-3">
+                <p className="fw-bold mb-0">{t("Radius")}:</p>
+                {currentLocation === undefined &&
+                    <small className="text-danger">
+                        {t("To use this filter, we need the access to your location.")}
+                    </small>
+                }
+                <div>
+                    <FormRange min={10} max={90} step={10}
+                               disabled={currentLocation === undefined}
+                               defaultValue={radius}
+                               onChange={(e) => setRadius(Number(e.target.value))}
+                               onMouseUp={() => handleRadiusFilter()}
+                    />
+                    <small className="form-text text-muted">
+                        {radius > 80 ?
+                            t("Show all job posts")
+                            :
+                            t("Show job post in the radius of :radius km", {'radius': radius})
+                        }
+                    </small>
                 </div>
             </div>
         </>

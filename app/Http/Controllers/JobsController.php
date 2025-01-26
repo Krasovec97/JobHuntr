@@ -24,7 +24,7 @@ class JobsController extends Controller
      */
     public function getJobsPage(Request $request): Response
     {
-        $companyJobs = Company::getAuthenticatedCompany()->jobs()->orderBy('id')->get();
+        $companyJobs = Company::getAuthenticatedCompany()->jobs()->orderByDesc('id')->get();
 
         foreach ($companyJobs as $job) {
             $job->work_field = WorkField::query()->find($job->work_field_id);
@@ -48,7 +48,7 @@ class JobsController extends Controller
         if ($jobId !== null) {
             /** @var CompanyJob $job */
             $job = CompanyJob::query()->find($jobId);
-            $job->country_code = $job->country->code;
+            if ($job->country_id !== null) $job->country_code = $job->country->code;
             $job->work_field = WorkField::query()->find($job->work_field_id);
         }
 
@@ -68,11 +68,17 @@ class JobsController extends Controller
         $validator = Validator::make($request->all(), [
             "job_title" => ["required"],
             "employment_type" => ["required"],
-            "job_description" => ["required"],
+            "expectations" => ["required"],
+            "benefits" => ["required"],
+            "assignments" => ["required"],
+            "intro" => ["required"],
+            "method_of_payment" => ["required"],
             "work_field_id" => ["required", "exists:work_fields,id"],
             "work_location" => ["required"],
             "num_of_positions" => ["required", "numeric"],
-            "yearly_salary" => ["required", "numeric"],
+            "salary_from" => ["nullable", "numeric"],
+            "salary_to" => ["nullable", "numeric"],
+            "hourly_rate" => ["nullable", "numeric"],
             "currency" => ["required"],
             "education" => ["required"],
             "application_mail" => ["string", "nullable"],
@@ -92,12 +98,18 @@ class JobsController extends Controller
             $job = new CompanyJob();
         }
         $job->title = $request->input('job_title');
-        $job->description = $request->input('job_description');
+        $job->expectations = $request->input('expectations');
+        $job->benefits = $request->input('benefits');
+        $job->assignments = $request->input('assignments');
+        $job->intro = $request->input('intro');
         $job->employment_type = $request->input('employment_type');
         $job->work_field_id = $request->input('work_field_id');
         $job->work_location = $request->input('work_location');
         $job->open_positions_count = $request->input('num_of_positions');
-        $job->salary = $request->input('yearly_salary');
+        $job->method_of_payment = $request->input('method_of_payment');
+        $job->salary_from = $request->input('salary_from');
+        $job->salary_to = $request->input('salary_to');
+        $job->hourly_rate = $request->input('hourly_rate');
         $job->salary_currency = strtoupper($request->input('currency'));
         $job->preferred_education = $request->input('education');
         $job->company_id = $company->id;

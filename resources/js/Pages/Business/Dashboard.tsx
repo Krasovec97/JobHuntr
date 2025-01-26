@@ -3,7 +3,7 @@ import {Head, usePage} from "@inertiajs/react";
 import PageSection from "../../Components/PageSection";
 import BusinessLayout from "../../Layouts/BusinessLayout";
 import CompanyQuickView from "../Parts/CompanyQuickView";
-import {CompanyData, CompanyAuthProps} from "../../Interfaces/SharedInterfaces";
+import {CompanyData, CompanyAuthProps} from "@/Interfaces/SharedInterfaces";
 import React from "react";
 
 
