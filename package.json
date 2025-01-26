@@ -8,6 +8,7 @@
     "devDependencies": {
         "@headlessui/react": "^1.4.2",
         "@inertiajs/react": "^1.0.0",
+        "@types/google.maps": "^3.58.1",
         "@types/luxon": "^3.4.2",
         "@vitejs/plugin-react": "^4.2.0",
         "autoprefixer": "^10.4.12",
@@ -20,7 +21,10 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
+        "@googlemaps/js-api-loader": "^1.16.8",
         "@popperjs/core": "^2.11.8",
+        "@tiptap/extension-character-count": "^2.8.0",
+        "@tiptap/extension-placeholder": "^2.8.0",
         "@tiptap/extension-text-align": "^2.4.0",
         "@tiptap/pm": "^2.4.0",
         "@tiptap/react": "^2.4.0",
