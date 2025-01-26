@@ -33,7 +33,7 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
         label: '',
         value: ''
     }]);
-    const [countries, setCountries] = useState([]);
+    const [countries, setCountries] = useState<any[]>([]);
     const [selectedCountry, setSelectedCountry] = useState({});
     const [selectedLocation, setSelectedLocation] = useState<LocationProps>({
         label: address.street ?? '',
@@ -61,8 +61,8 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
 
         axios.get('/api/countries')
             .then((response) => {
-                const countriesObject = []
-                response.data.forEach((country) => country.id && countriesObject.push({value: country.code, label: country.name}));
+                const countriesObject: any[] = []
+                response.data.forEach((country: any) => country.id && countriesObject.push({value: country.code, label: country.name}));
 
                 setCountries(countriesObject);
             })
@@ -73,8 +73,9 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
             let pattern = new RegExp(/\d/);
             if (!pattern.test(value)) value = value + ' 1';
 
-            axios.post(`https://places.googleapis.com/v1/places:autocomplete?key=AIzaSyAXq5JaClCPlEky2fnD5Icy9WKeuYAmF4U&sessionToken=${sessionId.current}`, {
+            axios.post(`/api/google/places/autocomplete`, {
                 "input": value,
+                "session": sessionId.current
             }).then((response) => {
                 setAvailableLocations(response.data.suggestions.map((place: PlacePredictionInterface) => {
                     return {
@@ -83,6 +84,11 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
                     }
                 }));
             }).catch(() => setNoOptionsString(t("No options")));
+        } else {
+            setAvailableLocations([{
+                label: '',
+                value: ''
+            }]);
         }
     }
 
@@ -101,7 +107,7 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
         setSelectedLocation(place);
         updateFields({location_id: place.value});
 
-        axios.get(`https://places.googleapis.com/v1/places/${place.value}?fields=addressComponents,location&key=AIzaSyAXq5JaClCPlEky2fnD5Icy9WKeuYAmF4U`)
+        axios.get(`/api/google/places/${place.value}`)
             .then((response) => {
                 let newSelectedAddress = {...selectedAddress};
 
