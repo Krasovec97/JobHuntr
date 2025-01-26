@@ -7,8 +7,8 @@ import {
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 import TextAlign from '@tiptap/extension-text-align'
-import {CharacterCount} from "@tiptap/extension-character-count";
 import {Placeholder} from "@tiptap/extension-placeholder";
+import {CharacterCount} from "@tiptap/extension-character-count";
 
 const MenuBar = () => {
     const { editor } = useCurrentEditor()
