@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\GoogleServicesController;
 use App\Http\Controllers\WebController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,9 @@ Route::get('/work_fields', [WebController::class, 'getWorkFields']);
 Route::get('/countries', [CountryController::class, 'getCountries']);
 Route::get('/country/code/{code}', [CountryController::class, 'getCountryByCode']);
 Route::get('/country/id/{id}', [CountryController::class, 'getCountryById']);
+
+Route::post('/google/places/autocomplete', [GoogleServicesController::class, 'autoComplete']);
+Route::get('/google/places/{placeId}', [GoogleServicesController::class, 'getPlace']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
