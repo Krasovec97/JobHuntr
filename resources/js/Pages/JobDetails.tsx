@@ -34,7 +34,7 @@ export default function JobDetails({job}: PageProps) {
                             {job.company.id !== 1 &&
                                 <IconWithText
                                     icon={<i className="fa-solid fa-user-tie my-auto" title={t('Employer')}></i>}
-                                    text={job.company.full_name}/>
+                                    text={job.company.name}/>
                             }
 
                             <IconWithText

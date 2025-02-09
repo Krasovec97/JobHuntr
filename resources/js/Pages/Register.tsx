@@ -6,7 +6,7 @@ import {useLaravelReactI18n} from "laravel-react-i18n";
 import {AccountTypeSelection} from "./Parts/FormParts/AccountTypeSelection";
 import {AccountForm} from "./Parts/FormParts/AccountForm";
 import {AddressForm} from "./Parts/FormParts/AddressForm";
-import React, {FormEvent, useState} from "react";
+import React, {FormEvent, JSX, useState} from "react";
 import {CompanyForm} from "./Parts/FormParts/CompanyForm";
 import {PersonalForm} from "./Parts/FormParts/PersonalForm";
 import {Button, Modal} from "react-bootstrap";
@@ -19,10 +19,8 @@ type FormDataType = {
     date_of_birth: string,
     email: string,
     password: string,
-    registration_house: string,
     place_id: string,
-    company_full_name: string,
-    company_short_name: string,
+    company_name: string,
     company_number: string,
     company_vat_id: string,
     is_vat_obligated: boolean,
@@ -37,7 +35,8 @@ type FormDataType = {
         city: string,
         country_code: string,
         zip: string,
-    }
+    },
+    referrer_id: number
 }
 
 let INITIAL_DATA:FormDataType = {
@@ -48,9 +47,7 @@ let INITIAL_DATA:FormDataType = {
     place_id: "",
     email: "",
     password: "",
-    registration_house: "",
-    company_full_name: "",
-    company_short_name: "",
+    company_name: "",
     company_number: "",
     company_vat_id: "",
     is_vat_obligated: false,
@@ -65,13 +62,44 @@ let INITIAL_DATA:FormDataType = {
         city: "",
         country_code: "",
         zip: "",
-    }
+    },
+    referrer_id: 0
 }
 
-export default function Register() {
+export default function Register(props: any) {
+    if (props.company != null) {
+        const companyData: any = props.company;
+        INITIAL_DATA = {
+            is_business_account: true,
+            first_name: "",
+            last_name: "",
+            date_of_birth: "",
+            place_id: "",
+            email: companyData.email,
+            password: "",
+            company_name: companyData.name,
+            company_number: companyData.company_number,
+            company_vat_id: companyData.vat_id,
+            is_vat_obligated: companyData.is_vat_obligated,
+            contact_person: "",
+            contact_phone: "",
+            coordinates: {
+                longitude: companyData.coordinates.coordinates[0],
+                latitude: companyData.coordinates.coordinates[1]
+            },
+            address: {
+                street: companyData.street,
+                city: companyData.city,
+                country_code: companyData.country_code,
+                zip: companyData.zip,
+            },
+            referrer_id: companyData.referrer_id
+        }
+    }
+
     const {data, setData, post, processing} = useForm(INITIAL_DATA);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
-    const [postUrl, setPostUrl] = useState('');
+    const [postUrl, setPostUrl] = useState(props.company ? '/register/company' : '');
 
     const handleClose = () => setShowSuccessModal(false);
     const handleShow = () => setShowSuccessModal(true);
@@ -88,31 +116,32 @@ export default function Register() {
 
     const {t} = useLaravelReactI18n();
 
-    const businessSteps = [
-        <AccountTypeSelection {...data} updateFields={updateFields} setPostUrl={setPostUrl} />,
-        <CompanyForm {...data} updateFields={updateFields} />,
+    let registrationSteps: JSX.Element[] = []
+
+    if (!props.company) {
+        registrationSteps.push(<AccountTypeSelection {...data} updateFields={updateFields} setPostUrl={setPostUrl} />)
+    }
+
+    if (data.is_business_account) {
+        registrationSteps.push(<CompanyForm {...data} updateFields={updateFields} />)
+    } else {
+        registrationSteps.push(<PersonalForm {...data} updateFields={updateFields} />)
+    }
+
+    let commonSteps: JSX.Element[] = [
         <AddressForm {...data} updateFields={updateFields} address={data.address} />,
         <AccountForm {...data} updateFields={updateFields} />
-    ];
+    ]
 
-    const personalSteps = [
-        <AccountTypeSelection {...data} updateFields={updateFields} setPostUrl={setPostUrl} />,
-        <PersonalForm {...data} updateFields={updateFields} />,
-        <AddressForm {...data} updateFields={updateFields} address={data.address} />,
-        <AccountForm {...data} updateFields={updateFields} />,
-    ];
-    const { steps, currentStepIndex, step, isFirstStep, back, next, isLastStep } = useMultistepForm(data.is_business_account ? businessSteps : personalSteps );
+    commonSteps.forEach((step) => registrationSteps.push(step))
 
-    let csrfToken = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
+    const { steps, currentStepIndex, step, isFirstStep, back, next, isLastStep } = useMultistepForm(registrationSteps);
 
     function onSubmit(e: FormEvent) {
         e.preventDefault();
         if (!isLastStep) return next();
 
         post(postUrl, {
-            headers: {
-                'X-CSRF-TOKEN': csrfToken ?? ''
-            },
             onError: (errors) => {
                 alert(errors);
             },
@@ -165,7 +194,7 @@ export default function Register() {
                             {!isFirstStep &&
                                 <button onClick={back} type="button" className="btn btn-outline-primary">{t("Back")}</button>}
 
-                            {!isFirstStep &&
+                            {(props.company || !isFirstStep) &&
                                 <button type="submit"
                                         className="ms-3 btn btn-primary" disabled={processing}>{isLastStep ? t("Submit") : t("Next")}</button>}
                         </div>

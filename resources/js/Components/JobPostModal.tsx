@@ -29,7 +29,7 @@ export default function JobPostModal({showModal, clickedJob, handleClose}: Modal
                         {clickedJob.company_data.id !== 1 &&
                             <IconWithText
                                 icon={<i className="fa-solid fa-user-tie my-auto" title={t('Employer')}></i>}
-                                text={clickedJob.company_data.full_name}/>
+                                text={clickedJob.company_data.name}/>
                         }
 
                         <IconWithText
@@ -81,7 +81,7 @@ export default function JobPostModal({showModal, clickedJob, handleClose}: Modal
                         <>
                             <span className="fw-bold">{t("Employer info")}:</span>
                             <div>
-                                {clickedJob.company_data.full_name}
+                                {clickedJob.company_data.name}
                             </div>
                             <div>
                                 {clickedJob.company_data.street}, <br/>

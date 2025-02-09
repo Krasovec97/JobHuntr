@@ -16,7 +16,6 @@ interface PageProps {
 export default function AccountSettings({company}: PageProps) {
     const [isVatObligated, setIsVatObligated] = useState(company.is_vat_obligated);
     const {t} = useLaravelReactI18n();
-    let csrfToken = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
     const globalContext = useGlobalContext();
 
     const {setData, post, processing} = useForm({
@@ -26,11 +25,10 @@ export default function AccountSettings({company}: PageProps) {
         city: company.city,
         country_id: company.country_id,
         email: company.email,
-        full_name: company.full_name,
+        name: company.name,
         id: company.id,
         registration_house: company.registration_house,
         company_number: company.company_number,
-        short_name: company.short_name,
         street: company.street,
         vat_id: company.vat_id,
         zip: company.zip
@@ -47,9 +45,6 @@ export default function AccountSettings({company}: PageProps) {
     function submit(e: any) {
         e.preventDefault();
         post('/account', {
-            headers: {
-                'X-CSRF-TOKEN': csrfToken ?? ''
-            },
             onError: (errors: any|string|string[]) => {
                 let errorMessage = '';
                 if (typeof errors !== 'string') {
@@ -80,27 +75,15 @@ export default function AccountSettings({company}: PageProps) {
 
                 <form onSubmit={submit}>
                     <div className="mb-3">
-                        <label className={"form-label ps-0"}>{t("Company Full Name")} <span
+                        <label className={"form-label ps-0"}>{t("Company name")} <span
                             className={"text-danger"}>*</span></label>
                         <input
                             autoFocus
                             required={true}
                             className={"form-control"}
                             type="text"
-                            defaultValue={company.full_name}
+                            defaultValue={company.name}
                             disabled/>
-                    </div>
-
-                    <div className="mb-3">
-                        <label className={"form-label ps-0"}>{t("Company Short Name")} <span
-                            className={"text-danger"}>*</span></label>
-                        <input
-                            required={true}
-                            className={"form-control"}
-                            type="text"
-                            defaultValue={company.short_name}
-                            onChange={e => setData('short_name', e.target.value)}
-                            disabled={true}/>
                     </div>
 
                     <div className="mb-3">

@@ -6,6 +6,7 @@ namespace App\Models;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -34,6 +35,7 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property string $deleted_at
  * @property Point $coordinates
  * @property boolean $admin
+ * @property boolean $sales
  */
 class User extends Authenticatable implements FilamentUser
 {
@@ -43,7 +45,8 @@ class User extends Authenticatable implements FilamentUser
 
     protected $casts = [
         'coordinates' => Point::class,
-        'admin' => 'boolean'
+        'admin' => 'boolean',
+        'sales' => 'boolean',
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -76,6 +79,7 @@ class User extends Authenticatable implements FilamentUser
         'deleted_at',
         'coordinates',
         'admin',
+        'sales'
     ];
 
     public static function getAuthenticatedUser():?self{
@@ -95,5 +99,10 @@ class User extends Authenticatable implements FilamentUser
     public function country(): HasOne
     {
         return $this->hasOne(Country::class, 'id', 'country_id');
+    }
+
+    public function company(): HasMany
+    {
+        return $this->hasMany(Company::class, 'referrer_id', 'id');
     }
 }

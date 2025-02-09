@@ -58,7 +58,6 @@ let initialRender = true
 export default function NewJob({job = null, errors}: NewJobProps) {
     const {t} = useLaravelReactI18n();
     const [workFieldsArray, setWorkFieldsArray] = useState<Array<WorkField>>([]);
-    let csrfToken = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
     const globalContext = useGlobalContext();
     let company: CompanyData = usePage<CompanyAuthProps>().props.auth.company;
 
@@ -119,9 +118,6 @@ export default function NewJob({job = null, errors}: NewJobProps) {
         let postUrl = '/jobs/new';
         if (job !== null) postUrl = `/job/${job?.id}/update`
         post(postUrl, {
-            headers: {
-                'X-CSRF-TOKEN': csrfToken ?? ''
-            },
             onError: (errors: any|string|string[]) => {
                 let errorMessage = '';
                 if (typeof errors !== "string") {

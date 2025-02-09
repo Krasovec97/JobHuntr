@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CompanyResource\Pages;
 use App\Models\Company;
-use Filament\Actions\Action;
+use App\Models\Country;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -13,7 +13,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CompanyResource extends Resource
 {
@@ -23,11 +22,18 @@ class CompanyResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $availableCountries = Country::query()
+            ->where('id', 203)
+            ->get();
+
+        $availableOptions = $availableCountries->map(fn($country) => [
+            $country->id => $country->name
+        ])->toArray();
+
         return $form
             ->schema([
                 TextInput::make('email'),
-                TextInput::make('full_name'),
-                TextInput::make('short_name'),
+                TextInput::make('name'),
                 Forms\Components\DatePicker::make('email_verified_at')
                     ->native(false)
                     ->locale('sl')
@@ -36,11 +42,10 @@ class CompanyResource extends Resource
                 TextInput::make('contact_person'),
                 TextInput::make('vat_id'),
                 TextInput::make('company_number'),
-                TextInput::make('registration_house'),
                 TextInput::make('street'),
                 TextInput::make('city'),
                 TextInput::make('zip'),
-                TextInput::make('country'),
+                TextInput::make('country_id'),
                 Forms\Components\DatePicker::make('created_at')
                     ->native(false)
                     ->locale('sl')
@@ -48,9 +53,9 @@ class CompanyResource extends Resource
                 Forms\Components\DatePicker::make('company_verified_at')
                     ->native(false)
                     ->locale('sl')
-                    ->displayFormat('d.m.Y')
-                    ->minDate(today()),
+                    ->displayFormat('d.m.Y'),
                 Forms\Components\Checkbox::make('is_vat_obligated'),
+                Select::make('country_id')->options($availableOptions)
             ]);
     }
 
@@ -58,13 +63,12 @@ class CompanyResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('full_name'),
+                Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('company_verified_at')->date('d.m.Y'),
                 Tables\Columns\TextColumn::make('contact_phone'),
                 Tables\Columns\TextColumn::make('contact_person'),
                 Tables\Columns\TextColumn::make('vat_id'),
                 Tables\Columns\TextColumn::make('company_number'),
-                Tables\Columns\TextColumn::make('registration_house'),
             ])
             ->filters([
                 Tables\Filters\Filter::make('Unverified')->query(fn(Builder $query) => $query->whereNull('company_verified_at'))
@@ -72,13 +76,13 @@ class CompanyResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('Ajpes')
-                    ->visible(fn($record) => $record->country === 'Slovenia')
+                    ->visible(fn(/** @var Company $record */$record) => $record->country_id === 203 && $record->company_verified_at === null)
                     ->url(fn($record) => 'https://www.ajpes.si/fipo/rezultati.asp?status=1&OsnovnoIskanje='.$record->vat_id, true),
                 Tables\Actions\Action::make('Company House')
-                    ->visible(fn($record) => $record->country === 'United Kingdom')
+                    ->visible(fn(/** @var Company $record */$record) => $record->country_id === 233 && $record->company_verified_at === null)
                     ->url(fn($record) => 'https://find-and-update.company-information.service.gov.uk/search?q='.$record->company_number, true),
                 Tables\Actions\Action::make('Verify')
-                    ->visible(fn($record) => $record->company_verified_at === null)
+                    ->visible(fn(/** @var Company $record */$record) => $record->company_verified_at === null)
                     ->action(function ($record) {
                     $record->company_verified_at = now();
                     $record->save();

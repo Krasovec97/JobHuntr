@@ -2,7 +2,7 @@ import {useForm, usePage} from "@inertiajs/react";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import ApplicationLogo from "../../Components/ApplicationLogo";
 import React from "react";
-import {UserAuthProps, UserData} from "../../Interfaces/SharedInterfaces";
+import {UserAuthProps, UserData} from "@/Interfaces/SharedInterfaces";
 
 interface HeaderProps {
     darkBg: boolean
@@ -57,6 +57,23 @@ export default function ({darkBg}: HeaderProps) {
                                             <a href="/companies"
                                                className={textColor + " nav-link"}>{t("For companies").toUpperCase()}</a>
                                         </li>
+                                    </>
+                                }
+
+                                {user !== null && user.sales &&
+                                    <>
+                                        <li className="nav-item dropdown">
+                                            <a className="nav-link dropdown-toggle text-white" href="#" role="button"
+                                               data-bs-toggle="dropdown" aria-expanded="false">
+                                                {"Partner".toUpperCase()}
+                                            </a>
+                                            <ul className="dropdown-menu">
+                                                <li><a className="dropdown-item" href="#">{t("Dashboard")}</a></li>
+                                                <li><a className="dropdown-item" href="/sales/job">{t("Add a company")}</a></li>
+                                                <li><a className="dropdown-item" href="#">{t("My companies")}</a></li>
+                                            </ul>
+                                        </li>
+
                                     </>
                                 }
 
