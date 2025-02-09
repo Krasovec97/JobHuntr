@@ -11,6 +11,7 @@ class DashboardController extends Controller
 {
     public function getDashboardPage()
     {
+        /** @var User $user */
         $user = User::getAuthenticatedUser();
         $userCountry = $user->country;
         $user->country_code = $userCountry->code;

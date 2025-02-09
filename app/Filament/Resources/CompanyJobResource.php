@@ -74,7 +74,7 @@ class CompanyJobResource extends Resource
                     ->displayFormat('d.m.Y')
                     ->minDate(today()->addMonth()),
                 TextInput::make('application_mail')->required(),
-                Select::make('company_id')->relationship('company', 'full_name')->required(),
+                Select::make('company_id')->relationship('company', 'name')->required(),
             ]);
     }
 
@@ -82,7 +82,7 @@ class CompanyJobResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('company.full_name'),
+                Tables\Columns\TextColumn::make('company.name'),
                 Tables\Columns\TextColumn::make('title'),
                 Tables\Columns\TextColumn::make('employment_type'),
                 Tables\Columns\TextColumn::make('salary'),

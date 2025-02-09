@@ -1,4 +1,4 @@
-import { Head, useForm } from '@inertiajs/react';
+import {Head, useForm} from '@inertiajs/react';
 import MainLayout from '../../Layouts/MainLayout.js';
 import InputLabel from "../../Components/InputLabel";
 import InputError from "../../Components/InputError";

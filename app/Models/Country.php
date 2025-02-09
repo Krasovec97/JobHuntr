@@ -24,4 +24,9 @@ class Country extends Model
         'region',
         'sub_region',
     ];
+
+    public static function getById(int $id): self
+    {
+        return self::query()->findOrFail($id);
+    }
 }
