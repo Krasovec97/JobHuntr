@@ -15,11 +15,11 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
 /**
  * @property int $id
  * @property string $email
- * @property string $full_name
- * @property string $short_name
+ * @property string $name
  * @property string $contact_phone
  * @property string $contact_person
  * @property int $country_id
+ * @property int $referrer_id
  * @property string $street
  * @property string $city
  * @property string $zip
@@ -28,7 +28,6 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property string|null $email_verified_at
  * @property string $email_verification_token
  * @property string $company_number
- * @property string $registration_house
  * @property boolean $is_vat_obligated
  * @property string $created_at
  * @property string $updated_at
@@ -55,11 +54,10 @@ class Company extends Authenticatable
     protected $fillable = [
         'id',
         'email',
-        'full_name',
-        'short_name',
+        'name',
         'contact_phone',
         'contact_person',
-        'country',
+        'country_id',
         'street',
         'city',
         'zip',
@@ -68,7 +66,6 @@ class Company extends Authenticatable
         'email_verified_at',
         'email_verification_token',
         'company_number',
-        'registration_house',
         'is_vat_obligated',
         'created_at',
         'updated_at',

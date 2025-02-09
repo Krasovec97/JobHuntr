@@ -98,6 +98,7 @@
     "Let's dive in": "Let's dive in",
     "Company Full Name": "Company Full Name",
     "Company Short Name": "Company Short Name",
+    "Company name": "Company name",
     "Company Registration House": "Registration Authority",
     "Entity at which the company was registered (Company House for UK, Ajpes for Slovenia, etc.)": "Registration authority (at which the company was founded)",
     "Company Registration Number": "Company Registration Number",
@@ -453,5 +454,13 @@
     "Radius": "Radius",
     "Show job post in the radius of :radius km": "Show job post in the radius of :radius km",
     "Show all job posts": "Show all job posts",
-    "Application deadline": "Application deadline"
-}
+    "Application deadline": "Application deadline",
+    "Dashboard": "Dashboard",
+    "Add a company": "Add a company",
+    "My companies": "My companies",
+    "Company already exists in our database.": "Company already exists in our database.",
+    "Welcome aboard. Your account has been partially created. Please finish your registration by clicking the button below.": "Welcome aboard. Your account has been partially created. Please finish your registration by clicking the button below.",
+    "Complete registration": "Complete registration",
+    "If this was not you, please contact us, to delete your account.": "If this was not you, please contact us, to delete your account.",
+    "We are thrilled to have you on board and we can't wait to help you reach more people!": "We are thrilled to have you on board and we can't wait to help you reach more people!"
+    }

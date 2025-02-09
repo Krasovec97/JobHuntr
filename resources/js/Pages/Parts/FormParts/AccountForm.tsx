@@ -12,27 +12,47 @@ type AccountFormProps = AccountData & {
     updateFields: (fields: Partial<AccountData>) => void
 }
 
-export function AccountForm({ email, password, updateFields }: AccountFormProps) {
+const validatePasswords = (
+    password: string | undefined,
+    confirmPassword: string | undefined,
+    t: (key: string) => string
+): string[] => {
+    const errors: string[] = [];
+
+    if (password !== confirmPassword) {
+        errors.push(t("The passwords must match!"));
+    }
+    if (!password || password.length < 8) {
+        errors.push(t("The password must have a minimum of 8 characters!"));
+    }
+    if (!/[.,:/|?!*;@#$%^&\-_=+]/.test(password || "")) {
+        errors.push(t("The password must include a symbol!"));
+    }
+
+    return errors;
+};
+
+
+export function AccountForm({ email, updateFields }: AccountFormProps) {
     const {t} = useLaravelReactI18n();
-    const [passwordInput, setPasswordInput] = useState('');
-    const [cPassword, setCPassword] = useState('');
-    const [showErrorMessage, setShowErrorMessage] = useState(false);
-    const [isCPasswordDirty, setIsCPasswordDirty] = useState(false);
+    const [passwordInput, setPasswordInput] = useState<string|undefined>();
+    const [confirmPassword, setConfirmPassword] = useState<string|undefined>();
+    const [errors, setErrors] = useState<string[]>([]);
 
     useEffect(() => {
-        if (isCPasswordDirty) {
-            if (passwordInput === cPassword) {
-                setShowErrorMessage(false);
-                updateFields({password: cPassword})
-            } else {
-                setShowErrorMessage(true)
+        if (passwordInput) {
+            const validationErrors = validatePasswords(passwordInput, confirmPassword, t);
+            setErrors(validationErrors);
+
+            if (validationErrors.length === 0) {
+                updateFields({ password: confirmPassword });
             }
         }
-    }, [cPassword])
+    }, [passwordInput, confirmPassword, t, updateFields]);
 
-    const handleCPassword = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-        setCPassword(e.target.value);
-        setIsCPasswordDirty(true);
+
+    const handleCPassword = (e: { target: { value: React.SetStateAction<string | undefined>; }; }) => {
+        setConfirmPassword(e.target.value);
     }
 
     return (
@@ -45,6 +65,7 @@ export function AccountForm({ email, password, updateFields }: AccountFormProps)
                     required
                     className={"form-control"}
                     type="email"
+                    autoComplete="new-password"
                     value={email}
                     onChange={e => updateFields({email: e.target.value})}/>
             </div>
@@ -57,7 +78,7 @@ export function AccountForm({ email, password, updateFields }: AccountFormProps)
                     type="password"
                     value={passwordInput}
                     aria-describedby={"passwordHelp"}
-                    pattern={"^(?=.*[!@#$%^&*])(?=.*[a-zA-Z0-9]).{8,}$"}
+                    autoComplete="new-password"
                     onChange={e => setPasswordInput(e.target.value)}/>
                 <small id="passwordHelp" className="form-text text-muted">
                     {t("To make your account secure, your password must have a minimum of 8 characters and it must include a symbol.")}
@@ -70,12 +91,16 @@ export function AccountForm({ email, password, updateFields }: AccountFormProps)
                     required
                     className={"form-control"}
                     type="password"
-                    value={cPassword}
+                    autoComplete="new-password"
+                    value={confirmPassword}
                     onChange={handleCPassword}/>
             </div>
 
-                {showErrorMessage && isCPasswordDirty && <div className={"text-danger"}
-                                          id={"password_must_match_container"}>{t("The passwords must match!")}</div>}
+                {errors.length > 0 &&
+                    <div className={"text-danger"}>
+                        {errors.map((error, index) => <div key={index}>{error}</div>)}
+                    </div>
+                }
         </FormWrapper>
 )
 }

@@ -6,12 +6,11 @@ export interface CompanyData {
     contact_phone: string,
     country_id: number,
     email: string,
-    full_name: string,
+    name: string,
     id: number,
     is_vat_obligated: boolean,
     registration_house: string,
     company_number: string,
-    short_name: string,
     street: string,
     updated_at: string,
     vat_id: string,
@@ -19,6 +18,13 @@ export interface CompanyData {
     email_verified_at: string,
     email_verification_token: string,
     company_verified_at: string,
+    coordinates: {
+        coordinates: {
+            longitude: number,
+            latitude: number,
+        },
+        type: string
+    },
 }
 
 
@@ -53,7 +59,14 @@ export interface JobInterface {
     country_id: number,
     country_code: string,
     country: string,
-    application_mail: string
+    application_mail: string,
+    coordinates: {
+        coordinates: {
+            longitude: number,
+            latitude: number,
+        },
+        type: string
+    },
 }
 
 export interface WorkFieldInterface {
@@ -80,7 +93,8 @@ export interface UserData {
             latitude: number,
         },
         type: string
-    }
+    },
+    sales: boolean
 }
 
 export interface Country {

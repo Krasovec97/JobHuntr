@@ -53,17 +53,17 @@ export default function (user: UserData) {
         address: {
             street: user.street,
             city: user.city,
-            country_code: user.country_code,
+            country_code: user.country_code!,
             zip: user.zip,
         },
         coordinates: {
-            longitude: user.coordinates.coordinates[0],
-            latitude: user.coordinates.coordinates[1],
+            longitude: user.coordinates.coordinates.longitude,
+            latitude: user.coordinates.coordinates.latitude,
         }
     });
 
     function updateFields(fields: Partial<UserObjectData>) {
-        setData(prevState => {
+        setData((prevState: any) => {
             return {...prevState, ...fields};
         })
     }
@@ -81,14 +81,9 @@ export default function (user: UserData) {
 
     const newDate = new Date(subtractYears(date, 15)).toISOString().split("T")[0];
 
-    let csrfToken = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
-
     function handleSubmit(e: any) {
         e.preventDefault();
-        post('user/update', {
-            headers: {
-                'X-CSRF-TOKEN': csrfToken ?? ''
-            },
+        post('/user/update', {
             onError: (errors: any|string|string[]) => {
                 let errorMessage = '';
                 if (typeof errors !== "string") {

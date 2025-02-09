@@ -1,5 +1,5 @@
 import React from "react";
-import {CompanyData} from "../../Interfaces/SharedInterfaces";
+import {CompanyData} from "@/Interfaces/SharedInterfaces";
 import styled from "styled-components";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 
@@ -13,7 +13,7 @@ export default function ({company}: PageProps) {
     return (
         <div className="row border-bottom border-dark border-opacity-10 align-middle">
             <div className="col-6">
-                <p className="fw-bold" style={{padding: "10px"}}>{t("Hello") + ", " + company.full_name}</p>
+                <p className="fw-bold" style={{padding: "10px"}}>{t("Hello") + ", " + company.name}</p>
             </div>
             <div className="col-6 text-end">
                 <CompanyVerifiedPill

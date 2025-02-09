@@ -4,9 +4,7 @@ import React from "react";
 import {useState} from "react";
 
 type CompanyData = {
-    company_full_name: string,
-    company_short_name: string,
-    registration_house: string,
+    company_name: string,
     company_number: string,
     company_vat_id: string,
     is_vat_obligated: boolean,
@@ -18,7 +16,7 @@ type CompanyFormProps = CompanyData & {
     updateFields: (fields: Partial<CompanyData>) => void
 }
 
-export function CompanyForm({ company_full_name, company_short_name, company_number, registration_house, company_vat_id, is_vat_obligated, contact_person, contact_phone, updateFields }: CompanyFormProps) {
+export function CompanyForm({ company_name, company_number, company_vat_id, is_vat_obligated, contact_person, contact_phone, updateFields }: CompanyFormProps) {
     const [isVatObligated, setIsVatObligated] = useState(is_vat_obligated);
     const {t} = useLaravelReactI18n();
 
@@ -30,40 +28,15 @@ export function CompanyForm({ company_full_name, company_short_name, company_num
     return (
         <FormWrapper title={t("Company Details")} subtitle={t("Let's dive in")}>
             <div className="mb-3">
-                <label className={"form-label ps-0"}>{t("Company Full Name")} <span
+                <label className={"form-label ps-0"}>{t("Company name")} <span
                     className={"text-danger"}>*</span></label>
                 <input
                     autoFocus
                     required={true}
                     className={"form-control"}
                     type="text"
-                    value={company_full_name}
-                    onChange={e => updateFields({company_full_name: e.target.value})}/>
-            </div>
-
-            <div className="mb-3">
-                <label className={"form-label ps-0"}>{t("Company Short Name")} <span className={"text-danger"}>*</span></label>
-                <input
-                    required={true}
-                    className={"form-control"}
-                    type="text"
-                    value={company_short_name}
-                    onChange={e => updateFields({company_short_name: e.target.value})}/>
-            </div>
-
-            <div className="mb-3">
-                <label className={"form-label ps-0"}>{t("Company Registration House")} <span
-                    className={"text-danger"}>*</span></label>
-                <input
-                    aria-describedby={"companyHouseExplanation"}
-                    required={true}
-                    className={"form-control"}
-                    type="text"
-                    value={registration_house}
-                    onChange={e => updateFields({registration_house: e.target.value})}/>
-                <div id={"companyHouseExplanation"} className={"form-text fst-italic"}>
-                    {t("Entity at which the company was registered (Company House for UK, Ajpes for Slovenia, etc.)")}
-                </div>
+                    value={company_name}
+                    onChange={e => updateFields({company_name: e.target.value})}/>
             </div>
 
             <div className="mb-3">
