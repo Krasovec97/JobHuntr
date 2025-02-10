@@ -1,4 +1,4 @@
-import {Head, useForm} from '@inertiajs/react';
+import {Head, useForm, usePage} from '@inertiajs/react';
 import MainLayout from '../../Layouts/MainLayout.js';
 import InputLabel from "../../Components/InputLabel";
 import InputError from "../../Components/InputError";
@@ -70,6 +70,24 @@ export default function Login() {
                             <button className={"btn btn-primary px-5"}>{t("Login")}</button>
                         </div>
                     </form>
+
+                    <hr/>
+
+                    <div className="text-center">
+                        <a href="/register">
+                            <small>{t("Don't have an account yet?")}</small>
+                        </a>
+                    </div>
+                </div>
+
+                <div className="mt-5 text-center">
+                    <p>
+                        {t("Business Account")}?
+                    </p>
+
+                    <div className="col-12 mb-5">
+                        <a className='btn btn-outline-dark fw-bold px-5' href={`https://${usePage().props.business_url}`}>{t("Company login")}</a>
+                    </div>
                 </div>
             </PageSection>
         </MainLayout>

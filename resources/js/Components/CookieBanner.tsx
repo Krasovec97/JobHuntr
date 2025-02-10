@@ -13,6 +13,7 @@ export default function CookieBanner() {
                  aria-labelledby="cookieBannerLabel" data-bs-backdrop="static">
                 <div className="offcanvas-header">
                     <h5 className="offcanvas-title" id="cookieBannerLabel">{t("Cookies")}</h5>
+                    <button className="btn btn-close" data-bs-dismiss="offcanvas" onClick={acceptCookies}></button>
                 </div>
                 <div className="offcanvas-body small">
                     <div>

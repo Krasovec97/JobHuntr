@@ -150,6 +150,12 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
                            type="checkbox" id="hybrid"/>
                     <label htmlFor="hybrid" className="form-check-label">{t("Hybrid")}</label>
                 </div>
+
+                <div>
+                    <input onChange={() => handleLocationFilter("field_work")} className="form-check-inline"
+                           type="checkbox" id="hybrid"/>
+                    <label htmlFor="hybrid" className="form-check-label">{t("Field work")}</label>
+                </div>
             </div>
 
             <div className="col-12 mt-3">

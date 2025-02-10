@@ -17,15 +17,16 @@ type AddressData = {
 }
 
 type AddressFormProps = AddressData & {
-    updateFields: (fields: Partial<AddressData>) => void
+    updateFields: (fields: Partial<AddressData>) => void,
+    setNextButtonDisabled: (disabled: boolean) => void,
 }
 
 
-export function AddressForm({ updateFields, address }: AddressFormProps) {
+export function AddressForm({ updateFields, address, setNextButtonDisabled }: AddressFormProps) {
     const {t} = useLaravelReactI18n();
     return (
         <FormWrapper title={t("Address information")} subtitle={t("Where are you located?")}>
-            <GoogleLocationSelect updateFields={updateFields} address={address}/>
+            <GoogleLocationSelect updateFields={updateFields} address={address} setNextButtonDisabled={setNextButtonDisabled}/>
         </FormWrapper>
     )
 }

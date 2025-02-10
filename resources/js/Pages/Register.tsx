@@ -100,6 +100,7 @@ export default function Register(props: any) {
     const {data, setData, post, processing} = useForm(INITIAL_DATA);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [postUrl, setPostUrl] = useState(props.company ? '/register/company' : '');
+    const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
 
     const handleClose = () => setShowSuccessModal(false);
     const handleShow = () => setShowSuccessModal(true);
@@ -129,7 +130,7 @@ export default function Register(props: any) {
     }
 
     let commonSteps: JSX.Element[] = [
-        <AddressForm {...data} updateFields={updateFields} address={data.address} />,
+        <AddressForm {...data} updateFields={updateFields} address={data.address} setNextButtonDisabled={setNextButtonDisabled} />,
         <AccountForm {...data} updateFields={updateFields} />
     ]
 
@@ -191,12 +192,18 @@ export default function Register(props: any) {
                         {step}
 
                         <div className={"col-12 mx-auto text-end mt-4"}>
-                            {!isFirstStep &&
+                            {!isFirstStep && !processing &&
                                 <button onClick={back} type="button" className="btn btn-outline-primary">{t("Back")}</button>}
 
-                            {(props.company || !isFirstStep) &&
+                            {(props.company || !isFirstStep) && !processing &&
                                 <button type="submit"
-                                        className="ms-3 btn btn-primary" disabled={processing}>{isLastStep ? t("Submit") : t("Next")}</button>}
+                                        className="ms-3 btn btn-primary" disabled={processing || nextButtonDisabled}>{isLastStep ? t("Submit") : t("Next")}</button>}
+
+                            {processing &&
+                                <div className="spinner-grow text-primary" role="status">
+                                    <span className="sr-only">Loading...</span>
+                                </div>
+                            }
                         </div>
                     </form>
                 </div>
