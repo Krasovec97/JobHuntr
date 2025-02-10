@@ -56,7 +56,7 @@ class CompanyController extends Controller
         $company->password = Hash::make($request->get('password'));
         $company->email_verification_token = Str::orderedUuid()->toString();
         $company->coordinates = new Point($request->get('coordinates')['latitude'], $request->get('coordinates')['longitude']);
-        $company->referrer_id = $request->get('referrer_id');
+        if ($request->get('referrer_id') !== null) $company->referrer_id = $request->get('referrer_id');
         $saved = $company->save();
 
         if ($saved) {
