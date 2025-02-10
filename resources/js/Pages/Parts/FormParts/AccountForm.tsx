@@ -2,6 +2,7 @@ import {FormWrapper} from "./FormWrapper";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import React from "react";
 import {useEffect, useState} from "react";
+import {validatePasswords} from "@/Helpers";
 
 type AccountData = {
     email: string,
@@ -11,26 +12,6 @@ type AccountData = {
 type AccountFormProps = AccountData & {
     updateFields: (fields: Partial<AccountData>) => void
 }
-
-const validatePasswords = (
-    password: string | undefined,
-    confirmPassword: string | undefined,
-    t: (key: string) => string
-): string[] => {
-    const errors: string[] = [];
-
-    if (password !== confirmPassword) {
-        errors.push(t("The passwords must match!"));
-    }
-    if (!password || password.length < 8) {
-        errors.push(t("The password must have a minimum of 8 characters!"));
-    }
-    if (!/[.,:/|?!*;@#$%^&\-_=+]/.test(password || "")) {
-        errors.push(t("The password must include a symbol!"));
-    }
-
-    return errors;
-};
 
 
 export function AccountForm({ email, updateFields }: AccountFormProps) {

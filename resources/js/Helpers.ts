@@ -79,3 +79,23 @@ export function makeId(length: number = 8) {
     }
     return result;
 }
+
+export const validatePasswords = (
+    password: string | undefined,
+    confirmPassword: string | undefined,
+    t: (key: string) => string
+): string[] => {
+    const errors: string[] = [];
+
+    if (password !== confirmPassword) {
+        errors.push(t("The passwords must match!"));
+    }
+    if (!password || password.length < 8) {
+        errors.push(t("The password must have a minimum of 8 characters!"));
+    }
+    if (!/[.,:/|?!*;@#$%^&\-_=+]/.test(password || "")) {
+        errors.push(t("The password must include a symbol!"));
+    }
+
+    return errors;
+};
