@@ -48,7 +48,6 @@ class Company extends Authenticatable
     protected $hidden = [
         'password',
         'email_verification_token',
-        'email_verified_at',
     ];
 
     protected $fillable = [

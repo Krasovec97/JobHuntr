@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 
 /**
@@ -33,4 +34,9 @@ class CompanyPreRegistration extends Model
         'is_vat_obligated' => 'boolean',
         'coordinates' => Point::class
     ];
+
+    public function referrer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id', 'referrer_id');
+    }
 }
