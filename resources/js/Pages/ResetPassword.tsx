@@ -4,6 +4,7 @@ import React, {useEffect, useState} from 'react';
 import MainLayout from "../Layouts/MainLayout";
 import PageSection from "../Components/PageSection";
 import FancyTitle from "../Components/FancyTitle";
+import {validatePasswords} from "@/Helpers";
 
 interface ResetPasswordProps {
     linkExpired?: string,
@@ -13,46 +14,44 @@ interface ResetPasswordProps {
 }
 
 export default function ResetPassword({linkExpired, entity_id, entity_type, errors}: ResetPasswordProps) {
-    const [passwordInput, setPasswordInput] = useState('');
-    const [cPassword, setCPassword] = useState('');
-    const [showErrorMessage, setShowErrorMessage] = useState(false);
-    const [isCPasswordDirty, setIsCPasswordDirty] = useState(false);
-    const [passwordWasReset, setPasswordWasReset] = useState(false);
+    const {t} = useLaravelReactI18n();
+    const [passwordInput, setPasswordInput] = useState<string|undefined>();
+    const [confirmPassword, setConfirmPassword] = useState<string|undefined>();
+    const [responseSuccess, setResponseSuccess] = useState<boolean>(false);
+    const [clientErrors, setClientErrors] = useState<string[]>(errors);
 
-    useEffect(() => {
-        if (isCPasswordDirty) {
-            if (passwordInput === cPassword) {
-                setShowErrorMessage(false);
-                setData(values => ({
-                    ...values,
-                    password: cPassword
-                }))
-            } else {
-                setShowErrorMessage(true)
-            }
-        }
-    }, [cPassword])
-    const { setData, post } = useForm({
+    const {setData, post } = useForm({
         entity_type: entity_type,
         entity_id: entity_id,
         password: ''
     });
 
-    const {t} = useLaravelReactI18n();
+    useEffect(() => {
+        if (passwordInput) {
+            const validationErrors = validatePasswords(passwordInput, confirmPassword, t);
+            setClientErrors(validationErrors);
+
+            if (validationErrors.length === 0) {
+                setData(values => ({
+                    ...values,
+                    password: confirmPassword!
+                }))
+            }
+        }
+    }, [passwordInput, confirmPassword, t]);
 
     function submit(e: { preventDefault: () => void; }) {
         e.preventDefault();
         post('/password/reset/', {
             onSuccess: () => {
-                setPasswordWasReset(true);
-                setTimeout(() => window.location.href = '/login', 3000)
+                setTimeout(() => window.location.href = '/login', 3000);
+                setResponseSuccess(true);
             }
         });
     }
 
-    const handleCPassword = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-        setCPassword(e.target.value);
-        setIsCPasswordDirty(true);
+    const handleCPassword = (e: { target: { value: React.SetStateAction<string | undefined>; }; }) => {
+        setConfirmPassword(e.target.value);
     }
 
     return (
@@ -71,7 +70,7 @@ export default function ResetPassword({linkExpired, entity_id, entity_type, erro
                     </div>
                     :
                     <div className={"col-12 col-md-5 border p-4 rounded mx-auto shadow"}>
-                        {!passwordWasReset ?
+                        {!responseSuccess ?
                             <form onSubmit={submit}>
                                 <div className="mb-3">
                                     <label>{t("Password")}</label>
@@ -96,15 +95,15 @@ export default function ResetPassword({linkExpired, entity_id, entity_type, erro
                                         className={"form-control"}
                                         autoComplete="new-password"
                                         type="password"
-                                        value={cPassword}
+                                        value={confirmPassword}
                                         onChange={handleCPassword}/>
                                 </div>
 
-                                {showErrorMessage && isCPasswordDirty && <div className={"text-danger"}
-                                                                              id={"password_must_match_container"}>{t("The passwords must match!")}</div>}
-
-                                {errors.length > 0 && errors.map((error) => <div
-                                    className={"text-danger"}>{error}</div>)}
+                                {clientErrors.length > 0 &&
+                                    <div className={"text-danger"}>
+                                        {clientErrors.map((error, index) => <div key={index}>{error}</div>)}
+                                    </div>
+                                }
 
                                 <div className={"col-12 text-center mt-4"}>
                                     <button id="submitPasswordReset"
