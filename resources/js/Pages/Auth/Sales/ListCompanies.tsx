@@ -34,7 +34,7 @@ export default function ListCompanies({userCompanies}: Props) {
                     <small>{t('You have added a total of :count companies', {count: userCompanies.length})}</small>
                 </div>
 
-                <div className={"row bg-primary text-white py-3 overflow-scroll"}>
+                <div className={"row bg-primary text-white py-3"}>
                     <div className="col-4 col-xl-3 fw-bold">{t("Company name")}</div>
                     <div className="d-none d-xl-block col-xl-2 fw-bold">{t("Company VAT ID")}</div>
                     <div className="d-none d-xl-block col-xl-3 fw-bold">{t("Street")}</div>
@@ -44,7 +44,7 @@ export default function ListCompanies({userCompanies}: Props) {
 
                 {userCompanies.map((company) => {
                     return (
-                        <TableRow title={company.notes} className={"row py-3 text-decoration-none text-dark border-bottom border-dark border-opacity-25 overflow-x-scroll"}>
+                        <TableRow title={company.notes} className={"row py-3 text-decoration-none text-dark border-bottom border-dark border-opacity-25"}>
                             <div className="col-4 col-xl-3">{company.name}</div>
                             <div className="d-none d-xl-block col-xl-2">{company.vat_id}</div>
                             <div className="d-none d-xl-block col-xl-3">{company.street}</div>
