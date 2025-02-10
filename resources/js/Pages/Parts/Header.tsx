@@ -68,9 +68,8 @@ export default function ({darkBg}: HeaderProps) {
                                                 {"Partner".toUpperCase()}
                                             </a>
                                             <ul className="dropdown-menu">
-                                                <li><a className="dropdown-item" href="#">{t("Dashboard")}</a></li>
-                                                <li><a className="dropdown-item" href="/sales/job">{t("Add a company")}</a></li>
-                                                <li><a className="dropdown-item" href="#">{t("My companies")}</a></li>
+                                                <li><a className="dropdown-item" href="/sales/company">{t("Add a company")}</a></li>
+                                                <li><a className="dropdown-item" href="/sales/companies">{t("My companies")}</a></li>
                                             </ul>
                                         </li>
 

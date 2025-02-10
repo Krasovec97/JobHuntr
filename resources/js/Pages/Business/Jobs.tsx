@@ -68,7 +68,7 @@ export default function Jobs({companyJobs}: JobsProps) {
     );
 }
 
-const TableRow = styled.a`
+export const TableRow = styled.a`
     transition: all ease-in-out 130ms;
     &:hover {
         color: #d30855 !important;

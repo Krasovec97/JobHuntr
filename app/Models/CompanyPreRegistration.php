@@ -17,6 +17,7 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property string $zip
  * @property string $company_number
  * @property string $vat_id
+ * @property string $notes
  * @property boolean $is_vat_obligated
  * @property Point $coordinates
  * @property string $registration_completed_at
