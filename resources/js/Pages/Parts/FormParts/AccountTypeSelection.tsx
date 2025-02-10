@@ -15,12 +15,12 @@ export function AccountTypeSelection({updateFields, setPostUrl}: UserFormProps) 
     const {t} = useLaravelReactI18n();
 
     let handleBusinessAccountClick = () => {
-        setPostUrl('register/company');
+        setPostUrl('/register/company');
         updateFields({is_business_account: true}, true);
     }
 
     let handlePersonalAccountClick = () => {
-        setPostUrl('register/personal');
+        setPostUrl('/register/personal');
         updateFields({is_business_account: false}, true);
     }
 
