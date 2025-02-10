@@ -56,13 +56,13 @@ class CompanyController extends Controller
         $company->password = Hash::make($request->get('password'));
         $company->email_verification_token = Str::orderedUuid()->toString();
         $company->coordinates = new Point($request->get('coordinates')['latitude'], $request->get('coordinates')['longitude']);
-        if ($request->get('referrer_id') !== null) $company->referrer_id = $request->get('referrer_id');
+        if ($request->get('referrer_id') !== 0) $company->referrer_id = $request->get('referrer_id');
         $saved = $company->save();
 
         if ($saved) {
             $company->notify(new EmailVerificationNotification($company->email_verification_token));
 
-            if ($request->get('referrer_id') !== null) {
+            if ($request->get('referrer_id') !== 0) {
                 /** @var CompanyPreRegistration $preRegistration */
                 $preRegistration = CompanyPreRegistration::query()
                     ->where('vat_id', $request->get('company_vat_id'))
