@@ -44,7 +44,7 @@ export const parseEducation = (education: string) => {
 }
 
 export const formatDate = (string: string|undefined) => {
-    if(typeof string !== "undefined") {
+    if(string) {
         return DateTime.fromSQL(string).toFormat("dd.MM.yyyy");
     } else {
         return string;

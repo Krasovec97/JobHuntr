@@ -25,7 +25,7 @@ export default function JobPostModal({showModal, clickedJob, handleClose}: Modal
             </Modal.Header>
             <Modal.Body>
                 <div className="mb-3">
-                    <div className="d-flex justify-content-evenly">
+                    <div className="row">
                         {clickedJob.company_data.id !== 1 &&
                             <IconWithText
                                 icon={<i className="fa-solid fa-user-tie my-auto" title={t('Employer')}></i>}
@@ -36,10 +36,12 @@ export default function JobPostModal({showModal, clickedJob, handleClose}: Modal
                             icon={<i className="fa-solid fa-earth-europe my-auto" title={t("Job location")}></i>}
                             text={formatJobLocation(clickedJob)}/>
 
-                        <IconWithText
-                            icon={<i className="fa-solid fa-hand-holding-dollar my-auto"
-                                     title={clickedJob.method_of_payment === 'salary' ? t("Salary") : t("Hourly rate")}></i>}
-                            text={clickedJob.method_of_payment === 'salary' ? numberFormat(clickedJob.salary_from, clickedJob.salary_currency) : numberFormat(clickedJob.hourly_rate, clickedJob.salary_currency)}/>
+                        {clickedJob.method_of_payment !== 'provision' &&
+                            <IconWithText
+                                icon={<i className="fa-solid fa-hand-holding-dollar my-auto"
+                                         title={clickedJob.method_of_payment === 'salary' ? t("Salary") : t("Hourly rate")}></i>}
+                                text={clickedJob.method_of_payment === 'salary' ? numberFormat(clickedJob.salary_from, clickedJob.salary_currency) : numberFormat(clickedJob.hourly_rate, clickedJob.salary_currency)}/>
+                        }
                     </div>
                 </div>
                 <div className="border-bottom mb-3 pb-2">

@@ -249,6 +249,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                                 <option value="remote">{t("Completely online / Remote")}</option>
                                 <option value="hybrid">{t("Partially online")}</option>
                                 <option value="on_location">{t("On location")}</option>
+                                <option value="field_work">{t("Field work")}</option>
                             </select>
                         </div>
                     </div>
@@ -297,84 +298,89 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                                     defaultValue={job?.method_of_payment}>
                                 <option value="salary">{t("Salary")}</option>
                                 <option value="hourly">{t("Hourly rate")}</option>
+                                <option value="provision">{t("Stimulation / Provision")}</option>
                             </select>
                         </div>
                     </div>
 
-                    {data.method_of_payment === 'salary' ?
+                    {data.method_of_payment !== 'provision' &&
                         <>
-                            <div className="row mb-3">
-                                <div className="col-5">
-                                    <label className="fw-semibold">{t("Salary Range (From)")}</label>
-                                    <input
-                                        required
-                                        placeholder={'2000'}
-                                        className={"form-control"}
-                                        defaultValue={job?.salary_from}
-                                        step={0.5}
-                                        min={1}
-                                        type="number"
-                                        onChange={(e) => updateFields({salary_from: e.target.valueAsNumber})}
-                                    />
-                                </div>
+                        {data.method_of_payment === 'salary' ?
+                            <>
+                                <div className="row mb-3">
+                                    <div className="col-5">
+                                        <label className="fw-semibold">{t("Salary Range (From)")}</label>
+                                        <input
+                                            required
+                                            placeholder={'2000'}
+                                            className={"form-control"}
+                                            defaultValue={job?.salary_from}
+                                            step={0.5}
+                                            min={1}
+                                            type="number"
+                                            onChange={(e) => updateFields({salary_from: e.target.valueAsNumber})}
+                                        />
+                                    </div>
 
-                                <div className="col-5">
-                                    <label className="fw-semibold">{t("Salary Range (To)")}</label>
-                                    <input
-                                        placeholder={'2700'}
-                                        className={"form-control"}
-                                        defaultValue={job?.salary_to}
-                                        step={0.5}
-                                        min={1}
-                                        type="number"
-                                        onChange={(e) => updateFields({salary_to: e.target.valueAsNumber})}
-                                    />
+                                    <div className="col-5">
+                                        <label className="fw-semibold">{t("Salary Range (To)")}</label>
+                                        <input
+                                            placeholder={'2700'}
+                                            className={"form-control"}
+                                            defaultValue={job?.salary_to}
+                                            step={0.5}
+                                            min={1}
+                                            type="number"
+                                            onChange={(e) => updateFields({salary_to: e.target.valueAsNumber})}
+                                        />
+                                    </div>
+                                    <div className="col-2">
+                                        <label className="fw-semibold">{t("Currency")}</label>
+                                        <select required className={"form-select"}
+                                                onChange={(event) => updateFields({currency: event.target.value})}
+                                                defaultValue={job?.salary_currency}>
+                                            <option value="eur">EUR</option>
+                                            <option value="usd">USD</option>
+                                            <option value="gbp">GBP</option>
+                                        </select>
+                                    </div>
+                                    <div className="col-12 mt-1">
+                                        <small>{t('All salary figures should be provided as a monthly amount')}.</small>
+                                    </div>
                                 </div>
-                                <div className="col-2">
-                                    <label className="fw-semibold">{t("Currency")}</label>
-                                    <select required className={"form-select"}
-                                            onChange={(event) => updateFields({currency: event.target.value})}
-                                            defaultValue={job?.salary_currency}>
-                                        <option value="eur">EUR</option>
-                                        <option value="usd">USD</option>
-                                        <option value="gbp">GBP</option>
-                                    </select>
+                            </>
+                            :
+                            <>
+                                <div className="row mb-3">
+                                    <div className="col-10">
+                                        <label className="fw-semibold">{t("Hourly rate")}</label>
+                                        <input
+                                            required
+                                            placeholder={'15'}
+                                            className={"form-control"}
+                                            defaultValue={job?.hourly_rate}
+                                            step={0.5}
+                                            min={1}
+                                            type="number"
+                                            onChange={(e) => updateFields({hourly_rate: e.target.valueAsNumber})}
+                                        />
+                                    </div>
+                                    <div className="col-2">
+                                        <label className="fw-semibold">{t("Currency")}</label>
+                                        <select required className={"form-select"}
+                                                onChange={(event) => updateFields({currency: event.target.value})}
+                                                defaultValue={job?.salary_currency}>
+                                            <option value="eur">EUR</option>
+                                            <option value="usd">USD</option>
+                                            <option value="gbp">GBP</option>
+                                        </select>
+                                    </div>
+                                    <div className="col-12 mt-1">
+                                        <small>{t('All salary figures should be provided as a gross amount')}.</small>
+                                    </div>
                                 </div>
-                                <div className="col-12 mt-1">
-                                    <small>{t('All salary figures should be provided as a monthly amount')}.</small>
-                                </div>
-                            </div>
-                        </>
-                        :
-                        <>
-                            <div className="row mb-3">
-                                <div className="col-10">
-                                    <label className="fw-semibold">{t("Hourly rate")}</label>
-                                    <input
-                                        required
-                                        placeholder={'15'}
-                                        className={"form-control"}
-                                        defaultValue={job?.hourly_rate}
-                                        step={0.5}
-                                        min={1}
-                                        type="number"
-                                        onChange={(e) => updateFields({hourly_rate: e.target.valueAsNumber})}
-                                    />
-                                </div>
-                                <div className="col-2">
-                                    <label className="fw-semibold">{t("Currency")}</label>
-                                    <select required className={"form-select"}
-                                            onChange={(event) => updateFields({currency: event.target.value})}
-                                            defaultValue={job?.salary_currency}>
-                                        <option value="eur">EUR</option>
-                                        <option value="usd">USD</option>
-                                        <option value="gbp">GBP</option>
-                                    </select>
-                                </div>
-                                <div className="col-12 mt-1">
-                                    <small>{t('All salary figures should be provided as a gross amount')}.</small>
-                                </div>
-                            </div>
+                            </>
+                        }
                         </>
                     }
 

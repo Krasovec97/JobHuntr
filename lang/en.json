@@ -56,8 +56,12 @@
     "Completely online / Remote": "Completely online/remotely",
     "Partially online": "Partially online",
     "On location": "At the location of the company",
+    "Field work": "Field work",
+    "Stimulation / Provision": "Stimulation / Provision",
+    "Start typing and choose your address": "Start typing and choose your address",
     "If the job's location is the same as your company location, you may leave these fields empty. The job location will be the same as your company's location!": "If the job's location is the same as your company's location, you may leave these fields empty .The work location will be the same as your company location!",
     "Zip": "Zip code",
+    "Don't have an account yet?": "Don't have an account yet?",
     "Number of open positions": "Number of positions",
     "Estimated annual salary": "Estimated annual salary",
     "Currency": "Currency",
@@ -462,5 +466,10 @@
     "Welcome aboard. Your account has been partially created. Please finish your registration by clicking the button below.": "Welcome aboard. Your account has been partially created. Please finish your registration by clicking the button below.",
     "Complete registration": "Complete registration",
     "If this was not you, please contact us, to delete your account.": "If this was not you, please contact us, to delete your account.",
-    "We are thrilled to have you on board and we can't wait to help you reach more people!": "We are thrilled to have you on board and we can't wait to help you reach more people!"
+    "We are thrilled to have you on board and we can't wait to help you reach more people!": "We are thrilled to have you on board and we can't wait to help you reach more people!",
+    "Companies added by you": "Companies added by you",
+    "You have added a total of :count companies": "You have added a total of :count companies",
+    "Registration completed": "Registration completed",
+    "Registered on": "Registered on",
+    "Your notes, such as their phone number for recalling purposes, address, special conditions, etc.": "Your notes, such as their phone number for recalling purposes, address, special conditions, etc."
     }

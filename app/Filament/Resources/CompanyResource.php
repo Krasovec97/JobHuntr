@@ -34,10 +34,6 @@ class CompanyResource extends Resource
             ->schema([
                 TextInput::make('email'),
                 TextInput::make('name'),
-                Forms\Components\DatePicker::make('email_verified_at')
-                    ->native(false)
-                    ->locale('sl')
-                    ->displayFormat('d.m.Y'),
                 TextInput::make('contact_phone'),
                 TextInput::make('contact_person'),
                 TextInput::make('vat_id'),
@@ -46,6 +42,10 @@ class CompanyResource extends Resource
                 TextInput::make('city'),
                 TextInput::make('zip'),
                 TextInput::make('country_id'),
+                Forms\Components\DatePicker::make('email_verified_at')
+                    ->native(false)
+                    ->locale('sl')
+                    ->displayFormat('d.m.Y'),
                 Forms\Components\DatePicker::make('created_at')
                     ->native(false)
                     ->locale('sl')
@@ -86,7 +86,9 @@ class CompanyResource extends Resource
                     ->action(function ($record) {
                     $record->company_verified_at = now();
                     $record->save();
-                })
+                }),
+                Tables\Actions\DeleteAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

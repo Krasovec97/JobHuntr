@@ -29,9 +29,9 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('auth_sales')->group(function () {
         Route::get('/sales', [PartnershipController::class, 'getSalesDashboardPage']);
-        Route::get('/sales/jobs', [PartnershipController::class, 'getSalesJobsPage']);
-        Route::get('/sales/job', [PartnershipController::class, 'getAddNewCompanyPage']);
-        Route::post('/sales/job', [PartnershipController::class, 'getSalesJobDetailsPage']);
+        Route::get('/sales/companies', [PartnershipController::class, 'getUserCompaniesPage']);
+        Route::get('/sales/company', [PartnershipController::class, 'getAddNewCompanyPage']);
+        Route::post('/sales/company', [PartnershipController::class, 'getSalesJobDetailsPage']);
 
         Route::post('/company/preregistration/validate', [PartnershipController::class, 'checkExistingCompany']);
         Route::post('/company/preregistration', [PartnershipController::class, 'createPreRegistration']);

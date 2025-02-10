@@ -12,7 +12,8 @@ interface ComponentProps {
         city: string,
         zip: string,
         country_code: string,
-    }
+    },
+    setNextButtonDisabled?: Function,
 }
 
 interface LocationProps {
@@ -27,7 +28,7 @@ interface AddressProps {
     country_code: string,
 }
 
-export default function GoogleLocationSelect({updateFields, address}: ComponentProps) {
+export default function GoogleLocationSelect({updateFields, address, setNextButtonDisabled}: ComponentProps) {
     const {t} = useLaravelReactI18n();
     const [availableLocations, setAvailableLocations] = useState<Array<LocationProps>>([{
         label: '',
@@ -36,7 +37,7 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
     const [countries, setCountries] = useState<any[]>([]);
     const [selectedCountry, setSelectedCountry] = useState({});
     const [selectedLocation, setSelectedLocation] = useState<LocationProps>({
-        label: address.street ?? '',
+        label: address.street === '' ? 'Cesta' : address.street,
         value: ''
     });
     const [selectedAddress, setSelectedAddress] = useState<AddressProps>({
@@ -66,30 +67,29 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
 
                 setCountries(countriesObject);
             })
+
+        if (selectedLocation.value === '' && setNextButtonDisabled) {
+            setNextButtonDisabled(true);
+        }
     }, []);
 
     const getLocationRecommendations = (value: string) => {
-        if (value !== '') {
-            let pattern = new RegExp(/\d/);
-            if (!pattern.test(value)) value = value + ' 1';
+        let searchValue = value.toLowerCase();
+        if (searchValue === '') searchValue = selectedLocation.label
+        let pattern = new RegExp(/\d/);
+        if (!pattern.test(searchValue)) searchValue = searchValue + ' 1';
 
-            axios.post(`/api/google/places/autocomplete`, {
-                "input": value,
-                "session": sessionId.current
-            }).then((response) => {
-                setAvailableLocations(response.data.suggestions.map((place: PlacePredictionInterface) => {
-                    return {
-                        value: place.placePrediction.placeId,
-                        label: place.placePrediction.text.text
-                    }
-                }));
-            }).catch(() => setNoOptionsString(t("No options")));
-        } else {
-            setAvailableLocations([{
-                label: '',
-                value: ''
-            }]);
-        }
+        axios.post(`/api/google/places/autocomplete`, {
+            "input": searchValue,
+            "session": sessionId.current
+        }).then((response) => {
+            setAvailableLocations(response.data.suggestions.map((place: PlacePredictionInterface) => {
+                return {
+                    value: place.placePrediction.placeId,
+                    label: place.placePrediction.text.text
+                }
+            }));
+        }).catch(() => setNoOptionsString(t("No options")));
     }
 
     useEffect(() => {
@@ -149,6 +149,8 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
                 });
 
                 setSelectedAddress({...newSelectedAddress});
+            }).finally(() => {
+                if (setNextButtonDisabled) setNextButtonDisabled(false);
             });
 
     };
@@ -164,62 +166,66 @@ export default function GoogleLocationSelect({updateFields, address}: ComponentP
                 <label className={"form-label ps-0"}>{t("Street")} <span className={"text-danger"}>*</span></label>
                 <Select options={availableLocations}
                         onChange={(value) => value && setLocation(value as LocationProps)}
-                        value={selectedLocation}
-                        placeholder={t("Start typing and choose your location")}
                         noOptionsMessage={() => noOptionsString}
+                        isClearable={true}
                         onInputChange={e => setAddressSearch(e)}
                 />
+                <small>{t("Start typing and choose your address")}</small>
             </div>
-            <div className="mb-3">
-                <label className={"form-label ps-0"}>{t("Postal Code")} <span className={"text-danger"}>*</span></label>
-                <input
-                    required={true}
-                    className={"form-control"}
-                    type="text"
-                    value={selectedAddress.zip}
-                    onChange={e => {
-                        setSelectedAddress({
-                            ...selectedAddress,
-                            zip: e.target.value
-                        })
-                        updateFields({
-                            address: {
-                                ...selectedAddress,
-                                zip: e.target.value
-                            }
-                        })
-                    }}/>
-            </div>
+            {selectedLocation.value !== '' &&
+                <>
+                    <div className="mb-3">
+                        <label className={"form-label ps-0"}>{t("Postal Code")} <span className={"text-danger"}>*</span></label>
+                        <input
+                            required={true}
+                            className={"form-control"}
+                            type="text"
+                            value={selectedAddress.zip}
+                            onChange={e => {
+                                setSelectedAddress({
+                                    ...selectedAddress,
+                                    zip: e.target.value
+                                })
+                                updateFields({
+                                    address: {
+                                        ...selectedAddress,
+                                        zip: e.target.value
+                                    }
+                                })
+                            }}/>
+                    </div>
 
-            <div className="mb-3">
-                <label className={"form-label ps-0"}>{t("City")} <span
-                    className={"text-danger"}>*</span></label>
-                <input
-                    required={true}
-                    className={"form-control"}
-                    type="text"
-                    value={selectedAddress.city}
-                    onChange={e => {
-                        setSelectedAddress({
-                            ...selectedAddress,
-                            city: e.target.value
-                        })
-                        updateFields({
-                            address: {
-                                ...selectedAddress,
-                                city: e.target.value
-                            }
-                        })
-                    }}/>
-            </div>
+                    <div className="mb-3">
+                        <label className={"form-label ps-0"}>{t("City")} <span
+                            className={"text-danger"}>*</span></label>
+                        <input
+                            required={true}
+                            className={"form-control"}
+                            type="text"
+                            value={selectedAddress.city}
+                            onChange={e => {
+                                setSelectedAddress({
+                                    ...selectedAddress,
+                                    city: e.target.value
+                                })
+                                updateFields({
+                                    address: {
+                                        ...selectedAddress,
+                                        city: e.target.value
+                                    }
+                                })
+                            }}/>
+                    </div>
 
-            <div className="mb-3">
-                <label className={"form-label ps-0"}>{t("Country")} <span
-                    className={"text-danger"}>*</span></label>
-                <Select options={countries}
-                        value={selectedCountry}
-                        onChange={(selectedOption) => countryChange(selectedOption)}/>
-            </div>
+                    <div className="mb-3">
+                        <label className={"form-label ps-0"}>{t("Country")} <span
+                            className={"text-danger"}>*</span></label>
+                        <Select options={countries}
+                                value={selectedCountry}
+                                onChange={(selectedOption) => countryChange(selectedOption)}/>
+                    </div>
+                </>
+            }
         </>
     )
 }

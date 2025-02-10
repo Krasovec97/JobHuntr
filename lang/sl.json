@@ -56,8 +56,12 @@
     "Completely online / Remote": "Povsem preko spleta/na daljavo",
     "Partially online": "Delno preko spleta",
     "On location": "Na lokaciji podjetja",
+    "Field work": "Terensko delo",
+    "Stimulation / Provision": "Stimulacija / Provizija",
+    "Start typing and choose your address": "Začnite tipkati in izberite vaš naslov iz seznama",
     "If the job's location is the same as your company location, you may leave this fields empty. The job location will be the same as your company's location!": "Če je lokacija delovnega mesta enaka lokaciji vašega podjetja, lahko ta polja pustite prazna. Lokacija dela bo enaka lokaciji vašega podjetja!",
     "Zip": "Poštna številka",
+    "Don't have an account yet?": "Še nimate uporabniškega računa?",
     "Number of open positions": "Število delovnih mest",
     "Estimated yearly salary": "Predvidena letna plača",
     "Currency": "Valuta",
@@ -462,5 +466,10 @@
     "Welcome aboard. Your account has been partially created. Please finish your registration by clicking the button below.": "Dobrodošli na JobHunterju. Vaš račun je bil delno ustvarjen. Prosimo, zaključite registracijo s klikom na spodnji gumb.",
     "Complete registration": "Popolna registracija",
     "If this was not you, please contact us, to delete your account.": "Če to niste bili vi, se obrnite na nas, da izbrišemo vaš račun.",
-    "We are thrilled to have you on board and we can't wait to help you reach more people!": "Navdušeni smo, da ste zraven, in komaj čakamo, da vam pomagamo doseči več ljudi!"
+    "We are thrilled to have you on board and we can't wait to help you reach more people!": "Navdušeni smo, da ste zraven, in komaj čakamo, da vam pomagamo doseči več ljudi!",
+    "Companies added by you": "Vaša podjetja",
+    "You have added a total of :count companies": "Dodali ste :count podjetij",
+    "Registration completed": "Registracija zaključena",
+    "Registered on": "Registriran dne",
+    "Your notes, such as their phone number for recalling purposes, address, special conditions, etc.": "Vaše opombe, kot je njihova telefonska številka za ponovno klicanje, naslov, posebni pogoji itd."
 }

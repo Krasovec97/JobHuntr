@@ -22,7 +22,8 @@ type FormDataType = {
         city: string,
         country_code: string,
         zip: string,
-    }
+    },
+    notes: string
 }
 
 let INITIAL_DATA:FormDataType = {
@@ -41,7 +42,8 @@ let INITIAL_DATA:FormDataType = {
         city: "",
         country_code: "",
         zip: "",
-    }
+    },
+    notes: ''
 }
 
 export default function AddNewCompany() {
@@ -171,6 +173,16 @@ export default function AddNewCompany() {
                                        className={"form-check-label"}>{t("Is company vat obligated?")} <span
                                     className={"text-danger"}>*</span></label>
                             </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="notes_input">{t("Your notes")}</label>
+                                <textarea id="notes_input"
+                                          className="form-control" cols={30} rows={10}
+                                          onChange={e => updateFields({notes: e.target.value})}
+                                          placeholder={t("Your notes, such as their phone number for recalling purposes, address, special conditions, etc.")}
+                                ></textarea>
+                            </div>
+
                             <div className="text-center mt-5">
                                 <button className="btn btn-primary px-5" onClick={() => handleCompanyPreRegistration()}>{t("Save")}</button>
                             </div>

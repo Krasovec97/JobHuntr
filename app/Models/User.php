@@ -101,8 +101,8 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasOne(Country::class, 'id', 'country_id');
     }
 
-    public function company(): HasMany
+    public function companyPreRegistrations(): HasMany
     {
-        return $this->hasMany(Company::class, 'referrer_id', 'id');
+        return $this->hasMany(CompanyPreRegistration::class, 'referrer_id', 'id');
     }
 }

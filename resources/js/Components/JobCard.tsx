@@ -29,11 +29,15 @@ export default function JobCard({job, isDrafted = false}: ComponentProps) {
                                     className="fw-bold">{t("Employment type")}</span>: {t(parseEmploymentType(job.employment_type))}
                                 </p>
                                 <p className="m-0">
-                                    <span className="fw-bold">
-                                        {job.method_of_payment === 'salary' ? t("Starting Salary") : t("Hourly rate")}
-                                    </span>: {
-                                    job.method_of_payment === 'salary' ? numberFormat(job.salary_from, job.salary_currency) : numberFormat(job.hourly_rate, job.salary_currency)
-                                }
+                                    <span className="fw-bold me-2">
+                                        {job.method_of_payment === 'provision' ? t("Method of payment") : job.method_of_payment === 'salary' ? t("Starting Salary") : t("Hourly rate")}:
+                                    </span>
+                                    {
+                                        job.method_of_payment === 'provision' ?
+                                            t("Stimulation / Provision")
+                                            :
+                                            job.method_of_payment === 'salary' ? numberFormat(job.salary_from, job.salary_currency) : numberFormat(job.hourly_rate, job.salary_currency)
+                                    }
                                 </p>
                             </div>
                             <div className="card-text mt-3">

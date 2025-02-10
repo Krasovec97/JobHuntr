@@ -28,12 +28,24 @@ class CompanyJobResource extends Resource
         return $form
             ->schema([
                 TextInput::make('title')->columnSpanFull()->required(),
-                RichEditor::make('description')->columnSpanFull()->required(),
+                RichEditor::make('benefits')->columnSpanFull()->required(),
+                RichEditor::make('expectations')->columnSpanFull()->required(),
+                RichEditor::make('assignments')->columnSpanFull()->required(),
+                RichEditor::make('intro')->columnSpanFull()->required(),
                 Select::make('employment_type')->options([
                     'full_time' => __("Full-Time"),
-                    'part_time' => __("Part-Time")
+                    'part_time' => __("Part-Time"),
+                    'student' => __("Student work"),
+                    'contract' => __("By contract")
                 ])->required(),
-                TextInput::make('salary')->required(),
+                Select::make('method_of_payment')->options([
+                    'salary' => __("Salary"),
+                    'hourly' => __("Hourly rate"),
+                    'provision' => __("Stimulation / Provision"),
+                ])->required(),
+                TextInput::make('salary_from'),
+                TextInput::make('salary_to'),
+                TextInput::make('hourly_rate'),
                 Select::make('salary_currency')->options([
                     'eur' => "EUR",
                     'gbp' => "USD",
@@ -43,7 +55,8 @@ class CompanyJobResource extends Resource
                 Select::make('work_location')->options([
                     'remote' => __("Completely online / Remote"),
                     'hybrid' => __("Partially online"),
-                    'on_location' => __("On location")
+                    'on_location' => __("On location"),
+                    'field_work' => __("Field work"),
                 ])->required(),
                 Select::make('preferred_education')->options([
                     'none' => __("None"),
@@ -74,6 +87,7 @@ class CompanyJobResource extends Resource
                     ->displayFormat('d.m.Y')
                     ->minDate(today()->addMonth()),
                 TextInput::make('application_mail')->required(),
+
                 Select::make('company_id')->relationship('company', 'name')->required(),
             ]);
     }

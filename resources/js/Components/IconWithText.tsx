@@ -7,8 +7,10 @@ interface ComponentProps {
 
 export default function ({icon, text}: ComponentProps) {
     return (
-        <div className="d-flex align-middle">
-            {icon}
+        <div className="col-4 text-center">
+            <div>
+                {icon}
+            </div>
             <div className="ms-3">{text}</div>
         </div>
     )

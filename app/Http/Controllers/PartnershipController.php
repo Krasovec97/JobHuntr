@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Models\CompanyPreRegistration;
 use App\Models\Country;
+use App\Models\User;
 use App\Notifications\CompanyPreRegistrationSuccessNotification;
 use App\Notifications\EmailVerificationNotification;
 use Illuminate\Http\Request;
@@ -21,6 +22,16 @@ class PartnershipController extends Controller
 {
     public function getAddNewCompanyPage(Request $request) {
         return Inertia::render('Auth/Sales/AddNewCompany', []);
+    }
+
+    public function getUserCompaniesPage(Request $request) {
+        /** @var User $user */
+        $user = Auth::user();
+        $userCompanies = $user->companyPreRegistrations;
+
+        return Inertia::render('Auth/Sales/ListCompanies', [
+            'userCompanies' => $userCompanies,
+        ]);
     }
 
 
@@ -53,7 +64,7 @@ class PartnershipController extends Controller
             ]);
         }
 
-        return Redirect::to('/sales/job');
+        return Redirect::to('/sales/company');
     }
 
     public function createPreRegistration(Request $request)
@@ -67,6 +78,7 @@ class PartnershipController extends Controller
             'company_vat_id' => ['required'],
             'coordinates' => ['required'],
             'address' => ['required', 'array:street,city,zip,country_code'],
+            'notes' => ['nullable']
         ]);
 
         if ($validator->fails()) {
@@ -91,12 +103,13 @@ class PartnershipController extends Controller
         $preRegistration->vat_id = $request->get('company_vat_id');
         $preRegistration->coordinates = new Point($request->get('coordinates')['latitude'], $request->get('coordinates')['longitude']);
         $preRegistration->referrer_id = $user->id;
+        if ($params->has('notes')) $preRegistration->notes = $params->get('notes');
         $saved = $preRegistration->save();
 
         if ($saved) {
             Notification::route('mail', $request->get('email'))->notify(new CompanyPreRegistrationSuccessNotification($request->get('company_vat_id')));
 
-            return Redirect::to('/sales/job');
+            return Redirect::to('/sales/company');
         }
 
         return Inertia::render('Auth/Sales/AddNewCompany', [
