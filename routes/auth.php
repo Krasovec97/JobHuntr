@@ -8,8 +8,6 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
-App::setLocale(request()->getPreferredLanguage(['sl', 'en'] ?? 'sl'));
-
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [UserController::class, 'displayRegisterPage'])->name('register');

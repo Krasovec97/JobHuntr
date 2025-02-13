@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-App::setLocale(request()->getPreferredLanguage(['sl', 'en'] ?? 'sl'));
 
 if(env('APP_ENV') !== 'production') {
     Route::get('/test', [TestController::class, 'test']);
