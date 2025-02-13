@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -37,7 +38,7 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property boolean $admin
  * @property boolean $sales
  */
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, HasLocalePreference
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
@@ -81,6 +82,7 @@ class User extends Authenticatable implements FilamentUser
         'admin',
         'sales'
     ];
+    private Country $country;
 
     public static function getAuthenticatedUser():?self{
         return Auth::guard('web')->user();
@@ -104,5 +106,10 @@ class User extends Authenticatable implements FilamentUser
     public function companyPreRegistrations(): HasMany
     {
         return $this->hasMany(CompanyPreRegistration::class, 'referrer_id', 'id');
+    }
+
+    public function preferredLocale(): string
+    {
+        return strtolower($this->country->code ?? 'en');
     }
 }
