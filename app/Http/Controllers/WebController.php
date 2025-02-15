@@ -90,8 +90,8 @@ class WebController extends Controller
             $jobsQuery->whereIn('work_location', $location);
         }
 
-        if ($params->get('employment_type') !== null) {
-            $employmentType = explode(',', $params->get('employment_type'));
+        if ($params->get('employment_types') !== null) {
+            $employmentType = explode(',', $params->get('employment_types'));
             $jobsQuery->whereIn('employment_type', $employmentType);
         }
 
@@ -145,7 +145,9 @@ class WebController extends Controller
         $params = $request->query;
         $returnAll = $params->get('all', false);
         if ($returnAll) {
-            return WorkField::all();
+            return WorkField::query()
+                ->orderBy('name')
+                ->get();
         }
 
         $availableWorkFields = CompanyJob::query()
@@ -155,7 +157,20 @@ class WebController extends Controller
 
         return WorkField::query()
             ->whereIn('id', $availableWorkFields)
+            ->orderBy('name')
             ->get();
+    }
+
+    public function getAvailableEmploymentTypes(Request $request): Collection|array
+    {
+        return CompanyJob::query()
+            ->where('status', 'active')
+            ->where('expires_at', '>', now()->toDateTimeString())
+            ->groupBy('employment_type')
+            ->orderByRaw('LENGTH(employment_type) DESC')
+            ->get(['employment_type'])
+            ->pluck('employment_type')
+            ->toArray();
     }
 
     public function getGooglePlacesResponse(Request $request)

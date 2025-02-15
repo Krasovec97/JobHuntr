@@ -21,6 +21,14 @@ export const parseEmploymentType = (employmentType: string) => {
             return 'By contract';
         case 'student':
             return 'Student work';
+        case 'full_time_fixed_term':
+            return 'Permanent employment, fixed term'
+        case 'full_time':
+            return 'Permanent employment'
+        case 'project':
+            return 'Project work';
+        case 'retiree_work':
+            return 'Work for retirees';
         default:
             return formatText(employmentType);
     }

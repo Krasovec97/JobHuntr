@@ -63,7 +63,7 @@ class JobsController extends Controller
      * @param Request $request The HTTP request.
      * @param int|null $jobId The job ID, defaults to null.
      */
-    public function postNewJob(Request $request, int $jobId = null): Response|\Symfony\Component\HttpFoundation\Response
+    public function updateCreateJob(Request $request, int $jobId = null): Response|\Symfony\Component\HttpFoundation\Response
     {
         $validator = Validator::make($request->all(), [
             "job_title" => ["required"],

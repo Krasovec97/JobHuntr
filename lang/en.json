@@ -471,5 +471,15 @@
     "You have added a total of :count companies": "You have added a total of :count companies",
     "Registration completed": "Registration completed",
     "Registered on": "Registered on",
-    "Your notes, such as their phone number for recalling purposes, address, special conditions, etc.": "Your notes, such as their phone number for recalling purposes, address, special conditions, etc."
+    "Your notes, such as their phone number for recalling purposes, address, special conditions, etc.": "Your notes, such as their phone number for recalling purposes, address, special conditions, etc.",
+    "Welcome to JobHuntr, please complete your registration!": "Welcome to JobHuntr, please complete your registration!",
+    "To use this filter, we need the access to your location.": "To use this filter, we need the access to your location.",
+    "Permanent employment": "Permanent employment",
+    "Permanent employment, fixed term": "Permanent employment, fixed term",
+    "Part-time work": "Part-time work",
+    "Contract work": "Contract work",
+    "Project work": "Project work",
+    "Casual work": "Casual work",
+    "Practical training": "Practical training",
+    "Work for retirees": "Work for retirees"
     }

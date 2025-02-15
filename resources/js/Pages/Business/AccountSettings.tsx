@@ -27,7 +27,6 @@ export default function AccountSettings({company}: PageProps) {
         email: company.email,
         name: company.name,
         id: company.id,
-        registration_house: company.registration_house,
         company_number: company.company_number,
         street: company.street,
         vat_id: company.vat_id,
@@ -84,21 +83,6 @@ export default function AccountSettings({company}: PageProps) {
                             type="text"
                             defaultValue={company.name}
                             disabled/>
-                    </div>
-
-                    <div className="mb-3">
-                        <label className={"form-label ps-0"}>{t("Company Registration House")} <span
-                            className={"text-danger"}>*</span></label>
-                        <input
-                            aria-describedby={"companyHouseExplanation"}
-                            required={true}
-                            className={"form-control"}
-                            type="text"
-                            defaultValue={company.registration_house}
-                            disabled/>
-                        <div id={"companyHouseExplanation"} className={"form-text fst-italic"}>
-                            {t("Entity at which the company was registered (Company House for UK, Ajpes for Slovenia, etc.).")}
-                        </div>
                     </div>
 
                     <div className="mb-3">

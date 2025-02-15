@@ -17,6 +17,7 @@ export default function NewJob({ job }: JobDetailsProps) {
     const companyVerified = company.company_verified_at !== null;
     const {post} = useForm();
     const [descriptionContent, setDescriptionContent] = useState<string>(job.intro);
+    const [currentActiveTab, setCurrentActiveTab] = useState<string>('intro');
 
     let editJobButton = () => (window.location.href = `/job/${job.id}/update`)
     let publishJobListingButton = () => {
@@ -119,23 +120,35 @@ export default function NewJob({ job }: JobDetailsProps) {
                         <div className="row">
                             <h3 className="col-12 fw-semibold my-3">{t("Job description")}</h3>
                             <div className="col-3">
-                                <button className={`btn col-12 p-3 ${descriptionContent === job.intro ? 'bg-primary text-white fw-bold' : 'bg-light'}`}
-                                        onClick={() => {setDescriptionContent(job.intro)}}
+                                <button className={`btn col-12 p-3 ${currentActiveTab === 'intro' ? 'bg-primary text-white fw-bold' : 'bg-light'}`}
+                                        onClick={() => {
+                                            setDescriptionContent(job.intro);
+                                            setCurrentActiveTab('intro');
+                                        }}
                                 >
                                     <p className='m-0'>{t('Short company introduction')}</p>
                                 </button>
-                                <button className={`btn col-12 p-3 ${descriptionContent === job.assignments ? 'bg-primary text-white fw-bold' : 'bg-light'}`}
-                                        onClick={() => {setDescriptionContent(job.assignments)}}
+                                <button className={`btn col-12 p-3 ${currentActiveTab === 'assignments' ? 'bg-primary text-white fw-bold' : 'bg-light'}`}
+                                        onClick={() => {
+                                            setDescriptionContent(job.assignments)
+                                            setCurrentActiveTab('assignments');
+                                        }}
                                 >
                                     <p className='m-0'>{t('Main Tasks')}</p>
                                 </button>
-                                <button className={`btn col-12 p-3 ${descriptionContent === job.benefits ? 'bg-primary text-white fw-bold' : 'bg-light'}`}
-                                        onClick={() => {setDescriptionContent(job.benefits)}}
+                                <button className={`btn col-12 p-3 ${currentActiveTab === 'benefits' ? 'bg-primary text-white fw-bold' : 'bg-light'}`}
+                                        onClick={() => {
+                                            setDescriptionContent(job.benefits)
+                                            setCurrentActiveTab('benefits');
+                                        }}
                                 >
                                     <p className='m-0'>{t('What We Offer')}</p>
                                 </button>
-                                <button className={`btn col-12 p-3 ${descriptionContent === job.expectations ? 'bg-primary text-white fw-bold' : 'bg-light'}`}
-                                        onClick={() => {setDescriptionContent(job.expectations)}}
+                                <button className={`btn col-12 p-3 ${currentActiveTab === 'expectations' ? 'bg-primary text-white fw-bold' : 'bg-light'}`}
+                                        onClick={() => {
+                                            setDescriptionContent(job.expectations)
+                                            setCurrentActiveTab('expectations');
+                                        }}
                                 >
                                     <p className='m-0'>{t('What We Expect')}</p>
                                 </button>

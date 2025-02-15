@@ -4,6 +4,7 @@ import {FilterTypes, LocationInterface, WorkFieldInterface} from "@/Interfaces/S
 import Select from "react-select";
 import axios from "axios";
 import FormRange from "react-bootstrap/FormRange";
+import {parseEmploymentType} from "@/Helpers";
 
 interface JobFilterProps {
     filters: FilterTypes,
@@ -14,15 +15,55 @@ interface JobFilterProps {
 
 export default function JobFilters({filters, setFilters, totalJobsCount, currentJobsCount}: JobFilterProps) {
     const {t} = useLaravelReactI18n();
+
+    // let availableEmploymentTypesArray = [
+    //     {
+    //         value: 'full_time',
+    //         label: t("Permanent employment")
+    //     },
+    //     {
+    //         value: 'full_time_fixed_term',
+    //         label: t("Permanent employment, fixed term")
+    //     },
+    //     {
+    //         value: 'part_time',
+    //         label: t("Part-time work")
+    //     },
+    //     {
+    //         value: 'contract',
+    //         label: t("Contract work")
+    //     },
+    //     {
+    //         value: 'project',
+    //         label: t("Project work")
+    //     },
+    //     {
+    //         value: 'casual',
+    //         label: t("Casual work")
+    //     },
+    //     {
+    //         value: 'student',
+    //         label: t("Student work")
+    //     },
+    //     {
+    //         value: 'practical_training',
+    //         label: t("Practical training")
+    //     },
+    //     {
+    //         value: 'retiree_work',
+    //         label: t("Work for retirees")
+    //     },
+    // ]
+
     const [workFieldsArray, setWorkFieldsArray] = useState<Array<object>>([{}]);
+    const [availableEmploymentTypesArray, setAvailableEmploymentTypesArray] = useState<Array<object>>([{}]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [currentLocation, setCurrentLocation] = useState<LocationInterface|undefined>();
     const [radius, setRadius] = useState<number>(50);
 
     useEffect(() => {
-        let workFieldsUrl = `/api/work_fields`;
 
-        axios.get(workFieldsUrl)
+        axios.get(`/api/work_fields`)
             .then((response) => {
                 setWorkFieldsArray(response.data.map((workField: WorkFieldInterface) => {
                     return {
@@ -32,20 +73,27 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
                 }))
             });
 
+        axios.get(`/api/employment_types`)
+            .then((response) => {
+                setAvailableEmploymentTypesArray(response.data.map((availableEmploymentType: string) => {
+                    return {
+                        value: availableEmploymentType,
+                        label: t(parseEmploymentType(availableEmploymentType))
+                    }
+                }))
+            });
+
         let newSearchFilter = {...filters};
         setFilters(newSearchFilter);
 
 
-        navigator.geolocation.getCurrentPosition(currentPositionSuccess, null, {
-            maximumAge: 1800000
-        })
+        navigator.geolocation.getCurrentPosition(currentPositionSuccess, null);
     }, []);
 
     function currentPositionSuccess(position: any) {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         setCurrentLocation({ longitude, latitude });
-        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
     }
 
     const handleLocationFilter = (location: any) => {
@@ -61,17 +109,20 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
         }
     }
 
-    const handleEmploymentTypeFilter = (employmentType: any) => {
-        let newEmploymentTypeFilter = {...filters};
-        let index = filters.employment_type.indexOf(employmentType);
+    const handleEmploymentTypeFilter = (targetEmploymentTypes: any[]) => {
+        let employmentTypes: any[] = [];
 
-        if (index !== -1) {
-            newEmploymentTypeFilter.employment_type.splice(index, 1);
-            setFilters(newEmploymentTypeFilter);
-        } else {
-            newEmploymentTypeFilter.employment_type.push(employmentType);
-            setFilters(newEmploymentTypeFilter);
-        }
+        targetEmploymentTypes.forEach((targetEmploymentType: any) => {
+            if (!employmentTypes.includes(targetEmploymentType.value)) {
+                employmentTypes.push(targetEmploymentType.value);
+            }
+        })
+
+        let newSearchFilter = {...filters};
+        newSearchFilter.employment_types = employmentTypes;
+
+        console.log(newSearchFilter);
+        setFilters(newSearchFilter);
     }
 
     useEffect(() => {
@@ -161,33 +212,12 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
             <div className="col-12 mt-3">
                 <p className="fw-bold mb-0">{t("Employment Type")}:</p>
                 <div>
-                    <input onChange={() => handleEmploymentTypeFilter("full_time")}
-                           className="form-check-inline"
-                           id={"full_time_filter"}
-                           type="checkbox"/>
-                    <label htmlFor="full_time_filter" className="form-check-label">{t("Full time")}</label>
-                </div>
-
-                <div>
-                    <input onChange={() => handleEmploymentTypeFilter("part_time")}
-                           className="form-check-inline"
-                           id={"part_time_filter"}
-                           type="checkbox"/>
-                    <label htmlFor="part_time_filter" className="form-check-label">{t("Part time")}</label>
-                </div>
-                <div>
-                    <input onChange={() => handleEmploymentTypeFilter("student")}
-                           className="form-check-inline"
-                           id={"student_filter"}
-                           type="checkbox"/>
-                    <label htmlFor="student_filter" className="form-check-label">{t("Student work")}</label>
-                </div>
-                <div>
-                    <input onChange={() => handleEmploymentTypeFilter("contract")}
-                           className="form-check-inline"
-                           id={"contract_filter"}
-                           type="checkbox"/>
-                    <label htmlFor="contract_filter" className="form-check-label">{t("By contract")}</label>
+                    <Select
+                        isClearable
+                        options={availableEmploymentTypesArray}
+                        isMulti
+                        onChange={(e: any) => handleEmploymentTypeFilter(e)}
+                    />
                 </div>
             </div>
 
@@ -206,9 +236,9 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
             <div className="col-12 mt-3">
                 <p className="fw-bold mb-0">{t("Radius")}:</p>
                 {currentLocation === undefined &&
-                    <small className="text-danger">
+                    <button className="text-danger bg-transparent border-0 text-start" type="button" onClick={() => navigator.geolocation.getCurrentPosition(currentPositionSuccess, null)}>
                         {t("To use this filter, we need the access to your location.")}
-                    </small>
+                    </button>
                 }
                 <div>
                     <FormRange min={10} max={90} step={10}

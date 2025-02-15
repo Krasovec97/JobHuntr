@@ -35,6 +35,7 @@ class CompanyPreRegistrationSuccessNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
+            ->subject(__("Welcome to JobHuntr, please complete your registration!"))
             ->greeting(__("Hello"))
             ->line(__("Welcome aboard. Your account has been partially created. Please finish your registration by clicking the button below."))
             ->action(__("Complete registration"), url('/preregister/'.$this->vatId))

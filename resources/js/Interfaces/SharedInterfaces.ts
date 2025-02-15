@@ -116,7 +116,7 @@ export interface LocationInterface {
 
 export interface FilterTypes {
     location: string[],
-    employment_type: string[],
+    employment_types: string[],
     search_string: string,
     work_fields_string: string,
     radius?: number,

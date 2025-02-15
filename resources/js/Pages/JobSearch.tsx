@@ -26,7 +26,7 @@ export default function JobSearch() {
 
     const [filters, setFilters] = useState<FilterTypes>({
         location: [],
-        employment_type: [],
+        employment_types: [],
         search_string: '',
         work_fields_string: ''
     });
@@ -36,7 +36,7 @@ export default function JobSearch() {
         url = `${url}?location=${filters.location.join(',')}`;
 
         let queryParamArguments = [
-            `employment_type=${filters.employment_type.join(',')}`,
+            `employment_types=${filters.employment_types.join(',')}`,
             `search_string=${filters.search_string.toUpperCase()}`,
             `work_fields_ids=${filters.work_fields_string}`,
             `radius=${filters.radius}`

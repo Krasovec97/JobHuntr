@@ -52,13 +52,25 @@ class CompanyJobFactory extends Factory
             $hourlyRate = fake()->numberBetween(5, 30);
         }
 
+        $availableEmploymentTypesArray = [
+            'full_time',
+            'full_time_fixed_term',
+            'part_time',
+            'contract',
+            'project',
+            'casual',
+            'student',
+            'practical_training',
+            'retiree_work',
+        ];
+
         return [
             "title" => fake()->jobTitle,
             "benefits" => fake()->realText,
             "expectations" => fake()->realText,
             "assignments" => fake()->realText,
             "intro" => fake()->realText(250),
-            "employment_type" => fake()->randomElement(['full_time', 'part_time', 'student', 'contract']),
+            "employment_type" => fake()->randomElement($availableEmploymentTypesArray),
             "work_location" => fake()->randomElement(['remote', 'hybrid', 'on_location', 'field_work']),
             "open_positions_count" => fake()->numberBetween(1, 7),
             "method_of_payment" => $methodOfPayment,

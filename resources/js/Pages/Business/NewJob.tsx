@@ -162,10 +162,15 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                             <select required className={"form-select"}
                                     onChange={(event) => updateFields({employment_type: event.target.value})}
                                     defaultValue={job ? job.employment_type : undefined}>
-                                <option value="full_time">{t("Full-Time")}</option>
-                                <option value="part_time">{t("Part-Time")}</option>
+                                <option value="full_time">{t("Permanent employment")}</option>
+                                <option value="full_time_fixed_term">{t("Permanent employment, fixed term")}</option>
+                                <option value="part_time">{t("Part-time work")}</option>
+                                <option value="contract">{t("Contract work")}</option>
+                                <option value="project">{t("Project work")}</option>
+                                <option value="casual">{t("Casual work")}</option>
                                 <option value="student">{t("Student work")}</option>
-                                <option value="contract">{t("By contract")}</option>
+                                <option value="practical_training">{t("Practical training")}</option>
+                                <option value="retiree_work">{t("Work for retirees")}</option>
                             </select>
                         </div>
                     </div>
@@ -254,7 +259,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                         </div>
                     </div>
 
-                    {data.work_location !== 'remote' &&
+                    {data.work_location !== 'remote' && data.work_location !== 'field_work' &&
                         <GoogleLocationSelect updateFields={updateFields} address={data.address}/>
                     }
 

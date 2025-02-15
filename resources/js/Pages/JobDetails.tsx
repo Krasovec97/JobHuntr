@@ -46,6 +46,7 @@ export default function JobDetails({job}: PageProps) {
                                          title={t('Starting salary')}></i>}
                                 text={numberFormat(job.salary_from, job.salary_currency)}/>
                         </div>
+
                         <div className="col-10 mx-auto my-4">
                             <div className="border-bottom mb-3 pb-2">
                                 <p className="fw-bold m-0">{t("Short company introduction")}</p>
@@ -53,6 +54,7 @@ export default function JobDetails({job}: PageProps) {
                                      dangerouslySetInnerHTML={{__html: job.intro}}>
                                 </div>
                             </div>
+
                             <div className="border-bottom mb-3 pb-2">
                                 <p className="fw-bold m-0">{t("Main Tasks")}</p>
                                 <div className="col-12"
