@@ -19,7 +19,7 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property string $salary_currency
  * @property int $work_field_id
  * @property string $work_location
- * @property string $preferred_education
+ * @property string $minimum_education_id
  * @property int $open_positions_count
  * @property string $method_of_payment
  * @property string $status
@@ -35,6 +35,7 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property string $city
  * @property string $zip
  * @property string $street
+ * @property string $region
  * @property int $country_id
  * @property string $application_mail
  * @property Point $coordinates
@@ -95,5 +96,24 @@ class CompanyJob extends Model
     public function country(): HasOne
     {
         return $this->hasOne(Country::class, 'id', 'country_id');
+    }
+
+    public function education(): HasOne
+    {
+        return $this->hasOne(Education::class, 'id', 'minimum_education_id');
+    }
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+
+        if ($this->minimum_education_id !== null) {
+            $array['education'] = __(Education::query()->find($this->minimum_education_id)->title);
+        }
+        $array['work_field'] = WorkField::query()->find($this->work_field_id);
+        $array['company_data'] = $this->company()->first();
+        $array['country'] = $this->country()->first()->name;
+
+        return $array;
     }
 }

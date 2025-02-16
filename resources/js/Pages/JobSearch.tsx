@@ -26,9 +26,11 @@ export default function JobSearch() {
 
     const [filters, setFilters] = useState<FilterTypes>({
         location: [],
-        employment_type: [],
+        employment_types: [],
         search_string: '',
-        work_fields_string: ''
+        work_fields_string: '',
+        education_id: null,
+        regions_string: ''
     });
 
     useEffect(() => {
@@ -36,16 +38,22 @@ export default function JobSearch() {
         url = `${url}?location=${filters.location.join(',')}`;
 
         let queryParamArguments = [
-            `employment_type=${filters.employment_type.join(',')}`,
+            `employment_types=${filters.employment_types.join(',')}`,
             `search_string=${filters.search_string.toUpperCase()}`,
             `work_fields_ids=${filters.work_fields_string}`,
-            `radius=${filters.radius}`
+            `radius=${filters.radius}`,
+            `regions=${filters.regions_string}`
         ]
 
-        if (filters.current_position && filters.current_position.latitude && filters.current_position.longitude)
+        if (filters.current_position && filters.current_position.latitude && filters.current_position.longitude) {
             queryParamArguments.push(
                 `current_coords=${filters.current_position.longitude},${filters.current_position.latitude}`,
             )
+        }
+
+        if (filters.education_id) {
+            queryParamArguments.push(`education_id=${filters.education_id}`)
+        }
 
         url += `&${queryParamArguments.join('&')}`
 
@@ -118,13 +126,12 @@ export default function JobSearch() {
 
 let MenuSidebar = styled.div`
     @media only screen and (min-width: 800px) {
-        position: sticky;
         top: 150px;
         left: 0;
         margin-right: 40px;
         min-width: 0;
         max-width: 300px;
-        height: 100vh;
+        overflow: scroll !important;
     }
 `
 

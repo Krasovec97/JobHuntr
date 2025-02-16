@@ -78,6 +78,13 @@ export default function JobPostModal({showModal, clickedJob, handleClose}: Modal
                     {clickedJob.work_field?.name}
                 </div>
 
+                {clickedJob.education &&
+                    <div className="border-bottom mb-3 pb-2">
+                        <p className="fw-bold m-0">{t("Minimal education required")}</p>
+                        {clickedJob.education}
+                    </div>
+                }
+
                 <div className="my-3">
                     {clickedJob.company_data.id !== 1 &&
                         <>

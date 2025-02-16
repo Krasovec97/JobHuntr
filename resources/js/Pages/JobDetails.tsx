@@ -4,7 +4,7 @@ import MainLayout from "../Layouts/MainLayout";
 import {Head} from "@inertiajs/react";
 import PageSection from "../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import {numberFormat, parseEducation, parseEmploymentType} from "@/Helpers";
+import {numberFormat, parseEmploymentType} from "@/Helpers";
 import IconWithText from "../Components/IconWithText";
 import {formatJobLocation} from "@/Helpers/Helpers";
 
@@ -46,6 +46,7 @@ export default function JobDetails({job}: PageProps) {
                                          title={t('Starting salary')}></i>}
                                 text={numberFormat(job.salary_from, job.salary_currency)}/>
                         </div>
+
                         <div className="col-10 mx-auto my-4">
                             <div className="border-bottom mb-3 pb-2">
                                 <p className="fw-bold m-0">{t("Short company introduction")}</p>
@@ -53,6 +54,7 @@ export default function JobDetails({job}: PageProps) {
                                      dangerouslySetInnerHTML={{__html: job.intro}}>
                                 </div>
                             </div>
+
                             <div className="border-bottom mb-3 pb-2">
                                 <p className="fw-bold m-0">{t("Main Tasks")}</p>
                                 <div className="col-12"
@@ -86,16 +88,12 @@ export default function JobDetails({job}: PageProps) {
                             <div className="row my-3">
                                 <div className="col-12 col-md-6 border-bottom mb-3">
                                     <p className="fw-bold m-0">{t("Preferred education")}</p>
-                                    {t(parseEducation(job.preferred_education))}
+                                    {job.education ?? t("Not important")}
                                 </div>
                                 <div className="col-12 col-md-6 border-bottom mb-3">
                                     <p className="fw-bold m-0">{t("Number of open positions")}</p>
                                     {job.open_positions_count}
                                 </div>
-                            </div>
-                            <div className="border-bottom mb-3">
-                                <p className="fw-bold m-0">{t("Job application email")}</p>
-                                <a href={"mailto:" + job.application_mail}>{job.application_mail}</a>
                             </div>
                             <div className="text-end my-5">
                                 <button className="btn btn-primary me-3">{t("Apply now")}</button>

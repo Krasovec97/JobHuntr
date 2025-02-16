@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\EducationController;
 use App\Http\Controllers\GoogleServicesController;
 use App\Http\Controllers\PartnershipController;
 use App\Http\Controllers\WebController;
@@ -24,6 +25,7 @@ Route::get('/jobs', [WebController::class, 'getAvailableJobs']);
 Route::get('/job/{id}', [WebController::class, 'getJobDetails']);
 
 Route::get('/work_fields', [WebController::class, 'getWorkFields']);
+Route::get('/employment_types', [WebController::class, 'getAvailableEmploymentTypes']);
 
 Route::get('/countries', [CountryController::class, 'getCountries']);
 Route::get('/country/code/{code}', [CountryController::class, 'getCountryByCode']);
@@ -31,6 +33,8 @@ Route::get('/country/id/{id}', [CountryController::class, 'getCountryById']);
 
 Route::post('/google/places/autocomplete', [GoogleServicesController::class, 'autoComplete']);
 Route::get('/google/places/{placeId}', [GoogleServicesController::class, 'getPlace']);
+
+Route::get('/educations', [EducationController::class, 'getEducations']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

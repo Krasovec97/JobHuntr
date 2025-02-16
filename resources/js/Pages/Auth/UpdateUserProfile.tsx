@@ -1,23 +1,18 @@
 import {useForm} from "@inertiajs/react";
 import Select from "react-select";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import FancyTitle from "@/Components/FancyTitle";
 import useGlobalContext from "@/Hooks/useGlobalContext";
-import {UserData} from "@/Interfaces/SharedInterfaces";
+import {EducationInterface, UserData} from "@/Interfaces/SharedInterfaces";
 import React from "react";
 import GoogleLocationSelect from "@/Components/GoogleLocationSelect";
-
-
-interface EducationInterface {
-    value: string,
-    label: string
-}
+import axios from "axios";
 
 interface UserObjectData {
     user_id: number,
     date_of_birth: string,
-    education: string,
+    education_id: string,
     contact_phone: string,
     address: {
         street: string,
@@ -31,24 +26,22 @@ interface UserObjectData {
     }
 }
 
+interface SelectOptionInterface {
+    value: string|number,
+    label: string,
+}
+
 
 export default function (user: UserData) {
     const {t} = useLaravelReactI18n();
 
-    const typesOfEducation: EducationInterface[] = [
-        { value: 'primary', label: t("Primary school or equivalent") },
-        { value: 'high_school', label: t("High school or equivalent") },
-        { value: 'bachelor', label: t("Bachelor's degree") },
-        { value: 'master', label: t("Master's degree") },
-        { value: 'doctorate', label: t("Doctorate or higher") }
-    ]
-
-    const [selectedEducation, setSelectedEducation] = useState(typesOfEducation.filter((item) => item.value === user.education));
+    const [selectedEducation, setSelectedEducation] = useState();
+    const [availableEducations, setAvailableEducations] = useState<SelectOptionInterface[]>([]);
     const globalContext = useGlobalContext();
     const {data, setData, post, processing} = useForm({
         user_id: user.id,
         date_of_birth: user.date_of_birth ?? '',
-        education: user.education ?? '',
+        education_id: user.education ?? '',
         contact_phone: user.contact_phone,
         address: {
             street: user.street,
@@ -62,6 +55,19 @@ export default function (user: UserData) {
         }
     });
 
+    useEffect(() => {
+        axios.get('/api/educations').then((response) => {
+            let educations: EducationInterface[] = response.data;
+            let options: SelectOptionInterface[] = [];
+
+            educations.forEach((education: EducationInterface) => {
+                options.push({value: education.id, label: t(education.title)});
+            });
+
+            setAvailableEducations(options);
+        })
+    }, []);
+
     function updateFields(fields: Partial<UserObjectData>) {
         setData((prevState: any) => {
             return {...prevState, ...fields};
@@ -69,7 +75,7 @@ export default function (user: UserData) {
     }
 
     function handleEducationChange(e: any) {
-        updateFields({education: e.value});
+        updateFields({education_id: e.value});
         setSelectedEducation(e);
     }
 
@@ -131,7 +137,7 @@ export default function (user: UserData) {
 
                 <div className="mb-3">
                     <label className={"form-label ps-0"}>{t("Your education")}</label>
-                    <Select options={typesOfEducation}
+                    <Select options={availableEducations}
                             id="education"
                             value={selectedEducation}
                             onChange={handleEducationChange} />

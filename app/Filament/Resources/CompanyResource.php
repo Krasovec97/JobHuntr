@@ -63,11 +63,11 @@ class CompanyResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name')->searchable(),
                 Tables\Columns\TextColumn::make('company_verified_at')->date('d.m.Y'),
                 Tables\Columns\TextColumn::make('contact_phone'),
                 Tables\Columns\TextColumn::make('contact_person'),
-                Tables\Columns\TextColumn::make('vat_id'),
+                Tables\Columns\TextColumn::make('vat_id')->searchable(),
                 Tables\Columns\TextColumn::make('company_number'),
             ])
             ->filters([

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CompanyJob;
 use App\Models\WorkField;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -90,8 +91,8 @@ class WebController extends Controller
             $jobsQuery->whereIn('work_location', $location);
         }
 
-        if ($params->get('employment_type') !== null) {
-            $employmentType = explode(',', $params->get('employment_type'));
+        if ($params->get('employment_types') !== null) {
+            $employmentType = explode(',', $params->get('employment_types'));
             $jobsQuery->whereIn('employment_type', $employmentType);
         }
 
@@ -114,6 +115,20 @@ class WebController extends Controller
             $jobsQuery->whereRaw("FLOOR(CAST(ST_DistanceSpheroid(ST_Centroid(coordinates)::geometry,ST_GeomFromText('POINT($longitude $latitude)', 4326),'SPHEROID[\"WGS 8\",6378137,298.257223563]') / 1000 AS numeric)) < $radius");
         }
 
+        if ($params->get('regions') !== null) {
+            $regions = explode(',', $params->get('regions'));
+            $jobsQuery->whereIn('region', $regions);
+        }
+
+        if ($params->get('education_id') !== null) {
+            $jobsQuery
+                ->where(function ($query) use ($params) {
+                    $query
+                        ->where('minimum_education_id', '<=', $params->getInt('education_id'));
+                })
+                ->orderByDesc('minimum_education_id');
+        }
+
         $jobs = $jobsQuery
             ->orderBy('created_at', 'desc')
             ->get();
@@ -133,10 +148,6 @@ class WebController extends Controller
             abort(404);
         }
 
-        $job->company_data = $job->company;
-        $job->work_field = WorkField::getById($job->work_field_id);
-        $job->country = $job->country()->first()->name;
-
         return $job;
     }
 
@@ -145,17 +156,35 @@ class WebController extends Controller
         $params = $request->query;
         $returnAll = $params->get('all', false);
         if ($returnAll) {
-            return WorkField::all();
+            return WorkField::query()
+                ->orderBy('name')
+                ->get();
         }
 
-        $availableWorkFields = CompanyJob::query()
+        $availableWorkFieldIds = CompanyJob::query()
             ->where('status', 'active')
             ->where('expires_at', '>', now()->toDateTimeString())
-            ->get('work_field_id');
+            ->get()
+            ->pluck('work_field_id')
+            ->toArray();
+
 
         return WorkField::query()
-            ->whereIn('id', $availableWorkFields)
+            ->whereIn('id', $availableWorkFieldIds)
+            ->orderBy('name')
             ->get();
+    }
+
+    public function getAvailableEmploymentTypes(Request $request): Collection|array
+    {
+        return CompanyJob::query()
+            ->where('status', 'active')
+            ->where('expires_at', '>', now()->toDateTimeString())
+            ->groupBy('employment_type')
+            ->orderByRaw('LENGTH(employment_type) DESC')
+            ->get(['employment_type'])
+            ->pluck('employment_type')
+            ->toArray();
     }
 
     public function getGooglePlacesResponse(Request $request)

@@ -21,25 +21,16 @@ export const parseEmploymentType = (employmentType: string) => {
             return 'By contract';
         case 'student':
             return 'Student work';
+        case 'full_time_fixed_term':
+            return 'Permanent employment, fixed term'
+        case 'full_time':
+            return 'Permanent employment'
+        case 'project':
+            return 'Project work';
+        case 'retiree_work':
+            return 'Work for retirees';
         default:
             return formatText(employmentType);
-    }
-}
-
-export const parseEducation = (education: string) => {
-    switch (education) {
-        default:
-            return 'None';
-        case 'primary':
-            return 'Primary school or equivalent';
-        case 'bachelor':
-            return 'Bachelor\'s degree or equivalent';
-        case 'doctorate':
-            return 'Doctorate';
-        case 'master':
-            return 'Master\'s degree or equivalent';
-        case 'high_school':
-            return 'High school or equivalent';
     }
 }
 
@@ -99,3 +90,18 @@ export const validatePasswords = (
 
     return errors;
 };
+
+interface RegionInterface {
+    value: string|null,
+    label: string,
+}
+
+export const regions: RegionInterface[] = [
+    {value: 'gorenjska', label: 'Gorenjska'},
+    {value: 'primorska', label: 'Primorska'},
+    {value: 'notranjska', label: 'Notranjska'},
+    {value: 'dolenjska', label: 'Dolejnska'},
+    {value: 'koroska', label: 'Koroška'},
+    {value: 'stajerska', label: 'Štajerska'},
+    {value: 'prekmurje', label: 'Prekmurje'},
+];

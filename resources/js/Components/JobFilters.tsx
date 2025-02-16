@@ -1,9 +1,17 @@
 import React, {useEffect, useState} from "react";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import {FilterTypes, LocationInterface, WorkFieldInterface} from "@/Interfaces/SharedInterfaces";
+import {
+    EducationInterface,
+    FilterTypes,
+    LocationInterface,
+    UserAuthProps,
+    WorkFieldInterface
+} from "@/Interfaces/SharedInterfaces";
 import Select from "react-select";
 import axios from "axios";
 import FormRange from "react-bootstrap/FormRange";
+import {parseEmploymentType, regions} from "@/Helpers";
+import {usePage} from "@inertiajs/react";
 
 interface JobFilterProps {
     filters: FilterTypes,
@@ -12,17 +20,26 @@ interface JobFilterProps {
     currentJobsCount: number
 }
 
+interface SelectOptionInterface {
+    value: string|number|null,
+    label: string,
+}
+
 export default function JobFilters({filters, setFilters, totalJobsCount, currentJobsCount}: JobFilterProps) {
     const {t} = useLaravelReactI18n();
+
     const [workFieldsArray, setWorkFieldsArray] = useState<Array<object>>([{}]);
+    const [availableEmploymentTypesArray, setAvailableEmploymentTypesArray] = useState<Array<object>>([{}]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [currentLocation, setCurrentLocation] = useState<LocationInterface|undefined>();
     const [radius, setRadius] = useState<number>(50);
+    const [availableEducations, setAvailableEducations] = useState<SelectOptionInterface[]>([]);
+    const [selectedEducation, setSelectedEducation] = useState();
+    const user = usePage<UserAuthProps>().props.auth.user;
 
     useEffect(() => {
-        let workFieldsUrl = `/api/work_fields`;
 
-        axios.get(workFieldsUrl)
+        axios.get(`/api/work_fields`)
             .then((response) => {
                 setWorkFieldsArray(response.data.map((workField: WorkFieldInterface) => {
                     return {
@@ -32,25 +49,44 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
                 }))
             });
 
+        axios.get(`/api/employment_types`)
+            .then((response) => {
+                setAvailableEmploymentTypesArray(response.data.map((availableEmploymentType: string) => {
+                    return {
+                        value: availableEmploymentType,
+                        label: t(parseEmploymentType(availableEmploymentType))
+                    }
+                }))
+            });
+
+        axios.get('/api/educations').then((response) => {
+            let educations: EducationInterface[] = response.data;
+            let options: SelectOptionInterface[] = [];
+
+            educations.forEach((education: EducationInterface) => {
+                options.push({value: education.id, label: t(education.title)});
+            });
+
+            setAvailableEducations(options);
+        })
+
         let newSearchFilter = {...filters};
         setFilters(newSearchFilter);
 
 
-        navigator.geolocation.getCurrentPosition(currentPositionSuccess, null, {
-            maximumAge: 1800000
-        })
+        navigator.geolocation.getCurrentPosition(currentPositionSuccess, null);
     }, []);
 
     function currentPositionSuccess(position: any) {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         setCurrentLocation({ longitude, latitude });
-        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
     }
 
     const handleLocationFilter = (location: any) => {
         let newLocationFilters = {...filters};
         let index = filters.location.indexOf(location);
+        console.log(location);
 
         if (index !== -1) {
             newLocationFilters.location.splice(index, 1);
@@ -61,17 +97,19 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
         }
     }
 
-    const handleEmploymentTypeFilter = (employmentType: any) => {
-        let newEmploymentTypeFilter = {...filters};
-        let index = filters.employment_type.indexOf(employmentType);
+    const handleEmploymentTypeFilter = (targetEmploymentTypes: any[]) => {
+        let employmentTypes: any[] = [];
 
-        if (index !== -1) {
-            newEmploymentTypeFilter.employment_type.splice(index, 1);
-            setFilters(newEmploymentTypeFilter);
-        } else {
-            newEmploymentTypeFilter.employment_type.push(employmentType);
-            setFilters(newEmploymentTypeFilter);
-        }
+        targetEmploymentTypes.forEach((targetEmploymentType: any) => {
+            if (!employmentTypes.includes(targetEmploymentType.value)) {
+                employmentTypes.push(targetEmploymentType.value);
+            }
+        })
+
+        let newSearchFilter = {...filters};
+        newSearchFilter.employment_types = employmentTypes;
+
+        setFilters(newSearchFilter);
     }
 
     useEffect(() => {
@@ -108,6 +146,30 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
         }
 
         setFilters(newFilters);
+    }
+
+    function handleEducationChange(e: any) {
+        let newFilters = {...filters};
+        setSelectedEducation(e);
+
+        if (e.value !== null) {
+            newFilters.education_id = e.value
+        }
+
+        setFilters(newFilters);
+    }
+
+    function handleRegionChange(regionsArray: any) {
+        let selectedRegions: any = [];
+        regionsArray.forEach((region: any) => {
+            selectedRegions.push(region.value);
+        })
+        let selectedRegionsString = selectedRegions.join(',');
+
+        let newSearchFilter = {...filters};
+        newSearchFilter.regions_string = selectedRegionsString;
+        setFilters(newSearchFilter);
+
     }
 
     return (
@@ -161,33 +223,12 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
             <div className="col-12 mt-3">
                 <p className="fw-bold mb-0">{t("Employment Type")}:</p>
                 <div>
-                    <input onChange={() => handleEmploymentTypeFilter("full_time")}
-                           className="form-check-inline"
-                           id={"full_time_filter"}
-                           type="checkbox"/>
-                    <label htmlFor="full_time_filter" className="form-check-label">{t("Full time")}</label>
-                </div>
-
-                <div>
-                    <input onChange={() => handleEmploymentTypeFilter("part_time")}
-                           className="form-check-inline"
-                           id={"part_time_filter"}
-                           type="checkbox"/>
-                    <label htmlFor="part_time_filter" className="form-check-label">{t("Part time")}</label>
-                </div>
-                <div>
-                    <input onChange={() => handleEmploymentTypeFilter("student")}
-                           className="form-check-inline"
-                           id={"student_filter"}
-                           type="checkbox"/>
-                    <label htmlFor="student_filter" className="form-check-label">{t("Student work")}</label>
-                </div>
-                <div>
-                    <input onChange={() => handleEmploymentTypeFilter("contract")}
-                           className="form-check-inline"
-                           id={"contract_filter"}
-                           type="checkbox"/>
-                    <label htmlFor="contract_filter" className="form-check-label">{t("By contract")}</label>
+                    <Select
+                        isClearable
+                        options={availableEmploymentTypesArray}
+                        isMulti
+                        onChange={(e: any) => handleEmploymentTypeFilter(e)}
+                    />
                 </div>
             </div>
 
@@ -204,28 +245,56 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
             </div>
 
             <div className="col-12 mt-3">
-                <p className="fw-bold mb-0">{t("Radius")}:</p>
-                {currentLocation === undefined &&
-                    <small className="text-danger">
-                        {t("To use this filter, we need the access to your location.")}
-                    </small>
-                }
-                <div>
-                    <FormRange min={10} max={90} step={10}
-                               disabled={currentLocation === undefined}
-                               defaultValue={radius}
-                               onChange={(e) => setRadius(Number(e.target.value))}
-                               onMouseUp={() => handleRadiusFilter()}
-                    />
-                    <small className="form-text text-muted">
-                        {radius > 80 ?
-                            t("Show all job posts")
-                            :
-                            t("Show job post in the radius of :radius km", {'radius': radius})
-                        }
-                    </small>
+                <div className="mb-3">
+                    <label className="fw-bold">{t("Minimal education required")}</label>
+                    <Select options={availableEducations}
+                            id="education"
+                            value={selectedEducation}
+                            onChange={handleEducationChange} />
                 </div>
             </div>
+
+            {(filters.location.includes('on_location') || filters.location.includes('hybrid')) &&
+                <>
+                    <div className="col-12 mt-3">
+                        <p className="fw-bold mb-0">{t("Radius")}:</p>
+                        {currentLocation === undefined &&
+                            <button className="text-danger bg-transparent border-0 text-start" type="button" onClick={() => navigator.geolocation.getCurrentPosition(currentPositionSuccess, null)}>
+                                {t("To use this filter, we need the access to your location.")}
+                            </button>
+                        }
+                        <div>
+                            <FormRange min={10} max={90} step={10}
+                                       disabled={currentLocation === undefined}
+                                       defaultValue={radius}
+                                       onChange={(e) => setRadius(Number(e.target.value))}
+                                       onMouseUp={() => handleRadiusFilter()}
+                            />
+                            <small className="form-text text-muted">
+                                {radius > 80 ?
+                                    t("Show all job posts")
+                                    :
+                                    t("Show job post in the radius of :radius km", {'radius': radius})
+                                }
+                            </small>
+                        </div>
+                    </div>
+
+                    {user && user.country_id === 203 &&
+                        <div className="col-12 mt-3">
+                            <p className="fw-bold mb-0">Regije:</p>
+                            <div>
+                                <Select
+                                    isClearable
+                                    options={regions}
+                                    isMulti
+                                    onChange={(e) => handleRegionChange(e)}
+                                />
+                            </div>
+                        </div>
+                    }
+                </>
+            }
         </>
     )
 }

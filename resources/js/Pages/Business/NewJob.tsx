@@ -11,7 +11,7 @@ import {
     CompanyData,
     CompanyAuthProps,
     JobInterface,
-    WorkFieldInterface
+    WorkFieldInterface, EducationInterface
 } from "@/Interfaces/SharedInterfaces";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import React from "react";
@@ -38,13 +38,15 @@ interface FormDataType {
     salary_to: number,
     hourly_rate: number,
     currency: string,
-    education: string,
+    education_id: number|null,
     application_mail: string,
+    region?: string,
     address: {
         street: string,
         city: string,
         zip: string,
         country_code: string,
+        region: string
     }
 }
 
@@ -54,10 +56,16 @@ type WorkField = {
 };
 
 let initialRender = true
+interface SelectOptionInterface {
+    value: string|number|null,
+    label: string,
+}
 
 export default function NewJob({job = null, errors}: NewJobProps) {
     const {t} = useLaravelReactI18n();
     const [workFieldsArray, setWorkFieldsArray] = useState<Array<WorkField>>([]);
+    const [availableEducations, setAvailableEducations] = useState<SelectOptionInterface[]>([]);
+    const [selectedEducation, setSelectedEducation] = useState<SelectOptionInterface>();
     const globalContext = useGlobalContext();
     let company: CompanyData = usePage<CompanyAuthProps>().props.auth.company;
 
@@ -77,13 +85,14 @@ export default function NewJob({job = null, errors}: NewJobProps) {
         salary_to: job?.salary_to ?? 0,
         hourly_rate: job?.hourly_rate ?? 0,
         currency: job?.salary_currency ?? 'eur',
-        education: job?.preferred_education ?? 'none',
+        education_id: job?.minimum_education_id ?? null,
         application_mail: job?.application_mail ?? '',
         address: {
             street: job?.street ?? '',
             city: job?.city ?? '',
             zip: job?.zip ?? '',
             country_code: job?.country_code ?? '',
+            region: job?.region ?? ''
         }
     })
 
@@ -104,12 +113,32 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                 }))
             })
             .finally(() => initialRender = false)
+
+        axios.get('/api/educations').then((response) => {
+            let educations: EducationInterface[] = response.data;
+            let options: SelectOptionInterface[] = [{value: null, label: t('Not important')}];
+
+            educations.forEach((education: EducationInterface) => {
+                options.push({value: education.id, label: t(education.title)});
+
+                if (job && job.minimum_education_id && education.id === job.minimum_education_id) {
+                    setSelectedEducation({value: education.id, label: t(education.title)})
+                }
+            });
+            setAvailableEducations(options);
+        }).finally(() => initialRender = false)
     }
 
     function updateFields(fields: Partial<FormDataType>) {
         setData(prevState => {
             return {...prevState, ...fields};
         })
+    }
+
+
+    function handleEducationChange(e: any) {
+        updateFields({education_id: e.value});
+        setSelectedEducation(e);
     }
 
 
@@ -162,10 +191,15 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                             <select required className={"form-select"}
                                     onChange={(event) => updateFields({employment_type: event.target.value})}
                                     defaultValue={job ? job.employment_type : undefined}>
-                                <option value="full_time">{t("Full-Time")}</option>
-                                <option value="part_time">{t("Part-Time")}</option>
+                                <option value="full_time">{t("Permanent employment")}</option>
+                                <option value="full_time_fixed_term">{t("Permanent employment, fixed term")}</option>
+                                <option value="part_time">{t("Part-time work")}</option>
+                                <option value="contract">{t("Contract work")}</option>
+                                <option value="project">{t("Project work")}</option>
+                                <option value="casual">{t("Casual work")}</option>
                                 <option value="student">{t("Student work")}</option>
-                                <option value="contract">{t("By contract")}</option>
+                                <option value="practical_training">{t("Practical training")}</option>
+                                <option value="retiree_work">{t("Work for retirees")}</option>
                             </select>
                         </div>
                     </div>
@@ -254,8 +288,8 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                         </div>
                     </div>
 
-                    {data.work_location !== 'remote' &&
-                        <GoogleLocationSelect updateFields={updateFields} address={data.address}/>
+                    {data.work_location !== 'remote' && data.work_location !== 'field_work' &&
+                        <GoogleLocationSelect updateFields={updateFields} address={data.address} showRegionSelect={job?.country_id === 203 || company.country_id === 203}/>
                     }
 
                     <hr className={"my-4"}/>
@@ -385,18 +419,12 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                     }
 
                     <div className="row mb-3">
-                        <div className="col-12">
-                            <label className="fw-semibold">{t("Preferred education")}</label>
-                            <select required className={"form-select"}
-                                    onChange={(event) => updateFields({education: event.target.value})}
-                                    defaultValue={job?.preferred_education}>
-                                <option value="none">{t("None")}</option>
-                                <option value="primary">{t("Primary school or equivalent")}</option>
-                                <option value="high_school">{t("High school or equivalent")}</option>
-                                <option value="bachelor">{t("Bachelor's degree or equivalent")}</option>
-                                <option value="master">{t("Master's degree or equivalent")}</option>
-                                <option value="doctorate">{t("Doctorate")}</option>
-                            </select>
+                        <div className="mb-3">
+                            <label className="fw-semibold">{t("Minimal education required")}</label>
+                            <Select options={availableEducations}
+                                    id="education"
+                                    value={selectedEducation}
+                                    onChange={handleEducationChange} />
                         </div>
                     </div>
 
