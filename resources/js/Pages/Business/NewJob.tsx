@@ -47,6 +47,10 @@ interface FormDataType {
         zip: string,
         country_code: string,
         region: string
+    },
+    coordinates: {
+        latitude: number,
+        longitude: number,
     }
 }
 
@@ -93,6 +97,10 @@ export default function NewJob({job = null, errors}: NewJobProps) {
             zip: job?.zip ?? '',
             country_code: job?.country_code ?? '',
             region: job?.region ?? ''
+        },
+        coordinates: {
+            latitude: job?.coordinates.latitude ?? 0,
+            longitude: job?.coordinates.longitude ?? 0,
         }
     })
 

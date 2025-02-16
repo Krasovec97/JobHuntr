@@ -37,7 +37,7 @@ class UserController extends Controller
             'password' => ['required', 'min:8'],
             'contact_phone' => ['required'],
             'coordinates' => ['required'],
-            'address' => ['required', 'array:street,city,zip,country_code'],
+            'address' => ['required', 'array:street,city,zip,country_code,region'],
         ]);
 
         if ($validator->fails()) {
@@ -80,8 +80,8 @@ class UserController extends Controller
             'education_id' => ['nullable'],
             'date_of_birth' => ['nullable'],
             'contact_phone' => ['required'],
-            'address' => ['required', 'array:street,city,zip,country_code'],
-            'coordinates' => ['required', 'array:longitude,latitude'],
+            'address' => ['required', 'array:street,city,zip,country_code,region'],
+            'coordinates' => ['required', 'array:latitude,longitude'],
         ]);
 
         if ($validator->fails()) {

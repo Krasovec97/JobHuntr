@@ -70,7 +70,7 @@ export default function GoogleLocationSelect({updateFields, address, setNextButt
                 setCountries(countriesObject);
             })
 
-        if (selectedLocation.value === '' && setNextButtonDisabled) {
+        if (selectedLocation.label === '' && setNextButtonDisabled) {
             setNextButtonDisabled(true);
         }
 

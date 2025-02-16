@@ -39,4 +39,16 @@ class CompanyPreRegistration extends Model
     {
         return $this->belongsTo(User::class, 'referrer_id', 'id');
     }
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+
+        $array['coordinates'] = [
+            'latitude' => $this->coordinates->latitude,
+            'longitude' => $this->coordinates->longitude
+        ];
+
+        return $array;
+    }
 }

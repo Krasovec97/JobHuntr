@@ -19,11 +19,8 @@ export interface CompanyData {
     email_verification_token: string,
     company_verified_at: string,
     coordinates: {
-        coordinates: {
-            longitude: number,
-            latitude: number,
-        },
-        type: string
+        latitude: number,
+        longitude: number,
     },
 }
 
@@ -63,11 +60,8 @@ export interface JobInterface {
     application_mail: string,
     region?: string,
     coordinates: {
-        coordinates: {
-            longitude: number,
-            latitude: number,
-        },
-        type: string
+        latitude: number,
+        longitude: number,
     },
 }
 
@@ -90,11 +84,8 @@ export interface UserData {
     date_of_birth: string,
     education: string,
     coordinates: {
-        coordinates: {
-            longitude: number,
-            latitude: number,
-        },
-        type: string
+        longitude: number,
+        latitude: number
     },
     sales: boolean
 }

@@ -88,4 +88,16 @@ class Company extends Authenticatable
     {
         return Auth::guard('web_business')->user();
     }
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+
+        $array['coordinates'] = [
+            'latitude' => $this->coordinates->latitude,
+            'longitude' => $this->coordinates->longitude
+        ];
+
+        return $array;
+    }
 }

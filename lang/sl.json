@@ -464,7 +464,7 @@
     "My companies": "Moja podjetja",
     "Company already exists in our database.": "Podjetje že obstaja v naši podatkovni bazi.",
     "Welcome aboard. Your account has been partially created. Please finish your registration by clicking the button below.": "Dobrodošli na JobHunterju. Vaš račun je bil delno ustvarjen. Prosimo, zaključite registracijo s klikom na spodnji gumb.",
-    "Complete registration": "Popolna registracija",
+    "Complete registration": "Zaključite registracijo",
     "If this was not you, please contact us, to delete your account.": "Če to niste bili vi, se obrnite na nas, da izbrišemo vaš račun.",
     "We are thrilled to have you on board and we can't wait to help you reach more people!": "Navdušeni smo, da ste zraven, in komaj čakamo, da vam pomagamo doseči več ljudi!",
     "Companies added by you": "Vaša podjetja",
@@ -491,5 +491,7 @@
     "Bachelor’s or equivalent level": "VII. - univerzitetni programi",
     "Master’s or equivalent level": "VIII./1 - magisteriji znanosti",
     "Doctoral or equivalent level": "VIII./2 - doktorati znanosti",
-    "Minimal education required": "Minimalna stopnja izobrazbe"
+    "Minimal education required": "Minimalna stopnja izobrazbe",
+    "The password must have a minimum of 8 characters": "Geslo mora vsebovati vsaj 8 znakov!",
+    "The password must include a symbol!": "Geslo mora vsebovati vsaj en simbol!"
 }

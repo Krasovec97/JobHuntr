@@ -21,8 +21,8 @@ interface UserObjectData {
         zip: string,
     },
     coordinates: {
-        longitude: number,
         latitude: number,
+        longitude: number,
     }
 }
 
@@ -50,8 +50,8 @@ export default function (user: UserData) {
             zip: user.zip,
         },
         coordinates: {
-            longitude: user.coordinates.coordinates.longitude,
-            latitude: user.coordinates.coordinates.latitude,
+            latitude: user.coordinates.latitude,
+            longitude: user.coordinates.longitude,
         }
     });
 

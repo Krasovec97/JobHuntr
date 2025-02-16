@@ -131,7 +131,7 @@ let MenuSidebar = styled.div`
         margin-right: 40px;
         min-width: 0;
         max-width: 300px;
-        overflow: scroll !important;
+        min-height: 100vh;
     }
 `
 

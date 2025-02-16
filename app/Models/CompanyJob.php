@@ -113,6 +113,10 @@ class CompanyJob extends Model
         $array['work_field'] = WorkField::query()->find($this->work_field_id);
         $array['company_data'] = $this->company()->first();
         $array['country'] = $this->country()->first()->name;
+        $array['coordinates'] = [
+            'latitude' => $this->coordinates->latitude,
+            'longitude' => $this->coordinates->longitude
+        ];
 
         return $array;
     }
