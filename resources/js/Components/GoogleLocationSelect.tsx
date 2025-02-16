@@ -3,17 +3,21 @@ import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {AddressComponent, Country, PlacePredictionInterface} from "@/Interfaces/SharedInterfaces";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import {makeId} from "@/Helpers";
+import {makeId, regions} from "@/Helpers";
+
+interface AddressProps {
+    street: string,
+    zip: string,
+    city: string,
+    country_code: string,
+    region?: string,
+}
 
 interface ComponentProps {
     updateFields: Function,
-    address: {
-        street: string,
-        city: string,
-        zip: string,
-        country_code: string,
-    },
+    address: AddressProps,
     setNextButtonDisabled?: Function,
+    showRegionSelect?: boolean
 }
 
 interface LocationProps {
@@ -21,14 +25,7 @@ interface LocationProps {
     value: string,
 }
 
-interface AddressProps {
-    street: string,
-    zip: string,
-    city: string,
-    country_code: string,
-}
-
-export default function GoogleLocationSelect({updateFields, address, setNextButtonDisabled}: ComponentProps) {
+export default function GoogleLocationSelect({updateFields, address, setNextButtonDisabled, showRegionSelect = false}: ComponentProps) {
     const {t} = useLaravelReactI18n();
     const [availableLocations, setAvailableLocations] = useState<Array<LocationProps>>([{
         label: '',
@@ -45,9 +42,14 @@ export default function GoogleLocationSelect({updateFields, address, setNextButt
         zip: address.zip ?? '',
         city: address.city ?? '',
         country_code: address.country_code ?? "",
+        region: address.region ?? ''
     });
     const [addressSearch, setAddressSearch] = useState<string>("");
     const [noOptionsString, setNoOptionsString] = useState<string>(t("No options"));
+    const [selectedRegion, setSelectedRegion] = useState(regions.find((region: any) => region.value === address.region) ?? {
+        value: '',
+        label: ''
+    });
     const sessionId = useRef<string>(makeId(8));
 
     useEffect(() => {
@@ -160,6 +162,11 @@ export default function GoogleLocationSelect({updateFields, address, setNextButt
         setSelectedCountry(selectedOption)
     }
 
+    let regionChange = (selectedOption: any) => {
+        updateFields({address: {...address, region: selectedOption.value}});
+        setSelectedRegion(selectedOption)
+    }
+
     return (
         <>
             <div className="mb-3">
@@ -167,12 +174,13 @@ export default function GoogleLocationSelect({updateFields, address, setNextButt
                 <Select options={availableLocations}
                         onChange={(value) => value && setLocation(value as LocationProps)}
                         noOptionsMessage={() => noOptionsString}
+                        value={selectedLocation}
                         isClearable={true}
                         onInputChange={e => setAddressSearch(e)}
                 />
                 <small>{t("Start typing and choose your address")}</small>
             </div>
-            {selectedLocation.value !== '' &&
+            {selectedLocation.label !== '' &&
                 <>
                     <div className="mb-3">
                         <label className={"form-label ps-0"}>{t("Postal Code")} <span className={"text-danger"}>*</span></label>
@@ -224,6 +232,16 @@ export default function GoogleLocationSelect({updateFields, address, setNextButt
                                 value={selectedCountry}
                                 onChange={(selectedOption) => countryChange(selectedOption)}/>
                     </div>
+
+                    {showRegionSelect &&
+                        <div className="mb-3">
+                            <label className={"form-label ps-0"}>Pokrajina dela: <span
+                                className={"text-danger"}>*</span></label>
+                            <Select options={regions}
+                                    value={selectedRegion}
+                                    onChange={(selectedOption) => regionChange(selectedOption)}/>
+                        </div>
+                    }
                 </>
             }
         </>

@@ -35,6 +35,7 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property string $city
  * @property string $zip
  * @property string $street
+ * @property string $region
  * @property int $country_id
  * @property string $application_mail
  * @property Point $coordinates
@@ -97,6 +98,11 @@ class CompanyJob extends Model
         return $this->hasOne(Country::class, 'id', 'country_id');
     }
 
+    public function education(): HasOne
+    {
+        return $this->hasOne(Education::class, 'id', 'minimum_education_id');
+    }
+
     public function toArray()
     {
         $array = parent::toArray();
@@ -105,7 +111,7 @@ class CompanyJob extends Model
             $array['education'] = __(Education::query()->find($this->minimum_education_id)->title);
         }
         $array['work_field'] = WorkField::query()->find($this->work_field_id);
-        $array['company_data'] = $this->company;
+        $array['company_data'] = $this->company()->first();
         $array['country'] = $this->country()->first()->name;
 
         return $array;

@@ -1,10 +1,17 @@
 import React, {useEffect, useState} from "react";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import {EducationInterface, FilterTypes, LocationInterface, WorkFieldInterface} from "@/Interfaces/SharedInterfaces";
+import {
+    EducationInterface,
+    FilterTypes,
+    LocationInterface,
+    UserAuthProps,
+    WorkFieldInterface
+} from "@/Interfaces/SharedInterfaces";
 import Select from "react-select";
 import axios from "axios";
 import FormRange from "react-bootstrap/FormRange";
-import {parseEmploymentType} from "@/Helpers";
+import {parseEmploymentType, regions} from "@/Helpers";
+import {usePage} from "@inertiajs/react";
 
 interface JobFilterProps {
     filters: FilterTypes,
@@ -28,6 +35,7 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
     const [radius, setRadius] = useState<number>(50);
     const [availableEducations, setAvailableEducations] = useState<SelectOptionInterface[]>([]);
     const [selectedEducation, setSelectedEducation] = useState();
+    const user = usePage<UserAuthProps>().props.auth.user;
 
     useEffect(() => {
 
@@ -78,6 +86,7 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
     const handleLocationFilter = (location: any) => {
         let newLocationFilters = {...filters};
         let index = filters.location.indexOf(location);
+        console.log(location);
 
         if (index !== -1) {
             newLocationFilters.location.splice(index, 1);
@@ -100,7 +109,6 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
         let newSearchFilter = {...filters};
         newSearchFilter.employment_types = employmentTypes;
 
-        console.log(newSearchFilter);
         setFilters(newSearchFilter);
     }
 
@@ -149,6 +157,19 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
         }
 
         setFilters(newFilters);
+    }
+
+    function handleRegionChange(regionsArray: any) {
+        let selectedRegions: any = [];
+        regionsArray.forEach((region: any) => {
+            selectedRegions.push(region.value);
+        })
+        let selectedRegionsString = selectedRegions.join(',');
+
+        let newSearchFilter = {...filters};
+        newSearchFilter.regions_string = selectedRegionsString;
+        setFilters(newSearchFilter);
+
     }
 
     return (
@@ -233,29 +254,47 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
                 </div>
             </div>
 
-            <div className="col-12 mt-3">
-                <p className="fw-bold mb-0">{t("Radius")}:</p>
-                {currentLocation === undefined &&
-                    <button className="text-danger bg-transparent border-0 text-start" type="button" onClick={() => navigator.geolocation.getCurrentPosition(currentPositionSuccess, null)}>
-                        {t("To use this filter, we need the access to your location.")}
-                    </button>
-                }
-                <div>
-                    <FormRange min={10} max={90} step={10}
-                               disabled={currentLocation === undefined}
-                               defaultValue={radius}
-                               onChange={(e) => setRadius(Number(e.target.value))}
-                               onMouseUp={() => handleRadiusFilter()}
-                    />
-                    <small className="form-text text-muted">
-                        {radius > 80 ?
-                            t("Show all job posts")
-                            :
-                            t("Show job post in the radius of :radius km", {'radius': radius})
+            {(filters.location.includes('on_location') || filters.location.includes('hybrid')) &&
+                <>
+                    <div className="col-12 mt-3">
+                        <p className="fw-bold mb-0">{t("Radius")}:</p>
+                        {currentLocation === undefined &&
+                            <button className="text-danger bg-transparent border-0 text-start" type="button" onClick={() => navigator.geolocation.getCurrentPosition(currentPositionSuccess, null)}>
+                                {t("To use this filter, we need the access to your location.")}
+                            </button>
                         }
-                    </small>
-                </div>
-            </div>
+                        <div>
+                            <FormRange min={10} max={90} step={10}
+                                       disabled={currentLocation === undefined}
+                                       defaultValue={radius}
+                                       onChange={(e) => setRadius(Number(e.target.value))}
+                                       onMouseUp={() => handleRadiusFilter()}
+                            />
+                            <small className="form-text text-muted">
+                                {radius > 80 ?
+                                    t("Show all job posts")
+                                    :
+                                    t("Show job post in the radius of :radius km", {'radius': radius})
+                                }
+                            </small>
+                        </div>
+                    </div>
+
+                    {user && user.country_id === 203 &&
+                        <div className="col-12 mt-3">
+                            <p className="fw-bold mb-0">Regije:</p>
+                            <div>
+                                <Select
+                                    isClearable
+                                    options={regions}
+                                    isMulti
+                                    onChange={(e) => handleRegionChange(e)}
+                                />
+                            </div>
+                        </div>
+                    }
+                </>
+            }
         </>
     )
 }

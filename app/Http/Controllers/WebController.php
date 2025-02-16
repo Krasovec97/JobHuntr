@@ -115,6 +115,11 @@ class WebController extends Controller
             $jobsQuery->whereRaw("FLOOR(CAST(ST_DistanceSpheroid(ST_Centroid(coordinates)::geometry,ST_GeomFromText('POINT($longitude $latitude)', 4326),'SPHEROID[\"WGS 8\",6378137,298.257223563]') / 1000 AS numeric)) < $radius");
         }
 
+        if ($params->get('regions') !== null) {
+            $regions = explode(',', $params->get('regions'));
+            $jobsQuery->whereIn('region', $regions);
+        }
+
         if ($params->get('education_id') !== null) {
             $jobsQuery
                 ->where(function ($query) use ($params) {
@@ -156,13 +161,16 @@ class WebController extends Controller
                 ->get();
         }
 
-        $availableWorkFields = CompanyJob::query()
+        $availableWorkFieldIds = CompanyJob::query()
             ->where('status', 'active')
             ->where('expires_at', '>', now()->toDateTimeString())
-            ->get('work_field_id');
+            ->get()
+            ->pluck('work_field_id')
+            ->toArray();
+
 
         return WorkField::query()
-            ->whereIn('id', $availableWorkFields)
+            ->whereIn('id', $availableWorkFieldIds)
             ->orderBy('name')
             ->get();
     }

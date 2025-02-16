@@ -90,3 +90,13 @@ export const validatePasswords = (
 
     return errors;
 };
+
+export const regions = [
+    {value: 'gorenjska', label: 'Gorenjska'},
+    {value: 'primorska', label: 'Primorska'},
+    {value: 'notranjska', label: 'Notranjska'},
+    {value: 'dolenjska', label: 'Dolejnska'},
+    {value: 'koroska', label: 'Koroška'},
+    {value: 'stajerska', label: 'Štajerska'},
+    {value: 'prekmurje', label: 'Prekmurje'},
+];

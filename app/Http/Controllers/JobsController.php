@@ -78,7 +78,7 @@ class JobsController extends Controller
             "currency" => ["required"],
             "education_id" => ["nullable"],
             "application_mail" => ["string", "nullable"],
-            "address" => ["nullable", "array:street,city,zip,country_code"]
+            "address" => ["nullable", "array:street,city,zip,country_code,region"],
         ]);
 
         if ($validator->fails()) {
@@ -124,6 +124,7 @@ class JobsController extends Controller
             $job->street = $request->input('address')['street'] ?? $company->street;
             $job->city = $request->input('address')['city'] ?? $company->city;
             $job->zip = $request->input('address')['zip'] ?? $company->zip;
+            if ($request->input('address')['region'] !== null) $job->region = $request->input('address')['region'];
             $job->country_id = $country->id ?? $company->country_id;
         }
 

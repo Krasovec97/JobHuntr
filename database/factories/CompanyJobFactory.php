@@ -64,6 +64,16 @@ class CompanyJobFactory extends Factory
             'retiree_work',
         ];
 
+        $availableRegions = [
+            'gorenjska',
+            'primorska',
+            'notranjska',
+            'dolenjska',
+            'koroska',
+            'stajerska',
+            'prekmurje',
+        ];
+
         return [
             "title" => fake()->jobTitle,
             "benefits" => fake()->realText,
@@ -87,6 +97,7 @@ class CompanyJobFactory extends Factory
             "work_field_id" => $workField->id,
             "country_id" => $country->id,
             "street" => fake()->streetName,
+            'region' => fake()->randomElement($availableRegions),
             "city" => fake()->city,
             "zip" => fake()->postcode,
             "coordinates" => new Point(fake()->latitude(), fake()->longitude()),

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CompanyJobResource\Pages;
 use App\Models\CompanyJob;
+use App\Models\Education;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\KeyValue;
@@ -25,6 +26,12 @@ class CompanyJobResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $educations = Education::query()->get();
+        $educationOptions = $educations->map(fn($education) => [
+            $education->id => __($education->title)
+        ]);
+
+
         return $form
             ->schema([
                 TextInput::make('title')->columnSpanFull()->required(),
@@ -47,9 +54,9 @@ class CompanyJobResource extends Resource
                 TextInput::make('salary_to'),
                 TextInput::make('hourly_rate'),
                 Select::make('salary_currency')->options([
-                    'eur' => "EUR",
-                    'gbp' => "USD",
-                    'usd' => "GBP"
+                    'EUR' => "EUR",
+                    'USD' => "USD",
+                    'GBP' => "GBP"
                 ])->required(),
                 Select::make('work_field_id')->relationship('workField', 'name')->required(),
                 Select::make('work_location')->options([
@@ -58,19 +65,23 @@ class CompanyJobResource extends Resource
                     'on_location' => __("On location"),
                     'field_work' => __("Field work"),
                 ])->required(),
-                Select::make('preferred_education')->options([
-                    'none' => __("None"),
-                    'primary' => __("Primary school or equivalent"),
-                    'high_school' => __("High school or equivalent"),
-                    'bachelor' => __("Bachelor's degree or equivalent"),
-                    'master' => __("Master's degree or equivalent"),
-                    'doctorate' => __("Doctorate"),
-                ])->required(),
+                Select::make('minimum_education_id')
+                    ->options($educationOptions)
+                    ->required(),
                 TextInput::make('open_positions_count')->columnSpanFull()->required(),
                 TextInput::make('street'),
                 TextInput::make('zip'),
                 TextInput::make('city'),
-                TextInput::make('country'),
+                Select::make('country_id')->relationship('country', 'name')->required(),
+                Select::make('region')->options([
+                    'gorenjska' => 'Gorenjska',
+                    'primorska' => 'Primorska',
+                    'notranjska' => 'Notranjska',
+                    'dolenjska' => 'Dolejnska',
+                    'koroska' => 'Koroška',
+                    'stajerska' => 'Štajerska',
+                    'prekmurje' => 'Prekmurje',
+                ]),
                 Select::make('status')->options([
                     'draft' => __('Draft'),
                     'active' => __('Active')
@@ -96,8 +107,9 @@ class CompanyJobResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')->searchable(),
                 Tables\Columns\TextColumn::make('company.name'),
-                Tables\Columns\TextColumn::make('title'),
+                Tables\Columns\TextColumn::make('title')->searchable(),
                 Tables\Columns\TextColumn::make('employment_type'),
                 Tables\Columns\TextColumn::make('salary'),
                 Tables\Columns\TextColumn::make('workField.name'),

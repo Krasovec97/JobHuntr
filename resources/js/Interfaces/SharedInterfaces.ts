@@ -61,6 +61,7 @@ export interface JobInterface {
     country_code: string,
     country: string,
     application_mail: string,
+    region?: string,
     coordinates: {
         coordinates: {
             longitude: number,
@@ -122,7 +123,8 @@ export interface FilterTypes {
     work_fields_string: string,
     radius?: number,
     current_position?: LocationInterface,
-    education_id: number|null
+    education_id: number|null,
+    regions_string: string
 }
 
 export interface EducationInterface {

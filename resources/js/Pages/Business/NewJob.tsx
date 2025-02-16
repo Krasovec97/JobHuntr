@@ -40,11 +40,13 @@ interface FormDataType {
     currency: string,
     education_id: number|null,
     application_mail: string,
+    region?: string,
     address: {
         street: string,
         city: string,
         zip: string,
         country_code: string,
+        region: string
     }
 }
 
@@ -90,6 +92,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
             city: job?.city ?? '',
             zip: job?.zip ?? '',
             country_code: job?.country_code ?? '',
+            region: job?.region ?? ''
         }
     })
 
@@ -286,7 +289,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                     </div>
 
                     {data.work_location !== 'remote' && data.work_location !== 'field_work' &&
-                        <GoogleLocationSelect updateFields={updateFields} address={data.address}/>
+                        <GoogleLocationSelect updateFields={updateFields} address={data.address} showRegionSelect={job?.country_id === 203 || company.country_id === 203}/>
                     }
 
                     <hr className={"my-4"}/>

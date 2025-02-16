@@ -37,6 +37,6 @@ class CompanyPreRegistration extends Model
 
     public function referrer(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id', 'referrer_id');
+        return $this->belongsTo(User::class, 'referrer_id', 'id');
     }
 }

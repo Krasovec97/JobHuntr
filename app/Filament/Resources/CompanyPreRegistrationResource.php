@@ -37,6 +37,7 @@ class CompanyPreRegistrationResource extends Resource
                 Tables\Columns\TextColumn::make('vat_id'),
                 Tables\Columns\IconColumn::make('is_vat_obligated')->label('VAT'),
                 Tables\Columns\TextColumn::make('referrer_id'),
+                Tables\Columns\TextColumn::make('referrer.name')->label('Referrer'),
                 Tables\Columns\TextColumn::make('created_at')->date('d.m.Y'),
                 Tables\Columns\TextColumn::make('registration_completed_at')->date('d.m.Y'),
             ])

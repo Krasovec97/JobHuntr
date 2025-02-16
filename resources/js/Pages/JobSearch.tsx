@@ -29,7 +29,8 @@ export default function JobSearch() {
         employment_types: [],
         search_string: '',
         work_fields_string: '',
-        education_id: null
+        education_id: null,
+        regions_string: ''
     });
 
     useEffect(() => {
@@ -40,7 +41,8 @@ export default function JobSearch() {
             `employment_types=${filters.employment_types.join(',')}`,
             `search_string=${filters.search_string.toUpperCase()}`,
             `work_fields_ids=${filters.work_fields_string}`,
-            `radius=${filters.radius}`
+            `radius=${filters.radius}`,
+            `regions=${filters.regions_string}`
         ]
 
         if (filters.current_position && filters.current_position.latitude && filters.current_position.longitude) {
@@ -124,13 +126,12 @@ export default function JobSearch() {
 
 let MenuSidebar = styled.div`
     @media only screen and (min-width: 800px) {
-        position: sticky;
         top: 150px;
         left: 0;
         margin-right: 40px;
         min-width: 0;
         max-width: 300px;
-        height: 100vh;
+        overflow: scroll !important;
     }
 `
 
