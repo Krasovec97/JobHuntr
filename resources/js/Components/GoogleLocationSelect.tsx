@@ -48,7 +48,7 @@ export default function GoogleLocationSelect({updateFields, address, setNextButt
     const [noOptionsString, setNoOptionsString] = useState<string>(t("No options"));
     const [selectedRegion, setSelectedRegion] = useState(regions.find((region: any) => region.value === address.region) ?? {
         value: '',
-        label: ''
+        label: 'Celotna Slovenija'
     });
     const sessionId = useRef<string>(makeId(8));
 
@@ -73,6 +73,12 @@ export default function GoogleLocationSelect({updateFields, address, setNextButt
         if (selectedLocation.value === '' && setNextButtonDisabled) {
             setNextButtonDisabled(true);
         }
+
+        let customRegion = regions.find((region) => region.label === 'Celotna Slovenija');
+        if (!customRegion) {
+            regions.push({value: null, label: 'Celotna Slovenija'})
+        }
+
     }, []);
 
     const getLocationRecommendations = (value: string) => {
@@ -235,8 +241,7 @@ export default function GoogleLocationSelect({updateFields, address, setNextButt
 
                     {showRegionSelect &&
                         <div className="mb-3">
-                            <label className={"form-label ps-0"}>Pokrajina dela: <span
-                                className={"text-danger"}>*</span></label>
+                            <label className={"form-label ps-0"}>Pokrajina dela: </label>
                             <Select options={regions}
                                     value={selectedRegion}
                                     onChange={(selectedOption) => regionChange(selectedOption)}/>

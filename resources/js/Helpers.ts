@@ -91,7 +91,12 @@ export const validatePasswords = (
     return errors;
 };
 
-export const regions = [
+interface RegionInterface {
+    value: string|null,
+    label: string,
+}
+
+export const regions: RegionInterface[] = [
     {value: 'gorenjska', label: 'Gorenjska'},
     {value: 'primorska', label: 'Primorska'},
     {value: 'notranjska', label: 'Notranjska'},
