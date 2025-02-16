@@ -11,8 +11,8 @@ type AddressData = {
         zip: string,
     }
     coordinates: {
-        longitude: number,
-        latitude: number
+        latitude: number,
+        longitude: number
     }
 }
 

@@ -14,8 +14,8 @@ type FormDataType = {
     company_vat_id: string,
     is_vat_obligated: boolean,
     coordinates: {
-        longitude: number,
         latitude: number,
+        longitude: number,
     },
     address: {
         street: string,
@@ -34,8 +34,8 @@ let INITIAL_DATA:FormDataType = {
     company_vat_id: "",
     is_vat_obligated: false,
     coordinates: {
-        longitude: 0,
-        latitude: 0
+        latitude: 0,
+        longitude: 0
     },
     address: {
         street: "",

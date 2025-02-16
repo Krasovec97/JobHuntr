@@ -27,8 +27,8 @@ type FormDataType = {
     contact_person: string,
     contact_phone: string,
     coordinates: {
-        longitude: number,
         latitude: number,
+        longitude: number,
     },
     address: {
         street: string,
@@ -54,8 +54,8 @@ let INITIAL_DATA:FormDataType = {
     contact_person: "",
     contact_phone: "",
     coordinates: {
-        longitude: 0,
-        latitude: 0
+        latitude: 0,
+        longitude: 0
     },
     address: {
         street: "",
@@ -84,8 +84,8 @@ export default function Register(props: any) {
             contact_person: "",
             contact_phone: "",
             coordinates: {
-                longitude: companyData.coordinates.coordinates[0],
-                latitude: companyData.coordinates.coordinates[1]
+                latitude: companyData.coordinates.latitude,
+                longitude: companyData.coordinates.longitude
             },
             address: {
                 street: companyData.street,

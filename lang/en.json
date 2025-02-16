@@ -491,5 +491,7 @@
     "Bachelor’s or equivalent level": "Bachelor’s or equivalent level",
     "Master’s or equivalent level": "Master’s or equivalent level",
     "Doctoral or equivalent level": "Doctoral or equivalent level",
-    "Minimal education required": "Minimal education required"
+    "Minimal education required": "Minimal education required",
+    "The password must have a minimum of 8 characters": "The password must have a minimum of 8 characters!",
+    "The password must include a symbol!": "The password must include a symbol!"
     }

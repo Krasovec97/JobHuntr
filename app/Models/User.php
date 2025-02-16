@@ -15,6 +15,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use MatanYadaev\EloquentSpatial\Objects\Point;
+use MatanYadaev\EloquentSpatial\Traits\HasSpatial;
 
 /**
  * @property int $id
@@ -40,7 +41,7 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  */
 class User extends Authenticatable implements FilamentUser, HasLocalePreference
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasSpatial;
 
     protected $table = 'users';
 
@@ -116,5 +117,16 @@ class User extends Authenticatable implements FilamentUser, HasLocalePreference
     public function preferredLocale(): string
     {
         return strtolower($this->country->code ?? 'en');
+    }
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+        $array['coordinates'] = [
+            'latitude' => $this->coordinates->latitude,
+            'longitude' => $this->coordinates->longitude
+        ];
+
+        return $array;
     }
 }

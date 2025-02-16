@@ -77,7 +77,7 @@ class PartnershipController extends Controller
             'is_vat_obligated' => ['required', 'boolean'],
             'company_vat_id' => ['required'],
             'coordinates' => ['required'],
-            'address' => ['required', 'array:street,city,zip,country_code'],
+            'address' => ['required', 'array:street,city,zip,country_code,region'],
             'notes' => ['nullable']
         ]);
 
