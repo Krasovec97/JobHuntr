@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Models\CompanyJob;
 use App\Models\Country;
+use App\Models\Education;
 use App\Models\WorkField;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -26,10 +27,6 @@ class JobsController extends Controller
     {
         $companyJobs = Company::getAuthenticatedCompany()->jobs()->orderByDesc('id')->get();
 
-        foreach ($companyJobs as $job) {
-            $job->work_field = WorkField::query()->find($job->work_field_id);
-        }
-
         return Inertia::render('Business/Jobs', [
             'companyJobs' => $companyJobs
         ]);
@@ -49,7 +46,6 @@ class JobsController extends Controller
             /** @var CompanyJob $job */
             $job = CompanyJob::query()->find($jobId);
             if ($job->country_id !== null) $job->country_code = $job->country->code;
-            $job->work_field = WorkField::query()->find($job->work_field_id);
         }
 
         return Inertia::render('Business/NewJob', [
@@ -80,7 +76,7 @@ class JobsController extends Controller
             "salary_to" => ["nullable", "numeric"],
             "hourly_rate" => ["nullable", "numeric"],
             "currency" => ["required"],
-            "education" => ["required"],
+            "education_id" => ["nullable"],
             "application_mail" => ["string", "nullable"],
             "address" => ["nullable", "array:street,city,zip,country_code"]
         ]);
@@ -111,7 +107,7 @@ class JobsController extends Controller
         $job->salary_to = $request->input('salary_to');
         $job->hourly_rate = $request->input('hourly_rate');
         $job->salary_currency = strtoupper($request->input('currency'));
-        $job->preferred_education = $request->input('education');
+        if ($request->get('education_id') !== null) $job->minimum_education_id = $request->input('education_id');
         $job->company_id = $company->id;
         $job->status = 'draft';
         $job->application_mail = $request->input('application_mail') ?? $company->email;
@@ -158,8 +154,6 @@ class JobsController extends Controller
             abort(404);
         }
 
-        $job->work_field = WorkField::query()->find($job->work_field_id);
-
         return Inertia::render('Business/JobDetails', [
             "job" => $job
         ]);
@@ -185,7 +179,6 @@ class JobsController extends Controller
         $job->expires_at = $job->expires_at ?? Carbon::now()->addMonth();
         $job->save();
 
-        $job->work_field = WorkField::query()->find($job->work_field_id);
 
         return Inertia::render('Business/JobDetails', [
             "job" => $job
@@ -210,8 +203,6 @@ class JobsController extends Controller
         $job->status = 'draft';
         $job->posted_at = null;
         $job->save();
-
-        $job->work_field = WorkField::query()->find($job->work_field_id);
 
         return Inertia::render('Business/JobDetails', [
             "job" => $job

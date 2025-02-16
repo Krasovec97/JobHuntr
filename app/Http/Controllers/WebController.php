@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CompanyJob;
 use App\Models\WorkField;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -114,6 +115,15 @@ class WebController extends Controller
             $jobsQuery->whereRaw("FLOOR(CAST(ST_DistanceSpheroid(ST_Centroid(coordinates)::geometry,ST_GeomFromText('POINT($longitude $latitude)', 4326),'SPHEROID[\"WGS 8\",6378137,298.257223563]') / 1000 AS numeric)) < $radius");
         }
 
+        if ($params->get('education_id') !== null) {
+            $jobsQuery
+                ->where(function ($query) use ($params) {
+                    $query
+                        ->where('minimum_education_id', '<=', $params->getInt('education_id'));
+                })
+                ->orderByDesc('minimum_education_id');
+        }
+
         $jobs = $jobsQuery
             ->orderBy('created_at', 'desc')
             ->get();
@@ -132,10 +142,6 @@ class WebController extends Controller
         if ($job === null) {
             abort(404);
         }
-
-        $job->company_data = $job->company;
-        $job->work_field = WorkField::getById($job->work_field_id);
-        $job->country = $job->country()->first()->name;
 
         return $job;
     }

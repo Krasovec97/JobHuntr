@@ -77,7 +77,7 @@ class UserController extends Controller
     public function update(Request $request) {
         $validator = Validator::make($request->all(), [
             'user_id' => ['required'],
-            'education' => ['nullable'],
+            'education_id' => ['nullable'],
             'date_of_birth' => ['nullable'],
             'contact_phone' => ['required'],
             'address' => ['required', 'array:street,city,zip,country_code'],
@@ -100,7 +100,7 @@ class UserController extends Controller
         $user->zip = $request->get('address')['zip'];
         $user->country_id = $country->id;
         $user->date_of_birth = $request->get('date_of_birth');
-        $user->education = $request->get('education');
+        $user->education_id = $request->get('education_id');
         $user->coordinates = new Point($request->get('coordinates')['latitude'], $request->get('coordinates')['longitude']);
         $user->save();
 

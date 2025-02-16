@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import {FilterTypes, LocationInterface, WorkFieldInterface} from "@/Interfaces/SharedInterfaces";
+import {EducationInterface, FilterTypes, LocationInterface, WorkFieldInterface} from "@/Interfaces/SharedInterfaces";
 import Select from "react-select";
 import axios from "axios";
 import FormRange from "react-bootstrap/FormRange";
@@ -13,53 +13,21 @@ interface JobFilterProps {
     currentJobsCount: number
 }
 
+interface SelectOptionInterface {
+    value: string|number|null,
+    label: string,
+}
+
 export default function JobFilters({filters, setFilters, totalJobsCount, currentJobsCount}: JobFilterProps) {
     const {t} = useLaravelReactI18n();
-
-    // let availableEmploymentTypesArray = [
-    //     {
-    //         value: 'full_time',
-    //         label: t("Permanent employment")
-    //     },
-    //     {
-    //         value: 'full_time_fixed_term',
-    //         label: t("Permanent employment, fixed term")
-    //     },
-    //     {
-    //         value: 'part_time',
-    //         label: t("Part-time work")
-    //     },
-    //     {
-    //         value: 'contract',
-    //         label: t("Contract work")
-    //     },
-    //     {
-    //         value: 'project',
-    //         label: t("Project work")
-    //     },
-    //     {
-    //         value: 'casual',
-    //         label: t("Casual work")
-    //     },
-    //     {
-    //         value: 'student',
-    //         label: t("Student work")
-    //     },
-    //     {
-    //         value: 'practical_training',
-    //         label: t("Practical training")
-    //     },
-    //     {
-    //         value: 'retiree_work',
-    //         label: t("Work for retirees")
-    //     },
-    // ]
 
     const [workFieldsArray, setWorkFieldsArray] = useState<Array<object>>([{}]);
     const [availableEmploymentTypesArray, setAvailableEmploymentTypesArray] = useState<Array<object>>([{}]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [currentLocation, setCurrentLocation] = useState<LocationInterface|undefined>();
     const [radius, setRadius] = useState<number>(50);
+    const [availableEducations, setAvailableEducations] = useState<SelectOptionInterface[]>([]);
+    const [selectedEducation, setSelectedEducation] = useState();
 
     useEffect(() => {
 
@@ -82,6 +50,17 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
                     }
                 }))
             });
+
+        axios.get('/api/educations').then((response) => {
+            let educations: EducationInterface[] = response.data;
+            let options: SelectOptionInterface[] = [];
+
+            educations.forEach((education: EducationInterface) => {
+                options.push({value: education.id, label: t(education.title)});
+            });
+
+            setAvailableEducations(options);
+        })
 
         let newSearchFilter = {...filters};
         setFilters(newSearchFilter);
@@ -161,6 +140,17 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
         setFilters(newFilters);
     }
 
+    function handleEducationChange(e: any) {
+        let newFilters = {...filters};
+        setSelectedEducation(e);
+
+        if (e.value !== null) {
+            newFilters.education_id = e.value
+        }
+
+        setFilters(newFilters);
+    }
+
     return (
         <>
             <h3 className='fw-bold'>{t("Filters")}:</h3>
@@ -230,6 +220,16 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
                         isMulti
                         onChange={(e) => handleWorkFieldsFilter(e)}
                     />
+                </div>
+            </div>
+
+            <div className="col-12 mt-3">
+                <div className="mb-3">
+                    <label className="fw-bold">{t("Minimal education required")}</label>
+                    <Select options={availableEducations}
+                            id="education"
+                            value={selectedEducation}
+                            onChange={handleEducationChange} />
                 </div>
             </div>
 

@@ -92,10 +92,12 @@ export default function NewJob({ job }: JobDetailsProps) {
                             <div className="col-8">{t(formatText(job.work_location))}</div>
                         </div>
 
-                        <div className="row">
-                            <div className="col-4 fw-semibold">{t("Preferred education")}:</div>
-                            <div className="col-8">{t(formatText(job.preferred_education))}</div>
-                        </div>
+                        {job.education &&
+                            <div className="row">
+                                <div className="col-4 fw-semibold">{t("Preferred education")}:</div>
+                                <div className="col-8">{job.education}</div>
+                            </div>
+                        }
                     </div>
 
                     <div className="col-12 col-md-6">

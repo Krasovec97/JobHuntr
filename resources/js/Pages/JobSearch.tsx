@@ -28,7 +28,8 @@ export default function JobSearch() {
         location: [],
         employment_types: [],
         search_string: '',
-        work_fields_string: ''
+        work_fields_string: '',
+        education_id: null
     });
 
     useEffect(() => {
@@ -42,10 +43,15 @@ export default function JobSearch() {
             `radius=${filters.radius}`
         ]
 
-        if (filters.current_position && filters.current_position.latitude && filters.current_position.longitude)
+        if (filters.current_position && filters.current_position.latitude && filters.current_position.longitude) {
             queryParamArguments.push(
                 `current_coords=${filters.current_position.longitude},${filters.current_position.latitude}`,
             )
+        }
+
+        if (filters.education_id) {
+            queryParamArguments.push(`education_id=${filters.education_id}`)
+        }
 
         url += `&${queryParamArguments.join('&')}`
 

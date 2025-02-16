@@ -30,7 +30,7 @@ use MatanYadaev\EloquentSpatial\Objects\Point;
  * @property string|null $email_verified_at
  * @property string $email_verification_token
  * @property string $date_of_birth
- * @property string $education
+ * @property integer $education_id
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
@@ -106,6 +106,11 @@ class User extends Authenticatable implements FilamentUser, HasLocalePreference
     public function companyPreRegistrations(): HasMany
     {
         return $this->hasMany(CompanyPreRegistration::class, 'referrer_id', 'id');
+    }
+
+    public function education(): HasOne
+    {
+        return $this->hasOne(Education::class, 'id', 'education_id');
     }
 
     public function preferredLocale(): string

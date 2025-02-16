@@ -481,5 +481,15 @@
     "Project work": "Projektno delo",
     "Casual work": "Občasno delo",
     "Practical training": "Praktično usposabljanje",
-    "Work for retirees": "Delo upokojencev"
+    "Work for retirees": "Delo upokojencev",
+    "Early childhood education": "I. - 7 razredov osnovne šole ali manj",
+    "Primary education": "II. - dokončana osnovna šola",
+    "Lower secondary education": "III. - dokončana poklicna šola",
+    "Upper secondary education": "IV. - dokončana srednja strokovna šola",
+    "Post-secondary non-tertiary education": "V. - dokončana gimnazija in ostale štiriletne šole",
+    "Short-cycle tertiary education": "VI. - višješolski strokovni programi",
+    "Bachelor’s or equivalent level": "VII. - univerzitetni programi",
+    "Master’s or equivalent level": "VIII./1 - magisteriji znanosti",
+    "Doctoral or equivalent level": "VIII./2 - doktorati znanosti",
+    "Minimal education required": "Minimalna stopnja izobrazbe"
 }

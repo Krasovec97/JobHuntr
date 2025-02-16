@@ -78,7 +78,7 @@ class CompanyJobFactory extends Factory
             "salary_to" => $salaryTo,
             "hourly_rate" => $hourlyRate,
             "salary_currency" => fake()->randomElement(['USD', 'EUR', 'GBP']),
-            "preferred_education" => fake()->randomElement(['none', 'primary', 'high_school', 'bachelor', 'master', 'doctorate']),
+            "minimum_education_id" => fake()->optional()->numberBetween(1, 9),
             "application_mail" => fake()->email,
             "status" => $status,
             "posted_at" => $jobPostedAt,

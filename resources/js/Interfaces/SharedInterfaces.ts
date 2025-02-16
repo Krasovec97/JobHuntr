@@ -37,7 +37,8 @@ export interface JobInterface {
     id: number,
     open_positions_count: number,
     posted_at?: string,
-    preferred_education: string,
+    minimum_education_id: number|null,
+    education?: string,
     benefits: string,
     expectations: string,
     assignments: string,
@@ -120,7 +121,16 @@ export interface FilterTypes {
     search_string: string,
     work_fields_string: string,
     radius?: number,
-    current_position?: LocationInterface
+    current_position?: LocationInterface,
+    education_id: number|null
+}
+
+export interface EducationInterface {
+    id: number,
+    level: number,
+    title: string,
+    created_at: string,
+    updated_at: string,
 }
 
 interface PageProps {
