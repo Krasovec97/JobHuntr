@@ -342,7 +342,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                                     defaultValue={job?.method_of_payment}>
                                 <option value="salary">{t("Salary")}</option>
                                 <option value="hourly">{t("Hourly rate")}</option>
-                                <option value="provision">{t("Stimulation / Provision")}</option>
+                                <option value="provision">{t("Provision")}</option>
                                 <option value="by_agreement">{t("By agreement")}</option>
                             </select>
                         </div>
