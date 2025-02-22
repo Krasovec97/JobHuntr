@@ -48,7 +48,7 @@ class CompanyJobResource extends Resource
                 Select::make('method_of_payment')->options([
                     'salary' => __("Salary"),
                     'hourly' => __("Hourly rate"),
-                    'provision' => __("Stimulation / Provision"),
+                    'provision' => __("Provision"),
                 ])->required(),
                 TextInput::make('salary_from'),
                 TextInput::make('salary_to'),

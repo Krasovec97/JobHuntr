@@ -22,7 +22,7 @@ export function parseMethodOfPayment(job: JobInterface) {
     switch (job.method_of_payment) {
         case 'provision':
             title = t("Method of payment");
-            description = t("Stimulation / Provision");
+            description = t("Provision");
             break;
         case 'salary':
             title = t("Starting Salary");
