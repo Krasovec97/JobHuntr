@@ -103,6 +103,7 @@ interface TipTapInterface {
 export default ({content, setEditorContent, placeholder, characterLimit}: TipTapInterface) => {
     const extensions = [
         Placeholder.configure({
+            emptyEditorClass: 'is-editor-empty opacity-50',
             placeholder: placeholder
         }),
         StarterKit.configure({

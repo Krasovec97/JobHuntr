@@ -35,13 +35,13 @@ interface SelectOptionInterface {
 export default function (user: UserData) {
     const {t} = useLaravelReactI18n();
 
-    const [selectedEducation, setSelectedEducation] = useState();
+    const [selectedEducation, setSelectedEducation] = useState<SelectOptionInterface>();
     const [availableEducations, setAvailableEducations] = useState<SelectOptionInterface[]>([]);
     const globalContext = useGlobalContext();
     const {data, setData, post, processing} = useForm({
         user_id: user.id,
         date_of_birth: user.date_of_birth ?? '',
-        education_id: user.education ?? '',
+        education_id: user.education_id ?? '',
         contact_phone: user.contact_phone,
         address: {
             street: user.street,
@@ -64,6 +64,14 @@ export default function (user: UserData) {
                 options.push({value: education.id, label: t(education.title)});
             });
 
+            let userEducation = educations.find(education => education.id === user.education_id);
+
+            if (userEducation) {
+                setSelectedEducation({
+                    value: userEducation.id,
+                    label: t(userEducation.title),
+                })
+            }
             setAvailableEducations(options);
         })
     }, []);
@@ -102,7 +110,7 @@ export default function (user: UserData) {
                 globalContext?.FlashNotification.setStyle("danger");
             },
             onSuccess: () => {
-                globalContext?.FlashNotification.setText("Account updated!");
+                globalContext?.FlashNotification.setText(t("Account updated!"));
                 globalContext?.FlashNotification.setIsOpen('true');
                 globalContext?.FlashNotification.setStyle("success");
             },
@@ -113,7 +121,7 @@ export default function (user: UserData) {
 
     return (
         <div className={"shadow p-5 my-5 col-12 col-md-8 mx-auto"}>
-            <FancyTitle heading={t("Update your profile").toUpperCase()} subtitle={t("Spruce up your profile, :name!", {name: user.name})} />
+            <FancyTitle heading={t("Update your profile").toUpperCase()} subtitle={t("Hello, :name!", {name: user.name})} />
             <form onSubmit={handleSubmit} className={"col-12 col-md-8 mx-auto"}>
                 <div className="mb-3">
                     <label className={"form-label ps-0"}>{t("Contact Phone")} <span

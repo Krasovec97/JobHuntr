@@ -18,6 +18,7 @@
     "Master's degree": "Magisterij",
     "Doctorate or higher": "Doctorate or higher",
     "Update your profile": "Update your profile",
+    "Hello, :name!": "Živjo, :name!",
     "Spruce up your profile, :name!": "Spruce up your profile, :name!",
     "Your education": "Your education",
     "Date of birth": "Date of birth",
@@ -57,7 +58,7 @@
     "Partially online": "Partially online",
     "On location": "At the location of the company",
     "Field work": "Field work",
-    "Stimulation / Provision": "Stimulation / Provision",
+    "Provision": "Provision",
     "Start typing and choose your address": "Start typing and choose your address",
     "If the job's location is the same as your company location, you may leave these fields empty. The job location will be the same as your company's location!": "If the job's location is the same as your company's location, you may leave these fields empty .The work location will be the same as your company location!",
     "Zip": "Zip code",
@@ -493,5 +494,11 @@
     "Doctoral or equivalent level": "Doctoral or equivalent level",
     "Minimal education required": "Minimal education required",
     "The password must have a minimum of 8 characters": "The password must have a minimum of 8 characters!",
-    "The password must include a symbol!": "The password must include a symbol!"
+    "The password must include a symbol!": "The password must include a symbol!",
+    "This text will be visible on job cards, on the front page of jobhuntr": "This text will be visible on job cards, on the front page of jobhuntr",
+    "Enter text": "Enter text",
+    "By agreement": "By agreement",
+    "Front page": "Front page",
+    "Draft": "Draft",
+    "Active": "Active"
     }

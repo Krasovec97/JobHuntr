@@ -1,10 +1,11 @@
-import {useForm} from "@inertiajs/react";
+import {useForm, usePage} from "@inertiajs/react";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import React from "react";
 
 export default function () {
     const {post} = useForm();
     const {t} = useLaravelReactI18n();
+    const appUrl = usePage<{app_url: string}>().props.app_url;
 
     const logout = () => {
         post('/logout');
@@ -21,6 +22,12 @@ export default function () {
                 </div>
                 <hr className="mt-auto text-white"/>
                 <div className="h-auto">
+                    <li className="nav-item">
+                        <a href={`https://${appUrl}`} target={'_blank'} className="text-white nav-link">
+                            <i className="fa-solid fa-up-right-from-square text-white pe-2"></i> {t("Front page").toUpperCase()}
+                        </a>
+                    </li>
+
                     <li className="nav-item">
                         <a href="/account" className="text-white nav-link">
                             <i className="fa-solid fa-gear text-white pe-2"></i> {t("Settings").toUpperCase()}
