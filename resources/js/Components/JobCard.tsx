@@ -1,7 +1,8 @@
-import {formatDate, formatText, numberFormat, parseEmploymentType} from "@/Helpers";
+import {formatDate, formatText, parseEmploymentType} from "@/Helpers";
 import {JobInterface} from "@/Interfaces/SharedInterfaces";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import React from "react";
+import {parseMethodOfPayment} from "@/Helpers/Helpers";
 
 interface ComponentProps {
     job: JobInterface,
@@ -10,6 +11,7 @@ interface ComponentProps {
 
 export default function JobCard({job, isDrafted = false}: ComponentProps) {
     const {t} = useLaravelReactI18n();
+    const {title, description} = parseMethodOfPayment(job);
 
     return (
         <div className={"card w-100 h-100 border shadow " + (isDrafted ? "" : "card-grow")}>
@@ -18,7 +20,7 @@ export default function JobCard({job, isDrafted = false}: ComponentProps) {
                         <p className="fw-bold text-center my-auto text-white">{job.title}</p>
                     </div>
                 </div>
-            {!isDrafted ? (
+            {!isDrafted ?
                     <>
                         <div className="card-body mb-4">
                             <div>
@@ -30,14 +32,9 @@ export default function JobCard({job, isDrafted = false}: ComponentProps) {
                                 </p>
                                 <p className="m-0">
                                     <span className="fw-bold me-2">
-                                        {job.method_of_payment === 'provision' ? t("Method of payment") : job.method_of_payment === 'salary' ? t("Starting Salary") : t("Hourly rate")}:
+                                        {title}:
                                     </span>
-                                    {
-                                        job.method_of_payment === 'provision' ?
-                                            t("Stimulation / Provision")
-                                            :
-                                            job.method_of_payment === 'salary' ? numberFormat(job.salary_from, job.salary_currency) : numberFormat(job.hourly_rate, job.salary_currency)
-                                    }
+                                    {description}
                                 </p>
                             </div>
                             <div className="card-text mt-3">
@@ -55,30 +52,27 @@ export default function JobCard({job, isDrafted = false}: ComponentProps) {
                             <p className="m-0 text-end">{t("Published") + ": " + formatDate(job.posted_at)}</p>
                         </small>
                     </>
-                )
+
                 :
-                (
-                    <div className='blur'>
-                        <div className="card-body mb-4">
-                            <div className="card-text">
-                                    <div className="col-12 mb-1 fw-bold">
-                                        {t("Description")}:
-                                    </div>
-                                    <div className="col-12">
-                                        <p>Dont try to read this there is no info...</p>
-                                    </div>
-                                </div>
-
-                                <p className="m-0">This is just some random text...</p>
-                                <p className="m-0">There is probably a million positions open</p>
-                                <p className="m-0">Greetings Mr. Inspector.</p>
+                <div className='blur'>
+                    <div className="card-body mb-4">
+                        <div className="card-text">
+                            <div className="col-12 mb-1 fw-bold">
+                                {t("Description")}:
                             </div>
-
-                            <div className="card-footer">
-                                <p className="m-0 text-grey text-end">Published: January 1, 1983</p>
+                            <div className="placeholder col-12">
                             </div>
                         </div>
-                    )
+
+                        <p className="m-0">This is just some random text...</p>
+                        <p className="m-0">There is probably a million positions open</p>
+                        <p className="m-0">Greetings Mr. Inspector.</p>
+                    </div>
+
+                    <div className="card-footer">
+                        <p className="m-0 text-grey text-end">Published: January 1, 1983</p>
+                    </div>
+                </div>
                 }
         </div>
     )

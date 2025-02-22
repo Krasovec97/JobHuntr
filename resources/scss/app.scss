@@ -79,3 +79,7 @@ textarea {
 .blur {
     filter: blur(10px) !important;
 }
+
+input.form-control::placeholder {
+    opacity: .5;
+}

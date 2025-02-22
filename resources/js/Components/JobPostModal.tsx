@@ -1,10 +1,10 @@
 import {Button, Modal} from "react-bootstrap";
-import {formatText, numberFormat, parseEmploymentType} from "@/Helpers";
+import {formatText, parseEmploymentType} from "@/Helpers";
 import React from "react";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import {CompanyData, JobInterface} from "@/Interfaces/SharedInterfaces";
 import IconWithText from "@/Components/IconWithText";
-import {formatJobLocation} from "@/Helpers/Helpers";
+import {formatJobLocation, parseMethodOfPayment} from "@/Helpers/Helpers";
 
 type JobWithCompanyData = JobInterface & {
     company_data: CompanyData
@@ -18,8 +18,10 @@ interface ModalProps {
 
 export default function JobPostModal({showModal, clickedJob, handleClose}: ModalProps) {
     const {t} = useLaravelReactI18n();
+    const {title, description} = parseMethodOfPayment(clickedJob);
+
     return (
-        <Modal show={showModal} size={'lg'} fullscreen={"sm-down"} centered onHide={handleClose}>
+        <Modal show={showModal} size={'xl'} fullscreen={"sm-down"} centered onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title className="fw-bold">{clickedJob.title}</Modal.Title>
             </Modal.Header>
@@ -33,15 +35,13 @@ export default function JobPostModal({showModal, clickedJob, handleClose}: Modal
                         }
 
                         <IconWithText
-                            icon={<i className="fa-solid fa-earth-europe my-auto" title={t("Job location")}></i>}
+                            icon={<i className="fa-solid fa-earth-europe my-auto" title={t("Work location")}></i>}
                             text={formatJobLocation(clickedJob)}/>
 
-                        {clickedJob.method_of_payment !== 'provision' &&
-                            <IconWithText
-                                icon={<i className="fa-solid fa-hand-holding-dollar my-auto"
-                                         title={clickedJob.method_of_payment === 'salary' ? t("Salary") : t("Hourly rate")}></i>}
-                                text={clickedJob.method_of_payment === 'salary' ? numberFormat(clickedJob.salary_from, clickedJob.salary_currency) : numberFormat(clickedJob.hourly_rate, clickedJob.salary_currency)}/>
-                        }
+                        <IconWithText
+                            icon={<i className="fa-solid fa-hand-holding-dollar my-auto"
+                                     title={title}></i>}
+                            text={description}/>
                     </div>
                 </div>
                 <div className="border-bottom mb-3 pb-2">
@@ -75,7 +75,7 @@ export default function JobPostModal({showModal, clickedJob, handleClose}: Modal
 
                 <div className={`${clickedJob.company_data.id !== 1 && 'border-bottom'} mb-3`}>
                     <p className="fw-bold m-0">{t("Work field")}</p>
-                    {clickedJob.work_field?.name}
+                    {clickedJob.work_field?.name ? t(clickedJob.work_field?.name!) : ''}
                 </div>
 
                 {clickedJob.education &&
@@ -93,11 +93,7 @@ export default function JobPostModal({showModal, clickedJob, handleClose}: Modal
                                 {clickedJob.company_data.name}
                             </div>
                             <div>
-                                {clickedJob.company_data.street}, <br/>
-                                {clickedJob.company_data.zip + " " + clickedJob.company_data.city}
-                            </div>
-                            <div>
-                                {clickedJob.company_data.contact_phone}
+                                {clickedJob.company_data.street}
                             </div>
                         </>
                     }

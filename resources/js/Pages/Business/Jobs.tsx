@@ -37,7 +37,7 @@ export default function Jobs({companyJobs}: JobsProps) {
                     <div className="col-2 fw-bold d-none d-md-block">{t("Work field")}</div>
                     <div className="col-2 fw-bold d-none d-md-block">{t("Work location")}</div>
                     <div className="col-2 fw-bold d-none d-md-block">{t("Method of payment")}</div>
-                    <div className="col-2 fw-bold d-none d-md-block">{t("Amount")}</div>
+                    <div className="col-2 fw-bold d-none d-md-block">{t("Salary")}</div>
                     <div className="col-2 col-md-2 fw-bold">{t("Status")}</div>
                 </div>
 

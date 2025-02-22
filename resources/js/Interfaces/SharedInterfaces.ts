@@ -82,7 +82,7 @@ export interface UserData {
     city: string,
     zip: string,
     date_of_birth: string,
-    education: string,
+    education_id: number,
     coordinates: {
         longitude: number,
         latitude: number

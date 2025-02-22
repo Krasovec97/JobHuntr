@@ -216,12 +216,14 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                         <div className="col-12">
                             <label className="fw-semibold">{t("Short company introduction")}</label>
                             <div className="mb-2">
-                                <small>{t("Provide a brief introduction to your company and the role. (max. 250 characters)")}</small>
+                                <small>{t("Provide a brief introduction to your company and the role. (max. 250 characters).")}</small>
+                                <br/>
+                                <small>{t("This text will be visible on job cards, on the front page of jobhuntr")}</small>
                             </div>
 
                             <div className="card">
                                 <Tiptap
-                                    placeholder={t('We are a fast-growing tech company looking for talented individuals')}
+                                    placeholder={t('Enter text')+'...'}
                                     characterLimit={250}
                                     content={job?.intro}
                                     setEditorContent={(content) => updateFields({intro: content})}/>
@@ -238,7 +240,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
 
                             <div className="card">
                                 <Tiptap
-                                    placeholder={t('Managing projects, coordinating teams, developing strategies')}
+                                    placeholder={t('Enter text')+'...'}
                                     characterLimit={0}
                                     content={job?.assignments}
                                     setEditorContent={(content) => updateFields({assignments: content})}/>
@@ -255,7 +257,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
 
                             <div className="card">
                                 <Tiptap
-                                    placeholder={t('Health insurance, flexible hours, professional development')}
+                                    placeholder={t('Enter text')+'...'}
                                     characterLimit={0}
                                     content={job?.benefits}
                                     setEditorContent={(content) => updateFields({benefits: content})}/>
@@ -272,7 +274,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
 
                             <div className="card">
                                 <Tiptap
-                                    placeholder={t('3+ years of experience, excellent communication skills')}
+                                    placeholder={t('Enter text')+'...'}
                                     characterLimit={0}
                                     content={job?.expectations}
                                     setEditorContent={(content) => updateFields({expectations: content})}/>
@@ -341,11 +343,12 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                                 <option value="salary">{t("Salary")}</option>
                                 <option value="hourly">{t("Hourly rate")}</option>
                                 <option value="provision">{t("Stimulation / Provision")}</option>
+                                <option value="by_agreement">{t("By agreement")}</option>
                             </select>
                         </div>
                     </div>
 
-                    {data.method_of_payment !== 'provision' &&
+                    {(data.method_of_payment !== 'provision' && data.method_of_payment !== 'by_agreement') &&
                         <>
                         {data.method_of_payment === 'salary' ?
                             <>

@@ -80,13 +80,13 @@ export default function Login() {
                     </div>
                 </div>
 
-                <div className="mt-5 text-center">
-                    <p>
+                <div className="col-12 col-md-5 py-5 mx-auto mt-5 text-center border rounded shadow">
+                    <h4 className="fw-bold">
                         {t("Business Account")}?
-                    </p>
+                    </h4>
 
-                    <div className="col-12 mb-5">
-                        <a className='btn btn-outline-dark fw-bold px-5' href={`https://${usePage().props.business_url}`}>{t("Company login")}</a>
+                    <div className="col-12">
+                        <a className='btn btn-outline-dark btn-lg fw-bold px-5' href={`https://${usePage().props.business_url}`}>{t("Company login")}</a>
                     </div>
                 </div>
             </PageSection>

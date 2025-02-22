@@ -4,7 +4,7 @@ import BusinessLayout from "@/Layouts/BusinessLayout";
 import PageSection from "@/Components/PageSection";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import {CompanyData, CompanyAuthProps, JobInterface} from "@/Interfaces/SharedInterfaces";
-import {formatDate, formatText, numberFormat} from "@/Helpers";
+import {formatDate, formatText, numberFormat, parseEmploymentType} from "@/Helpers";
 import React, {useState} from "react";
 
 interface JobDetailsProps {
@@ -62,7 +62,7 @@ export default function NewJob({ job }: JobDetailsProps) {
                     <div className="col-12 col-md-6">
                         <div className="row">
                             <div className="col-4 fw-semibold">{t("Employment type")}:</div>
-                            <div className="col-8">{t(formatText(job.employment_type))}</div>
+                            <div className="col-8">{t(parseEmploymentType(job.employment_type))}</div>
                         </div>
 
                         <div className="row">
@@ -84,7 +84,7 @@ export default function NewJob({ job }: JobDetailsProps) {
 
                         <div className="row">
                             <div className="col-4 fw-semibold">{t("Work field")}:</div>
-                            <div className="col-8">{job.work_field?.name}</div>
+                            <div className="col-8">{job.work_field?.name ? t(job.work_field?.name): ''}</div>
                         </div>
 
                         <div className="row">
