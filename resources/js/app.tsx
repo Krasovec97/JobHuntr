@@ -19,11 +19,22 @@ createInertiaApp({
     resolve: (name) => resolvePageComponent(`./Pages/${name}.tsx`, import.meta.glob('./Pages/**/*.tsx')),
     setup({ el, App, props }) {
         const root = createRoot(el);
+        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        let userLang = 'sl';
+
+        switch (timeZone) {
+            case 'Europe/Ljubljana':
+                userLang = 'sl';
+                break;
+            default:
+                userLang = 'en';
+                break;
+        }
 
         root.render(
             <StrictMode>
                 <LaravelReactI18nProvider
-                    locale={navigator.language}
+                    locale={userLang}
                     fallbackLocale={'en'}
                     //@ts-ignore
                     files={import.meta.glob('/lang/*.json')}
