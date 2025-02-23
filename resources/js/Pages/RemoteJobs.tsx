@@ -11,7 +11,21 @@ export default function RemoteJobs() {
 
     return (
         <MainLayout>
-            <Head title="Remote Jobs"/>
+            <Head title={"Delo od Koderkoli"}>
+                <meta name="title" content="Najdi Najboljše Delo na Daljavo"/>
+                <meta name="description"
+                      content="Odkrij prednosti dela na daljavo in najdi fleksibilne zaposlitvene priložnosti z JobHuntr. Uživaj v boljši usklajenosti dela in življenja, večji produktivnosti in globalnih kariernih možnostih. Začni iskanje dela na daljavo še danes!"/>
+                <meta name="keywords"
+                      content="delo, delovna mesta, iskanje zaposlitve, zaposlitev, prosta delovna mesta, jobhuntr, portal za zaposlovanje, remote, hibridno delo"/>
+                <meta name="googlebot-news"
+                      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+                <meta property="og:title" content="Najdi Najboljše Delo na Daljavo"/>
+                <meta property="og:description"
+                      content="Odkrij prednosti dela na daljavo in najdi fleksibilne zaposlitvene priložnosti z JobHuntr. Uživaj v boljši usklajenosti dela in življenja, večji produktivnosti in globalnih kariernih možnostih. Začni iskanje dela na daljavo še danes!"/>
+                <meta property="og:url" content={window.location.href}/>
+                <meta property="og:image" content="https://jobhuntr.co/img/og_image.png"/>
+                <meta property="og:type" content="website"/>
+            </Head>
 
             <PageSection className={"bg-dark"}>
                 <div className="row text-white text-center flex-column justify-content-center">

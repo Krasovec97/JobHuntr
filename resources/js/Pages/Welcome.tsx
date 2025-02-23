@@ -10,7 +10,6 @@ import React, {useState} from "react";
 import axios from "axios";
 import JobPostModal from "@/Components/JobPostModal";
 import ApplyModal from "@/Components/ApplyModal";
-import MetaTags from "@/Components/MetaTags";
 
 interface PageProps {
     newestJobs: Array<JobInterface>,
@@ -54,11 +53,21 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
 
     return (
         <MainLayout>
-            <MetaTags
-                title={"JobHuntr"}
-                description={"Our platform is designed to connect you with the perfect opportunities tailored to your skills and aspirations. Join us today and take the first step towards your ideal career"}
-                ogUrl={window.location.href} />
-            <Head title={t("Welcome")}/>
+            <Head title={"Dobrodošli"}>
+                <meta name="title" content="Prosta delovna mesta - JobHuntr"/>
+                <meta name="description"
+                      content="Naša platforma je zasnovana tako, da vas poveže s popolnimi priložnostmi, prilagojenimi vašim veščinam in željam. Pridružite se nam še danes in naredite prvi korak k svoji idealni karieri!"/>
+                <meta name="keywords"
+                      content="delo, delovna mesta, iskanje zaposlitve, zaposlitev, prosta delovna mesta, jobhuntr, portal za zaposlovanje"/>
+                <meta name="googlebot-news"
+                      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+                <meta property="og:title" content="Prosta delovna mesta - JobHuntr"/>
+                <meta property="og:description"
+                      content="Naša platforma je zasnovana tako, da vas poveže s popolnimi priložnostmi, prilagojenimi vašim veščinam in željam. Pridružite se nam še danes in naredite prvi korak k svoji idealni karieri!"/>
+                <meta property="og:url" content={window.location.href}/>
+                <meta property="og:image" content="https://jobhuntr.co/img/og_image.png"/>
+                <meta property="og:type" content="website"/>
+            </Head>
 
             <PageSection className="bg-dark">
                 <div className="row text-white text-center flex-column justify-content-center">
