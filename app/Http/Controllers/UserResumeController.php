@@ -18,7 +18,10 @@ class UserResumeController extends Controller
     {
         $user = User::getAuthenticatedUser();
         $userResume = UserResume::query()->where('user_id', $user->id)->first();
-        return Storage::download('/resumes/' . $userResume->file_name);
+        $file = Storage::get('/resumes/' . $userResume->file_name);
+        return response($file, 200, [
+            'Content-Type' => 'application/pdf'
+        ]);
     }
 
     /**
