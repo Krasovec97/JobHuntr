@@ -46,7 +46,7 @@ export default function Dashboard() {
                     <h3 className="fw-bold">{t("Hello, :name!", {name: user.name})}</h3>
                     <small>{user.email}</small>
                 </div>
-                <div className="row mb-4 overflow-x-scroll">
+                <div className="row mb-4">
                     {parts.map((part) => {
                         return (
                             <div key={part.name} className={`col-12 col-md-auto text-center my-2 my-md-0 ${activePart.name === part.name ? 'text-primary border-bottom border-primary fw-bold' : ''}`}
