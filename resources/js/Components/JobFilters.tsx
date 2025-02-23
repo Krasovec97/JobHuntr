@@ -152,8 +152,10 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
         let newFilters = {...filters};
         setSelectedEducation(e);
 
-        if (e.value !== null) {
+        if (e && e.value) {
             newFilters.education_id = e.value
+        } else {
+            newFilters.education_id = null;
         }
 
         setFilters(newFilters);
@@ -248,7 +250,9 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
                 <div className="mb-3">
                     <label className="fw-bold">{t("Minimal education required")}</label>
                     <Select options={availableEducations}
+                            placeholder={`${t("Select")}...`}
                             id="education"
+                            isClearable
                             value={selectedEducation}
                             onChange={handleEducationChange} />
                 </div>

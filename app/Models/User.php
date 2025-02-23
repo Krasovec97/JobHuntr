@@ -24,6 +24,7 @@ use MatanYadaev\EloquentSpatial\Traits\HasSpatial;
  * @property string $surname
  * @property string $contact_phone
  * @property int $country_id
+ * @property string $gender
  * @property string $street
  * @property string $city
  * @property string $zip

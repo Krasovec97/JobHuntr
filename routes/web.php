@@ -44,21 +44,8 @@ Route::get('/password/reset/{token}', [PasswordResetLinkController::class, 'rese
 Route::post('/password/reset/', [PasswordResetLinkController::class, 'resetEntityPassword']);
 
 // "Api" Routes
-
-Route::get('/api/countries', [CountryController::class, 'getCountries']);
 Route::get('/api/jobs', [WebController::class, 'getAvailableJobs']);
 Route::get('/api/job/{id}', [WebController::class, 'getJobDetails']);
-
-Route::get('/api/work_fields', [WebController::class, 'getWorkFields']);
-Route::get('/api/employment_types', [WebController::class, 'getAvailableEmploymentTypes']);
-
-Route::get('/api/countries', [CountryController::class, 'getCountries']);
-Route::get('/api/country/code/{code}', [CountryController::class, 'getCountryByCode']);
-
-Route::post('/api/google/places/autocomplete', [GoogleServicesController::class, 'autoComplete']);
-Route::get('/api/google/places/{placeId}', [GoogleServicesController::class, 'getPlace']);
-
-Route::get('/api/educations', [EducationController::class, 'getEducations']);
 
 
 require __DIR__.'/auth.php';

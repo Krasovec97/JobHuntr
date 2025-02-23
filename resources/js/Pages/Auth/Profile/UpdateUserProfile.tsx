@@ -7,6 +7,11 @@ import {EducationInterface, UserData} from "@/Interfaces/SharedInterfaces";
 import React from "react";
 import GoogleLocationSelect from "@/Components/GoogleLocationSelect";
 import axios from "axios";
+import DatePicker, {registerLocale} from "react-datepicker";
+import {sl} from "date-fns/locale";
+
+import "react-datepicker/dist/react-datepicker.css";
+registerLocale('sl', sl)
 
 interface UserObjectData {
     user_id: number,
@@ -85,13 +90,7 @@ export default function () {
         setSelectedEducation(e);
     }
 
-    function subtractYears(date: Date, years: number): number {
-        return date.setFullYear(date.getFullYear() - years);
-    }
-
     const date = new Date();
-
-    const newDate = new Date(subtractYears(date, 15)).toISOString().split("T")[0];
 
     function handleSubmit(e: any) {
         e.preventDefault();
@@ -143,6 +142,7 @@ export default function () {
                 <div className="mb-3">
                     <label className={"form-label ps-0"}>{t("Your education")}</label>
                     <Select options={availableEducations}
+                            placeholder={`${t("Select")}...`}
                             id="education"
                             value={selectedEducation}
                             onChange={handleEducationChange} />
@@ -150,13 +150,19 @@ export default function () {
 
                 <div className="mb-3">
                     <label className={"form-label ps-0"}>{t("Date of birth")}</label>
-                    <input
-                        id="date_of_birth"
-                        className={"form-control"}
-                        max={newDate}
-                        type="date"
-                        value={data.date_of_birth}
-                        onChange={(event) => {updateFields({date_of_birth: event.target.value})}} />
+                    <div className="col-12">
+                        <DatePicker
+                            locale={"sl"}
+                            dropdownMode={"select"}
+                            showYearDropdown={true}
+                            minDate={new Date(1950, 0, 1)}
+                            maxDate={new Date(2007, 11, 30)}
+                            dateFormat={"dd.MM.yyyy"}
+                            id="date_of_birth"
+                            className={"form-control w-100"}
+                            selected={data.date_of_birth ? new Date(data.date_of_birth) : date}
+                            onChange={(date) => {updateFields({date_of_birth: date!.toDateString()})}} />
+                    </div>
                 </div>
 
                 <div className="col-12 text-center">

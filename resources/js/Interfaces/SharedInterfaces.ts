@@ -76,6 +76,7 @@ export interface UserData {
     id: number,
     name: string,
     email: string,
+    gender: string,
     contact_phone: string,
     country_id: number,
     country_code?: string,
