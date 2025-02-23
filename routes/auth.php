@@ -5,6 +5,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PartnershipController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserResumeController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'getDashboardPage']);
     Route::post('/logout', [AuthenticatedSessionController::class, 'logoutPersonal'])->name('logout');
     Route::post('/user/update', [UserController::class, 'update']);
+    Route::get('/user/resume', [UserResumeController::class, 'getUserResume']);
+    Route::post('/user/resume', [UserResumeController::class, 'uploadUserResume']);
 
 
     Route::middleware('auth_sales')->group(function () {

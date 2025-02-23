@@ -500,5 +500,19 @@
     "By agreement": "Po dogovoru",
     "Front page": "Domača stran",
     "Draft": "Osnutek",
-    "Active": "Aktivno"
+    "Active": "Aktivno",
+    "Resume": "Življenjepis",
+    "My applications": "Moje prijave",
+    "Error saving resume.": "Napaka pri shranjevanju življenjepisa.",
+    "Upload a new resume": "Naloži nov življenjepis",
+    "Upload": "Naloži",
+    "Your resume": "Trenutni življenjepis",
+    "File must be a PDF and not exceed :size MB in size.": "Datoteka mora biti v formatu PDF in ne sme presegati velikosti :size MB.",
+    "You have entered your education in profile settings": "Vnesli ste svojo izobrazbo v nastavitvah profila",
+    "You have uploaded your resume": "Naložili ste svoj življenjepis",
+    "You have entered your date of birth in profile settings": "Vnesli ste svoj datum rojstva v nastavitvah profila",
+    "In order to apply through JobHuntr, you need to complete the following steps:": "Za oddajo prijav preko portala JobHuntr morate dokončati naslednje korake:",
+    "You have not uploaded any resume yet. Upload your resume now to showcase your skills and experience!": "Niste še naložili nobenega življenjepisa. Naložite svoj življenjepis zdaj, da predstavite svoje veščine in izkušnje!",
+    "You have verified your email": "Preverili ste svoj e-poštni naslov",
+    "Job Search": "Iskalnik"
 }

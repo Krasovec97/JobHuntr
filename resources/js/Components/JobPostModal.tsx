@@ -103,7 +103,7 @@ export default function JobPostModal({showModal, clickedJob, handleClose}: Modal
                 <Button variant="primary">
                     {t("Apply now")}
                 </Button>
-                <Button variant="outline-primary" target='_blank' href={'/job/' + clickedJob.id}>
+                <Button variant="outline-primary" rel={"canonical"} target='_blank' href={'/job/' + clickedJob.id}>
                     {t("See more details")}
                 </Button>
             </Modal.Footer>

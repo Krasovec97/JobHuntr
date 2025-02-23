@@ -81,7 +81,7 @@ export default function JobSearch() {
 
     return (
         <MainLayout>
-            <Head title="Job Search"/>
+            <Head title={t("Job Search")}/>
 
             <PageSection className={"bg-white min-vh-100"} fullWidth={true}>
                 <FancyTitle heading={t("Find Your Perfect Job").toUpperCase()} subtitle={t("Discover opportunities today")}/>

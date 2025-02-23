@@ -4,7 +4,6 @@ import React, {useState} from 'react';
 import MainLayout from "@/Layouts/MainLayout";
 import PageSection from "@/Components/PageSection";
 import FancyTitle from "@/Components/FancyTitle";
-import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
 
 
@@ -35,7 +34,7 @@ export default function ForgottenPassword() {
                 <div className={"col-12 col-md-5 border p-4 rounded mx-auto shadow"}>
                     <form onSubmit={submit}>
                         <div>
-                            <InputLabel value="Email"/>
+                            <label htmlFor="email">{t('Email')}</label>
 
                             <input
                                 id="email"

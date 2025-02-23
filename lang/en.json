@@ -500,5 +500,19 @@
     "By agreement": "By agreement",
     "Front page": "Front page",
     "Draft": "Draft",
-    "Active": "Active"
-    }
+    "Active": "Active",
+    "Resume": "Resume",
+    "My applications": "My applications",
+    "Error saving resume.": "Error saving resume.",
+    "Upload a new resume": "Upload a new resume",
+    "Upload": "Upload",
+    "Your resume": "Your resume",
+    "File must be a PDF and not exceed :size MB in size.": "File must be a PDF and not exceed :size MB in size.",
+    "You have entered your education in profile settings": "You have entered your education in profile settings",
+    "You have uploaded your resume": "You have uploaded your resume",
+    "You have entered your date of birth in profile settings": "You have entered your date of birth in profile settings",
+    "In order to apply through JobHuntr, you need to complete the following steps:": "In order to apply through JobHuntr, you need to complete the following steps:",
+    "You have not uploaded any resume yet. Upload your resume now to showcase your skills and experience!": "You have not uploaded any resume yet. Upload your resume now to showcase your skills and experience!",
+    "You have verified your email": "You have verified your email",
+    "Job Search": "Job Search"
+}

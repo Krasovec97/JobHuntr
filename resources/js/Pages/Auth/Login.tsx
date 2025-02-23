@@ -1,11 +1,10 @@
 import {Head, useForm, usePage} from '@inertiajs/react';
 import MainLayout from '../../Layouts/MainLayout.js';
-import InputLabel from "../../Components/InputLabel";
 import InputError from "../../Components/InputError";
 import PageSection from "../../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../../Components/FancyTitle";
-import React from 'react';
+import React, {useRef, useState} from 'react';
 
 
 export default function Login() {
@@ -15,10 +14,19 @@ export default function Login() {
     });
 
     const {t} = useLaravelReactI18n();
+    const passwordRef = useRef<HTMLInputElement>(null);
+    const [currentIcon, setCurrentIcon] = useState<string>('fa-eye')
 
     function submit(e: { preventDefault: () => void; }) {
         e.preventDefault();
         post('/login');
+    }
+
+    function showPassword() {
+        if (passwordRef.current) {
+            passwordRef.current.type = passwordRef.current.type === 'password' ? 'text' : 'password';
+            passwordRef.current.type === 'password' ? setCurrentIcon('fa-eye') : setCurrentIcon('fa-eye-slash');
+        }
     }
 
     return (
@@ -30,7 +38,7 @@ export default function Login() {
                 <div className={"col-12 col-md-5 border p-4 rounded mx-auto shadow"}>
                     <form onSubmit={submit}>
                         <div>
-                            <InputLabel value="Email"/>
+                            <label htmlFor="email">{t('Email')}</label>
 
                             <input
                                 id="email"
@@ -47,17 +55,25 @@ export default function Login() {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel value="Password"/>
+                            <label htmlFor="email">{t('Password')}</label>
+                            <div className="input-group">
+                                <input
+                                    id="password"
+                                    ref={passwordRef}
+                                    type="password"
+                                    name="password"
+                                    value={data.password}
+                                    className="form-control"
+                                    autoComplete="current-password"
+                                    onChange={(e) => setData('password', e.target.value)}
+                                />
+                                <div className="input-group-append">
+                                    <button className="btn border-top border-end border-bottom" type="button" onClick={showPassword}>
+                                        <i className={`fa-solid ${currentIcon}`}></i>
+                                    </button>
+                                </div>
+                            </div>
 
-                            <input
-                                id="password"
-                                type="password"
-                                name="password"
-                                value={data.password}
-                                className="form-control"
-                                autoComplete="current-password"
-                                onChange={(e) => setData('password', e.target.value)}
-                            />
 
                             <InputError message={errors.password} className="mt-2"/>
                         </div>
