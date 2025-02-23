@@ -23,7 +23,19 @@ export default function JobDetails({job}: PageProps) {
 
     return (
         <MainLayout>
-            <Head title="Job Details"/>
+            <Head title={job.title}>
+                <meta name="title" content={job.title}/>
+                <meta name="description" content={job.intro}/>
+                <meta property="og:title" content={job.title}/>
+                <meta property="og:description" content={job.intro}/>
+                <meta name="googlebot-news"
+                      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+                <meta name="keywords"
+                      content={`iskanje zaposlitve, zaposlitev, prosta delovna mesta, jobhuntr, ${job.title.toLowerCase()}`}/>
+                <meta property="og:url" content={window.location.href}/>
+                <meta property="og:image" content="https://jobhuntr.co/img/og_image.png"/>
+                <meta property="og:type" content="website"/>
+            </Head>
 
             <PageSection className="bg-white" fullWidth={true}>
                 <div className="col-12 col-md-7 mx-auto shadow border-3 pt-4 m-5 rounded  p-2">

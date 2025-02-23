@@ -11,7 +11,21 @@ export default function Companies() {
 
     return (
         <MainLayout>
-            <Head title="Companies"/>
+            <Head title="Najdite Najboljše Talente">
+                <meta name="title" content="JobHuntr išče delodajalce!"/>
+                <meta name="description"
+                      content="Pridružite se JobHuntr in hitro povežite svojo podjetje z najboljšimi talenti. Objavite delovna mesta, dosezite kvalificirane kandidate in optimizirajte zaposlovanje z inovativno platformo. Začnite danes!"/>
+                <meta name="keywords"
+                      content="zaposlovanje, iskanje delavcev, delodajalec, ljudi za delo, kako zaposliti, zaposlovanje tujih, delovna sila"/>
+                <meta name="googlebot-news"
+                      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+                <meta property="og:title" content="JobHuntr išče delodajalce!"/>
+                <meta property="og:description"
+                      content="Pridružite se JobHuntr in hitro povežite svojo podjetje z najboljšimi talenti. Objavite delovna mesta, dosezite kvalificirane kandidate in optimizirajte zaposlovanje z inovativno platformo. Začnite danes!"/>
+                <meta property="og:url" content={window.location.href}/>
+                <meta property="og:image" content="https://jobhuntr.co/img/og_image.png"/>
+                <meta property="og:type" content="website"/>
+            </Head>
 
             <PageSection className="bg-dark">
                 <div className="row text-white text-center flex-column justify-content-center">

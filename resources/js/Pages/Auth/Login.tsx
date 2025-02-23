@@ -31,7 +31,10 @@ export default function Login() {
 
     return (
         <MainLayout>
-            <Head title={t("Login")} />
+            <Head title={"Prijava"}>
+                <meta name="googlebot-news" content="noindex,nofollow"/>
+                <meta name="robots" content="noindex,nofollow"/>
+            </Head>
 
             <PageSection className={'full-h'}>
                 <FancyTitle heading={t("Login")} subtitle={t("Welcome")} />
