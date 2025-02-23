@@ -26,7 +26,7 @@ export default function Resume() {
     }
 
     return (
-        <div className="row full-h">
+        <div className="row">
             <div className="text-center mb-3">
                 <p className="fw-bold m-0">{t("Upload a new resume")}</p>
                 <small>({t("File must be a PDF and not exceed :size MB in size.", {size: 5})})</small>
