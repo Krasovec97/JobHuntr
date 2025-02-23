@@ -29,7 +29,7 @@ export default function ApplicationHistory() {
 
     return (
         <div className="row" style={{overflowX: "auto"}}>
-            <div className="col-12">
+            <div className="col-12 full-h">
                 <div className={"row bg-primary text-white py-3"} style={{minWidth: "1200px"}}>
                     <div className="col-3 fw-bold">{t("Job Title")}</div>
                     <div className="col-3 fw-bold">{t("Company name")}</div>
@@ -37,6 +37,8 @@ export default function ApplicationHistory() {
                     <div className="col-2 fw-bold">{t("Work location")}</div>
                     <div className="col-1 fw-bold">{t("Applied at")}</div>
                 </div>
+
+                {applications.length === 0 && <div className="text-center mt-3">{t("You have not applied to any jobs yet")}</div>}
 
                 {applications.map((application) => {
                     return (
