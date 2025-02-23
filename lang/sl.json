@@ -534,5 +534,9 @@
     "Visit your dashboard": "Obiščite svojo nadzorno ploščo",
     "Thank you for using our application!": "Hvala, ker uporabljate portal JobHuntr!",
     "Applied at": "Prijava dne",
-    "You have not applied to any jobs yet": "Niste se še prijavili na nobeno delovno mesto"
+    "You have not applied to any jobs yet": "Niste se še prijavili na nobeno delovno mesto",
+    "This job was not found.": "Delovno mesto ni bilo najdeno.",
+    "This job listing has expired.": "Ta oglas za delo je potekel.",
+    "This job listing is not open for applications.": "Ta oglas za delo je potekel.",
+    "Error saving job application, please try again.": "Napaka pri shranjevanju prijave. Poskusite znova."
 }
