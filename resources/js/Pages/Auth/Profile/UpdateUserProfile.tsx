@@ -142,6 +142,7 @@ export default function () {
                 <div className="mb-3">
                     <label className={"form-label ps-0"}>{t("Your education")}</label>
                     <Select options={availableEducations}
+                            placeholder={`${t("Select")}...`}
                             id="education"
                             value={selectedEducation}
                             onChange={handleEducationChange} />

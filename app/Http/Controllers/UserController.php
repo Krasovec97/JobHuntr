@@ -35,6 +35,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'unique:users,email'],
             'first_name' => ['required'],
+            'gender' => ['required'],
             'last_name' => ['required'],
             'password' => ['required', 'min:8'],
             'contact_phone' => ['required'],
@@ -55,6 +56,7 @@ class UserController extends Controller
         $user->name = $request->get('first_name');
         $user->surname = $request->get('last_name');
         $user->contact_phone = $request->get('contact_phone');
+        $user->gender = $request->get('gender');
         $user->street = $request->get('address')['street'];
         $user->city = $request->get('address')['city'];
         $user->zip = $request->get('address')['zip'];

@@ -178,6 +178,7 @@ export default function GoogleLocationSelect({updateFields, address, setNextButt
             <div className="mb-3">
                 <label className={"form-label ps-0"}>{t("Street")} <span className={"text-danger"}>*</span></label>
                 <Select options={availableLocations}
+                        placeholder={`${t("Select")}...`}
                         onChange={(value) => value && setLocation(value as LocationProps)}
                         noOptionsMessage={() => noOptionsString}
                         value={selectedLocation}
@@ -235,6 +236,7 @@ export default function GoogleLocationSelect({updateFields, address, setNextButt
                         <label className={"form-label ps-0"}>{t("Country")} <span
                             className={"text-danger"}>*</span></label>
                         <Select options={countries}
+                                placeholder={`${t("Select")}...`}
                                 value={selectedCountry}
                                 onChange={(selectedOption) => countryChange(selectedOption)}/>
                     </div>
@@ -243,6 +245,7 @@ export default function GoogleLocationSelect({updateFields, address, setNextButt
                         <div className="mb-3">
                             <label className={"form-label ps-0"}>Pokrajina dela: </label>
                             <Select options={regions}
+                                    placeholder={`${t("Select")}...`}
                                     value={selectedRegion}
                                     onChange={(selectedOption) => regionChange(selectedOption)}/>
                         </div>

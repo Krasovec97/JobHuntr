@@ -433,6 +433,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                         <div className="mb-3">
                             <label className="fw-semibold">{t("Minimal education required")}</label>
                             <Select options={availableEducations}
+                                    placeholder={`${t("Select")}...`}
                                     id="education"
                                     value={selectedEducation}
                                     onChange={handleEducationChange} />

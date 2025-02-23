@@ -1,17 +1,17 @@
 import {FormWrapper} from "./FormWrapper";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import React from "react";
-import {useEffect, useState} from "react";
 import Select from "react-select";
 
-type AddressData = {
+type PersonalDetails = {
     first_name: string,
     last_name: string,
     contact_phone: string,
+    gender: string
 }
 
-type AddressFormProps = AddressData & {
-    updateFields: (fields: Partial<AddressData>) => void
+type AddressFormProps = PersonalDetails & {
+    updateFields: (fields: Partial<PersonalDetails>) => void
 }
 
 
@@ -19,6 +19,25 @@ export function PersonalForm({ first_name, last_name, contact_phone, updateField
     const {t} = useLaravelReactI18n();
     return (
         <FormWrapper title={t("User Information")} subtitle={t("Tell us a bit about yourself")}>
+
+            <div className="mb-3">
+                <label className={"form-label ps-0"}>{t("Gender")} <span className={"text-danger"}>*</span></label>
+                <Select
+                options={[
+                    {
+                        value: "male",
+                        label: t('Male')
+                    },
+                    {
+                        value: "female",
+                        label: t('Female')
+                    }
+                ]}
+                placeholder={`${t("Select")}...`}
+                required={true}
+                onChange={(selectedOption) => updateFields({gender: selectedOption!.value})}
+                />
+            </div>
 
             <div className="mb-3">
                 <label className={"form-label ps-0"}>{t("First Name")} <span className={"text-danger"}>*</span></label>
