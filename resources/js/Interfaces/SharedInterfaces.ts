@@ -75,6 +75,7 @@ export interface WorkFieldInterface {
 export interface UserData {
     id: number,
     name: string,
+    email: string,
     contact_phone: string,
     country_id: number,
     country_code?: string,
@@ -82,7 +83,10 @@ export interface UserData {
     city: string,
     zip: string,
     date_of_birth: string,
+    email_verified_at: string,
     education_id: number,
+    resume_uploaded: boolean,
+    can_apply: boolean,
     coordinates: {
         longitude: number,
         latitude: number

@@ -1,8 +1,7 @@
-import {useForm} from "@inertiajs/react";
+import {useForm, usePage} from "@inertiajs/react";
 import Select from "react-select";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import {useEffect, useState} from "react";
-import FancyTitle from "@/Components/FancyTitle";
 import useGlobalContext from "@/Hooks/useGlobalContext";
 import {EducationInterface, UserData} from "@/Interfaces/SharedInterfaces";
 import React from "react";
@@ -31,10 +30,9 @@ interface SelectOptionInterface {
     label: string,
 }
 
-
-export default function (user: UserData) {
+export default function () {
     const {t} = useLaravelReactI18n();
-
+    let {user} = usePage<{ auth: { user: UserData } }>().props.auth;
     const [selectedEducation, setSelectedEducation] = useState<SelectOptionInterface>();
     const [availableEducations, setAvailableEducations] = useState<SelectOptionInterface[]>([]);
     const globalContext = useGlobalContext();
@@ -120,9 +118,8 @@ export default function (user: UserData) {
 
 
     return (
-        <div className={"shadow p-5 my-5 col-12 col-md-8 mx-auto"}>
-            <FancyTitle heading={t("Update your profile").toUpperCase()} subtitle={t("Hello, :name!", {name: user.name})} />
-            <form onSubmit={handleSubmit} className={"col-12 col-md-8 mx-auto"}>
+        <div className={"col-12 mx-auto"}>
+            <form onSubmit={handleSubmit} className={"col-12 mx-auto"}>
                 <div className="mb-3">
                     <label className={"form-label ps-0"}>{t("Contact Phone")} <span
                         className={"text-danger"}>*</span></label>

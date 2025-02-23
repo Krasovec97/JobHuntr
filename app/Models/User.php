@@ -83,7 +83,6 @@ class User extends Authenticatable implements FilamentUser, HasLocalePreference
         'admin',
         'sales'
     ];
-    private Country $country;
 
     public static function getAuthenticatedUser():?self{
         return Auth::guard('web')->user();
@@ -116,16 +115,44 @@ class User extends Authenticatable implements FilamentUser, HasLocalePreference
 
     public function preferredLocale(): string
     {
-        return strtolower($this->country->code ?? 'en');
+        return strtolower($this->country->code);
+    }
+
+    public function resume(): hasOne
+    {
+        return $this->hasOne(UserResume::class, 'user_id', 'id');
+    }
+
+    public function appliedJobs(): hasMany
+    {
+        return $this->hasMany(JobApplication::class, 'user_id', 'id');
+    }
+
+    public function canApply(mixed $userResume = null): bool
+    {
+        $userHasResume = $userResume;
+        if ($userHasResume === null) $userHasResume = $this->resume;
+
+        return
+            $userHasResume !== null &&
+            $this->education_id !== null &&
+            $this->date_of_birth !== null &&
+            $this->email_verified_at !== null;
     }
 
     public function toArray()
     {
         $array = parent::toArray();
+        $userResume = $this->resume;
         $array['coordinates'] = [
             'latitude' => $this->coordinates->latitude,
             'longitude' => $this->coordinates->longitude
         ];
+
+        $array['country'] = $this->country->name;
+        $array['country_code'] = $this->country->code;
+        $array['resume_uploaded'] = $userResume !== null;
+        $array['can_apply'] = $this->canApply($userResume);
 
         return $array;
     }

@@ -78,7 +78,7 @@ class CompanyJob extends Model
         'application_mail'
     ];
 
-    public static function getById($id): CompanyJob|Model
+    public static function getById($id): CompanyJob|Model|null
     {
         return self::query()->find($id);
     }

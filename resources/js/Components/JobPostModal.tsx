@@ -5,6 +5,7 @@ import {useLaravelReactI18n} from "laravel-react-i18n";
 import {CompanyData, JobInterface} from "@/Interfaces/SharedInterfaces";
 import IconWithText from "@/Components/IconWithText";
 import {formatJobLocation, parseMethodOfPayment} from "@/Helpers/Helpers";
+import ApplyButton from "@/Components/ApplyButton";
 
 type JobWithCompanyData = JobInterface & {
     company_data: CompanyData
@@ -13,10 +14,11 @@ type JobWithCompanyData = JobInterface & {
 interface ModalProps {
     showModal: boolean,
     clickedJob: JobWithCompanyData,
-    handleClose: () => void
+    handleClose: () => void,
+    handleShowApplyModal: () => void,
 }
 
-export default function JobPostModal({showModal, clickedJob, handleClose}: ModalProps) {
+export default function JobPostModal({showModal, clickedJob, handleClose, handleShowApplyModal}: ModalProps) {
     const {t} = useLaravelReactI18n();
     const {title, description} = parseMethodOfPayment(clickedJob);
 
@@ -100,12 +102,14 @@ export default function JobPostModal({showModal, clickedJob, handleClose}: Modal
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="primary">
-                    {t("Apply now")}
-                </Button>
-                <Button variant="outline-primary" target='_blank' href={'/job/' + clickedJob.id}>
-                    {t("See more details")}
-                </Button>
+                <div className="col-12">
+                    <ApplyButton handleApplyClick={() => handleShowApplyModal()}/>
+                </div>
+                <div className={"col-12 text-end"}>
+                    <Button variant="outline-primary" rel={"canonical"} target='_blank' href={'/job/' + clickedJob.id}>
+                        {t("See more details")}
+                    </Button>
+                </div>
             </Modal.Footer>
         </Modal>
     )

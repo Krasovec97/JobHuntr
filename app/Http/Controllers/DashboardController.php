@@ -11,13 +11,6 @@ class DashboardController extends Controller
 {
     public function getDashboardPage()
     {
-        /** @var User $user */
-        $user = User::getAuthenticatedUser();
-        $userCountry = $user->country;
-        $user->country_code = $userCountry->code;
-
-        return Inertia::render('Dashboard', [
-            'hasVerifiedEmail' => $user->email_verified_at !== null
-        ]);
+        return Inertia::render('Auth/Profile/Dashboard');
     }
 }

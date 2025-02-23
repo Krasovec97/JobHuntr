@@ -1,10 +1,9 @@
 import {Head, useForm, usePage} from '@inertiajs/react';
-import InputLabel from "../../Components/InputLabel";
 import InputError from "../../Components/InputError";
 import PageSection from "../../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../../Components/FancyTitle";
-import React from 'react';
+import React, {useRef, useState} from 'react';
 
 
 export default function Login() {
@@ -15,6 +14,9 @@ export default function Login() {
     });
 
     const {t} = useLaravelReactI18n();
+    const {app_url} = usePage().props;
+    const passwordRef = useRef<HTMLInputElement>(null);
+    const [currentIcon, setCurrentIcon] = useState<string>('fa-eye')
 
     function handleChange(e: any) {
         const key = e.target.id;
@@ -30,6 +32,13 @@ export default function Login() {
         post('/login');
     }
 
+    function showPassword() {
+        if (passwordRef.current) {
+            passwordRef.current.type = passwordRef.current.type === 'password' ? 'text' : 'password';
+            passwordRef.current.type === 'password' ? setCurrentIcon('fa-eye') : setCurrentIcon('fa-eye-slash');
+        }
+    }
+
     return (
         <>
             <Head title={t('[Business] Log in')} />
@@ -39,7 +48,8 @@ export default function Login() {
                 <div className={"col-12 col-md-5 border p-4 rounded mx-auto shadow"}>
                     <form onSubmit={submit}>
                         <div>
-                            <InputLabel value={t('Email')}/>
+                            <label htmlFor="email">{t('Email')}</label>
+
 
                             <input
                                 id="email"
@@ -56,17 +66,26 @@ export default function Login() {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel value={t('Password')}/>
+                            <label htmlFor="email">{t('Password')}</label>
 
-                            <input
-                                id="password"
-                                type="password"
-                                name="password"
-                                value={data.password}
-                                className="form-control"
-                                autoComplete="current-password"
-                                onChange={handleChange}
-                            />
+                            <div className="input-group">
+                                <input
+                                    id="password"
+                                    ref={passwordRef}
+                                    type="password"
+                                    name="password"
+                                    value={data.password}
+                                    className="form-control"
+                                    autoComplete="current-password"
+                                    onChange={(e) => setData('password', e.target.value)}
+                                />
+                                <div className="input-group-append">
+                                    <button className="btn border-top border-end border-bottom" type="button" onClick={showPassword}>
+                                        <i className={`fa-solid ${currentIcon}`}></i>
+                                    </button>
+                                </div>
+                            </div>
+
 
                             <InputError message={errors.password} className="mt-2"/>
                         </div>
@@ -79,6 +98,14 @@ export default function Login() {
                             <button className={"btn btn-primary px-5"}>{t("Login")}</button>
                         </div>
                     </form>
+
+                    <hr/>
+
+                    <div className="text-center">
+                        <a href={`https://${app_url}/register`}>
+                            <small>{t("Don't have an account yet?")}</small>
+                        </a>
+                    </div>
                 </div>
             </PageSection>
         </>

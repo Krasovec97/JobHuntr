@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\EducationController;
+use App\Http\Controllers\GoogleServicesController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebController;
@@ -40,6 +42,23 @@ Route::post('/forgotten/password', [PasswordResetLinkController::class, 'handleU
 
 Route::get('/password/reset/{token}', [PasswordResetLinkController::class, 'resetPasswordPage']);
 Route::post('/password/reset/', [PasswordResetLinkController::class, 'resetEntityPassword']);
+
+// "Api" Routes
+
+Route::get('/api/countries', [CountryController::class, 'getCountries']);
+Route::get('/api/jobs', [WebController::class, 'getAvailableJobs']);
+Route::get('/api/job/{id}', [WebController::class, 'getJobDetails']);
+
+Route::get('/api/work_fields', [WebController::class, 'getWorkFields']);
+Route::get('/api/employment_types', [WebController::class, 'getAvailableEmploymentTypes']);
+
+Route::get('/api/countries', [CountryController::class, 'getCountries']);
+Route::get('/api/country/code/{code}', [CountryController::class, 'getCountryByCode']);
+
+Route::post('/api/google/places/autocomplete', [GoogleServicesController::class, 'autoComplete']);
+Route::get('/api/google/places/{placeId}', [GoogleServicesController::class, 'getPlace']);
+
+Route::get('/api/educations', [EducationController::class, 'getEducations']);
 
 
 require __DIR__.'/auth.php';

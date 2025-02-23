@@ -10,7 +10,7 @@ export let formatJobLocation = (job: JobInterface) => {
         case "remote":
             return t('Remote');
         default:
-            return `${job.street}, ${job.zip} ${job.city}, ${job.country}`
+            return job.street
     }
 }
 
