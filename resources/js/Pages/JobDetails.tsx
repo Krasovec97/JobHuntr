@@ -31,7 +31,7 @@ export default function JobDetails({job}: PageProps) {
                 <meta name="googlebot-news"
                       content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
                 <meta name="keywords"
-                      content={`iskanje zaposlitve, zaposlitev, prosta delovna mesta, jobhuntr, ${job.title.toLowerCase()}`}/>
+                      content={`iskanje zaposlitve, zaposlitev, prosta delovna mesta, jobhuntr, ${job.title.toLowerCase().replace(/(<([^>]+)>)/gi, "")}`}/>
                 <meta property="og:url" content={window.location.href}/>
                 <meta property="og:image" content="https://jobhuntr.co/img/og_image.png"/>
                 <meta property="og:type" content="website"/>
