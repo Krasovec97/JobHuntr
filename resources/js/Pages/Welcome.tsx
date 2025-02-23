@@ -10,6 +10,7 @@ import React, {useState} from "react";
 import axios from "axios";
 import JobPostModal from "@/Components/JobPostModal";
 import ApplyModal from "@/Components/ApplyModal";
+import MetaTags from "@/Components/MetaTags";
 
 interface PageProps {
     newestJobs: Array<JobInterface>,
@@ -53,6 +54,10 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
 
     return (
         <MainLayout>
+            <MetaTags
+                title={"JobHuntr"}
+                description={"Our platform is designed to connect you with the perfect opportunities tailored to your skills and aspirations. Join us today and take the first step towards your ideal career"}
+                ogUrl={window.location.href} />
             <Head title={t("Welcome")}/>
 
             <PageSection className="bg-dark">
