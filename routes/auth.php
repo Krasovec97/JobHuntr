@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\JobApplicationsController;
 use App\Http\Controllers\PartnershipController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserResumeController;
@@ -26,6 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/user/update', [UserController::class, 'update']);
     Route::get('/user/resume', [UserResumeController::class, 'getUserResume']);
     Route::post('/user/resume', [UserResumeController::class, 'uploadUserResume']);
+    Route::post('/job/{id}/apply', [JobApplicationsController::class, 'applyForJob']);
+    Route::get('/user/applications', [JobApplicationsController::class, 'getUserApplications']);
 
 
     Route::middleware('auth_sales')->group(function () {

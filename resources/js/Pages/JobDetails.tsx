@@ -1,12 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import {CompanyData, JobInterface} from "@/Interfaces/SharedInterfaces";
 import MainLayout from "../Layouts/MainLayout";
 import {Head} from "@inertiajs/react";
 import PageSection from "../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import {numberFormat, parseEmploymentType} from "@/Helpers";
+import {parseEmploymentType} from "@/Helpers";
 import IconWithText from "../Components/IconWithText";
-import {formatJobLocation} from "@/Helpers/Helpers";
+import {formatJobLocation, parseMethodOfPayment} from "@/Helpers/Helpers";
+import ApplyButton from "@/Components/ApplyButton";
+import ApplyModal from "@/Components/ApplyModal";
 
 interface PageProps extends JobInterface {
     job: JobInterface & {
@@ -16,13 +18,15 @@ interface PageProps extends JobInterface {
 
 export default function JobDetails({job}: PageProps) {
     const {t} = useLaravelReactI18n();
+    const {title, description} = parseMethodOfPayment(job);
+    const [showApplyModal, setShowApplyModal] = useState(false);
 
     return (
         <MainLayout>
             <Head title="Job Details"/>
 
             <PageSection className="bg-white" fullWidth={true}>
-                <div className="col-12 col-md-6 mx-auto shadow border-3 pt-4 m-5 rounded  p-2">
+                <div className="col-12 col-md-7 mx-auto shadow border-3 pt-4 m-5 rounded  p-2">
                     <div className="row text-center">
                         <h1 className="h2 fw-bold">{job.title}</h1>
                     </div>
@@ -30,7 +34,7 @@ export default function JobDetails({job}: PageProps) {
                     <hr className="my-3"/>
 
                     <div className="col-12 mx-auto">
-                        <div className="d-flex justify-content-evenly my-4">
+                        <div className="col-12 col-xl-10 mx-auto d-flex justify-content-between my-4">
                             {job.company.id !== 1 &&
                                 <IconWithText
                                     icon={<i className="fa-solid fa-user-tie my-auto" title={t('Employer')}></i>}
@@ -43,11 +47,11 @@ export default function JobDetails({job}: PageProps) {
 
                             <IconWithText
                                 icon={<i className="fa-solid fa-hand-holding-dollar my-auto"
-                                         title={t('Starting salary')}></i>}
-                                text={numberFormat(job.salary_from, job.salary_currency)}/>
+                                         title={title}></i>}
+                                text={description}/>
                         </div>
 
-                        <div className="col-10 mx-auto my-4">
+                        <div className="col-12 col-xl-10 mx-auto my-4">
                             <div className="border-bottom mb-3 pb-2">
                                 <p className="fw-bold m-0">{t("Short company introduction")}</p>
                                 <div className="col-12"
@@ -96,13 +100,18 @@ export default function JobDetails({job}: PageProps) {
                                 </div>
                             </div>
                             <div className="text-end my-5">
-                                <button className="btn btn-primary me-3">{t("Apply now")}</button>
-                                <a href="/jobs" className="btn btn-outline-secondary">{t('Back to all jobs')}</a>
+                                <div className="mb-2">
+                                    <ApplyButton handleApplyClick={() => setShowApplyModal(true)}/>
+                                </div>
+                                <div>
+                                    <a href="/jobs" className="btn btn-outline-secondary">{t('Back to all jobs')}</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <ApplyModal showModal={showApplyModal} handleClose={() => setShowApplyModal(false)} job={job} />
             </PageSection>
         </MainLayout>
     );

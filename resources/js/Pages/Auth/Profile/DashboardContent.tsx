@@ -30,9 +30,9 @@ export default function DashboardContent() {
         <div className={'full-h'}>
             <div>
                 <p>{t("In order to apply through JobHuntr, you need to complete the following steps:")}</p>
-                {accountCompletedSteps.map((step) => {
+                {accountCompletedSteps.map((step, index) => {
                     return (
-                        <div className="row">
+                        <div className="row" key={index}>
                             <div className="d-none d-xl-block col-xl-auto my-1 pe-0">
                                 <div className={`rounded-start-2 px-2 ${step.completed ? 'bg-success' : 'bg-danger'}`}>
                                     <i className={`fa-solid text-white ${step.completed ? 'fa-check' : 'fa-xmark'}`}></i>

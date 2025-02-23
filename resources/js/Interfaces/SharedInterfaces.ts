@@ -86,6 +86,7 @@ export interface UserData {
     email_verified_at: string,
     education_id: number,
     resume_uploaded: boolean,
+    can_apply: boolean,
     coordinates: {
         longitude: number,
         latitude: number

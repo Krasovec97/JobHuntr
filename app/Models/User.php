@@ -123,7 +123,12 @@ class User extends Authenticatable implements FilamentUser, HasLocalePreference
         return $this->hasOne(UserResume::class, 'user_id', 'id');
     }
 
-    private function canApply(mixed $userResume = null): bool
+    public function appliedJobs(): hasMany
+    {
+        return $this->hasMany(JobApplication::class, 'user_id', 'id');
+    }
+
+    public function canApply(mixed $userResume = null): bool
     {
         $userHasResume = $userResume;
         if ($userHasResume === null) $userHasResume = $this->resume;

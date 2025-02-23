@@ -8,10 +8,10 @@ interface ComponentProps {
 export default function ({icon, text}: ComponentProps) {
     return (
         <div className="col-4 text-center">
-            <div>
+            <div className="mx-auto align-middle">
                 {icon}
             </div>
-            <div className="ms-3">{text}</div>
+            <div>{text}</div>
         </div>
     )
 }

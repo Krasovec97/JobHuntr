@@ -9,6 +9,7 @@ import JobCard from "@/Components/JobCard";
 import React, {useState} from "react";
 import axios from "axios";
 import JobPostModal from "@/Components/JobPostModal";
+import ApplyModal from "@/Components/ApplyModal";
 
 interface PageProps {
     newestJobs: Array<JobInterface>,
@@ -22,11 +23,13 @@ type JobWithCompanyData = JobInterface & {
 export default function Welcome({newestJobs, draftedJobs}: PageProps) {
     const {t} = useLaravelReactI18n();
     const [clickedJob, setClickedJob] = useState<JobWithCompanyData|null>(null);
-    const [showModal, setShowModal] = useState(false);
+    const [showDetailsModal, setShowDetailsModal] = useState(false);
+    const [showApplyModal, setShowApplyModal] = useState(false);
+
 
     const handleClose = () => {
         setClickedJob(null);
-        setShowModal(false);
+        setShowDetailsModal(false);
     };
 
     const handleShow = (index: number) => {
@@ -35,8 +38,18 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                 setClickedJob(response.data);
             })
 
-        setShowModal(true);
+        setShowDetailsModal(true);
     };
+
+    const handleShowApplyModal = () => {
+        setShowApplyModal(true);
+        setShowDetailsModal(false);
+    }
+
+    const handleCloseApplyModal = () => {
+        setShowApplyModal(false);
+        setShowDetailsModal(true);
+    }
 
     return (
         <MainLayout>
@@ -128,7 +141,8 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                 </div>
             </PageSection>
 
-            {clickedJob && <JobPostModal showModal={showModal} clickedJob={clickedJob} handleClose={handleClose} />}
+            {clickedJob && <JobPostModal showModal={showDetailsModal} clickedJob={clickedJob} handleClose={handleClose} handleShowApplyModal={handleShowApplyModal} />}
+            {clickedJob && <ApplyModal showModal={showApplyModal} handleClose={() => handleCloseApplyModal()} job={clickedJob}/>}
         </MainLayout>
     );
 }

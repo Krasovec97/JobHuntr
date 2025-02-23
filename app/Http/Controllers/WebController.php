@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\CompanyJob;
+use App\Models\User;
 use App\Models\WorkField;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
@@ -16,6 +18,12 @@ class WebController extends Controller
 {
     public function getWelcomePage(): Response
     {
+        $user = User::getAuthenticatedUser();
+        $appliedToJobIds = [];
+        if ($user !== null) {
+            $appliedToJobIds = $user->appliedJobs()->pluck('job_id')->toArray();
+        }
+
         $draftedJobsQuery = CompanyJob::query()
             ->whereNot('title', 'like', '%test%')
             ->where("status", "draft");
@@ -30,8 +38,9 @@ class WebController extends Controller
             ->get();
 
         $newestJobs = CompanyJob::query()
-            ->where('expires_at', '>', now())
+            ->where('expires_at', '>', Carbon::now())
             ->whereNotNull('posted_at')
+            ->whereNotIn('id', $appliedToJobIds)
             ->whereNot("status", "draft")
             ->orderBy('posted_at', 'desc')
             ->limit(4)
@@ -77,7 +86,14 @@ class WebController extends Controller
 
     public function getAvailableJobs(Request $request): Collection|array
     {
+        $user = User::getAuthenticatedUser();
+        $appliedToJobIds = [];
+        if ($user !== null) {
+            $appliedToJobIds = $user->appliedJobs()->get()->pluck('job_id')->toArray();
+        }
+
         $jobsQuery = CompanyJob::query()
+            ->whereNotIn('id', $appliedToJobIds)
             ->whereNotNull('posted_at')
             ->where('expires_at', '>', now())
             ->whereNot('status', 'draft');

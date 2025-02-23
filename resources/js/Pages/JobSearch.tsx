@@ -10,6 +10,7 @@ import {CompanyData, FilterTypes, JobInterface} from "@/Interfaces/SharedInterfa
 import JobFilters from "@/Components/JobFilters";
 import styled from "styled-components";
 import JobPostModal from "@/Components/JobPostModal";
+import ApplyModal from "@/Components/ApplyModal";
 
 type JobWithCompanyData = JobInterface & {
     company_data: CompanyData
@@ -17,11 +18,12 @@ type JobWithCompanyData = JobInterface & {
 
 export default function JobSearch() {
     const {t} = useLaravelReactI18n();
-    const [showModal, setShowModal] = useState(false);
+    const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [jobs, setJobs] = useState([]);
     const [clickedJob, setClickedJob] = useState<JobWithCompanyData|null>(null);
     const [totalJobsCount, setTotalJobsCount] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [showApplyModal, setShowApplyModal] = useState(false);
     let currentJobsCount = jobs.length;
 
     const [filters, setFilters] = useState<FilterTypes>({
@@ -67,7 +69,7 @@ export default function JobSearch() {
 
     const handleClose = () => {
         setClickedJob(null);
-        setShowModal(false);
+        setShowDetailsModal(false);
     };
 
     const handleShow = (index: number) => {
@@ -76,8 +78,19 @@ export default function JobSearch() {
                 setClickedJob(response.data);
             })
 
-        setShowModal(true);
+        setShowDetailsModal(true);
     };
+
+    const handleShowApplyModal = () => {
+        setShowApplyModal(true);
+        setShowDetailsModal(false);
+    }
+
+    const handleCloseApplyModal = () => {
+        setShowApplyModal(false);
+        setShowDetailsModal(true);
+    }
+
 
     return (
         <MainLayout>
@@ -119,7 +132,8 @@ export default function JobSearch() {
                 </div>
             </PageSection>
 
-            {clickedJob && <JobPostModal showModal={showModal} clickedJob={clickedJob} handleClose={handleClose} />}
+            {clickedJob && <JobPostModal showModal={showDetailsModal} clickedJob={clickedJob} handleClose={handleClose} handleShowApplyModal={handleShowApplyModal} />}
+            {clickedJob && <ApplyModal showModal={showApplyModal} handleClose={() => handleCloseApplyModal()} job={clickedJob}/>}
         </MainLayout>
     );
 }

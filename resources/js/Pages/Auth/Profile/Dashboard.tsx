@@ -49,7 +49,7 @@ export default function Dashboard() {
                 <div className="row mb-4 overflow-x-scroll">
                     {parts.map((part) => {
                         return (
-                            <div className={`col-12 col-md-auto text-center my-2 my-md-0 ${activePart.name === part.name ? 'text-primary border-bottom border-primary fw-bold' : ''}`}
+                            <div key={part.name} className={`col-12 col-md-auto text-center my-2 my-md-0 ${activePart.name === part.name ? 'text-primary border-bottom border-primary fw-bold' : ''}`}
                                  onClick={() => setActivePart(part)}
                                  style={{cursor: 'pointer'}}>
                                 <p>{t(part.name)}</p>
