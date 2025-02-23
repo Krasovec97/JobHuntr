@@ -18,10 +18,18 @@ class UserResumeController extends Controller
     {
         $user = User::getAuthenticatedUser();
         $userResume = UserResume::query()->where('user_id', $user->id)->first();
-        $file = Storage::get('/resumes/' . $userResume->file_name);
-        return response($file, 200, [
-            'Content-Type' => 'application/pdf'
-        ]);
+
+        if ($userResume !== null) {
+            $file = Storage::get('/resumes/' . $userResume->file_name);
+
+            if ($file !== null) {
+                return response($file, 200, [
+                    'Content-Type' => 'application/pdf'
+                ]);
+            }
+        }
+
+        return response(__("You have not uploaded any resume yet. Upload your resume now to showcase your skills and experience!"), 404);
     }
 
     /**

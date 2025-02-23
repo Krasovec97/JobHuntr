@@ -55,9 +55,7 @@ export default function Resume() {
 
             <div className="col-12 mt-5 text-center">
                 <FancyTitle heading={t("Your resume").toUpperCase()} subtitle={""} />
-                <iframe src="/user/resume" width="100%" height="1200px">
-                    <p>{t("You have not uploaded any resume yet. Upload your resume now to showcase your skills and experience!")}</p>
-                </iframe>
+                <iframe src="/user/resume" className="text-center" width="100%" height="1200px"></iframe>
             </div>
         </div>
     )
