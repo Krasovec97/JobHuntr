@@ -1,11 +1,13 @@
 import {useLaravelReactI18n} from "laravel-react-i18n";
-import {Head, useForm, usePage} from "@inertiajs/react";
+import {Head, usePage} from "@inertiajs/react";
 import BusinessLayout from "@/Layouts/BusinessLayout";
 import PageSection from "@/Components/PageSection";
 import CompanyQuickView from "../Parts/CompanyQuickView";
 import {CompanyData, CompanyAuthProps, JobInterface} from "@/Interfaces/SharedInterfaces";
 import {formatDate, formatText, numberFormat, parseEmploymentType} from "@/Helpers";
 import React, {useState} from "react";
+import ActivateJobListingModal from "@/Components/ActivateJobListingModal";
+import axios from "axios";
 
 interface JobDetailsProps {
     job: JobInterface
@@ -15,16 +17,17 @@ export default function NewJob({ job }: JobDetailsProps) {
     const {t} = useLaravelReactI18n();
     let company: CompanyData = usePage<CompanyAuthProps>().props.auth.company;
     const companyVerified = company.company_verified_at !== null;
-    const {post} = useForm();
     const [descriptionContent, setDescriptionContent] = useState<string>(job.intro);
     const [currentActiveTab, setCurrentActiveTab] = useState<string>('intro');
+    const [showModal, setShowModal] = useState<boolean>(false);
 
     let editJobButton = () => (window.location.href = `/job/${job.id}/update`)
-    let publishJobListingButton = () => {
-        post(`/job/${job.id}/activate`)
-        window.location.reload();
+    let cancelJobListing = () => {
+        axios.post(`/job/${job.id}/cancel`).then(() => {
+            window.location.reload()
+        })
     }
-    let cancelJobListing = () => (post(`/job/${job.id}/cancel`))
+
 
     return (
         <BusinessLayout>
@@ -38,7 +41,7 @@ export default function NewJob({ job }: JobDetailsProps) {
                     </div>
                     {job.status === 'draft' &&
                         <div className="col-12 col-md-6 text-end">
-                            <button onClick={publishJobListingButton} disabled={!companyVerified} className="btn btn-primary">
+                            <button onClick={() => setShowModal(true)} disabled={!companyVerified} className="btn btn-primary">
                                 {t("Activate job listing")}
                             </button>
                             <button onClick={editJobButton} className="btn btn-outline-primary ms-4">
@@ -164,6 +167,7 @@ export default function NewJob({ job }: JobDetailsProps) {
                 </div>
             </PageSection>
 
+            <ActivateJobListingModal showModal={showModal} handleClose={() => setShowModal(false)} job={job} />
         </BusinessLayout>
     );
 }

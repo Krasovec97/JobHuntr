@@ -538,5 +538,10 @@
     "This job was not found.": "This job was not found.",
     "This job listing has expired.": "This job listing has expired.",
     "This job listing is not open for applications.": "This job listing is not open for applications.",
-    "Error saving job application, please try again.": "Error saving job application, please try again."
+    "Error saving job application, please try again.": "Error saving job application, please try again.",
+    "You are about to active a job posting for: \":jobPosition\"": "You are about to active a job posting for: \":jobPosition\"",
+    "Job activated": "Job activated",
+    "This job posting was activated successfully! It will now be visible to all users.": "This job posting was activated successfully! It will now be visible to all users.",
+    "Please select a deadline.": "Please select a deadline.",
+    "Cancel job listing": "Cancel job listing"
 }

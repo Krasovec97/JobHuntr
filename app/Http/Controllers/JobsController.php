@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\GlobalHelper;
 use App\Models\Company;
 use App\Models\CompanyJob;
 use App\Models\Country;
 use App\Models\Education;
 use App\Models\WorkField;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
@@ -165,25 +167,35 @@ class JobsController extends Controller
      *
      * @param Request $request The HTTP request.
      * @param int $jobId The job ID.
-     * @return Response The Inertia response.
+     * @return JsonResponse JSON response.
      */
-    public function activateJobListing(Request $request, int $jobId): Response
+    public function activateJobListing(Request $request, int $jobId): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'expires_at' => ['required'],
+        ]);
+
+        if ($validator->fails()) {
+            return new JsonResponse([
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
+
         $job = CompanyJob::getById($jobId);
 
         if ($job === null) {
-            abort(404);
+            return new JsonResponse([
+                'errors' => [__("This job was not found.")]
+            ], 400);
         }
 
         $job->status = 'active';
         $job->posted_at = now();
-        $job->expires_at = $job->expires_at ?? Carbon::now()->addMonth();
+        $job->expires_at = Carbon::parse($request->get('expires_at'))->format(GlobalHelper::DB_DATE_FORMAT);
         $job->save();
 
 
-        return Inertia::render('Business/JobDetails', [
-            "job" => $job
-        ]);
+        return new JsonResponse([]);
     }
 
     /**
@@ -193,20 +205,20 @@ class JobsController extends Controller
      * @param int $jobId The job ID.
      * @return Response The Inertia response.
      */
-    public function cancelJobListing(Request $request, int $jobId): Response
+    public function cancelJobListing(Request $request, int $jobId): JsonResponse
     {
         $job = CompanyJob::getById($jobId);
 
         if ($job === null) {
-            abort(404);
+            return new JsonResponse([
+                'errors' => [__("This job was not found.")]
+            ], 400);
         }
 
         $job->status = 'draft';
         $job->posted_at = null;
         $job->save();
 
-        return Inertia::render('Business/JobDetails', [
-            "job" => $job
-        ]);
+        return new JsonResponse([]);
     }
 }

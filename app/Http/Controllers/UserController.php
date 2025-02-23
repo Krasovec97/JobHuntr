@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\GlobalHelper;
 use App\Models\Company;
 use App\Models\Country;
 use App\Models\User;
 use App\Notifications\EmailVerificationNotification;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -99,7 +101,7 @@ class UserController extends Controller
         $user->city = $request->get('address')['city'];
         $user->zip = $request->get('address')['zip'];
         $user->country_id = $country->id;
-        $user->date_of_birth = $request->get('date_of_birth');
+        $user->date_of_birth = Carbon::parse($request->get('date_of_birth'))->format(GlobalHelper::DB_DATETIME_FORMAT);
         $user->education_id = $request->get('education_id');
         $user->coordinates = new Point($request->get('coordinates')['latitude'], $request->get('coordinates')['longitude']);
         $user->save();

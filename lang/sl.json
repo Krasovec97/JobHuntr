@@ -538,5 +538,10 @@
     "This job was not found.": "Delovno mesto ni bilo najdeno.",
     "This job listing has expired.": "Ta oglas za delo je potekel.",
     "This job listing is not open for applications.": "Ta oglas za delo je potekel.",
-    "Error saving job application, please try again.": "Napaka pri shranjevanju prijave. Poskusite znova."
+    "Error saving job application, please try again.": "Napaka pri shranjevanju prijave. Poskusite znova.",
+    "You are about to active a job posting for: \":jobPosition\"": "Pripravljate se na aktivacijo oglasa za delo: \":jobPosition\"",
+    "Job activated": "Oglas aktiviran",
+    "This job posting was activated successfully! It will now be visible to all users.": "Oglas za delo je bil uspešno aktiviran! Zdaj bo viden vsem uporabnikom.",
+    "Please select a deadline.": "Prosimo, izberite rok za prijavo.",
+    "Cancel job listing": "Prekliči oglas"
 }
