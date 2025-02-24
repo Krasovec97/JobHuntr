@@ -57,16 +57,16 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                 <meta name="title" content="Prosta delovna mesta - JobHuntr"/>
                 <meta name="description"
                       content="Naša platforma je zasnovana tako, da vas poveže s popolnimi priložnostmi, prilagojenimi vašim veščinam in željam. Pridružite se nam še danes in naredite prvi korak k svoji idealni karieri!"/>
-                <meta name="keywords"
-                      content="delo, delovna mesta, iskanje zaposlitve, zaposlitev, prosta delovna mesta, jobhuntr, portal za zaposlovanje"/>
-                <meta name="googlebot-news"
-                      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
                 <meta property="og:title" content="Prosta delovna mesta - JobHuntr"/>
                 <meta property="og:description"
                       content="Naša platforma je zasnovana tako, da vas poveže s popolnimi priložnostmi, prilagojenimi vašim veščinam in željam. Pridružite se nam še danes in naredite prvi korak k svoji idealni karieri!"/>
                 <meta property="og:url" content={window.location.href}/>
                 <meta property="og:image" content="https://jobhuntr.co/img/og_image.png"/>
                 <meta property="og:type" content="website"/>
+                <meta name="keywords"
+                      content="delo, delovna mesta, iskanje zaposlitve, zaposlitev, prosta delovna mesta, jobhuntr, portal za zaposlovanje"/>
+                <meta name="googlebot-news"
+                      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
             </Head>
 
             <PageSection className="bg-dark">

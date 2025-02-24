@@ -102,11 +102,10 @@ export default function JobSearch() {
                       content="delo, delovna mesta, iskanje zaposlitve, zaposlitev, prosta delovna mesta, jobhuntr, portal za zaposlovanje"/>
                 <meta name="googlebot-news"
                       content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
-
                 <meta property="og:title" content="Iskanje delovnih mest"/>
                 <meta property="og:description"
                       content="Naša platforma opolnomoči iskalce zaposlitve s ponudbo prilagojenih zaposlitvenih priložnosti v vrhunskih podjetjih, ki zajemajo različne industrije in lokacije. Iščite, filtrirajte in odkrijte svojo naslednjo sanjsko službo še danes z JobHuntr – vašo platformo za karierni uspeh!"/>
-                <meta property="og:url" content={window.location.href}/>
+                <meta property="og:url" content={"https://jobhuntr.co/jobs"}/>
                 <meta property="og:image" content="https://jobhuntr.co/img/og_image.png"/>
                 <meta property="og:type" content="website"/>
             </Head>

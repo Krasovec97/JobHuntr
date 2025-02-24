@@ -22,7 +22,7 @@ export default function RemoteJobs() {
                 <meta property="og:title" content="Najdi Najboljše Delo na Daljavo"/>
                 <meta property="og:description"
                       content="Odkrij prednosti dela na daljavo in najdi fleksibilne zaposlitvene priložnosti z JobHuntr. Uživaj v boljši usklajenosti dela in življenja, večji produktivnosti in globalnih kariernih možnostih. Začni iskanje dela na daljavo še danes!"/>
-                <meta property="og:url" content={window.location.href}/>
+                <meta property="og:url" content={"https://jobhuntr.co/remote"}/>
                 <meta property="og:image" content="https://jobhuntr.co/img/og_image.png"/>
                 <meta property="og:type" content="website"/>
             </Head>
