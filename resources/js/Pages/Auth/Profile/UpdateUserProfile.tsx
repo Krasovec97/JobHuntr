@@ -7,11 +7,11 @@ import {EducationInterface, UserData} from "@/Interfaces/SharedInterfaces";
 import React from "react";
 import GoogleLocationSelect from "@/Components/GoogleLocationSelect";
 import axios from "axios";
-import DatePicker, {registerLocale} from "react-datepicker";
+import DatePicker, { registerLocale } from "react-datepicker";
 import {sl} from "date-fns/locale";
 
 import "react-datepicker/dist/react-datepicker.css";
-registerLocale('sl', sl)
+registerLocale('sl', sl);
 
 interface UserObjectData {
     user_id: number,
