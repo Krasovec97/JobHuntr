@@ -3,7 +3,7 @@
 import './bootstrap';
 import '../scss/app.scss';
 
-import { createRoot } from 'react-dom/client';
+import {hydrateRoot} from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import {LaravelReactI18nProvider} from "laravel-react-i18n";
@@ -18,7 +18,6 @@ createInertiaApp({
     //@ts-ignore
     resolve: (name) => resolvePageComponent(`./Pages/${name}.tsx`, import.meta.glob('./Pages/**/*.tsx')),
     setup({ el, App, props }) {
-        const root = createRoot(el);
         const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         let userLang = 'sl';
 
@@ -31,7 +30,7 @@ createInertiaApp({
                 break;
         }
 
-        root.render(
+        hydrateRoot(el,
             <StrictMode>
                 <LaravelReactI18nProvider
                     locale={userLang}
@@ -45,7 +44,7 @@ createInertiaApp({
                     <CookieBanner />
                 </LaravelReactI18nProvider>
             </StrictMode>
-        );
+            )
     },
     progress: {
         color: '#4B5563',

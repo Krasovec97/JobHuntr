@@ -9,7 +9,7 @@ import {
 } from "@/Interfaces/SharedInterfaces";
 import Select from "react-select";
 import axios from "axios";
-import FormRange from "react-bootstrap/FormRange";
+import FormRange from 'react-bootstrap/cjs/FormRange';
 import {parseEmploymentType, regions} from "@/Helpers";
 import {usePage} from "@inertiajs/react";
 
@@ -86,7 +86,6 @@ export default function JobFilters({filters, setFilters, totalJobsCount, current
     const handleLocationFilter = (location: any) => {
         let newLocationFilters = {...filters};
         let index = filters.location.indexOf(location);
-        console.log(location);
 
         if (index !== -1) {
             newLocationFilters.location.splice(index, 1);

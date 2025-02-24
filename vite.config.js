@@ -8,11 +8,15 @@ export default defineConfig({
     plugins: [
         laravel({
             input: 'resources/js/app.tsx',
+            ssr: 'resources/js/ssr.jsx',
             refresh: true,
         }),
         react(),
         i18n(),
     ],
+    ssr: {
+      noExternal: ['react', 'react-dom', 'styled-components']
+    },
     resolve: {
         alias: {
             '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap')
