@@ -3,15 +3,18 @@ import createServer from '@inertiajs/react/server'
 import ReactDOMServer from 'react-dom/server'
 import {LaravelReactI18nProvider} from "laravel-react-i18n";
 import CookieBanner from "@/Components/CookieBanner";
+import React from 'react';
+import {resolvePageComponent} from "laravel-vite-plugin/inertia-helpers";
+
+const appName = 'JobHuntr';
 
 createServer(page =>
     createInertiaApp({
         page,
         render: ReactDOMServer.renderToString,
-        resolve: (name) => {
-            const pages = import.meta.glob('./Pages/**/*.tsx')
-            return pages[`./Pages/${name}.tsx`]
-        },
+        title: (title) => `${title} - ${appName}`,
+        // @ts-ignore
+        resolve: (name) => resolvePageComponent(`./Pages/${name}.tsx`, import.meta.glob('./Pages/**/*.tsx')),
         setup: ({ App, props }) => {
             const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
             let userLang = 'sl';

@@ -8,14 +8,14 @@ export default defineConfig({
     plugins: [
         laravel({
             input: 'resources/js/app.tsx',
-            ssr: 'resources/js/ssr.jsx',
+            ssr: 'resources/js/ssr.tsx',
             refresh: true,
         }),
         react(),
         i18n(),
     ],
     ssr: {
-      noExternal: ['react', 'react-dom', 'styled-components']
+      noExternal: ['styled-components']
     },
     resolve: {
         alias: {
