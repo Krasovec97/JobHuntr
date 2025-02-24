@@ -28,7 +28,7 @@ export default function JobDetails({job}: PageProps) {
                 <meta name="description" content={job.intro.replace(/(<([^>]+)>)/gi, "")}/>
                 <meta property="og:title" content={job.title}/>
                 <meta property="og:description" content={job.intro.replace(/(<([^>]+)>)/gi, "")}/>
-                <meta property="og:url" content={window.location.href}/>
+                <meta property="og:url" content={"https://jobhuntr.co/job/" + job.id}/>
                 <meta property="og:image:secure_url" content="https://jobhuntr.co/img/og_image.png"/>
                 <meta property="og:type" content="website"/>
                 <meta name="googlebot-news"

@@ -22,7 +22,7 @@ export default function Companies() {
                 <meta property="og:title" content="JobHuntr išče delodajalce!"/>
                 <meta property="og:description"
                       content="Pridružite se JobHuntr in hitro povežite svojo podjetje z najboljšimi talenti. Objavite delovna mesta, dosezite kvalificirane kandidate in optimizirajte zaposlovanje z inovativno platformo. Začnite danes!"/>
-                <meta property="og:url" content={window.location.href}/>
+                <meta property="og:url" content={"https://jobhuntr.co/companies"}/>
                 <meta property="og:image" content="https://jobhuntr.co/img/og_image.png"/>
                 <meta property="og:type" content="website"/>
             </Head>
