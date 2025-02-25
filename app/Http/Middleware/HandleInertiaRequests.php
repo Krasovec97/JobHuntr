@@ -6,6 +6,7 @@ use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
+use Tightenco\Ziggy\Ziggy;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -31,14 +32,17 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        return [
-            ...parent::share($request),
+        $ziggy = new Ziggy($group = null, $request->url());
+
+        return array_merge(parent::share($request), [
+            // Add in Ziggy routes for SSR
+            'ziggy' => $ziggy->toArray(),
             'auth' => [
                 'user' => Auth::guard('web')->user(),
                 'company' => Auth::guard('web_business')->user(),
             ],
             'app_url'=> env('APP_URL'),
             'business_url'=> env('APP_BUSINESS_URL'),
-        ];
+        ]);
     }
 }
