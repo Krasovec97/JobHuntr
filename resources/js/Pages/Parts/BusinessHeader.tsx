@@ -23,7 +23,7 @@ export default function () {
                 <hr className="mt-auto text-white"/>
                 <div className="h-auto">
                     <li className="nav-item">
-                        <a href={`www.${appUrl}`} target={'_blank'} className="text-white nav-link">
+                        <a href={`${appUrl}`} target={'_blank'} className="text-white nav-link">
                             <i className="fa-solid fa-up-right-from-square text-white pe-2"></i> {t("Front page").toUpperCase()}
                         </a>
                     </li>
