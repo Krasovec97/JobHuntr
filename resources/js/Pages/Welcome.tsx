@@ -148,7 +148,7 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                                 <i className="fa-solid fa-circle-check fa-2x text-primary mb-3"></i>
                                 <h1 className="fw-bold">{t("Hurray!")}</h1>
                                 <p>{t("All jobs on JobHuntr are already posted!")}</p>
-                                <button className="btn btn-primary fw-bold mt-4">{t("See available jobs")}</button>
+                                <a className="btn btn-primary fw-bold mt-4" href="/jobs">{t("See available jobs")}</a>
                             </div>
                         </div>
                     }
