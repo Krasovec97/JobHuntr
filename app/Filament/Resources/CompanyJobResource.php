@@ -16,6 +16,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 
 class CompanyJobResource extends Resource
@@ -49,7 +50,8 @@ class CompanyJobResource extends Resource
                     'salary' => __("Salary"),
                     'hourly' => __("Hourly rate"),
                     'provision' => __("Provision"),
-                ])->required(),
+                    'by_agreement' => __("By agreement"),
+                ]),
                 TextInput::make('salary_from'),
                 TextInput::make('salary_to'),
                 TextInput::make('hourly_rate'),
@@ -66,8 +68,7 @@ class CompanyJobResource extends Resource
                     'field_work' => __("Field work"),
                 ])->required(),
                 Select::make('minimum_education_id')
-                    ->options($educationOptions)
-                    ->required(),
+                    ->options($educationOptions),
                 TextInput::make('open_positions_count')->columnSpanFull()->required(),
                 TextInput::make('street'),
                 TextInput::make('zip'),
@@ -77,7 +78,7 @@ class CompanyJobResource extends Resource
                     'gorenjska' => 'Gorenjska',
                     'primorska' => 'Primorska',
                     'notranjska' => 'Notranjska',
-                    'dolenjska' => 'Dolejnska',
+                    'dolenjska' => 'Dolenjska',
                     'koroska' => 'Koroška',
                     'stajerska' => 'Štajerska',
                     'prekmurje' => 'Prekmurje',
@@ -119,7 +120,10 @@ class CompanyJobResource extends Resource
                 Tables\Columns\TextColumn::make('posted_at')->date('d.m.Y'),
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('Drafted')->query(fn(Builder $query) => $query->where('status', 'draft')),
+                Tables\Filters\Filter::make('Active')->query(fn(Builder $query) => $query->where('status', 'active')),
+                Tables\Filters\Filter::make('JobHuntr')->query(fn(Builder $query) => $query->where('company_id', 1)),
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

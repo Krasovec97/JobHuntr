@@ -32,7 +32,7 @@ export default function JobPostModal({showModal, clickedJob, handleClose, handle
                     <div className="row">
                         {clickedJob.company_data.id !== 1 &&
                             <IconWithText
-                                icon={<i className="fa-solid fa-user-tie my-auto" title={t('Employer')}></i>}
+                                icon={<i className="fa-solid fa-user-tie my-auto" title={t("Employer info")}></i>}
                                 text={clickedJob.company_data.name}/>
                         }
 
@@ -54,22 +54,22 @@ export default function JobPostModal({showModal, clickedJob, handleClose, handle
                     <p className="fw-bold m-0">{t("Work Location")}</p>
                     {t(formatText(clickedJob.work_location))}
                 </div>
-                <div className="border-bottom mb-3 pb-2">
-                    <p className="fw-bold m-0">{t("Main Tasks")}</p>
+                <div className="border-bottom mb-3 ">
+                    <p className="fw-semibold text-primary">{t("Main Tasks")}</p>
                     <div className="col-12"
                          dangerouslySetInnerHTML={{__html: clickedJob.assignments}}>
                     </div>
                 </div>
 
-                <div className="border-bottom mb-3 py-2">
-                    <p className="fw-bold m-0">{t("What We Offer")}</p>
+                <div className="border-bottom mb-3">
+                    <p className="fw-bold text-primary">{t("What We Offer")}</p>
                     <div className="col-12"
                          dangerouslySetInnerHTML={{__html: clickedJob.benefits}}>
                     </div>
                 </div>
 
-                <div className="border-bottom mb-3 py-2">
-                    <p className="fw-bold m-0">{t("What We Expect")}</p>
+                <div className="border-bottom mb-3 pb-3">
+                    <p className="fw-bold text-primary">{t("What We Expect")}</p>
                     <div className="col-12"
                          dangerouslySetInnerHTML={{__html: clickedJob.expectations}}>
                     </div>

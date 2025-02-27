@@ -17,7 +17,7 @@ class AuthenticateBusiness
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::guard('web_business')->user() === null) {
-            return redirect('/dashboard');
+            return redirect('/');
         }
 
         return $next($request);

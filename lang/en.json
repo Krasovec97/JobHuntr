@@ -545,5 +545,6 @@
     "Please select a deadline.": "Please select a deadline.",
     "Cancel job listing": "Cancel job listing",
     "Gender": "Gender",
-    "Select": "Select"
+    "Select": "Select",
+    "To edit this job post, please deactivate it first.": "To edit this job post, please deactivate it first."
 }

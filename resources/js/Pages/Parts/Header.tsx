@@ -14,13 +14,20 @@ export default function ({darkBg}: HeaderProps) {
     const {t} = useLaravelReactI18n();
     let user: UserData = usePage<UserAuthProps>().props.auth.user;
 
-
     const logout = () => {
         post('/logout');
     }
 
     return (
         <>
+            <div className="py-1 bg-primary">
+                <div className="col-12 col-md-10 mx-auto text-end">
+                    <a className='text-white me-4' href={`https://${usePage().props.business_url}/dashboard`}>
+                        <small>{t("Company login")}</small>
+                    </a>
+                </div>
+            </div>
+
             <div className="row">
                 <div className="col-12 col-md-10 mx-auto">
                     <nav className="navbar navbar-expand-lg navbar-dark sticky">

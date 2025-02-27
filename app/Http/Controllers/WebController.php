@@ -38,9 +38,11 @@ class WebController extends Controller
             ->get();
 
         $newestJobs = CompanyJob::query()
+            ->select('company_jobs.*', 'companies.name')
+            ->join('companies', 'companies.id', '=', 'company_jobs.company_id')
             ->where('expires_at', '>', Carbon::now())
             ->whereNotNull('posted_at')
-            ->whereNotIn('id', $appliedToJobIds)
+            ->whereNotIn('company_jobs.id', $appliedToJobIds)
             ->whereNot("status", "draft")
             ->orderBy('posted_at', 'desc')
             ->limit(4)
@@ -93,7 +95,9 @@ class WebController extends Controller
         }
 
         $jobsQuery = CompanyJob::query()
-            ->whereNotIn('id', $appliedToJobIds)
+            ->select('company_jobs.*', 'companies.name')
+            ->join('companies', 'companies.id', '=', 'company_jobs.company_id')
+            ->whereNotIn('company_jobs.id', $appliedToJobIds)
             ->whereNotNull('posted_at')
             ->where('expires_at', '>', now())
             ->whereNot('status', 'draft');
@@ -114,7 +118,7 @@ class WebController extends Controller
 
         if ($params->get('search_string') !== null) {
             $searchString = $params->get('search_string');
-            $jobsQuery->where(DB::raw('UPPER(title)'), 'like', '%' . $searchString . '%');
+            $jobsQuery->where(DB::raw('UPPER(company_jobs.title)'), 'like', '%' . $searchString . '%');
         }
 
         if ($params->get('work_fields_ids') !== null) {
@@ -146,7 +150,7 @@ class WebController extends Controller
         }
 
         $jobs = $jobsQuery
-            ->orderBy('created_at', 'desc')
+            ->orderBy('company_jobs.created_at', 'desc')
             ->get();
 
         return new Collection([

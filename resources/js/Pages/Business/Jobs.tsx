@@ -46,7 +46,7 @@ export default function Jobs({companyJobs}: JobsProps) {
                     return (
                         <TableRow href={"/job/" + job.id} className={"row py-3 text-decoration-none text-dark border-bottom border-dark border-opacity-25"} key={job.id}>
                             <div className="col-2 col-md-2">{job.title}</div>
-                            <div className="col-2 d-none d-md-block">{job.work_field?.name}</div>
+                            <div className="col-2 d-none d-md-block">{t(job.work_field?.name!)}</div>
                             <div className="col-2 d-none d-md-block">{t(formatText(job.work_location))}</div>
                             <div className="col-2 d-none d-md-block">{t(capitalize(job.method_of_payment))}</div>
                             <div className="col-2 d-none d-md-block">
