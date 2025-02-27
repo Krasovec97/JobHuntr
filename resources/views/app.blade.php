@@ -55,6 +55,9 @@
             gtag('config', 'G-TRF524KEBJ');
         </script>
 
+
+
+        @viteReactRefresh
         @vite(['resources/js/app.tsx'])
     </head>
 

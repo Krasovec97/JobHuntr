@@ -16,7 +16,7 @@ const Image = styled.div<{ width?: number }>`
     min-width: ${props => {
         return props.width + "px"
     }};
-    background-image: url("/img/logo-main.webp");
+    background-image: url("/img/logo-main.png");
     background-position: center;
     background-repeat: no-repeat;
     background-clip: border-box;
