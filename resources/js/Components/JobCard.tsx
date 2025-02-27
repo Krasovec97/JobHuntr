@@ -1,11 +1,13 @@
 import {formatDate, formatText, parseEmploymentType} from "@/Helpers";
-import {JobInterface} from "@/Interfaces/SharedInterfaces";
+import {CompanyData, JobInterface} from "@/Interfaces/SharedInterfaces";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import React from "react";
 import {parseMethodOfPayment} from "@/Helpers/Helpers";
 
+type CustomJobInterface = JobInterface & CompanyData;
+
 interface ComponentProps {
-    job: JobInterface,
+    job: CustomJobInterface,
     isDrafted?: boolean
 }
 
@@ -50,6 +52,11 @@ export default function JobCard({job, isDrafted = false}: ComponentProps) {
                         <small className="card-footer">
                             <p className="m-0 text-end">{t("Application deadline") + ": " + formatDate(job.expires_at)}</p>
                             <p className="m-0 text-end">{t("Published") + ": " + formatDate(job.posted_at)}</p>
+                            <div className="mt-2 border-top pt-2 text-center">
+                                <div>
+                                    <small>{job.name}</small>
+                                </div>
+                            </div>
                         </small>
                     </>
 

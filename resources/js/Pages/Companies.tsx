@@ -43,7 +43,7 @@ export default function Companies() {
                     </div>
 
                     <div className="col-12 mb-5">
-                        <a className='btn btn-outline-light btn-lg fw-bold px-5' href={`https://${usePage().props.business_url}`}>{t("Company login").toUpperCase()}</a>
+                        <a className='btn btn-outline-light btn-lg fw-bold px-5' href={`https://${usePage().props.business_url}/dashboard`}>{t("Company login").toUpperCase()}</a>
                     </div>
                 </div>
             </PageSection>

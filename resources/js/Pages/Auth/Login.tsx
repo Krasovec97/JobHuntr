@@ -105,7 +105,7 @@ export default function Login() {
                     </h4>
 
                     <div className="col-12">
-                        <a className='btn btn-outline-dark btn-lg fw-bold px-5' href={`https://${usePage().props.business_url}`}>{t("Company login")}</a>
+                        <a className='btn btn-outline-dark btn-lg fw-bold px-5' href={`https://${usePage().props.business_url}/dashboard`}>{t("Company login")}</a>
                     </div>
                 </div>
             </PageSection>

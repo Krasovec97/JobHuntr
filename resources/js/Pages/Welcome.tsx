@@ -11,14 +11,17 @@ import axios from "axios";
 import JobPostModal from "@/Components/JobPostModal";
 import ApplyModal from "@/Components/ApplyModal";
 
-interface PageProps {
-    newestJobs: Array<JobInterface>,
-    draftedJobs: Array<JobInterface>,
-}
 
 type JobWithCompanyData = JobInterface & {
     company_data: CompanyData
 };
+
+type JobAndCompanies = JobInterface & CompanyData;
+
+interface PageProps {
+    newestJobs: Array<JobAndCompanies>,
+    draftedJobs: Array<JobAndCompanies>,
+}
 
 export default function Welcome({newestJobs, draftedJobs}: PageProps) {
     const {t} = useLaravelReactI18n();
@@ -135,7 +138,7 @@ export default function Welcome({newestJobs, draftedJobs}: PageProps) {
                 <FancyTitle heading={t("In the workshop").toUpperCase()} subtitle={t("These jobs might be coming soon")}/>
 
                 <div className="row">
-                    {draftedJobs.length !== 0 ? draftedJobs.map((job, index) => {
+                    {draftedJobs.length !== 0 ? draftedJobs.map((job: JobAndCompanies, index) => {
                             return (
                                 <div key={index} className="col-12 col-md-6 col-xl-3 my-3">
                                     <JobCard job={job} isDrafted={true} />

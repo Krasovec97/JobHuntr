@@ -545,5 +545,6 @@
     "Please select a deadline.": "Prosimo, izberite rok za prijavo.",
     "Cancel job listing": "Prekliči oglas",
     "Gender": "Spol",
-    "Select": "Izberi"
+    "Select": "Izberi",
+    "To edit this job post, please deactivate it first.": "Za urejanje tega oglasa, ga najprej prekličite."
 }

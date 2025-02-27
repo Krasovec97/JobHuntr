@@ -4,6 +4,7 @@ import PageSection from "../../Components/PageSection";
 import {useLaravelReactI18n} from "laravel-react-i18n";
 import FancyTitle from "../../Components/FancyTitle";
 import React, {useRef, useState} from 'react';
+import ApplicationLogo from "@/Components/ApplicationLogo";
 
 
 export default function Login() {
@@ -17,6 +18,7 @@ export default function Login() {
     const {app_url} = usePage().props;
     const passwordRef = useRef<HTMLInputElement>(null);
     const [currentIcon, setCurrentIcon] = useState<string>('fa-eye')
+    const appUrl = usePage<{app_url: string}>().props.app_url;
 
     function handleChange(e: any) {
         const key = e.target.id;
@@ -43,6 +45,11 @@ export default function Login() {
         <>
             <Head title={t('[Business] Log in')} />
 
+            <div className="bg-dark py-4">
+                <a href={appUrl}>
+                    <ApplicationLogo />
+                </a>
+            </div>
             <PageSection className={'full-h'}>
                 <FancyTitle heading={t("Company login")} subtitle={t("Welcome")} />
                 <div className={"col-12 col-md-5 border p-4 rounded mx-auto shadow"}>
@@ -90,7 +97,7 @@ export default function Login() {
                             <InputError message={errors.password} className="mt-2"/>
                         </div>
                         <div className="text-end my-2">
-                            <a href={`https://${usePage().props.app_url}/forgotten/password`}>
+                            <a href={`${usePage().props.app_url}/forgotten/password`}>
                                 <small>{t("Forgotten password?")}</small>
                             </a>
                         </div>
@@ -102,7 +109,7 @@ export default function Login() {
                     <hr/>
 
                     <div className="text-center">
-                        <a href={`https://${app_url}/register`}>
+                        <a href={`${app_url}/register`}>
                             <small>{t("Don't have an account yet?")}</small>
                         </a>
                     </div>

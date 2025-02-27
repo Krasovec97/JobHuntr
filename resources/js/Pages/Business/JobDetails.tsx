@@ -16,7 +16,7 @@ interface JobDetailsProps {
 export default function NewJob({ job }: JobDetailsProps) {
     const {t} = useLaravelReactI18n();
     let company: CompanyData = usePage<CompanyAuthProps>().props.auth.company;
-    const companyVerified = company.company_verified_at !== null;
+    const companyVerified = company.company_verified_at === null;
     const [descriptionContent, setDescriptionContent] = useState<string>(job.intro);
     const [currentActiveTab, setCurrentActiveTab] = useState<string>('intro');
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -26,6 +26,14 @@ export default function NewJob({ job }: JobDetailsProps) {
         axios.post(`/job/${job.id}/cancel`).then(() => {
             window.location.reload()
         })
+    }
+
+    const handleJobStatusChange = (status: string) => {
+        if (status === 'active') {
+            cancelJobListing();
+        } else {
+            setShowModal(true);
+        }
     }
 
 
@@ -39,23 +47,22 @@ export default function NewJob({ job }: JobDetailsProps) {
                     <div className="col-12 col-md-6">
                         <h3 className={"text-dark"}>{job.title}</h3>
                     </div>
-                    {job.status === 'draft' &&
-                        <div className="col-12 col-md-6 text-end">
-                            <button onClick={() => setShowModal(true)} disabled={!companyVerified} className="btn btn-primary">
-                                {t("Activate job listing")}
-                            </button>
-                            <button onClick={editJobButton} className="btn btn-outline-primary ms-4">
-                                {t("Edit this job")}
-                            </button>
+                    <div className="col-12 col-md-6 text-end">
+                        <button onClick={() => handleJobStatusChange(job.status)} disabled={!companyVerified} className="btn btn-primary">
+                            {job.status === 'active' ? t("Cancel job listing") : t("Activate job listing")}
+                        </button>
+
+                        <button onClick={editJobButton} disabled={job.status === 'active'} className="btn btn-outline-primary ms-4">
+                            {t("Edit this job")}
+                        </button>
+                        <div className="mt-2">
+                            {job.status === 'active' &&
+                                <small>
+                                    {t("To edit this job post, please deactivate it first.")}
+                                </small>
+                            }
                         </div>
-                    }
-                    {job.status === 'active' &&
-                        <div className="col-12 col-md-6 text-end">
-                            <button onClick={cancelJobListing} className="btn btn-outline-primary">
-                                {t("Cancel job listing")}
-                            </button>
-                        </div>
-                    }
+                    </div>
                     {!companyVerified &&
                         <small>{t('Only verified companies can post jobs on JobHuntr. Please wait until we verify you.')}</small>
                     }
