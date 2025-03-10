@@ -16,7 +16,7 @@ interface JobDetailsProps {
 export default function NewJob({ job }: JobDetailsProps) {
     const {t} = useLaravelReactI18n();
     let company: CompanyData = usePage<CompanyAuthProps>().props.auth.company;
-    const companyVerified = company.company_verified_at === null;
+    const companyVerified = company.company_verified_at !== null;
     const [descriptionContent, setDescriptionContent] = useState<string>(job.intro);
     const [currentActiveTab, setCurrentActiveTab] = useState<string>('intro');
     const [showModal, setShowModal] = useState<boolean>(false);
