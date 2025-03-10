@@ -6,7 +6,7 @@ import CompanyQuickView from "../Parts/CompanyQuickView";
 import FancyTitle from "../../Components/FancyTitle";
 import styled from "styled-components";
 import {CompanyData, CompanyAuthProps, JobInterface} from "@/Interfaces/SharedInterfaces";
-import {capitalize, formatText, numberFormat} from "@/Helpers";
+import {capitalize, formatText, numberFormat, parseEmploymentType} from "@/Helpers";
 import React from "react";
 
 interface JobsProps {
@@ -48,7 +48,7 @@ export default function Jobs({companyJobs}: JobsProps) {
                             <div className="col-2 col-md-2">{job.title}</div>
                             <div className="col-2 d-none d-md-block">{t(job.work_field?.name!)}</div>
                             <div className="col-2 d-none d-md-block">{t(formatText(job.work_location))}</div>
-                            <div className="col-2 d-none d-md-block">{t(capitalize(job.method_of_payment))}</div>
+                            <div className="col-2 d-none d-md-block">{t(parseEmploymentType(job.employment_type))}</div>
                             <div className="col-2 d-none d-md-block">
                                 {
                                     job.method_of_payment === 'salary' ?
