@@ -216,7 +216,7 @@ export default function NewJob({job = null, errors}: NewJobProps) {
                         <div className="col-12">
                             <label className="fw-semibold">{t("Short company introduction")}</label>
                             <div className="mb-2">
-                                <small>{t("Provide a brief introduction to your company and the role. (max. 250 characters).")}</small>
+                                <small>{t("Provide a brief introduction to your company and the role. (max. 250 characters)")}</small>
                                 <br/>
                                 <small>{t("This text will be visible on job cards, on the front page of jobhuntr")}</small>
                             </div>
