@@ -84,8 +84,6 @@ export default function GoogleLocationSelect({updateFields, address, setNextButt
     const getLocationRecommendations = (value: string) => {
         let searchValue = value.toLowerCase();
         if (searchValue === '') searchValue = selectedLocation.label
-        let pattern = new RegExp(/\d/);
-        if (!pattern.test(searchValue)) searchValue = searchValue + ' 1';
 
         axios.post(`/api/google/places/autocomplete`, {
             "input": searchValue,
