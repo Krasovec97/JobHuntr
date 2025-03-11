@@ -29,7 +29,8 @@ class GoogleServicesController extends Controller
         $sessionId = $params->get('session');
 
         return Http::post("https://places.googleapis.com/v1/places:autocomplete?key=$googleApiKey&sessionToken=$sessionId", [
-            'input' => $params->get('input')
+            'input' => $params->get('input'),
+            "includedRegionCodes" => ["si"]
         ]);
     }
 
