@@ -35,17 +35,17 @@ class CompanyJobResource extends Resource
 
         return $form
             ->schema([
-                TextInput::make('title')->columnSpanFull()->required(),
-                RichEditor::make('benefits')->columnSpanFull()->required(),
-                RichEditor::make('expectations')->columnSpanFull()->required(),
-                RichEditor::make('assignments')->columnSpanFull()->required(),
-                RichEditor::make('intro')->columnSpanFull()->required(),
+                TextInput::make('title')->columnSpanFull(),
+                RichEditor::make('benefits')->columnSpanFull(),
+                RichEditor::make('expectations')->columnSpanFull(),
+                RichEditor::make('assignments')->columnSpanFull(),
+                RichEditor::make('intro')->columnSpanFull(),
                 Select::make('employment_type')->options([
                     'full_time' => __("Full-Time"),
                     'part_time' => __("Part-Time"),
                     'student' => __("Student work"),
                     'contract' => __("By contract")
-                ])->required(),
+                ]),
                 Select::make('method_of_payment')->options([
                     'salary' => __("Salary"),
                     'hourly' => __("Hourly rate"),
@@ -59,21 +59,21 @@ class CompanyJobResource extends Resource
                     'EUR' => "EUR",
                     'USD' => "USD",
                     'GBP' => "GBP"
-                ])->required(),
-                Select::make('work_field_id')->relationship('workField', 'name')->required(),
+                ]),
+                Select::make('work_field_id')->relationship('workField', 'name'),
                 Select::make('work_location')->options([
                     'remote' => __("Completely online / Remote"),
                     'hybrid' => __("Partially online"),
                     'on_location' => __("On location"),
                     'field_work' => __("Field work"),
-                ])->required(),
+                ]),
                 Select::make('minimum_education_id')
                     ->options($educationOptions),
-                TextInput::make('open_positions_count')->columnSpanFull()->required(),
+                TextInput::make('open_positions_count')->columnSpanFull(),
                 TextInput::make('street'),
                 TextInput::make('zip'),
                 TextInput::make('city'),
-                Select::make('country_id')->relationship('country', 'name')->required(),
+                Select::make('country_id')->relationship('country', 'name'),
                 Select::make('region')->options([
                     'gorenjska' => 'Gorenjska',
                     'primorska' => 'Primorska',
@@ -86,7 +86,7 @@ class CompanyJobResource extends Resource
                 Select::make('status')->options([
                     'draft' => __('Draft'),
                     'active' => __('Active')
-                ])->required()->columnSpanFull(),
+                ])->columnSpanFull(),
                 DatePicker::make('posted_at')
                     ->native(false)
                     ->locale('sl')
@@ -96,9 +96,8 @@ class CompanyJobResource extends Resource
                 DatePicker::make('expires_at')
                     ->native(false)
                     ->locale('sl')
-                    ->displayFormat('d.m.Y')
-                    ->minDate(today()->addMonth()),
-                TextInput::make('application_mail')->required(),
+                    ->displayFormat('d.m.Y'),
+                TextInput::make('application_mail'),
 
                 Select::make('company_id')->relationship('company', 'name')->required(),
             ]);
